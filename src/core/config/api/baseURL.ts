@@ -1,6 +1,6 @@
-export const baseURL = (): string | null => {
+export const baseURL = (): string | undefined => {
     if(process.env.NODE_ENV === "production") {
-        return null;
+        return undefined;
     } else {
         return "http://localhost:9000/";
     }
