@@ -3,10 +3,19 @@ import {AuthProvider} from "../../auth/provider/AuthProvider.tsx";
 import {DefaultPage} from "./default/DefaultPage.tsx";
 import {routes} from "./routes/Routes.tsx";
 import {Middleware} from "./middleware/Middleware.tsx";
+import {LoginPage} from "../../auth/page/LoginPage.tsx";
 
 export const Root = () => (
     <BrowserRouter basename={"/app"}>
         <Routes>
+            <Route
+                path={"/login"}
+                element={
+                    <AuthProvider>
+                        <LoginPage/>
+                    </AuthProvider>
+                }
+            />
             <Route
                 path={""}
                 element={

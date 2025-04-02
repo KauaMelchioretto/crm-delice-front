@@ -1,17 +1,22 @@
 import {Login, LoginResponse, LogoutResponse} from "../entities/entities.ts";
 import {http} from "../../config/api/http.ts";
-import {HttpStatusCode} from "axios";
+import {AxiosError, HttpStatusCode} from "axios";
 
 class AuthRepository {
+    UNEXPECTED_ERROR: string = "Ocorre um erro inesperado"
+
     async login(login: Login): Promise<LoginResponse> {
-        const response = await http.post(
-            "/auth/login",
-            login
-        )
-        if (response.status === HttpStatusCode.Ok) {
+        try {
+            const response = await http.post(
+                "/auth/login",
+                login
+            )
             return {token: response.data?.token ?? ""}
-        } else {
-            return {error: response.data?.error ?? ""}
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {error: e?.response?.data?.error?.message ?? this.UNEXPECTED_ERROR}
+            }
+            return {error: this.UNEXPECTED_ERROR}
         }
     }
 

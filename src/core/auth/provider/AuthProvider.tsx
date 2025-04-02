@@ -2,11 +2,12 @@ import {createContext, ReactNode, useContext, useState} from "react";
 import {LoginResponse} from "../entities/entities.ts";
 import {authUseCase} from "../usecase/AuthUseCase.ts";
 import {useNavigate} from "react-router-dom";
+import {popup} from "../../../utils/alerts/Popup.ts";
 
 interface AuthProps {
     authenticated: boolean,
-    login?: (login: string, password: string) => void,
-    logout?: () => void
+    login: (login: string, password: string) => void,
+    logout: () => void
 }
 
 const initProps: AuthProps = {
@@ -31,9 +32,10 @@ export const AuthProvider = (params: AuthProviderParams) => {
     const login = (login: string, password: string) => {
         authUseCase.login({login, password}).then((response: LoginResponse) => {
             if (response.token) {
-                setProps({
-                    authenticated: true
-                });
+                setProps(prev => ({...prev, authenticated: true}));
+            }
+            if(response.error){
+                popup.toast("error", response.error, 2000);
             }
         })
     }
@@ -55,6 +57,7 @@ export const AuthProvider = (params: AuthProviderParams) => {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth(){
     return useContext(AuthContext)
 }

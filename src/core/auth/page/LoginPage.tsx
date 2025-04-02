@@ -1,19 +1,65 @@
 import {FieldValues, useForm} from "react-hook-form";
-import {Box, Button, FormControl, FormHelperText, FormLabel, Input} from "@mui/joy";
+import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Typography} from "@mui/joy";
+import {TextInput} from "../../../utils/components/core/TextInput.tsx";
+import {PasswordInput} from "../../../utils/components/inputs/PasswordInput.tsx";
+import {useAuth} from "../provider/AuthProvider.tsx";
+import {useWidth} from "../../../utils/hooks/useWidth.tsx";
+import {Fragment} from "react";
+import {LoginRounded} from "@mui/icons-material";
 
 export const LoginPage = () => {
+    const isMobile = ["xs", "sm"].includes(useWidth())
+
     return (
-        <Box sx={{width: "25vw"}}>
-            <LoginForm/>
+        <Box
+            sx={{
+                width: "100%",
+                height: "100%",
+                display: "flex"
+            }}
+        >
+            <Box
+                sx={{
+                    flex: 1,
+                    p: 2,
+                    width: "calc(100% - 32px)",
+                    height: "calc(100% - 32px)",
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <Box sx={{width: "70%"}}>
+                        <LoginForm/>
+                    </Box>
+                </Box>
+            </Box>
+            {
+                !isMobile && (
+                    <Fragment>
+                        <Divider orientation={"vertical"}/>
+                        <Box sx={{flex: 1}}>
+                            <div></div>
+                        </Box>
+                    </Fragment>
+                )
+            }
         </Box>
     )
 }
 
 export const LoginForm = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const {login} = useAuth();
 
     const handleLogin = handleSubmit((data: FieldValues) => {
-        console.log(data)
+        login(data?.login ?? "", data?.password ?? "")
     })
 
     return (
@@ -26,21 +72,31 @@ export const LoginForm = () => {
             }}
             onSubmit={handleLogin}
         >
+            <Typography component="h1" level="h3">Sign In</Typography>
+            <Typography component="h6" color="neutral">Welcome back!</Typography>
             <FormControl>
                 <FormLabel>Login</FormLabel>
-                <Input {...register("login", {required: "The login is required"})} />
+                <TextInput
+                    {...register("login", {required: "The login is required"})}
+                    size={"md"}
+                    variant={"soft"}
+                />
                 <FormHelperText sx={{minHeight: "1rem"}}>
                     {errors?.login?.message as string}
                 </FormHelperText>
             </FormControl>
             <FormControl>
-                <FormLabel>Senha</FormLabel>
-                <Input {...register("password", {required: "The password is required"})} />
+                <FormLabel>Password</FormLabel>
+                <PasswordInput
+                    {...register("password", {required: "The password is required"})}
+                    size={"md"}
+                    variant={"soft"}
+                />
                 <FormHelperText sx={{minHeight: "1rem"}}>
                     {errors?.password?.message as string}
                 </FormHelperText>
             </FormControl>
-            <Button type={"submit"}>Submit</Button>
+            <Button startDecorator={<LoginRounded/>} type={"submit"}>sign in</Button>
         </Box>
     );
 }

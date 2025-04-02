@@ -1,5 +1,6 @@
-import {LoginPage} from "../../../auth/page/LoginPage.tsx";
 import {ReactElement} from "react";
+
+import { Home } from "../../../../module/home/page/Home.tsx";
 
 interface Route {
     path?: string,
@@ -9,13 +10,8 @@ interface Route {
 
 export const routes: Route[] = [
     {
-        path: "/login",
-        element: <LoginPage/>,
-        authRequired: false
-    },
-    {
         path: "/home",
-        element: <LoginPage/>,
+        element: <Home/>,
         authRequired: true
     },
 ]
