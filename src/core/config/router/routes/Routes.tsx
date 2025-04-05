@@ -12,6 +12,6 @@ export const routes: Route[] = [
     {
         path: "/home",
         element: <Home/>,
-        authRequired: true
+        authRequired: false
     },
 ]
