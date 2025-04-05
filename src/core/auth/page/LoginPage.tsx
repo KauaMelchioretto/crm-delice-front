@@ -21,7 +21,7 @@ export const LoginPage = () => {
             <Box
                 sx={{
                     p: 2,
-                    width: "calc(40% - 32px)",
+                    width: `calc(${isMobile ? "100%" : "40%"} - 32px)`,
                     height: "calc(100% - 32px)",
                 }}
             >

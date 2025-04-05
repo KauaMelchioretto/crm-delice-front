@@ -8,3 +8,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
 }
+
+.swal2-container {
+  z-index: 9999;
+}

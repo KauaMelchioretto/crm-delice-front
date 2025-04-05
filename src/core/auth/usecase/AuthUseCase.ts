@@ -1,4 +1,4 @@
-import {Login, LoginResponse, LogoutResponse} from "../entities/entities.ts";
+import {AuthenticatedResponse, Login, LoginResponse, LogoutResponse} from "../entities/entities.ts";
 import {authRepository} from "../repository/AuthRepository.ts";
 
 class AuthUseCase {
@@ -19,6 +19,10 @@ class AuthUseCase {
 
     async logout(): Promise<LogoutResponse>{
         return authRepository.logout()
+    }
+
+    async authenticated(): Promise<AuthenticatedResponse>{
+        return authRepository.authenticated()
     }
 }
 
