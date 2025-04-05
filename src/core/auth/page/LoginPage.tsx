@@ -20,9 +20,8 @@ export const LoginPage = () => {
         >
             <Box
                 sx={{
-                    flex: 1,
                     p: 2,
-                    width: "calc(100% - 32px)",
+                    width: "calc(40% - 32px)",
                     height: "calc(100% - 32px)",
                 }}
             >
@@ -44,7 +43,7 @@ export const LoginPage = () => {
                 !isMobile && (
                     <Fragment>
                         <Divider orientation={"vertical"}/>
-                        <Box sx={{flex: 1}}>
+                        <Box sx={{width: "60%"}}>
                             <div></div>
                         </Box>
                     </Fragment>
