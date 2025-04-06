@@ -28,3 +28,18 @@ export interface AuthenticatedResponse{
     modules?: Module[],
     error?: string
 }
+
+export interface ForgotPasswordResponse{
+    error?: string
+}
+
+export interface ResetPassword{
+    token: string,
+    newPassword: string,
+    confirmPassword: string,
+}
+
+export interface ResetPasswordResponse{
+    ok?: boolean,
+    error?: string
+}

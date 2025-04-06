@@ -4,6 +4,8 @@ import {DefaultPage} from "./default/DefaultPage.tsx";
 import {routes} from "./routes/Routes.tsx";
 import {Middleware} from "./middleware/Middleware.tsx";
 import {LoginPage} from "../../auth/page/LoginPage.tsx";
+import {ForgottenPassword} from "../../auth/page/ForgottenPassword.tsx";
+import {ResetPassword} from "../../auth/page/ResetPassword.tsx";
 
 export const Root = () => (
     <BrowserRouter basename={"/app"}>
@@ -14,6 +16,18 @@ export const Root = () => (
                     <AuthProvider>
                         <LoginPage/>
                     </AuthProvider>
+                }
+            />
+            <Route
+                path={"/forgotten"}
+                element={
+                    <ForgottenPassword/>
+                }
+            />
+            <Route
+                path={"/resetPassword"}
+                element={
+                    <ResetPassword/>
                 }
             />
             <Route

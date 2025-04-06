@@ -1,4 +1,10 @@
-import {AuthenticatedResponse, Login, LoginResponse, LogoutResponse} from "../entities/entities.ts";
+import {
+    AuthenticatedResponse,
+    ForgotPasswordResponse,
+    Login,
+    LoginResponse,
+    LogoutResponse, ResetPassword, ResetPasswordResponse
+} from "../entities/entities.ts";
 import {http} from "../../config/api/http.ts";
 import {AxiosError, HttpStatusCode} from "axios";
 
@@ -48,6 +54,38 @@ class AuthRepository {
                 return {error: e?.response?.data?.error?.message ?? this.UNEXPECTED_ERROR}
             }
             return {error: this.UNEXPECTED_ERROR}
+        }
+    }
+
+    async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+        try {
+            await http.post(`/auth/forgotPassword?email=${email}`)
+
+            return {error: undefined}
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {error: e?.response?.data?.error?.message ?? this.UNEXPECTED_ERROR}
+            }
+            return {error: this.UNEXPECTED_ERROR}
+        }
+    }
+
+    async resetPassword(resetPassword: ResetPassword): Promise<ResetPasswordResponse> {
+        try {
+            await http.post(
+                `/auth/resetPassword?token=${resetPassword.token}`,
+                {
+                    newPassword: resetPassword.newPassword,
+                    confirmPassword: resetPassword.confirmPassword,
+                }
+            )
+
+            return {ok: true}
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {ok: false, error: e?.response?.data?.error?.message ?? this.UNEXPECTED_ERROR}
+            }
+            return {ok: false, error: this.UNEXPECTED_ERROR}
         }
     }
 }

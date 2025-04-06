@@ -1,13 +1,15 @@
-import {FieldValues, useForm} from "react-hook-form";
-import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Link, Typography} from "@mui/joy";
-import {TextInput} from "../../../utils/components/core/TextInput.tsx";
-import {PasswordInput} from "../../../utils/components/inputs/PasswordInput.tsx";
-import {useAuth} from "../provider/AuthProvider.tsx";
 import {useWidth} from "../../../utils/hooks/useWidth.tsx";
-import {Fragment} from "react";
+import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Typography} from "@mui/joy";
 import {LoginRounded, StoreRounded} from "@mui/icons-material";
+import {Fragment} from "react";
+import {FieldValues, useForm} from "react-hook-form";
+import {authUseCase} from "../usecase/AuthUseCase.ts";
+import {popup} from "../../../utils/alerts/Popup.ts";
+import {TextInput} from "../../../utils/components/core/TextInput.tsx";
+import {useQuery} from "../../../utils/hooks/useQuery.ts";
+import {Navigate, useNavigate} from "react-router-dom";
 
-export const LoginPage = () => {
+export const ResetPassword = () => {
     const isMobile = ["xs", "sm"].includes(useWidth())
 
     return (
@@ -41,7 +43,7 @@ export const LoginPage = () => {
                     }}
                 >
                     <Box sx={{width: "70%"}}>
-                        <LoginForm/>
+                        <ResetForm/>
                     </Box>
                 </Box>
             </Box>
@@ -70,13 +72,30 @@ export const LoginPage = () => {
     )
 }
 
-export const LoginForm = () => {
+const ResetForm = () => {
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const {login} = useAuth();
 
-    const handleLogin = handleSubmit((data: FieldValues) => {
-        login(data?.login ?? "", data?.password ?? "")
-    })
+    const navigate = useNavigate()
+
+    const token = useQuery().get("token");
+
+    const handleSubmitReset = handleSubmit((data: FieldValues) => {
+        authUseCase.resetPassword({
+            token: token!,
+            newPassword: data.newPassword,
+            confirmPassword: data.confirmPassword,
+        }).then((response) => {
+            if (response.error) {
+                popup.toast("error", response.error, 2000)
+            } else {
+                navigate("/login")
+            }
+        })
+    });
+
+    if (!token) {
+        return <Navigate to={"/login"}/>
+    }
 
     return (
         <Box
@@ -86,36 +105,32 @@ export const LoginForm = () => {
                 flexDirection: "column",
                 gap: 2
             }}
-            onSubmit={handleLogin}
+            onSubmit={handleSubmitReset}
         >
-            <Typography component="h1" level="h3">Sign In</Typography>
-            <Typography component="h6" color="neutral">Welcome back!</Typography>
+            <Typography component="h1" level="h3">Reset password request</Typography>
             <FormControl>
-                <FormLabel>Your login</FormLabel>
+                <FormLabel>Inform your new password</FormLabel>
                 <TextInput
-                    {...register("login", {required: "The login is required"})}
+                    {...register("newPassword", {required: "The password is required"})}
                     size={"md"}
                     variant={"soft"}
                 />
                 <FormHelperText sx={{minHeight: "1rem"}}>
-                    {errors?.login?.message as string}
+                    {errors?.newPassword?.message as string}
                 </FormHelperText>
             </FormControl>
             <FormControl>
-                <FormLabel>Your password</FormLabel>
-                <PasswordInput
-                    {...register("password", {required: "The password is required"})}
+                <FormLabel>Confirm your new password</FormLabel>
+                <TextInput
+                    {...register("confirmPassword", {required: "The confirmation of password is required"})}
                     size={"md"}
                     variant={"soft"}
                 />
                 <FormHelperText sx={{minHeight: "1rem"}}>
-                    {errors?.password?.message as string}
+                    {errors?.confirmPassword?.message as string}
                 </FormHelperText>
             </FormControl>
-            <Button startDecorator={<LoginRounded/>} type={"submit"}>sign in</Button>
-            <Box display={"flex"} justifyContent={"center"}>
-                <Link level={"title-md"} href={"/app/forgotten"}>Did you forgotten your password?</Link>
-            </Box>
+            <Button startDecorator={<LoginRounded/>} type={"submit"}>Submit reset</Button>
         </Box>
-    );
+    )
 }
