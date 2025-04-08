@@ -5,9 +5,9 @@ import {Fragment} from "react";
 import {FieldValues, useForm} from "react-hook-form";
 import {authUseCase} from "../usecase/AuthUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
-import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {useQuery} from "../../../utils/hooks/useQuery.ts";
 import {Navigate, useNavigate} from "react-router-dom";
+import {PasswordInput} from "../../../utils/components/inputs/PasswordInput.tsx";
 
 export const ResetPassword = () => {
     const isMobile = ["xs", "sm"].includes(useWidth())
@@ -88,6 +88,7 @@ const ResetForm = () => {
             if (response.error) {
                 popup.toast("error", response.error, 2000)
             } else {
+                popup.toast("success", "Change password with successfully", 2000)
                 navigate("/login")
             }
         })
@@ -110,7 +111,7 @@ const ResetForm = () => {
             <Typography component="h1" level="h3">Reset password request</Typography>
             <FormControl>
                 <FormLabel>Inform your new password</FormLabel>
-                <TextInput
+                <PasswordInput
                     {...register("newPassword", {required: "The password is required"})}
                     size={"md"}
                     variant={"soft"}
@@ -121,7 +122,7 @@ const ResetForm = () => {
             </FormControl>
             <FormControl>
                 <FormLabel>Confirm your new password</FormLabel>
-                <TextInput
+                <PasswordInput
                     {...register("confirmPassword", {required: "The confirmation of password is required"})}
                     size={"md"}
                     variant={"soft"}
