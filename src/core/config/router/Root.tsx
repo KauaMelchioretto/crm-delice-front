@@ -45,7 +45,8 @@ export const Root = () => (
                                 path={x.path}
                                 element={
                                     <Middleware
-                                        authRequired={x.authRequired}
+                                        permissionRequired={x.permissionRequired}
+                                        path={x.path}
                                     >
                                         {x.element}
                                     </Middleware>

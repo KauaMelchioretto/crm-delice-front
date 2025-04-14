@@ -3,12 +3,16 @@ import {ReactNode} from "react";
 import {Navigate} from "react-router-dom";
 
 export const Middleware = (
-    {children, authRequired}: { children: ReactNode, authRequired: boolean }
+    {children, permissionRequired, path}: { children: ReactNode, permissionRequired: boolean, path: string }
 ) => {
-    const {authenticated} = useAuth()
+    const {authenticated, modules} = useAuth()
 
-    if (authRequired && !authenticated) {
+    if (!authenticated) {
         return <Navigate to={"/login"}/>
+    }
+
+    if(permissionRequired && !modules?.find(x => x.path === path)){
+        return <Navigate to={"/noPermission"}/>
     }
 
     return children;

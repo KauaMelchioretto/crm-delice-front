@@ -73,7 +73,7 @@ const Main = (props: BoxProps) => (
         className="Main"
         {...props}
         sx={[
-            {p: 1},
+            {p: 1, backgroundColor: "#f1f1f1"},
             ...(Array.isArray(props.sx) ? props.sx : [props.sx])
         ]}
     />
