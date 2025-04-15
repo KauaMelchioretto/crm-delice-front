@@ -1,4 +1,14 @@
-import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
+import {
+    Box,
+    Button,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    IconButton,
+    Modal,
+    ModalDialog,
+    Typography
+} from "@mui/joy";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {modulesUseCase} from "../usecase/ModulesUseCase.ts";
@@ -6,7 +16,7 @@ import {popup} from "../../../utils/alerts/Popup.ts";
 import {useAtomValue, useSetAtom} from "jotai";
 import ModulesState from "../state/ModulesState.ts";
 import {ModulesFormType, ModuleWithRolesResponse, Role} from "../enitites/entities.ts";
-import {useEffect, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
@@ -24,12 +34,46 @@ export const ModulesForm = () => {
         case ModulesFormType.EMPTY:
             return <></>
         case ModulesFormType.REGISTER_MODULE:
-            return <RegisterModule/>
+            return (
+                <ModulesFormModal>
+                    <RegisterModule/>
+                </ModulesFormModal>
+            )
         case ModulesFormType.EDIT_MODULE:
-            return <RegisterModule moduleUUID={moduleUUID}/>
+            return (
+                <ModulesFormModal>
+                    <RegisterModule moduleUUID={moduleUUID}/>
+                </ModulesFormModal>
+            )
         case ModulesFormType.REGISTER_ROLE:
-            return <RegisterRole moduleUUID={moduleUUID}/>
+            return (
+                <ModulesFormModal>
+                    <RegisterRole moduleUUID={moduleUUID}/>
+                </ModulesFormModal>
+            )
     }
+}
+
+const ModulesFormModal = (
+    {children}: { children: ReactElement }
+) => {
+    const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
+
+    return (
+        <Modal
+            open={true}
+            onClose={() => setFormType(ModulesFormType.EMPTY)}
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <ModalDialog variant={"outlined"} size={"lg"} sx={{p: 0, maxWidth: 600}}>
+                {children}
+            </ModalDialog>
+        </Modal>
+    )
 }
 
 const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
@@ -68,7 +112,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
     }, [moduleUUID, setValue]);
 
     return (
-        <CrmContainer sx={{minWidth: "20vw"}}>
+        <CrmContainer>
             <Box
                 sx={{
                     display: "flex",
@@ -153,7 +197,6 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
             } else {
                 popup.toast("success", "The module is included with success", 2000);
                 setUpdate(prev => !prev);
-                setFormType(ModulesFormType.EMPTY);
             }
         })
     });
@@ -187,7 +230,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
     }, [moduleUUID, update]);
 
     return (
-        <CrmContainer sx={{minWidth: "25vw", maxWidth: "25vw"}}>
+        <CrmContainer>
             <FormProvider {...formMethods}>
                 <Box
                     sx={{
@@ -209,7 +252,20 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                             <CloseRounded/>
                         </IconButton>
                     </Box>
-                    <CrmTableContainer sx={{maxHeight: 200}}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            mt: 1
+                        }}
+                    >
+                        <Typography
+                            level={"body-md"}
+                            fontWeight={"bold"}
+                        >
+                            {module?.module?.label ?? ''}
+                        </Typography>
+                    </Box>
+                    <CrmTableContainer sx={{maxHeight: 150}}>
                         <CrmTable
                             sx={{
                                 "& thead th:nth-child(1)": {
@@ -253,7 +309,14 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                                 </tr>
                             )) : (
                                 <tr>
-                                    <td colSpan={4}>No role for this module</td>
+                                    <td
+                                        colSpan={4}
+                                        style={{
+                                            textAlign: "center"
+                                        }}
+                                    >
+                                        No role for this module
+                                    </td>
                                 </tr>
                             )}
                             </tbody>
@@ -269,7 +332,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                             level={"body-md"}
                             fontWeight={"bold"}
                         >
-                            {module?.module?.label ?? ''}
+                            Include new role
                         </Typography>
                     </Box>
                     <FormControl>

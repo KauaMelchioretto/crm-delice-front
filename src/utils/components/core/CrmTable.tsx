@@ -7,6 +7,7 @@ const StyledCrmTable = styled(Table)(() => ({
         borderTopStyle: "unset !important",
         borderTopWidth: "unset !important",
         borderTopColor: "unset !important",
+        borderRadius: "unset !important",
     },
 }))
 
