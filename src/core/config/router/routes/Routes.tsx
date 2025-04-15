@@ -6,30 +6,30 @@ import {Modules} from "../../../../module/modules/page/Modules.tsx";
 import {NoPermissionPage} from "../../../../utils/pages/NoPermissionPage.tsx";
 
 interface Route {
-    path?: string,
     element?: ReactElement,
-    authRequired: boolean
+    path: string,
+    permissionRequired: boolean
 }
 
 export const routes: Route[] = [
     {
         path: "/home",
         element: <Home/>,
-        authRequired: true
+        permissionRequired: false
     },
     {
         path: "/user",
         element: <User/>,
-        authRequired: true
+        permissionRequired: true
     },
     {
         path: "/modules",
         element: <Modules/>,
-        authRequired: true
+        permissionRequired: true
     },
     {
         path: "/noPermission",
         element: <NoPermissionPage/>,
-        authRequired: true
+        permissionRequired: false
     },
 ]
