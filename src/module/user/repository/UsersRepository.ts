@@ -1,22 +1,17 @@
 import {
     User,
     UserResponse,
-    UsersListResponse,
-    UsersFormType,
-    UserDeleteResponse,
-    UserWithRolesResponse,
 } from "../entities/entities";
-import { Role, RoleResponse, RoleDeleteResponse } from "../../modules/enitites/entities";
 import { http } from "../../../core/config/api/http.ts";
 import { AxiosError } from "axios";
 
 class UsersRepository {
-    MODULES_UNEXPECTED_ERROR = "An unexpected erro has occurred";
+    MODULES_UNEXPECTED_ERROR = "An unexpected error has occurred";
 
     async createUser(user: User): Promise<UserResponse> {
         try {
             const response = await http.post(
-                "...", {
+                "/auth/register", {
                     login: user.login,
                     password: user.password,
                     name: user.name,
@@ -31,12 +26,10 @@ class UsersRepository {
                     state: user.state,
                     city: user.city,
                     zipCode: user.zipCode,
-                    createdAt: user.createdAt,
-                    modifiedAt: user.modifiedAt
                 }
             );
             
-            return { user: response.data?.module }
+            return { user: response.data?.user }
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR}
@@ -45,3 +38,5 @@ class UsersRepository {
         }
     }
 }
+
+export const usersRepository = new UsersRepository();
