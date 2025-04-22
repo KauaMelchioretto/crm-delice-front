@@ -1,4 +1,4 @@
-import {User, UserResponse} from "../entities/entities.ts";
+import {User, UserResponse, UsersListResponse, UserWithRolesResponse} from "../entities/entities.ts";
 import {usersRepository} from "../repository/UsersRepository.ts";
 
 class UsersUseCase {
@@ -37,6 +37,18 @@ class UsersUseCase {
             return {error: this.ZIP_CODE_MUST_BE_PROVIDED}
         }
         return usersRepository.createUser(user);
+    }
+
+    async getUsers(): Promise<UsersListResponse> {
+        return usersRepository.getUsers();
+    }
+
+    async getUserByUUID(userUUID: string): Promise<UserResponse> {
+        return usersRepository.getUserByUUID(userUUID);
+    }
+
+    async getUserRoles(userUUID: string): Promise<UserWithRolesResponse> {
+        return usersRepository.getUserRoles(userUUID);
     }
 }
 
