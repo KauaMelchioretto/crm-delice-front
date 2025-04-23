@@ -91,6 +91,9 @@ export const UsersList = () => {
                                 <th>Phone</th>
                                 <th>State</th>
                                 <th>City</th>
+                                <th>Edit</th>
+                                <th>Remove</th>
+                                {/* <th colSpan={2} style={{textAlign:"center"}}>Actions</th> */}
                             </tr>
                         </thead>
                         <tbody>
