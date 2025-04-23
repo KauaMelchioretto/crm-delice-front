@@ -9,6 +9,7 @@ import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
+import {CpfInput} from "../../../utils/components/inputs/CpfInput.tsx";
 
 export const UserForm = () => {
     const formType = useAtomValue(UserState.UserFormTypeAtom)
@@ -59,7 +60,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
 
     const formMethods = useForm();
 
-    const {register, handleSubmit, setValue, formState: {errors}} = formMethods
+    const {register, handleSubmit, /*setValue,*/ formState: {errors}} = formMethods
 
     const handleFormUsers = handleSubmit((data: FieldValues) => {
         console.log(data)
@@ -153,17 +154,17 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 {errors?.surname?.message as string}
                             </FormHelperText>
                         </FormControl>
-                        {/*<FormControl>*/}
-                        {/*    <FormLabel>CPF</FormLabel>*/}
-                        {/*    <*/}
-                        {/*        {...register("document", {required: "The document is required"})}*/}
-                        {/*        size={"md"}*/}
-                        {/*        variant={"soft"}*/}
-                        {/*    />*/}
-                        {/*    <FormHelperText sx={{minHeight: "1rem"}}>*/}
-                        {/*        {errors?.document?.message as string}*/}
-                        {/*    </FormHelperText>*/}
-                        {/*</FormControl>*/}
+                        <FormControl>
+                            <FormLabel>CPF</FormLabel>
+                            <CpfInput
+                                {...register("document", {required: "The document is required"})}
+                                size={"md"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.document?.message as string}
+                            </FormHelperText>
+                        </FormControl>
                     </Box>
                     <FormControl>
                         <FormLabel>E-mail</FormLabel>
