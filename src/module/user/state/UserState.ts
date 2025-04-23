@@ -1,6 +1,6 @@
-import {atom} from "jotai";
-import {usersUseCase} from "../usecase/UsersUseCase.ts";
-import {loadable} from "jotai/utils";
+import { atom } from "jotai";
+import { usersUseCase } from "../usecase/UsersUseCase.ts";
+import { loadable } from "jotai/utils";
 import { UsersFormType } from "../entities/entities.ts";
 
 const UserFormTypeAtom = atom<UsersFormType>(UsersFormType.EMPTY);

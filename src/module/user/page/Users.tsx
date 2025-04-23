@@ -1,9 +1,12 @@
 import { Box, Button, Typography } from "@mui/joy";
 import { CrmContainer } from "../../../utils/components/core/CrmContainer"; 
-import { useSetAtom } from "jotai/ts3.8/react";
-
+import {useSetAtom} from "jotai";
+import { UsersList } from "../components/UsersList";
+import UserState from "../state/UserState.ts";
 
 export const User = () => {
+    const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom);
+
     return(
         <Box 
             sx={{
@@ -30,7 +33,7 @@ export const User = () => {
             </CrmContainer>
 
             <Box display={"flex"} gap={2}>
-
+                <UsersList />
             </Box>
         </Box>
     );

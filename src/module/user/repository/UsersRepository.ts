@@ -8,7 +8,7 @@ import { http } from "../../../core/config/api/http.ts";
 import { AxiosError } from "axios";
 
 class UsersRepository {
-    MODULES_UNEXPECTED_ERROR = "An unexpected error has occurred";
+    USERS_UNEXPECTED_ERROR = "An unexpected error has occurred";
 
     async createUser(user: User): Promise<UserResponse> {
         try {
@@ -34,25 +34,25 @@ class UsersRepository {
             return { user: response.data?.user }
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return { error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR }
             }
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return { error: this.USERS_UNEXPECTED_ERROR }
         }
     }
 
     async getUsers(): Promise<UsersListResponse> {
         try {
             const response = await http.get(
-                "/user/getPagination"
+                "/user/getPagination?count=10&page=0"
             );
-
-            return { users: response.data?.modules }
+            console.log(response);
+            return { users: response.data?.users.items }
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return { error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR }
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return { error: this.USERS_UNEXPECTED_ERROR }
         }
     }
 
@@ -63,10 +63,10 @@ class UsersRepository {
             return { user: response.data?.module }
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return { error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR }
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return { error: this.USERS_UNEXPECTED_ERROR }
         }
     }
 
@@ -77,10 +77,10 @@ class UsersRepository {
             return response.data as UserWithRolesResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return { error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR }
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR };
+            return { error: this.USERS_UNEXPECTED_ERROR };
         }
     }
 }

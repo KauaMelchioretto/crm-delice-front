@@ -27,6 +27,8 @@ export interface UserResponse {
 
 export interface UsersListResponse {
     users?: User[],
+    page?: number,
+    total?: number,
     error?: string
 }
 

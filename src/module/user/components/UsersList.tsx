@@ -67,19 +67,19 @@ export const UsersList = () => {
                             width: 200
                         },
                         "& thead th:nth-child(2)": {
-                            width: 500
+                            width: 200
                         },
                         "& thead th:nth-child(3)": {
                             width: 200
                         },
                         "& thead th:nth-child(4)": {
-                            width: 50
+                            width: 200
                         },
                         "& thead th:nth-child(5)": {
-                            width: 50
+                            width: 200
                         },
                         "& thead th:nth-child(6)": {
-                            width: 50
+                            width: 200
                         },
                     }}>
                         <thead>
@@ -87,13 +87,10 @@ export const UsersList = () => {
                                 <th>Name</th>
                                 <th>Surname</th>
                                 <th>Email</th>
-                                <th>Date of birth</th>
                                 <th>Document</th>
                                 <th>Phone</th>
                                 <th>State</th>
                                 <th>City</th>
-                                <th>Created at</th>
-                                <th>Modified at</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,13 +99,10 @@ export const UsersList = () => {
                                     <td>{user.name}</td>
                                     <td>{user.surname}</td>
                                     <td>{user.email}</td>
-                                    <td>{user.dateOfBirth}</td>
                                     <td>{user.document}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.state}</td>
                                     <td>{user.city}</td>
-                                    <td>{user.createdAt}</td>
-                                    <td>{user.modifiedAt}</td>
                                     <td>
                                         <IconButton
                                             size={"sm"}
@@ -118,17 +112,6 @@ export const UsersList = () => {
                                             }}
                                         >
                                             <EditRounded/>
-                                        </IconButton>
-                                    </td>
-                                    <td>
-                                        <IconButton
-                                            size={"sm"}
-                                            onClick={() => {
-                                                modifiedUser(user?.uuid ?? '');
-                                                modifedUserForm(UsersFormType.REGISTER_USER);
-                                            }}
-                                        >
-                                            <PlaylistAdd/>
                                         </IconButton>
                                     </td>
                                     <td>
