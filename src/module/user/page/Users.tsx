@@ -1,11 +1,15 @@
-import { Box, Button, Typography } from "@mui/joy";
-import { CrmContainer } from "../../../utils/components/core/CrmContainer"; 
-import { useSetAtom } from "jotai/ts3.8/react";
-
+import {Box, Button, Typography} from "@mui/joy";
+import {CrmContainer} from "../../../utils/components/core/CrmContainer";
+import {UserForm} from "../components/UserForm.tsx";
+import UserState from "../state/UserState.ts";
+import {useSetAtom} from "jotai";
+import {UsersFormType} from "../entities/entities.ts";
 
 export const User = () => {
-    return(
-        <Box 
+    const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom)
+
+    return (
+        <Box
             sx={{
                 height: "100%",
                 width: "100%",
@@ -14,7 +18,6 @@ export const User = () => {
                 flexDirection: "column"
             }}
         >
-
             <CrmContainer
                 sx={{
                     display: "flex",
@@ -24,13 +27,12 @@ export const User = () => {
                 }}
             >
                 <Typography level={"body-lg"} fontWeight={"bold"}>Users</Typography>
-                <Button size="sm">
+                <Button size="sm" onClick={() => modifiedUserForm(UsersFormType.REGISTER_USER)}>
                     Register user
                 </Button>
             </CrmContainer>
-
             <Box display={"flex"} gap={2}>
-
+                <UserForm/>
             </Box>
         </Box>
     );
