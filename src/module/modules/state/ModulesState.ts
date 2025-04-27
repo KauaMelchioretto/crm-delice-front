@@ -17,9 +17,16 @@ const ModuleListAsyncAtom = atom(async (get) => {
 
 const ModuleListAtom = loadable(ModuleListAsyncAtom);
 
+const AllRolesAsyncAtom = atom(async () => {
+    return modulesUseCase.getAllRoles();
+})
+
+const AllRolesAtom = loadable(AllRolesAsyncAtom)
+
 export default {
     ModulesFormTypeAtom,
     ModuleFormUUIDAtom,
     ModuleListAtom,
-    ModuleUpdateAtom
+    ModuleUpdateAtom,
+    AllRolesAtom
 }

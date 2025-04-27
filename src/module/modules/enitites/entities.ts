@@ -50,3 +50,8 @@ export interface RoleDeleteResponse{
     message?: string,
     error?: string
 }
+
+export interface RolesArrayResponse{
+    roles?: Role[],
+    error?: string
+}
