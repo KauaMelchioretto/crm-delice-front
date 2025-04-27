@@ -1,4 +1,4 @@
-export function cpfValidation(cpf: string) : boolean  {
+export function cpfValidation(cpf: string): boolean {
     cpf = cpf.replace(/[.-]/g, "");
 
     if (cpf.length !== 11) return false;
@@ -7,13 +7,13 @@ export function cpfValidation(cpf: string) : boolean  {
 
     let sum = 0;
 
-    for(let i = 0; i < 9; i++) {
+    for (let i = 0; i < 9; i++) {
         sum += parseInt(cpf.charAt(i)) * (10 - i);
     }
 
     let firstDigit = (sum * 10) % 11;
-    if(firstDigit === 10) firstDigit = 0;
-    if(firstDigit !== parseInt(cpf.charAt(9))) return false;
+    if (firstDigit === 10) firstDigit = 0;
+    if (firstDigit !== parseInt(cpf.charAt(9))) return false;
 
     sum = 0;
     for (let i = 0; i < 10; i++) {
@@ -27,7 +27,7 @@ export function cpfValidation(cpf: string) : boolean  {
     return true;
 }
 
-export function cnpjValidation (cnpj : string) : boolean {
+export function cnpjValidation(cnpj: string): boolean {
     cnpj = cnpj.replace(/[.\-\/]/g, "");
 
     if (cnpj.length !== 14) return false;
@@ -54,4 +54,13 @@ export function cnpjValidation (cnpj : string) : boolean {
         firstDigit === parseInt(cnpj.charAt(12)) &&
         secondDigit === parseInt(cnpj.charAt(13))
     );
+}
+
+export function maskCPF(v: string) {
+    v = v.replace(/\D/g, "")
+    v = v.replace(/(\d{3})(\d)/, "$1.$2")
+    v = v.replace(/(\d{3})(\d)/, "$1.$2")
+
+    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+    return v
 }

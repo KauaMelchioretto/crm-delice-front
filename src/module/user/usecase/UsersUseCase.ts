@@ -1,4 +1,4 @@
-import {User, UserResponse, UsersListResponse, UserWithRolesResponse} from "../entities/entities.ts";
+import {User, UserResponse, UserRolesResponse, UsersListResponse} from "../entities/entities.ts";
 import {usersRepository} from "../repository/UsersRepository.ts";
 
 class UsersUseCase {
@@ -10,6 +10,7 @@ class UsersUseCase {
     CITY_MUST_BE_PROVIDED = "The city of user must be provided"
     STATE_MUST_BE_PROVIDED = "The state of user must be provided"
     ZIP_CODE_MUST_BE_PROVIDED = "The zip code of user must be provided"
+    ROLES_ARRAY_IS_EMPTY = "No roles selected"
 
     async createUser(user: User): Promise<UserResponse> {
         if (!user.login) {
@@ -36,19 +37,30 @@ class UsersUseCase {
         if (!user.zipCode) {
             return {error: this.ZIP_CODE_MUST_BE_PROVIDED}
         }
+        if (user.phone) {
+            user.phone = user.phone.replace(/\D/g, '');
+        }
+
+        user.zipCode = user.zipCode.replace("-", "");
+        user.document = user.document.replace(/\D/g, '');
+
         return usersRepository.createUser(user);
     }
 
-    async getUsers(): Promise<UsersListResponse> {
-        return usersRepository.getUsers();
+    async getUsers(page: number): Promise<UsersListResponse> {
+        return usersRepository.getUsers(page);
     }
 
     async getUserByUUID(userUUID: string): Promise<UserResponse> {
         return usersRepository.getUserByUUID(userUUID);
     }
 
-    async getUserRoles(userUUID: string): Promise<UserWithRolesResponse> {
-        return usersRepository.getUserRoles(userUUID);
+    async getUserRolesByUUID(userUUID: string): Promise<UserRolesResponse> {
+        return usersRepository.getUserRolesByUUID(userUUID);
+    }
+
+    async attachRolePerUser(userUUID: string, rolesUUID: string[]): Promise<UserRolesResponse> {
+        return usersRepository.attachRolePerUser(userUUID, rolesUUID);
     }
 }
 

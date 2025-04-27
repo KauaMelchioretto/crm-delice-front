@@ -1,7 +1,7 @@
-import { InputProps } from "@mui/joy";
-import { ComponentProps, forwardRef } from "react";
-import { TextInput } from "../core/TextInput";
-import { IMaskInput } from "react-imask";
+import {InputProps} from "@mui/joy";
+import {ComponentProps, forwardRef} from "react";
+import {TextInput} from "../core/TextInput";
+import {IMaskInput} from "react-imask";
 
 
 const CpfMaskCustom = forwardRef<HTMLInputElement, InputProps>(function TextMaskCustom(props, ref) {

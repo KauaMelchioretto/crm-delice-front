@@ -16,6 +16,7 @@ export interface User {
     state?: string,
     city?: string,
     zipCode?: string,
+    address?: string,
     createdAt?: string,
     modifiedAt?: string
 }
@@ -27,22 +28,19 @@ export interface UserResponse {
 
 export interface UsersListResponse {
     users?: User[],
+    page?: number,
+    total?: number,
     error?: string
 }
 
 export enum UsersFormType {
     EMPTY,
     REGISTER_USER,
-    EDIT_USER
+    EDIT_USER,
+    ATTACH_ROLE
 }
 
-export interface UserDeleteResponse {
-    message?: string,
-    error?: string
-}
-
-export interface UserWithRolesResponse {
-    User?: User,
+export interface UserRolesResponse {
     roles?: Role[],
     error?: string
 }

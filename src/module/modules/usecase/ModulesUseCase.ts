@@ -3,7 +3,7 @@ import {
     ModuleDeleteResponse,
     ModuleListResponse,
     ModuleResponse,
-    ModuleWithRolesResponse, Role, RoleDeleteResponse, RoleResponse
+    ModuleWithRolesResponse, Role, RoleDeleteResponse, RoleResponse, RolesArrayResponse
 } from "../enitites/entities.ts";
 import {modulesRepository} from "../repository/ModulesRepository.ts";
 
@@ -55,6 +55,10 @@ class ModulesUseCase {
 
     async deleteRoleByUUID(roleUUID: string): Promise<RoleDeleteResponse> {
         return modulesRepository.deleteRoleByUUID(roleUUID)
+    }
+
+    async getAllRoles(): Promise<RolesArrayResponse> {
+        return modulesRepository.getAllRoles()
     }
 }
 

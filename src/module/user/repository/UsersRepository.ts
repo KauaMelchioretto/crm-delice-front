@@ -2,13 +2,13 @@ import {
     User,
     UserResponse,
     UsersListResponse,
-    UserWithRolesResponse
+    UserRolesResponse
 } from "../entities/entities";
-import { http } from "../../../core/config/api/http.ts";
-import { AxiosError } from "axios";
+import {http} from "../../../core/config/api/http.ts";
+import {AxiosError} from "axios";
 
 class UsersRepository {
-    MODULES_UNEXPECTED_ERROR = "An unexpected error has occurred";
+    USERS_UNEXPECTED_ERROR = "An unexpected error has occurred";
 
     async createUser(user: User): Promise<UserResponse> {
         try {
@@ -30,57 +30,73 @@ class UsersRepository {
                     zipCode: user.zipCode,
                 }
             );
-            
-            return { user: response.data?.user }
+
+            return {user: response.data?.user}
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
             }
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return {error: this.USERS_UNEXPECTED_ERROR}
         }
     }
 
-    async getUsers(): Promise<UsersListResponse> {
+    async getUsers(page: number): Promise<UsersListResponse> {
         try {
             const response = await http.get(
-                "/user/getPagination"
+                `/user/getPagination?count=10&page=${page}`
             );
-
-            return { users: response.data?.modules }
+            return {users: response.data?.users.items}
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return {error: this.USERS_UNEXPECTED_ERROR}
         }
     }
 
     async getUserByUUID(userUUID: string): Promise<UserResponse> {
         try {
-            const response = await http.get(`/user/getByUUID/${userUUID}`);
+            const response = await http.get(`/user/getByUUID?uuid=${userUUID}`);
 
-            return { user: response.data?.module }
+            return {user: response.data?.user}
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR }
+            return {error: this.USERS_UNEXPECTED_ERROR}
         }
     }
 
-    async getUserRoles(userUUID: string): Promise<UserWithRolesResponse> {
+    async getUserRolesByUUID(userUUID: string): Promise<UserRolesResponse> {
         try {
-            const response = await http.get(`/roles/rolesPerUser/${userUUID}`);
+            const response = await http.get(`/roles/rolesPerUser?uuid=${userUUID}`);
 
-            return response.data as UserWithRolesResponse;
+            return response.data as UserRolesResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
-                return { error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR }
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
             }
 
-            return { error: this.MODULES_UNEXPECTED_ERROR };
+            return {error: this.USERS_UNEXPECTED_ERROR};
+        }
+    }
+
+    async attachRolePerUser(userUUID: string, rolesUUID: string[]): Promise<UserRolesResponse> {
+        try {
+            const response = await http.post(
+                `/roles/attach/${userUUID}`,
+                rolesUUID
+            );
+
+            return response.data as UserRolesResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
+            }
+
+            return {error: this.USERS_UNEXPECTED_ERROR};
         }
     }
 }
