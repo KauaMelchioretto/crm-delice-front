@@ -45,7 +45,7 @@ class UsersRepository {
             const response = await http.get(
                 `/user/getPagination?count=10&page=${page}`
             );
-            return {users: response.data?.users.items}
+            return response.data?.users as UsersListResponse
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
