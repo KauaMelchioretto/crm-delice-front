@@ -2,7 +2,7 @@ import {Box, BoxProps, IconButton} from "@mui/joy";
 import KeyboardArrowLeftRounded from "@mui/icons-material/KeyboardArrowLeftRounded";
 import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
 import {createContext, useEffect, useState} from "react";
-
+import {useTheme} from "@mui/material";
 
 const SideNavContextProps: { open: boolean } = {open: true}
 
@@ -67,17 +67,29 @@ const Header = (props: BoxProps) => (
     />
 )
 
-const Main = (props: BoxProps) => (
-    <Box
-        component="main"
-        className="Main"
-        {...props}
-        sx={[
-            {p: 1, backgroundColor: "#f1f1f1"},
-            ...(Array.isArray(props.sx) ? props.sx : [props.sx])
-        ]}
-    />
-)
+const Main = (props: BoxProps) => {
+    const theme = useTheme()
+
+    return (
+        <Box
+            component="main"
+            className="Main"
+            {...props}
+            sx={[
+                {
+                    p: 1, backgroundImage:
+                        'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+                    backgroundRepeat: 'no-repeat',
+                    ...theme.applyStyles('dark', {
+                        backgroundImage:
+                            'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
+                    }),
+                },
+                ...(Array.isArray(props.sx) ? props.sx : [props.sx])
+            ]}
+        />
+    )
+}
 
 const SideNav = (props: BoxProps) => {
     const [open, setOpen] = useState(JSON.parse(localStorage.getItem("open-menu-side") ?? "true") as boolean);
@@ -102,7 +114,7 @@ const SideNav = (props: BoxProps) => {
                             xs: 'none',
                             sm: 'initial',
                         },
-                        width: open ? "200px" : "45px",
+                        width: open ? "200px" : "50px",
                         position: "relative",
                         ":hover": {
                             ["& #menu-side-open-icon"]: {

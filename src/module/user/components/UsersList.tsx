@@ -1,4 +1,4 @@
-import { CircularProgress, IconButton, Stack } from "@mui/joy";
+import { CircularProgress, IconButton } from "@mui/joy";
 import { CrmTable } from "../../../utils/components/core/CrmTable";
 import { User, UsersFormType } from "../entities/entities.ts";
 import EditRounded from "@mui/icons-material/EditRounded";
@@ -10,26 +10,20 @@ import { maskCPF } from "../../../utils/functions/DocumentValidation.ts";
 import Rule from "@mui/icons-material/Rule";
 import { useAuth } from "../../../core/auth/provider/AuthProvider.tsx";
 import { maskPhone } from "../../../utils/functions/MaskPhone.ts";
-import { Menu, Pagination } from "@mui/material";
-import FilterState from "../../filter/entities/state/FilterState.ts";
-
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import { Theme, useTheme } from "@mui/material/styles";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { Filter } from "../../filter/entities/entities.ts";
+import { ChangeEvent } from "react";
+import { CrmPagination } from "../../../utils/components/pagination/CrmPagination.tsx";
+import { useTranslation } from "react-i18next";
+import { UsersFilter } from "./UserFilter.tsx";
 
 export const UsersList = () => {
+  const { t } = useTranslation();
+
   const modifiedUser = useSetAtom(UserState.UserFormUUIDAtom);
   const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom);
   const usersAtom = useAtomValue(UserState.UsersListAtom);
 
   const { modules: userModules } = useAuth();
-
-  const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
-  const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -50,32 +44,23 @@ export const UsersList = () => {
     };
   }
 
-  const filterFields = [
-    "user",
-    "name",
-    "email",
-    "document",
-    "phone",
-    "state",
-    "city",
-  ];
-
   const theme = useTheme();
-  const [filter, setFilter] = useAtom(FilterState.FilterListAtom);
-
-  const handleChange = (event: SelectChangeEvent) => {
-    const {
-      target: { value },
-    } = event;
-    setFilter({ field: value, value: undefined });
-  };
+  const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
+  const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
 
   let users: User[] = [];
 
   if (usersAtom.state === "loading") {
     return (
-      <CrmContainer>
-        <CrmTableContainer sx={{ height: 500 }}>
+      <CrmContainer sx={{ width: "100%" }}>
+        <CrmTableContainer
+          sx={{
+            height: 500,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <CircularProgress />
         </CrmTableContainer>
       </CrmContainer>
@@ -88,29 +73,7 @@ export const UsersList = () => {
 
   return (
     <CrmContainer>
-      <div>
-        <FormControl sx={{ m: 0, width: 300 }}>
-          <InputLabel>Field</InputLabel>
-          <Select
-            labelId="tableFieldsLabel"
-            id="tableFieldsFilter"
-            value={filter?.field ?? ""}
-            onChange={handleChange}
-            input={<OutlinedInput label="Field" />}
-            MenuProps={MenuProps}
-          > 
-            {filterFields.map((field) => (
-              <MenuItem
-                key={field}
-                value={field}
-                style={getStyles(field, filterFields, theme)}
-                >
-                  {field}
-                </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <UsersFilter />
       <CrmTableContainer sx={{ height: 500 }}>
         <CrmTable
           sx={{
@@ -145,15 +108,15 @@ export const UsersList = () => {
         >
           <thead>
             <tr>
-              <th>User</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Document</th>
-              <th>Phone</th>
-              <th>State</th>
-              <th>City</th>
-              <th>Edit</th>
-              <th>Roles</th>
+              <th>{t("users_table.user")}</th>
+              <th>{t("users_table.name")}</th>
+              <th>{t("users_table.email")}</th>
+              <th>{t("users_table.document")}</th>
+              <th>{t("users_table.phone")}</th>
+              <th>{t("users_table.state")}</th>
+              <th>{t("users_table.city")}</th>
+              <th>{t("users_table.edit")}</th>
+              <th>{t("users_table.roles")}</th>
             </tr>
           </thead>
           <tbody>
@@ -203,27 +166,18 @@ export const UsersList = () => {
   );
 };
 
-const UserPagination = () => {
+export const UserPagination = () => {
   const [page, setPage] = useAtom(UserState.UserListPage);
   const pageCount = useAtomValue(UserState.UserListTotalCountAtom);
-
-  const handleChange = (_: any, value: number) => {
-    setPage(--value);
-  };
 
   if (pageCount.state === "loading") return;
 
   const count = pageCount.state === "hasData" ? pageCount.data : 0;
+  const handleChange = (_: ChangeEvent<unknown>, value: number) => {
+    setPage(--value);
+  };
 
   return (
-    <Stack spacing={0}>
-      <Pagination
-        page={page + 1}
-        count={count}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-      />
-    </Stack>
+    <CrmPagination page={page + 1} count={count} onChange={handleChange} />
   );
 };

@@ -1,76 +1,68 @@
 import {FieldValues, useForm} from "react-hook-form";
-import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Link, Typography} from "@mui/joy";
+import {Box, Button, FormControl, FormHelperText, FormLabel, Link, Stack, Typography} from "@mui/joy";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {PasswordInput} from "../../../utils/components/inputs/PasswordInput.tsx";
 import {useAuth} from "../provider/AuthProvider.tsx";
 import {useWidth} from "../../../utils/hooks/useWidth.tsx";
-import {Fragment} from "react";
 import {LoginRounded, StoreRounded} from "@mui/icons-material";
+import {useTranslation} from "react-i18next";
+import {LoginContainer} from "../components/LoginContainer.tsx";
+import {LoginCard} from "../components/LoginCard.tsx";
+import {ToggleThemeButton} from "../../../utils/components/theme/ToggleThemeMode.tsx";
+import {ToggleLanguageButton} from "../../../i18n/components/ToggleLanguageButton.tsx";
 
 export const LoginPage = () => {
     const isMobile = ["xs", "sm"].includes(useWidth())
 
     return (
-        <Box
+        <LoginContainer
             sx={{
-                width: "100%",
-                height: "100%",
                 display: "flex",
-                position: "relative"
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                p: 0,
             }}
         >
-            <Box display={"flex"} sx={{position: "absolute", top: 10, left: 10, gap: 1}}>
-                <StoreRounded color={"action"}/>
-                <Typography level={"title-md"} color={"neutral"}>
-                    Delice CRM
-                </Typography>
-            </Box>
             <Box
                 sx={{
-                    width: `${isMobile ? "100%" : "40%"}`,
-                    height: "100%",
+                    position: "absolute",
+                    top: 10,
+                    pl: 2,
+                    pr: 2,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
                 }}
             >
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        width: "100%",
-                        height: "100%",
-                    }}
-                >
-                    <Box sx={{width: "70%"}}>
-                        <LoginForm/>
-                    </Box>
-                </Box>
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <StoreRounded color={"action"}/>
+                    <Typography level={"title-md"} color={"neutral"}>
+                        Delice CRM
+                    </Typography>
+                </Stack>
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <ToggleThemeButton/>
+                    <ToggleLanguageButton/>
+                </Stack>
             </Box>
             {
-                !isMobile && (
-                    <Fragment>
-                        <Divider orientation={"vertical"}/>
-                        <Box
-                            sx={{
-                                width: "60%",
-                                display: "flex",
-                                alignItems: "start"
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            ></div>
-                        </Box>
-                    </Fragment>
+                isMobile ? (
+                    <LoginForm/>
+                ) : (
+                    <LoginCard variant={"outlined"}>
+                        <LoginForm/>
+                    </LoginCard>
                 )
             }
-        </Box>
+        </LoginContainer>
     )
 }
 
 export const LoginForm = () => {
+    const {t} = useTranslation();
+
     const {register, handleSubmit, formState: {errors}} = useForm();
     const {login} = useAuth();
 
@@ -88,10 +80,10 @@ export const LoginForm = () => {
             }}
             onSubmit={handleLogin}
         >
-            <Typography component="h1" level="h3">Sign In</Typography>
-            <Typography component="h6" color="neutral">Welcome back!</Typography>
+            <Typography component="h1" level="h3">{t('login_title')}</Typography>
+            <Typography component="h6" color="neutral">{t('login_welcome')}</Typography>
             <FormControl>
-                <FormLabel>Your login</FormLabel>
+                <FormLabel>{t('your_login_input')}</FormLabel>
                 <TextInput
                     {...register("login", {required: "The login is required"})}
                     size={"md"}
@@ -102,7 +94,7 @@ export const LoginForm = () => {
                 </FormHelperText>
             </FormControl>
             <FormControl>
-                <FormLabel>Your password</FormLabel>
+                <FormLabel>{t('your_password_input')}</FormLabel>
                 <PasswordInput
                     {...register("password", {required: "The password is required"})}
                     size={"md"}
@@ -112,9 +104,9 @@ export const LoginForm = () => {
                     {errors?.password?.message as string}
                 </FormHelperText>
             </FormControl>
-            <Button startDecorator={<LoginRounded/>} type={"submit"}>sign in</Button>
+            <Button startDecorator={<LoginRounded/>} type={"submit"}>{t('login_access_input')}</Button>
             <Box display={"flex"} justifyContent={"center"}>
-                <Link level={"title-md"} href={"/app/forgotten"}>Did you forgotten your password?</Link>
+                <Link level={"title-md"} href={"/app/forgotten"}>{t('forget_password_label')}</Link>
             </Box>
         </Box>
     );
