@@ -10,7 +10,16 @@ import { maskCPF } from "../../../utils/functions/DocumentValidation.ts";
 import Rule from "@mui/icons-material/Rule";
 import { useAuth } from "../../../core/auth/provider/AuthProvider.tsx";
 import { maskPhone } from "../../../utils/functions/MaskPhone.ts";
-import { Pagination } from "@mui/material";
+import { Menu, Pagination } from "@mui/material";
+import FilterState from "../../filter/entities/state/FilterState.ts";
+
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { Theme, useTheme } from "@mui/material/styles";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { Filter } from "../../filter/entities/entities.ts";
 
 export const UsersList = () => {
   const modifiedUser = useSetAtom(UserState.UserFormUUIDAtom);
@@ -21,6 +30,45 @@ export const UsersList = () => {
 
   const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
   const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
+  function getStyles(name: string, personName: string[], theme: Theme) {
+    return {
+      fontWeight: personName.includes(name)
+        ? theme.typography.fontWeightMedium
+        : theme.typography.fontWeightRegular,
+    };
+  }
+
+  const filterFields = [
+    "user",
+    "name",
+    "email",
+    "document",
+    "phone",
+    "state",
+    "city",
+  ];
+
+  const theme = useTheme();
+  const [filter, setFilter] = useAtom(FilterState.FilterListAtom);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    const {
+      target: { value },
+    } = event;
+    setFilter({ field: value, value: undefined });
+  };
 
   let users: User[] = [];
 
@@ -40,6 +88,29 @@ export const UsersList = () => {
 
   return (
     <CrmContainer>
+      <div>
+        <FormControl sx={{ m: 0, width: 300 }}>
+          <InputLabel>Field</InputLabel>
+          <Select
+            labelId="tableFieldsLabel"
+            id="tableFieldsFilter"
+            value={filter?.field ?? ""}
+            onChange={handleChange}
+            input={<OutlinedInput label="Field" />}
+            MenuProps={MenuProps}
+          > 
+            {filterFields.map((field) => (
+              <MenuItem
+                key={field}
+                value={field}
+                style={getStyles(field, filterFields, theme)}
+                >
+                  {field}
+                </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
       <CrmTableContainer sx={{ height: 500 }}>
         <CrmTable
           sx={{
@@ -139,14 +210,20 @@ const UserPagination = () => {
   const handleChange = (_: any, value: number) => {
     setPage(--value);
   };
-  
-  if(pageCount.state === "loading") return;
-  
+
+  if (pageCount.state === "loading") return;
+
   const count = pageCount.state === "hasData" ? pageCount.data : 0;
 
   return (
     <Stack spacing={0}>
-      <Pagination page={page + 1} count={count} variant="outlined" shape="rounded" onChange={handleChange} />
+      <Pagination
+        page={page + 1}
+        count={count}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+      />
     </Stack>
   );
 };
