@@ -40,7 +40,7 @@ export const MenuSide = () => {
             <List
                 size="sm"
                 sx={{
-                    gap: open ? 0.5 : 0,
+                    gap: 0,
                     '--List-nestedInsetStart': '30px',
                     '--ListItem-radius': (theme) => theme.vars.radius.sm,
                 }}
@@ -55,9 +55,9 @@ export const MenuSide = () => {
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
-                            <IconButton size={"sm"}>
+                            <ListItemButton>
                                 <HomeRounded fontSize={"small"}/>
-                            </IconButton>
+                            </ListItemButton>
                         )
                     }
                 </ListItem>
@@ -71,9 +71,9 @@ export const MenuSide = () => {
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
-                            <IconButton size={"sm"}>
+                            <ListItemButton>
                                 <HomeRounded fontSize={"small"}/>
-                            </IconButton>
+                            </ListItemButton>
                         )
                     }
                 </ListItem>
@@ -87,9 +87,9 @@ export const MenuSide = () => {
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
-                            <IconButton size={"sm"}>
+                            <ListItemButton>
                                 <RuleRounded fontSize={"small"}/>
-                            </IconButton>
+                            </ListItemButton>
                         )
                     }
                 </ListItem>

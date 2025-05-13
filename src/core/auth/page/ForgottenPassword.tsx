@@ -1,11 +1,15 @@
 import {useWidth} from "../../../utils/hooks/useWidth.tsx";
-import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Link, Typography} from "@mui/joy";
+import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Link, Stack, Typography} from "@mui/joy";
 import {CheckCircleOutlineRounded, LoginRounded, StoreRounded} from "@mui/icons-material";
 import {Fragment, useState} from "react";
 import {FieldValues, useForm} from "react-hook-form";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {authUseCase} from "../usecase/AuthUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
+import {ToggleThemeButton} from "../../../utils/components/theme/ToggleThemeMode.tsx";
+import forgetPasswordImage from "../../../utils/assets/images/forget_password_2.png";
+import {ToggleLanguageButton} from "../../../i18n/components/ToggleLanguageButton.tsx";
+import {useTranslation} from "react-i18next";
 
 export const ForgottenPassword = () => {
     const isMobile = ["xs", "sm"].includes(useWidth())
@@ -19,11 +23,28 @@ export const ForgottenPassword = () => {
                 position: "relative"
             }}
         >
-            <Box display={"flex"} sx={{position: "absolute", top: 10, left: 10, gap: 1}}>
-                <StoreRounded color={"action"}/>
-                <Typography level={"title-md"} color={"neutral"}>
-                    Delice CRM
-                </Typography>
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: 10,
+                    pl: 2,
+                    pr: 2,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}
+            >
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <StoreRounded color={"action"}/>
+                    <Typography level={"title-md"} color={"neutral"}>
+                        Delice CRM
+                    </Typography>
+                </Stack>
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <ToggleThemeButton/>
+                    <ToggleLanguageButton/>
+                </Stack>
             </Box>
             <Box
                 sx={{
@@ -60,8 +81,13 @@ export const ForgottenPassword = () => {
                                 style={{
                                     width: "100%",
                                     height: "100%",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
                                 }}
-                            ></div>
+                            >
+                                <img alt={"forget password"} src={forgetPasswordImage} width={"55%"}/>
+                            </div>
                         </Box>
                     </Fragment>
                 )
@@ -71,6 +97,7 @@ export const ForgottenPassword = () => {
 }
 
 const ForgottenForm = () => {
+    const {t} = useTranslation()
     const {register, handleSubmit, formState: {errors}} = useForm();
 
     const [checkMail, setCheckMail] = useState(false);
@@ -96,9 +123,9 @@ const ForgottenForm = () => {
                 }}
             >
                 <CheckCircleOutlineRounded fontSize={"large"} color={"success"}/>
-                <Typography component="h1" level="h3">Request sent</Typography>
-                <Typography component="h6" color="neutral">Check your email inbox</Typography>
-                <Link level={"title-md"} href={"/app/login"} sx={{mt: 5}}>Back to login page</Link>
+                <Typography component="h1" level="h3">{t('forgotten_password_page.request_sent')}</Typography>
+                <Typography component="h6" color="neutral">{t('forgotten_password_page.check_email')}</Typography>
+                <Link level={"title-md"} href={"/app/login"} sx={{mt: 5}}>{t('forgotten_password_page.back')}</Link>
             </Box>
         );
     }
@@ -113,13 +140,12 @@ const ForgottenForm = () => {
             }}
             onSubmit={handleSubmitForgotten}
         >
-            <Typography component="h1" level="h3">Reset password</Typography>
+            <Typography component="h1" level="h3">{t('forgotten_password_page.title')}</Typography>
             <Typography component="h6" color="neutral">
-                After submitting the request, you will receive a link in your email inbox to continue resetting your
-                password.
+                {t('forgotten_password_page.description')}
             </Typography>
             <FormControl>
-                <FormLabel>Inform your email</FormLabel>
+                <FormLabel>{t('forgotten_password_page.inform_email')}</FormLabel>
                 <TextInput
                     {...register("email", {required: "The email is required"})}
                     size={"md"}
@@ -129,9 +155,9 @@ const ForgottenForm = () => {
                     {errors?.email?.message as string}
                 </FormHelperText>
             </FormControl>
-            <Button startDecorator={<LoginRounded/>} type={"submit"}>Submit reset</Button>
+            <Button startDecorator={<LoginRounded/>} type={"submit"}>{t('forgotten_password_page.submit_button')}</Button>
             <Box display={"flex"} justifyContent={"center"}>
-                <Link level={"title-md"} href={"/app/login"}>Back to login page</Link>
+                <Link level={"title-md"} href={"/app/login"}>{t('forgotten_password_page.back')}</Link>
             </Box>
         </Box>
     )

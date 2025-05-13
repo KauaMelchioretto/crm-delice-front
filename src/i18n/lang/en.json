@@ -1,0 +1,34 @@
+{
+  "translation": {
+    "login_title": "Sign in",
+    "login_welcome": "Welcome back! Enter your details to enter the system",
+    "your_login_input": "Your login",
+    "your_password_input": "Your password",
+    "login_access_input": "sign in",
+    "forget_password_label": "Did you forgotten your password?",
+    "forgotten_password_page": {
+      "title": "Reset password",
+      "description": "After submitting the request, you will receive a link in your email inbox to continue resetting your password.",
+      "submit_button": "Submit reset",
+      "inform_email": "Inform your email",
+      "back": "Back to login page",
+      "request_sent": "Request sent",
+      "check_email": "Check your email inbox"
+    },
+    "users_table": {
+      "user": "User",
+      "name": "Name",
+      "email": "Email",
+      "document": "Document",
+      "phone": "Phone",
+      "state": "State",
+      "city": "City",
+      "edit": "Edit",
+      "roles": "Roles"
+    },
+    "user_page": {
+      "title": "Users",
+      "register_button": "Register user"
+    }
+  }
+}

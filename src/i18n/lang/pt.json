@@ -1,0 +1,34 @@
+{
+  "translation": {
+    "login_title": "Acessar sua conta",
+    "login_welcome": "Seja bem-vindo! Digite seus dados para acessar o sistema",
+    "your_login_input": "Seu login",
+    "your_password_input": "Sua senha",
+    "login_access_input": "acessar",
+    "forget_password_label": "Você esqueceu a sua senha?",
+    "forgotten_password_page": {
+      "title": "Recuperar senha",
+      "description": "Após enviar a solicitação, você receberá um link no seu email para continuar a redefinição de senha.",
+      "submit_button": "Enviar recuperação",
+      "inform_email": "Informe seu email",
+      "back": "Voltar para o login",
+      "request_sent": "Solicitação enviada",
+      "check_email": "Verifique sua caixa de email"
+    },
+    "users_table": {
+      "user": "Usuário",
+      "name": "Nome",
+      "email": "E-mail",
+      "document": "Documento",
+      "phone": "Telefone",
+      "state": "Estado",
+      "city": "Cidade",
+      "edit": "Editar",
+      "roles": "Liberações"
+    },
+    "user_page": {
+      "title": "Usuários",
+      "register_button": "Cadastrar usuário"
+    }
+  }
+}
