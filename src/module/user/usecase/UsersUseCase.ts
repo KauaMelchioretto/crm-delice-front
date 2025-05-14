@@ -1,3 +1,4 @@
+import { CrmFilter } from "../../../utils/entities/entities.ts";
 import {User, UserResponse, UserRolesResponse, UsersListResponse} from "../entities/entities.ts";
 import {usersRepository} from "../repository/UsersRepository.ts";
 
@@ -47,8 +48,8 @@ class UsersUseCase {
         return usersRepository.createUser(user);
     }
 
-    async getUsers(page: number): Promise<UsersListResponse> {
-        return usersRepository.getUsers(page);
+    async getUsers(page: number, filter: CrmFilter | null): Promise<UsersListResponse> {
+        return usersRepository.getUsers(page, filter);
     }
 
     async getUserByUUID(userUUID: string): Promise<UserResponse> {

@@ -25,25 +25,6 @@ export const UsersList = () => {
 
   const { modules: userModules } = useAuth();
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-  function getStyles(name: string, personName: string[], theme: Theme) {
-    return {
-      fontWeight: personName.includes(name)
-        ? theme.typography.fontWeightMedium
-        : theme.typography.fontWeightRegular,
-    };
-  }
-
   const theme = useTheme();
   const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
   const userModulesRoles = systemRoles?.roles?.map((x) => x.code);

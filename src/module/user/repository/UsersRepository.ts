@@ -6,6 +6,7 @@ import {
 } from "../entities/entities";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
+import { CrmFilter } from "../../../utils/entities/entities.ts";
 
 class UsersRepository {
     USERS_UNEXPECTED_ERROR = "An unexpected error has occurred";
@@ -40,11 +41,17 @@ class UsersRepository {
         }
     }
 
-    async getUsers(page: number): Promise<UsersListResponse> {
+    async getUsers(page: number, filter: CrmFilter | null): Promise<UsersListResponse> {
         try {
+            let query = "";
+
+            if(filter) {
+                query += `&${filter.field}=${filter.value}`;
+            }
             const response = await http.get(
-                `/user/getPagination?count=10&page=${page}`
+                `/user/getPagination?count=10&page=${page}${query}`
             );
+
             return response.data?.users as UsersListResponse
         } catch (e) {
             if (e instanceof AxiosError) {

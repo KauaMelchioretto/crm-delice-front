@@ -6,16 +6,17 @@ import {
   FormProvider,
   useForm,
 } from "react-hook-form";
-import { useAtom } from "jotai";
-import FilterState from "../../filter/entities/state/FilterState.ts";
+import { useAtom, useSetAtom } from "jotai";
 import { Box, Button, FormHelperText, FormLabel } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "../../../utils/components/core/TextInput.tsx";
 import { Search } from "@mui/icons-material";
+import UserState from "../state/UserState.ts";
+import { memo, useEffect } from "react";
 
-export const UsersFilter = () => {
+export const UsersFilter = memo(() => {
   const useFormMethods = useForm();
-  const [filter, setFilter] = useAtom(FilterState.FilterListAtom);
+  const [filter, setFilter] = useAtom(UserState.UserFilterAtom);
   const { t } = useTranslation();
 
   const filterFields = [
@@ -31,9 +32,16 @@ export const UsersFilter = () => {
 
   const handleFilterSubmit = useFormMethods.handleSubmit(
     (data: FieldValues) => {
-      console.log(data);
+      setFilter({ field: data.filterType, value: data.value });
     }
   );
+
+  useEffect(() => {
+    if(filter) {
+      useFormMethods.setValue("filterType", filter.field);
+      useFormMethods.setValue("value", filter.value);
+    }
+  }, [filter])
 
   return (
     <FormProvider {...useFormMethods}>
@@ -53,11 +61,13 @@ export const UsersFilter = () => {
               size={"md"}
               variant={"soft"}
             />
-            <FormHelperText sx={{ minHeight: "1rem" }}/>
+            <FormHelperText sx={{ minHeight: "1rem" }} />
           </FormControl>
-          <Button type="submit" startDecorator={<Search/>}>{t("filter_keys.search")}</Button>
+          <Button type="submit" startDecorator={<Search />}>
+            {t("filter_keys.search")}
+          </Button>
         </Box>
       </Box>
     </FormProvider>
   );
-};
+});
