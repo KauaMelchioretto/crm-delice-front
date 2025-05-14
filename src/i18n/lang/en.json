@@ -29,6 +29,14 @@
     "user_page": {
       "title": "Users",
       "register_button": "Register user"
+    },
+    "filter_keys": {
+      "none" : "-- None --",
+      "fields": "Fields",
+      "search": "Search"
+    },
+    "form_keys": {
+      "save": "Save"
     }
   }
 }

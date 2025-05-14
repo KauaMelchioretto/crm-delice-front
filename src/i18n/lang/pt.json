@@ -29,6 +29,14 @@
     "user_page": {
       "title": "Usuários",
       "register_button": "Cadastrar usuário"
+    },
+    "filter_keys": {
+      "none" : "-- Nenhum --",
+      "fields": "Campos",
+      "search": "Pesquisar"
+    },
+    "form_keys": {
+      "save": "Salvar"
     }
   }
 }
