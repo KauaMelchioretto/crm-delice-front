@@ -28,6 +28,7 @@ class UsersRepository {
                     state: user.state,
                     city: user.city,
                     zipCode: user.zipCode,
+                    address: user.address
                 }
             );
 
@@ -97,6 +98,34 @@ class UsersRepository {
             }
 
             return {error: this.USERS_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveUser(user: User): Promise<UserResponse> {
+        try {
+            const response = await http.post(
+                "/user/update", {
+                    uuid: user.uuid,
+                    name: user.name,
+                    surname: user.surname,
+                    email: user.email,
+                    userType: user.userType,
+                    status: user.status,
+                    avatar: user.avatar,
+                    phone: user.phone,
+                    state: user.state,
+                    city: user.city,
+                    zipCode: user.zipCode,
+                    address: user.address
+                }
+            );
+
+            return {user: response.data?.user}
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
+            }
+            return {error: this.USERS_UNEXPECTED_ERROR}
         }
     }
 }

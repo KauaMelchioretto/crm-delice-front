@@ -29,6 +29,9 @@
     "user_page": {
       "title": "Usuários",
       "register_button": "Cadastrar usuário"
+    },
+    "user_form": {
+      "surname_label": "Sobrenome"
     }
   }
 }

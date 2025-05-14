@@ -27,6 +27,10 @@ import {usersUseCase} from "../usecase/UsersUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import ModulesState from "../../modules/state/ModulesState.ts";
 import {Role} from "../../modules/enitites/entities.ts";
+import {maskCPF} from "../../../utils/functions/DocumentValidation.ts";
+import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
+import {maskZipCode} from "../../../utils/functions/MaskZipCode.ts";
+import {useTranslation} from "react-i18next";
 
 export const UserForm = () => {
     const formType = useAtomValue(UserState.UserFormTypeAtom)
@@ -79,6 +83,8 @@ const UserFormModal = (
 }
 
 const UserRegister = ({userUUID}: { userUUID?: string }) => {
+    const {t} = useTranslation();
+
     const setFormType = useSetAtom(UserState.UserFormTypeAtom);
 
     const updateList = useSetAtom(UserState.UserUpdateAtom)
@@ -88,6 +94,34 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
     const {register, handleSubmit, setValue, formState: {errors}} = formMethods
 
     const handleFormUsers = handleSubmit((data: FieldValues) => {
+        if(userUUID){
+            usersUseCase.saveUser({
+                uuid: userUUID,
+                login: data.login,
+                password: data.password,
+                name: data.name,
+                surname: data.surname,
+                email: data.email,
+                userType: data.userType,
+                document: data.document,
+                phone: data.phone,
+                dateOfBirth: data.dateOfBirth,
+                state: data.state,
+                city: data.city,
+                zipCode: data.zipCode,
+                address: data.address,
+                status: data.status
+            }).then((response) => {
+                if (response.error) {
+                    popup.toast("error", response.error, 2000);
+                } else {
+                    popup.toast("success", "The module is included with success", 2000);
+                    updateList(prev => !prev);
+                    setFormType(UsersFormType.EMPTY);
+                }
+            })
+            return;
+        }
         usersUseCase.createUser({
             login: data.login,
             password: data.password,
@@ -101,6 +135,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
             state: data.state,
             city: data.city,
             zipCode: data.zipCode,
+            address: data.address
         }).then((response) => {
             if (response.error) {
                 popup.toast("error", response.error, 2000);
@@ -120,14 +155,15 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     setValue("password", response.user.password)
                     setValue("name", response.user.name)
                     setValue("surname", response.user.surname)
-                    setValue("document", response.user.document)
+                    setValue("document", maskCPF(response.user.document))
                     setValue("email", response.user.email)
-                    setValue("phone", response.user.phone)
+                    setValue("phone", response.user.phone ? maskPhone(response.user.phone) : "")
                     setValue("dateOfBirth", response.user.dateOfBirth)
-                    setValue("zipCode", response.user.zipCode)
+                    setValue("zipCode", response.user.zipCode ? maskZipCode(response.user.zipCode) : "")
                     setValue("city", response.user.city)
                     setValue("state", response.user.state)
                     setValue("address", response.user.address)
+                    setValue("status", response.user.status)
                 }
             })
         }
@@ -218,7 +254,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 </FormHelperText>
                             </FormControl>
                             <FormControl>
-                                <FormLabel>Surname</FormLabel>
+                                <FormLabel>{t('user_form.surname_label')}</FormLabel>
                                 <TextInput
                                     {...register("surname", {required: "The surname is required"})}
                                     size={"md"}
@@ -330,7 +366,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                             <Box sx={{flex: 0.5}}>
                                 <CrmSelect
                                     name={"status"}
-                                    label={"User type"}
+                                    label={"User status"}
                                     options={[
                                         {
                                             value: "ACTIVE",
@@ -339,6 +375,10 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         {
                                             value: "INACTIVE",
                                             label: "Inactive",
+                                        },
+                                        {
+                                            value: "FIRST_ACCESS",
+                                            label: "First access",
                                         }
                                     ]}
                                 />

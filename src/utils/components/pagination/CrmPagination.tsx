@@ -1,5 +1,5 @@
 import {styled} from "@mui/material/styles";
-import {ChangeEvent} from "react";
+import {ChangeEvent, memo} from "react";
 import usePagination from "@mui/material/usePagination";
 import {Button} from "@mui/joy";
 
@@ -16,15 +16,17 @@ const List = styled('ul')({
 });
 
 interface CrmPaginationProps {
-    page: number,
     count: number,
+    page: number,
 
     onChange(event: ChangeEvent<unknown>, value: number): void
 }
 
-export const CrmPagination = (props: CrmPaginationProps) => {
+export const CrmPagination = memo((props: CrmPaginationProps) => {
     const {items} = usePagination({
         count: props.count,
+        onChange: props.onChange,
+        page: props.page
     });
 
     return (
@@ -106,4 +108,4 @@ export const CrmPagination = (props: CrmPaginationProps) => {
             </List>
         </nav>
     );
-}
+})

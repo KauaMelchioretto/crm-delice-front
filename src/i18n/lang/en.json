@@ -29,6 +29,9 @@
     "user_page": {
       "title": "Users",
       "register_button": "Register user"
+    },
+    "user_form": {
+      "surname_label": "Surname"
     }
   }
 }
