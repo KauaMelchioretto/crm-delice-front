@@ -30,6 +30,14 @@
       "title": "Usuários",
       "register_button": "Cadastrar usuário"
     },
+    "filter_keys": {
+      "none" : "-- Nenhum --",
+      "fields": "Campos",
+      "search": "Pesquisar"
+    },
+    "form_keys": {
+      "save": "Salvar"
+    },
     "user_form": {
       "surname_label": "Sobrenome"
     }
