@@ -164,6 +164,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     setValue("state", response.user.state)
                     setValue("address", response.user.address)
                     setValue("status", response.user.status)
+                    setValue("userType", response.user.userType)
                 }
             })
         }
@@ -226,15 +227,15 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     label={"User type"}
                                     options={[
                                         {
-                                            value: "employee",
+                                            value: "EMPLOYEE",
                                             label: "Employee",
                                         },
                                         {
-                                            value: "owner",
+                                            value: "OWNER",
                                             label: "Owner",
                                         },
                                         {
-                                            value: "dev",
+                                            value: "DEV",
                                             label: "Developer",
                                         },
                                     ]}

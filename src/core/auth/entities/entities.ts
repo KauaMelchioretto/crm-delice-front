@@ -40,6 +40,11 @@ export interface ResetPassword{
     confirmPassword: string,
 }
 
+export interface ChangePassword{
+    newPassword: string,
+    confirmPassword: string,
+}
+
 export interface ResetPasswordResponse{
     ok?: boolean,
     error?: string

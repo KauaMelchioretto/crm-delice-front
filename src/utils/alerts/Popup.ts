@@ -1,4 +1,4 @@
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import Swal, {SweetAlertIcon, SweetAlertTheme} from "sweetalert2";
 
 class Popup {
     async popup(
@@ -13,6 +13,7 @@ class Popup {
             text: text,
             confirmButtonText: buttonText,
             reverseButtons: true,
+            theme: this.getTheme() as SweetAlertTheme
         });
     }
 
@@ -28,6 +29,7 @@ class Popup {
                 toast.addEventListener("mouseleave", Swal.resumeTimer);
             },
             showCloseButton: true,
+            theme: this.getTheme() as SweetAlertTheme
         }).fire({
             icon: icon,
             title: message,
@@ -47,7 +49,16 @@ class Popup {
             confirmButtonText: buttonText,
             showCancelButton: true,
             reverseButtons: true,
+            theme: this.getTheme() as SweetAlertTheme
         });
+    }
+
+    getTheme(): string {
+        const theme = localStorage.getItem("joy-mode")
+
+        if (!theme) return "light"
+
+        return theme
     }
 }
 

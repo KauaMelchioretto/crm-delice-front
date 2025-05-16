@@ -32,14 +32,22 @@
     },
     "filter_keys": {
       "none" : "-- Nenhum --",
-      "fields": "Campos",
-      "search": "Pesquisar"
+      "title": "Filtros",
+      "search": "Pesquisar",
+      "input_placeholder": "Informe um valor para busca"
     },
     "form_keys": {
       "save": "Salvar"
     },
     "user_form": {
       "surname_label": "Sobrenome"
+    },
+    "reset_password_page": {
+      "title": "Recuperação de senha",
+      "new_password_label": "Informe sua nova senha",
+      "confirm_new_password_label": "Confirme sua nova senha",
+      "submit_button": "Confirmar",
+      "success_message": "Senha alterada com sucesso"
     }
   }
 }

@@ -32,14 +32,22 @@
     },
     "filter_keys": {
       "none" : "-- None --",
-      "fields": "Fields",
-      "search": "Search"
+      "title": "Filters",
+      "search": "Search",
+      "input_placeholder": "Inform an filter value"
     },
     "form_keys": {
       "save": "Save"
     },
     "user_form": {
       "surname_label": "Surname"
+    },
+    "reset_password_page": {
+      "title": "Reset password request",
+      "new_password_label": "Inform you new password",
+      "confirm_new_password_label": "Confirm you new password",
+      "submit_button": "Submit reset",
+      "success_message": "Change password with successfully"
     }
   }
 }

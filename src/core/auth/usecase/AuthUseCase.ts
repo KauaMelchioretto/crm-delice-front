@@ -1,5 +1,5 @@
 import {
-    AuthenticatedResponse,
+    AuthenticatedResponse, ChangePassword,
     ForgotPasswordResponse,
     Login,
     LoginResponse,
@@ -50,6 +50,17 @@ class AuthUseCase {
         }
 
         return authRepository.resetPassword(resetPassword)
+    }
+
+    async changePassword(changePassword: ChangePassword): Promise<ResetPasswordResponse> {
+        if (!changePassword.newPassword) {
+            return {error: this.PASSWORD_MUST_BE_PROVIDED}
+        }
+        if (!changePassword.confirmPassword) {
+            return {error: this.CONFIRM_PASSWORD_MUST_BE_PROVIDED}
+        }
+
+        return authRepository.changePassword(changePassword)
     }
 }
 

@@ -1,10 +1,10 @@
 import {Box, Button, Typography} from "@mui/joy";
 import {ModulesList} from "../components/ModulesList.tsx";
-import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {ModulesForm} from "../components/ModulesForm.tsx";
 import {useSetAtom} from "jotai";
 import ModulesState from "../state/ModulesState.ts";
 import {ModulesFormType} from "../enitites/entities.ts";
+import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 
 export const Modules = () => {
     const modifiedModuleForm = useSetAtom(ModulesState.ModulesFormTypeAtom);
@@ -19,7 +19,7 @@ export const Modules = () => {
                 flexDirection: "column"
             }}
         >
-            <CrmContainer
+            <CrmTitleContainer
                 sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -31,7 +31,7 @@ export const Modules = () => {
                 <Button size={"sm"} onClick={() => modifiedModuleForm(ModulesFormType.REGISTER_MODULE)}>
                     Register module
                 </Button>
-            </CrmContainer>
+            </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <ModulesList/>
                 <ModulesForm/>

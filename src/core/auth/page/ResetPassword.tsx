@@ -1,5 +1,5 @@
 import {useWidth} from "../../../utils/hooks/useWidth.tsx";
-import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Typography} from "@mui/joy";
+import {Box, Button, Divider, FormControl, FormHelperText, FormLabel, Stack, Typography} from "@mui/joy";
 import {LoginRounded, StoreRounded} from "@mui/icons-material";
 import {Fragment} from "react";
 import {FieldValues, useForm} from "react-hook-form";
@@ -8,6 +8,9 @@ import {popup} from "../../../utils/alerts/Popup.ts";
 import {useQuery} from "../../../utils/hooks/useQuery.ts";
 import {Navigate, useNavigate} from "react-router-dom";
 import {PasswordInput} from "../../../utils/components/inputs/PasswordInput.tsx";
+import {useTranslation} from "react-i18next";
+import {ToggleThemeButton} from "../../../utils/components/theme/ToggleThemeMode.tsx";
+import {ToggleLanguageButton} from "../../../i18n/components/ToggleLanguageButton.tsx";
 
 export const ResetPassword = () => {
     const isMobile = ["xs", "sm"].includes(useWidth())
@@ -21,11 +24,28 @@ export const ResetPassword = () => {
                 position: "relative"
             }}
         >
-            <Box display={"flex"} sx={{position: "absolute", top: 10, left: 10, gap: 1}}>
-                <StoreRounded color={"action"}/>
-                <Typography level={"title-md"} color={"neutral"}>
-                    Delice CRM
-                </Typography>
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: 10,
+                    pl: 2,
+                    pr: 2,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}
+            >
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <StoreRounded color={"action"}/>
+                    <Typography level={"title-md"} color={"neutral"}>
+                        Delice CRM
+                    </Typography>
+                </Stack>
+                <Stack direction={"row"} alignItems={"center"} gap={1}>
+                    <ToggleThemeButton/>
+                    <ToggleLanguageButton/>
+                </Stack>
             </Box>
             <Box
                 sx={{
@@ -73,6 +93,8 @@ export const ResetPassword = () => {
 }
 
 const ResetForm = () => {
+    const {t} = useTranslation()
+
     const {register, handleSubmit, formState: {errors}} = useForm();
 
     const navigate = useNavigate()
@@ -88,7 +110,7 @@ const ResetForm = () => {
             if (response.error) {
                 popup.toast("error", response.error, 2000)
             } else {
-                popup.toast("success", "Change password with successfully", 2000)
+                popup.toast("success", t('reset_password_page.success_message'), 2000)
                 navigate("/login")
             }
         })
@@ -108,9 +130,9 @@ const ResetForm = () => {
             }}
             onSubmit={handleSubmitReset}
         >
-            <Typography component="h1" level="h3">Reset password request</Typography>
+            <Typography component="h1" level="h3">{t('reset_password_page.title')}</Typography>
             <FormControl>
-                <FormLabel>Inform your new password</FormLabel>
+                <FormLabel>{t('reset_password_page.new_password_label')}</FormLabel>
                 <PasswordInput
                     {...register("newPassword", {required: "The password is required"})}
                     size={"md"}
@@ -121,7 +143,7 @@ const ResetForm = () => {
                 </FormHelperText>
             </FormControl>
             <FormControl>
-                <FormLabel>Confirm your new password</FormLabel>
+                <FormLabel>{t('reset_password_page.confirm_new_password_label')}</FormLabel>
                 <PasswordInput
                     {...register("confirmPassword", {required: "The confirmation of password is required"})}
                     size={"md"}
@@ -131,7 +153,9 @@ const ResetForm = () => {
                     {errors?.confirmPassword?.message as string}
                 </FormHelperText>
             </FormControl>
-            <Button startDecorator={<LoginRounded/>} type={"submit"}>Submit reset</Button>
+            <Button startDecorator={<LoginRounded/>} type={"submit"}>
+                {t('reset_password_page.submit_button')}
+            </Button>
         </Box>
     )
 }

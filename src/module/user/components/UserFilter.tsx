@@ -1,12 +1,11 @@
 import FormControl from "@mui/material/FormControl";
 import { CrmSelect } from "../../../utils/components/core/SelectInput.tsx";
 import {
-  FieldValue,
   FieldValues,
   FormProvider,
   useForm,
 } from "react-hook-form";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { Box, Button, FormHelperText, FormLabel } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { TextInput } from "../../../utils/components/core/TextInput.tsx";
@@ -21,7 +20,7 @@ export const UsersFilter = memo(() => {
 
   const filterFields = [
     { value: "", label: t("filter_keys.none") },
-    { value: "user", label: t("users_table.user") },
+    { value: "login", label: t("users_table.user") },
     { value: "name", label: t("users_table.name") },
     { value: "email", label: t("users_table.email") },
     { value: "document", label: t("users_table.document") },
@@ -50,7 +49,7 @@ export const UsersFilter = memo(() => {
           <FormControl sx={{ width: 300 }}>
             <CrmSelect
               name="filterType"
-              label={t("filter_keys.fields")}
+              label={t("filter_keys.title")}
               options={filterFields}
             />
           </FormControl>
@@ -60,10 +59,11 @@ export const UsersFilter = memo(() => {
               {...useFormMethods.register("value")}
               size={"md"}
               variant={"soft"}
+              placeholder={t("filter_keys.input_placeholder")}
             />
             <FormHelperText sx={{ minHeight: "1rem" }} />
           </FormControl>
-          <Button type="submit" startDecorator={<Search />}>
+          <Button type="submit" sx={{mt: 1}} startDecorator={<Search />}>
             {t("filter_keys.search")}
           </Button>
         </Box>

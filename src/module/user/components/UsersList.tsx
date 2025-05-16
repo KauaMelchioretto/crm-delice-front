@@ -10,7 +10,6 @@ import { maskCPF } from "../../../utils/functions/DocumentValidation.ts";
 import Rule from "@mui/icons-material/Rule";
 import { useAuth } from "../../../core/auth/provider/AuthProvider.tsx";
 import { maskPhone } from "../../../utils/functions/MaskPhone.ts";
-import { Theme, useTheme } from "@mui/material/styles";
 import { ChangeEvent } from "react";
 import { CrmPagination } from "../../../utils/components/pagination/CrmPagination.tsx";
 import { useTranslation } from "react-i18next";
@@ -24,8 +23,6 @@ export const UsersList = () => {
   const usersAtom = useAtomValue(UserState.UsersListAtom);
 
   const { modules: userModules } = useAuth();
-
-  const theme = useTheme();
   const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
   const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
 
@@ -55,17 +52,17 @@ export const UsersList = () => {
   return (
     <CrmContainer>
       <UsersFilter />
-      <CrmTableContainer sx={{ height: 500 }}>
+      <CrmTableContainer sx={{ height: 450 }}>
         <CrmTable
           sx={{
             "& thead th:nth-child(1)": {
               width: 100,
             },
             "& thead th:nth-child(2)": {
-              width: 200,
+              width: 250,
             },
             "& thead th:nth-child(3)": {
-              width: 200,
+              width: 250,
             },
             "& thead th:nth-child(4)": {
               width: 200,
@@ -74,7 +71,7 @@ export const UsersList = () => {
               width: 200,
             },
             "& thead th:nth-child(6)": {
-              width: 200,
+              width: 50,
             },
             "& thead th:nth-child(7)": {
               width: 50,
