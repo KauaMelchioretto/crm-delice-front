@@ -19,10 +19,9 @@ export const User = () => {
                 width: "100%",
                 gap: 2,
                 display: "flex",
-                flexDirection: "column"
+                flexDirection: "column",
             }}
         >
-
             <CrmTitleContainer
                 sx={{
                     display: "flex",

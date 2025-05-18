@@ -1,6 +1,6 @@
-import {useAtomValue} from "jotai";
+import {useAtom, useAtomValue} from "jotai";
 import UserState from "../state/UserState.ts";
-import {ReactElement, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useSetAtom} from "jotai/index";
 import {
     Box,
@@ -9,8 +9,6 @@ import {
     FormHelperText,
     FormLabel,
     IconButton,
-    Modal,
-    ModalDialog,
     Typography
 } from "@mui/joy";
 import {UsersFormType} from "../entities/entities.ts";
@@ -31,9 +29,10 @@ import {maskCPF} from "../../../utils/functions/DocumentValidation.ts";
 import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {maskZipCode} from "../../../utils/functions/MaskZipCode.ts";
 import {useTranslation} from "react-i18next";
+import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 
 export const UserForm = () => {
-    const formType = useAtomValue(UserState.UserFormTypeAtom)
+    const [formType, setFormType] = useAtom(UserState.UserFormTypeAtom)
     const userUUID = useAtomValue(UserState.UserFormUUIDAtom)
 
     switch (formType) {
@@ -41,45 +40,32 @@ export const UserForm = () => {
             return <></>
         case UsersFormType.REGISTER_USER:
             return (
-                <UserFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                >
                     <UserRegister/>
-                </UserFormModal>
+                </CrmModal>
             );
         case UsersFormType.EDIT_USER:
             return (
-                <UserFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                >
                     <UserRegister userUUID={userUUID}/>
-                </UserFormModal>
+                </CrmModal>
             );
         case UsersFormType.ATTACH_ROLE:
             return (
-                <UserFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                >
                     <UserAttachRole userUUID={userUUID}/>
-                </UserFormModal>
+                </CrmModal>
             );
     }
-}
-
-const UserFormModal = (
-    {children}: { children: ReactElement }
-) => {
-    const setFormType = useSetAtom(UserState.UserFormTypeAtom);
-
-    return (
-        <Modal
-            open={true}
-            onClose={() => setFormType(UsersFormType.EMPTY)}
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <ModalDialog variant={"outlined"} size={"lg"} sx={{p: 0, maxWidth: 900}}>
-                {children}
-            </ModalDialog>
-        </Modal>
-    )
 }
 
 const UserRegister = ({userUUID}: { userUUID?: string }) => {
@@ -94,7 +80,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
     const {register, handleSubmit, setValue, formState: {errors}} = formMethods
 
     const handleFormUsers = handleSubmit((data: FieldValues) => {
-        if(userUUID){
+        if (userUUID) {
             usersUseCase.saveUser({
                 uuid: userUUID,
                 login: data.login,

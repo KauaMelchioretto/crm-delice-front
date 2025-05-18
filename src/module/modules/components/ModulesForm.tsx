@@ -5,18 +5,16 @@ import {
     FormHelperText,
     FormLabel,
     IconButton,
-    Modal,
-    ModalDialog,
     Typography
 } from "@mui/joy";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {modulesUseCase} from "../usecase/ModulesUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
-import {useAtomValue, useSetAtom} from "jotai";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import ModulesState from "../state/ModulesState.ts";
 import {ModulesFormType, ModuleWithRolesResponse, Role} from "../enitites/entities.ts";
-import {ReactElement, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
@@ -24,9 +22,10 @@ import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
+import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 
 export const ModulesForm = () => {
-    const formType = useAtomValue(ModulesState.ModulesFormTypeAtom)
+    const [formType, setFormType] = useAtom(ModulesState.ModulesFormTypeAtom)
 
     const moduleUUID = useAtomValue(ModulesState.ModuleFormUUIDAtom);
 
@@ -35,45 +34,32 @@ export const ModulesForm = () => {
             return <></>
         case ModulesFormType.REGISTER_MODULE:
             return (
-                <ModulesFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(ModulesFormType.EMPTY)}
+                >
                     <RegisterModule/>
-                </ModulesFormModal>
+                </CrmModal>
             )
         case ModulesFormType.EDIT_MODULE:
             return (
-                <ModulesFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(ModulesFormType.EMPTY)}
+                >
                     <RegisterModule moduleUUID={moduleUUID}/>
-                </ModulesFormModal>
+                </CrmModal>
             )
         case ModulesFormType.REGISTER_ROLE:
             return (
-                <ModulesFormModal>
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(ModulesFormType.EMPTY)}
+                >
                     <RegisterRole moduleUUID={moduleUUID}/>
-                </ModulesFormModal>
+                </CrmModal>
             )
     }
-}
-
-const ModulesFormModal = (
-    {children}: { children: ReactElement }
-) => {
-    const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
-
-    return (
-        <Modal
-            open={true}
-            onClose={() => setFormType(ModulesFormType.EMPTY)}
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <ModalDialog variant={"outlined"} size={"lg"} sx={{p: 0, maxWidth: 600}}>
-                {children}
-            </ModalDialog>
-        </Modal>
-    )
 }
 
 const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
