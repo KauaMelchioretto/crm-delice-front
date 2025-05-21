@@ -5,10 +5,12 @@ import {useSetAtom} from "jotai";
 import ModulesState from "../state/ModulesState.ts";
 import {ModulesFormType} from "../enitites/entities.ts";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
+import { useTranslation } from "react-i18next";
 
 export const Modules = () => {
     const modifiedModuleForm = useSetAtom(ModulesState.ModulesFormTypeAtom);
-
+    const { t } = useTranslation();
+    
     return (
         <Box
             sx={{
@@ -29,7 +31,7 @@ export const Modules = () => {
             >
                 <Typography level={"body-lg"} fontWeight={"bold"}>Modules</Typography>
                 <Button size={"sm"} onClick={() => modifiedModuleForm(ModulesFormType.REGISTER_MODULE)}>
-                    Register module
+                    {t("modules.labels.register_module")}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>

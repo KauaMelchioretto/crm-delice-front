@@ -20,13 +20,13 @@ export const UsersFilter = memo(() => {
 
   const filterFields = [
     { value: "", label: t("filter_keys.none") },
-    { value: "login", label: t("users_table.user") },
-    { value: "name", label: t("users_table.name") },
-    { value: "email", label: t("users_table.email") },
-    { value: "document", label: t("users_table.document") },
-    { value: "phone", label: t("users_table.phone") },
-    { value: "state", label: t("users_table.state") },
-    { value: "city", label: t("users_table.city") },
+    { value: "login", label: t("users.fields.user") },
+    { value: "name", label: t("users.fields.name") },
+    { value: "email", label: t("users.fields.email") },
+    { value: "document", label: t("users.fields.document") },
+    { value: "phone", label: t("users.fields.phone") },
+    { value: "state", label: t("users.fields.state") },
+    { value: "city", label: t("users.fields.city") },
   ];
 
   const handleFilterSubmit = useFormMethods.handleSubmit(

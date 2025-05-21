@@ -23,10 +23,11 @@ import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
+import { useTranslation } from "react-i18next";
 
 export const ModulesForm = () => {
     const [formType, setFormType] = useAtom(ModulesState.ModulesFormTypeAtom)
-
+    
     const moduleUUID = useAtomValue(ModulesState.ModuleFormUUIDAtom);
 
     switch (formType) {
@@ -65,9 +66,10 @@ export const ModulesForm = () => {
 const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
     const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
     const updateList = useSetAtom(ModulesState.ModuleUpdateAtom);
+    const { t } = useTranslation();
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm();
-
+    
     const handleFormModules = handleSubmit((data: FieldValues) => {
         modulesUseCase.createModule({
             label: data.label,
@@ -110,7 +112,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
             >
                 <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {moduleUUID ? "Edit" : "Register"} Module
+                        {moduleUUID ? t("actions.edit") : t("actions.register")} {t("modules.labels.module")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -120,7 +122,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                     </IconButton>
                 </Box>
                 <FormControl>
-                    <FormLabel>Code</FormLabel>
+                    <FormLabel>{t("modules.fields.code")}</FormLabel>
                     <TextInput
                         {...register("code", {required: "The code is required"})}
                         size={"md"}
@@ -131,7 +133,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                     </FormHelperText>
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Label</FormLabel>
+                    <FormLabel>{t("modules.fields.label")}</FormLabel>
                     <TextInput
                         {...register("label", {required: "The label is required"})}
                         size={"md"}
@@ -142,7 +144,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                     </FormHelperText>
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Path</FormLabel>
+                    <FormLabel>{t("modules.fields.path")}</FormLabel>
                     <TextInput
                         {...register("path", {required: "The path is required"})}
                         size={"md"}
@@ -152,7 +154,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                         {errors?.path?.message as string}
                     </FormHelperText>
                 </FormControl>
-                <Button type={"submit"}>{moduleUUID ? "save" : "register"}</Button>
+                <Button type={"submit"}>{moduleUUID ? t("actions.save") : t("actions.save").toString()}</Button>
             </Box>
         </CrmContainer>
     );
@@ -161,6 +163,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
 const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
     const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
     const formMethods = useForm();
+    const { t } = useTranslation();
 
     const {register, handleSubmit, formState: {errors}} = formMethods;
 
@@ -229,7 +232,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                 >
                     <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
                         <Typography level={"body-md"} fontWeight={"bold"}>
-                            Register Role
+                            {t("modules.labels.register_module")}
                         </Typography>
                         <IconButton
                             size={"sm"}
@@ -270,10 +273,10 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                         >
                             <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Label</th>
-                                <th>Role type</th>
-                                <th>Remove</th>
+                                <th>{t("modules.fields.code")}</th>
+                                <th>{t("modules.fields.label")}</th>
+                                <th>{t("modules.fields.role_type")}</th>
+                                <th>{t("actions.delete")}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -318,11 +321,11 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                             level={"body-md"}
                             fontWeight={"bold"}
                         >
-                            Include new role
+                            {t("modules.labels.include_new_role")}
                         </Typography>
                     </Box>
                     <FormControl>
-                        <FormLabel>Code</FormLabel>
+                        <FormLabel>{t("modules.fields.code")}</FormLabel>
                         <TextInput
                             {...register("code", {required: "The code is required"})}
                             size={"md"}
@@ -333,7 +336,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                         </FormHelperText>
                     </FormControl>
                     <FormControl>
-                        <FormLabel>Label</FormLabel>
+                        <FormLabel>{t("modules.fields.label")}</FormLabel>
                         <TextInput
                             {...register("label", {required: "The label is required"})}
                             size={"md"}
@@ -345,19 +348,19 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                     </FormControl>
                     <CrmSelect
                         name={"roleType"}
-                        label={"Role type"}
+                        label={t("modules.fields.role_type")}
                         options={[
                             {
                                 value: "USER",
-                                label: "User",
+                                label: t("role_types.user"),
                             },
                             {
                                 value: "DEV",
-                                label: "Developer",
+                                label: t("role_types.developer"),
                             },
                         ]}
                     />
-                    <Button type={"submit"}>Register</Button>
+                    <Button type={"submit"}>{t("actions.save")}</Button>
                 </Box>
             </FormProvider>
         </CrmContainer>

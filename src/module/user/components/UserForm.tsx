@@ -181,9 +181,9 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     </IconButton>
                 </Box>
                     <TabList>
-                        <Tab sx={{textAlign: "start"}}>Dados do usuário</Tab>
+                        <Tab sx={{textAlign: "start"}}>{t("users.page.tabs.user_data")}</Tab>
                         <Tab>Avatar</Tab>
-                        <Tab>Liberações</Tab>
+                        <Tab>{t("actions.roles")}</Tab>
                     </TabList>
                     <TabPanel value={0}>
                         <Box
@@ -198,7 +198,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                             <Box sx={{display: "flex", flexDirection: "column"}}>
                                 <Box display={"flex"} alignItems={"center"} gap={1}>
                                     <FormControl>
-                                        <FormLabel>Login</FormLabel>
+                                        <FormLabel>{t("users.fields.login")}</FormLabel>
                                         <TextInput
                                             {...register("login", {required: "The login is required"})}
                                             size={"md"}
@@ -211,7 +211,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     {
                                         !userUUID && (
                                             <FormControl>
-                                                <FormLabel>Password</FormLabel>
+                                                <FormLabel>{t("users.fields.password")}</FormLabel>
                                                 <TextInput
                                                     {...register("password", {required: "The password is required"})}
                                                     size={"md"}
@@ -226,19 +226,19 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     <Box sx={{width: "100%"}}>
                                         <CrmSelect
                                             name={"userType"}
-                                            label={"User type"}
+                                            label={t("users.fields.user_type")}
                                             options={[
                                                 {
                                                     value: "EMPLOYEE",
-                                                    label: "Employee",
+                                                    label: t("role_types.employee"),
                                                 },
                                                 {
                                                     value: "OWNER",
-                                                    label: "Owner",
+                                                    label: t("role_types.owner"),
                                                 },
                                                 {
                                                     value: "DEV",
-                                                    label: "Developer",
+                                                    label: t("role_types.developer"),
                                                 },
                                             ]}
                                         />
@@ -246,7 +246,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 </Box>
                                 <Box display={"flex"} alignItems={"center"} gap={1}>
                                     <FormControl>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>{t("users.fields.name")}</FormLabel>
                                         <TextInput
                                             {...register("name", {required: "The name is required"})}
                                             size={"md"}
@@ -257,7 +257,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         </FormHelperText>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>{t('user_form.surname_label')}</FormLabel>
+                                        <FormLabel>{t('users.fields.surname')}</FormLabel>
                                         <TextInput
                                             {...register("surname", {required: "The surname is required"})}
                                             size={"md"}
@@ -268,7 +268,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         </FormHelperText>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>CPF</FormLabel>
+                                        <FormLabel>{t("users.fields.document")}</FormLabel>
                                         <CpfInput
                                             {...register("document", {required: "The document is required"})}
                                             size={"md"}
@@ -280,7 +280,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     </FormControl>
                                 </Box>
                                 <FormControl>
-                                    <FormLabel>E-mail</FormLabel>
+                                    <FormLabel>{t("users.fields.email")}</FormLabel>
                                     <TextInput
                                         {...register("email", {required: "The email is required"})}
                                         size={"md"}
@@ -294,7 +294,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 <Box display={"flex"} alignItems={"center"} gap={1}>
                                     <Box sx={{width: "100%"}}>
                                         <FormControl>
-                                            <FormLabel>Phone</FormLabel>
+                                            <FormLabel>{t("users.fields.phone")}</FormLabel>
                                             <PhoneInput
                                                 {...register("phone")}
                                                 size={"md"}
@@ -307,7 +307,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     </Box>
                                     <Box sx={{width: "100%"}}>
                                         <FormControl>
-                                            <FormLabel>Date of birth</FormLabel>
+                                            <FormLabel>{t("users.fields.date_of_birth")}</FormLabel>
                                             <DateInput
                                                 {...register("dateOfBirth", {required: "The date of birth is required"})}
                                                 size={"md"}
@@ -332,7 +332,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         </FormHelperText>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>City</FormLabel>
+                                        <FormLabel>{t("users.fields.city")}</FormLabel>
                                         <TextInput
                                             {...register("city", {required: "The city is required"})}
                                             size={"md"}
@@ -343,7 +343,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         </FormHelperText>
                                     </FormControl>
                                     <FormControl>
-                                        <FormLabel>State</FormLabel>
+                                        <FormLabel>{t("users.fields.state")}</FormLabel>
                                         <TextInput
                                             {...register("state", {required: "The state is required"})}
                                             size={"md"}
@@ -356,7 +356,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 </Box>
                                 <Box display={"flex"} alignItems={"center"} gap={1}>
                                     <FormControl sx={{flex: 1}}>
-                                        <FormLabel>Address</FormLabel>
+                                        <FormLabel>{t("users.fields.address")}</FormLabel>
                                         <TextInput
                                             {...register("address", {required: "The address is required"})}
                                             size={"md"}
@@ -369,19 +369,19 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                     <Box sx={{flex: 0.5}}>
                                         <CrmSelect
                                             name={"status"}
-                                            label={"User status"}
+                                            label={t("users.fields.status.label")}
                                             options={[
                                                 {
                                                     value: "ACTIVE",
-                                                    label: "Active",
+                                                    label: t("users.fields.status.active"),
                                                 },
                                                 {
                                                     value: "INACTIVE",
-                                                    label: "Inactive",
+                                                    label: t("users.fields.status.inactive"),
                                                 },
                                                 {
                                                     value: "FIRST_ACCESS",
-                                                    label: "First access",
+                                                    label: t("users.fields.status.first_access"),
                                                 }
                                             ]}
                                         />
@@ -397,7 +397,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         OPA
                     </TabPanel>
                     <Box sx={{p: "var(--Tabs-spacing)", pt: 0}} display={"flex"}>
-                        <Button type={"submit"} sx={{flex: 1}}>{userUUID ? "save" : "register"}</Button>
+                        <Button type={"submit"} sx={{flex: 1}}>{userUUID ? t("actions.save") : t("actions.register")}</Button>
                     </Box>
                 </Tabs>
             </FormProvider>
@@ -409,6 +409,7 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
     const setFormType = useSetAtom(UserState.UserFormTypeAtom);
     const [roles, setRoles] = useState<{ id: number, uuid: string, added: boolean, code: string, label: string }[]>([]);
     const rolesAtom = useAtomValue(ModulesState.AllRolesAtom);
+    const { t } = useTranslation(); 
 
     const formMethods = useForm();
 
@@ -528,7 +529,7 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
                             ))
                         }
                     </Box>
-                    <Button type={"submit"}>save</Button>
+                    <Button type={"submit"}>{t("actions.save")}</Button>
                 </Box>
             </FormProvider>
         </CrmContainer>

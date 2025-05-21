@@ -15,20 +15,38 @@
       "request_sent": "Solicitação enviada",
       "check_email": "Verifique sua caixa de email"
     },
-    "users_table": {
-      "user": "Usuário",
-      "name": "Nome",
-      "email": "E-mail",
-      "document": "Documento",
-      "phone": "Telefone",
-      "state": "Estado",
-      "city": "Cidade",
-      "edit": "Editar",
-      "roles": "Liberações"
-    },
-    "user_page": {
-      "title": "Usuários",
-      "register_button": "Cadastrar usuário"
+    "users" : {
+      "page": {
+        "title": "Usuários",
+        "buttons": {
+          "register": "Cadastrar usuário"
+        },
+        "tabs": {
+          "user_data": "Dados do usuário",
+          "releases": "Liberações"
+        }
+      },
+      "fields": {
+        "user": "Usuário",
+        "login": "Login",
+        "password": "Senha",
+        "user_type": "Tipo usuário",
+        "name": "Nome",
+        "surname": "Sobrenome",
+        "document": "CPF",
+        "email": "E-mail",
+        "phone": "Telefone",
+        "date_of_birth": "Data de nascimento",
+        "state": "Estado",
+        "city": "Cidade",
+        "address": "Endereço",
+        "status" : {
+          "label": "Status usuário",
+          "active": "Ativo",
+          "inactive": "Inativo",
+          "first_access": "Primeiro acesso"
+        }
+      }
     },
     "filter_keys": {
       "none" : "-- Nenhum --",
@@ -36,18 +54,42 @@
       "search": "Pesquisar",
       "input_placeholder": "Informe um valor para busca"
     },
-    "form_keys": {
-      "save": "Salvar"
-    },
-    "user_form": {
-      "surname_label": "Sobrenome"
-    },
     "reset_password_page": {
       "title": "Recuperação de senha",
       "new_password_label": "Informe sua nova senha",
       "confirm_new_password_label": "Confirme sua nova senha",
       "submit_button": "Confirmar",
       "success_message": "Senha alterada com sucesso"
+    },
+    "modules": {
+      "fields": {
+        "code": "Código",
+        "label": "Rótulo",
+        "path": "Caminho",
+        "role_type": "Tipo do papel"
+      },
+      "labels": {
+        "include_new_role": "Incluir novo papel",
+        "register_module": "Cadastrar módulo",
+        "module": "Módulo"
+      },
+      "home": "Início",
+      "user": "Usuário",
+      "modules_config": "Configurações de módulo",
+      "customers": "Clientes"
+    },
+    "actions": {
+      "save": "Salvar",
+      "edit": "Editar",
+      "roles": "Papéis",
+      "delete": "Deletar",
+      "register": "Cadastrar"
+    },
+    "role_types": {
+      "user": "Usuário",
+      "developer": "Desenvolvedor",
+      "owner": "Proprietário",
+      "employee": "Funcionário"
     }
   }
 }

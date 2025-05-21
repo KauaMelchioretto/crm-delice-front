@@ -86,15 +86,15 @@ export const UsersList = () => {
         >
           <thead>
             <tr>
-              <th>{t("users_table.user")}</th>
-              <th>{t("users_table.name")}</th>
-              <th>{t("users_table.email")}</th>
-              <th>{t("users_table.document")}</th>
-              <th>{t("users_table.phone")}</th>
-              <th>{t("users_table.state")}</th>
-              <th>{t("users_table.city")}</th>
-              <th>{t("users_table.edit")}</th>
-              <th>{t("users_table.roles")}</th>
+              <th>{t("users.fields.user")}</th>
+              <th>{t("users.fields.name")}</th>
+              <th>{t("users.fields.email")}</th>
+              <th>{t("users.fields.document")}</th>
+              <th>{t("users.fields.phone")}</th>
+              <th>{t("users.fields.state")}</th>
+              <th>{t("users.fields.city")}</th>
+              <th>{t("actions.edit")}</th>
+              <th>{t("actions.roles")}</th>
             </tr>
           </thead>
           <tbody>

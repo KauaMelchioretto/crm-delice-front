@@ -10,16 +10,19 @@ import {
     Typography
 } from "@mui/joy";
 import HomeRounded from "@mui/icons-material/HomeRounded"
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutRounded from "@mui/icons-material/LogoutRounded"
 import RuleRounded from "@mui/icons-material/RuleRounded"
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {Fragment, useContext} from "react";
 import Layout from "../../layout/Layout.tsx";
+import { useTranslation } from "react-i18next";
 
 export const MenuSide = () => {
     const navigate = useNavigate();
-
+    const { t } = useTranslation();
     const {open} = useContext(Layout.SideNavContext)
 
     const {user, logout} = useAuth();
@@ -51,7 +54,7 @@ export const MenuSide = () => {
                             <ListItemButton>
                                 <HomeRounded fontSize={"small"}/>
                                 <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>Home</Typography>
+                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.home")}</Typography>
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
@@ -65,14 +68,14 @@ export const MenuSide = () => {
                     {
                         open ? (
                             <ListItemButton>
-                                <HomeRounded fontSize={"small"}/>
+                                <AccountCircleRoundedIcon fontSize={"small"}/>
                                 <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>User</Typography>
+                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.user")}</Typography>
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
                             <ListItemButton>
-                                <HomeRounded fontSize={"small"}/>
+                                <AccountCircleRoundedIcon fontSize={"small"}/>
                             </ListItemButton>
                         )
                     }
@@ -83,12 +86,28 @@ export const MenuSide = () => {
                             <ListItemButton>
                                 <RuleRounded fontSize={"small"}/>
                                 <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>Modules config</Typography>
+                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.modules_config")}</Typography>
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
                             <ListItemButton>
                                 <RuleRounded fontSize={"small"}/>
+                            </ListItemButton>
+                        )
+                    }
+                </ListItem>
+                <ListItem onClick={() => navigate("/customers")}>
+                    {
+                        open ? (
+                            <ListItemButton>
+                                <PeopleAltRoundedIcon fontSize={"small"}/>
+                                <ListItemContent>
+                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.customers")}</Typography>
+                                </ListItemContent>
+                            </ListItemButton>
+                        ) : (
+                            <ListItemButton>
+                                <PeopleAltRoundedIcon fontSize={"small"}/>
                             </ListItemButton>
                         )
                     }
