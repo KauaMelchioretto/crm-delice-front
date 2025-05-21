@@ -12,13 +12,15 @@ import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {modulesUseCase} from "../usecase/ModulesUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
+import { useTranslation } from "react-i18next";
 
 export const ModulesList = () => {
     const modifiedModule = useSetAtom(ModulesState.ModuleFormUUIDAtom);
     const modifiedModuleForm = useSetAtom(ModulesState.ModulesFormTypeAtom);
     const modulesAtom = useAtomValue(ModulesState.ModuleListAtom);
     const updateList = useSetAtom(ModulesState.ModuleUpdateAtom);
-
+    const { t } = useTranslation();
+    
     const {modules: userModules} = useAuth();
 
     const systemRoles = userModules?.find(x => x.code === "SYSTEM_ROLES");
@@ -86,12 +88,12 @@ export const ModulesList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Label</th>
-                        <th>Path</th>
-                        <th>Edit</th>
-                        <th>Roles</th>
-                        <th>Remove</th>
+                        <th>{t("modules.fields.code")}</th>
+                        <th>{t("modules.fields.label")}</th>
+                        <th>{t("modules.fields.path")}</th>
+                        <th>{t("actions.edit")}</th>
+                        <th>{t("actions.roles")}</th>
+                        <th>{t("actions.delete")}</th>
                     </tr>
                     </thead>
                     <tbody>
