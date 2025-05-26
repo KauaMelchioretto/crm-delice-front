@@ -4,6 +4,7 @@ import {Home} from "../../../../module/home/page/Home.tsx";
 import {User} from "../../../../module/user/page/Users.tsx";
 import {Modules} from "../../../../module/modules/page/Modules.tsx";
 import {NoPermissionPage} from "../../../../utils/pages/NoPermissionPage.tsx";
+import { Customers } from "../../../../module/customer/page/Customers.tsx";
 
 interface Route {
     element?: ReactElement,
@@ -32,4 +33,9 @@ export const routes: Route[] = [
         element: <NoPermissionPage/>,
         permissionRequired: false
     },
+    {
+        path: "/customers",
+        element: <Customers />,
+        permissionRequired: true
+    }
 ]

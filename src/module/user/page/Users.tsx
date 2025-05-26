@@ -30,9 +30,9 @@ export const User = () => {
                     alignItems: "center",
                 }}
             >
-                <Typography level={"body-lg"} fontWeight={"bold"}>{t('user_page.title')}</Typography>
+                <Typography level={"body-lg"} fontWeight={"bold"}>{t('users.page.title')}</Typography>
                 <Button size="sm" onClick={() => modifiedUserForm(UsersFormType.REGISTER_USER)}>
-                    {t('user_page.register_button')}
+                    {t('users.page.buttons.register')}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>

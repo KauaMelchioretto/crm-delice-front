@@ -15,20 +15,37 @@
       "request_sent": "Request sent",
       "check_email": "Check your email inbox"
     },
-    "users_table": {
-      "user": "User",
-      "name": "Name",
-      "email": "Email",
-      "document": "Document",
-      "phone": "Phone",
-      "state": "State",
-      "city": "City",
-      "edit": "Edit",
-      "roles": "Roles"
-    },
-    "user_page": {
-      "title": "Users",
-      "register_button": "Register user"
+    "users" : {
+      "page": {
+        "title": "Users",
+        "buttons": {
+          "register": "Register user"
+        },
+        "tabs": {
+          "user_data": "User data"
+        }
+      },
+      "fields": {
+        "user": "User",
+        "login": "Login",
+        "password": "Password",
+        "user_type": "User type",
+        "name": "Name",
+        "surname": "Surname",
+        "document": "Document",
+        "email": "Email",
+        "phone": "Phone",
+        "date_of_birth": "Date of birth",
+        "state": "State",
+        "city": "City",
+        "address": "Address",
+        "status" : {
+          "label": "User state",
+          "active": "Active",
+          "inactive": "Inactive",
+          "first_access": "First access"
+        }
+      }
     },
     "filter_keys": {
       "none" : "-- None --",
@@ -48,6 +65,36 @@
       "confirm_new_password_label": "Confirm you new password",
       "submit_button": "Submit reset",
       "success_message": "Change password with successfully"
+    },
+    "modules": {
+      "fields": {
+        "code": "Code",
+        "label": "Label",
+        "path": "Path",
+        "role_type": "Role type"
+      },
+      "labels": {
+        "register_module": "Register module",
+        "module": "Module",
+        "include_new_role": "Include new role"
+      },
+      "home": "Home",
+      "user": "User",
+      "modules_config": "Modules config",
+      "customers": "Customers"
+    },
+    "actions": {
+      "save": "Save",
+      "edit": "Edit",
+      "roles": "Roles",
+      "delete": "Delete",
+      "register": "Register"
+    },
+    "role_types": {
+      "user": "User",
+      "developer": "Developer",
+      "owner": "Owner",
+      "employee": "Employee"
     }
   }
 }
