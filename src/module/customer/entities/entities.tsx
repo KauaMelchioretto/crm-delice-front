@@ -36,3 +36,27 @@ export enum ContactType {
     MEDIA,
     NONE
 }
+
+export interface CustomerResponse {
+    customer?: Customer,
+    error?: string
+}
+
+export interface PreCustomerReponse {
+    preCustomer?: PreCustomer,
+    error?: string
+}
+
+export enum CustomerFormType {
+    EMPTY,
+    REGISTER_CUSTOMER,
+    EDIT_CUSTOMER,
+    APPROVAL_CUSTOMER
+}
+
+export interface CustomersListResponse {
+    items?: Customer[],
+    page?: number,
+    total?: number,
+    error?: string
+}
