@@ -4,8 +4,8 @@ import {
     ModuleListResponse,
     ModuleResponse,
     ModuleWithRolesResponse,
-    Role, RoleDeleteResponse,
-    RoleResponse, RolesArrayResponse
+    Role, RoleByModuleResponse, RoleDeleteResponse,
+    RoleResponse
 } from "../enitites/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
@@ -122,11 +122,11 @@ class ModulesRepository {
         }
     }
 
-    async getAllRoles(): Promise<RolesArrayResponse> {
+    async getAllRoles(): Promise<RoleByModuleResponse> {
         try{
             const response = await http.get("/roles/allRoles");
 
-            return response.data as RolesArrayResponse
+            return response.data as RoleByModuleResponse
         }catch (e) {
             if (e instanceof AxiosError) {
                 return {error: e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR}

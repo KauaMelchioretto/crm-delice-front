@@ -17,6 +17,7 @@ export interface User {
     city?: string,
     zipCode?: string,
     address?: string,
+    roles?: string[],
     createdAt?: string,
     modifiedAt?: string
 }

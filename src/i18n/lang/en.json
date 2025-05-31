@@ -28,6 +28,12 @@
       "fields": {
         "user": "User",
         "login": "Login",
+        "userType": "User type",
+        "userTypeEnum": {
+          "EMPLOYEE": "Employee",
+          "OWNER": "Owner",
+          "DEV": "Developer"
+        },
         "password": "Password",
         "user_type": "User type",
         "name": "Name",
@@ -80,7 +86,7 @@
       },
       "home": "Home",
       "user": "User",
-      "modules_config": "Modules config",
+      "modules_config": "Modules",
       "customers": "Customers"
     },
     "actions": {

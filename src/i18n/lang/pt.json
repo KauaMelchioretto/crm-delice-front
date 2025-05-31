@@ -29,6 +29,12 @@
       "fields": {
         "user": "Usuário",
         "login": "Login",
+        "userType": "Tipo de usuário",
+        "userTypeEnum": {
+          "EMPLOYEE": "Funcionário",
+          "OWNER": "Proprietário",
+          "DEV": "Desenvolvedor"
+        },
         "password": "Senha",
         "user_type": "Tipo usuário",
         "name": "Nome",
@@ -75,7 +81,7 @@
       },
       "home": "Início",
       "user": "Usuário",
-      "modules_config": "Configurações de módulo",
+      "modules_config": "Módulos",
       "customers": "Clientes"
     },
     "actions": {

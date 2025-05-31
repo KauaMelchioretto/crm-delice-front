@@ -19,7 +19,8 @@ export const CrmModal = (props: ComponentProps<typeof Modal>) => {
                 sx={{
                     p: 0,
                     maxWidth: 900,
-                    border: "none"
+                    border: "none",
+                    maxHeight: "none"
                 }}
             >
                 {props.children}

@@ -1,11 +1,12 @@
-export interface Module{
+export interface Module {
     code: string,
     label: string,
     path: string,
-    uuid?: string
+    uuid?: string,
+    roles?: Role[]
 }
 
-export interface Role{
+export interface Role {
     uuid?: string
     label: string
     code: string
@@ -13,24 +14,24 @@ export interface Role{
     moduleUUID: string
 }
 
-export interface ModuleResponse{
+export interface ModuleResponse {
     module?: Module,
     error?: string
 }
 
-export interface ModuleListResponse{
+export interface ModuleListResponse {
     modules?: Module[],
     error?: string
 }
 
-export enum ModulesFormType{
+export enum ModulesFormType {
     EMPTY,
     REGISTER_MODULE,
     REGISTER_ROLE,
     EDIT_MODULE
 }
 
-export interface ModuleDeleteResponse{
+export interface ModuleDeleteResponse {
     message?: string,
     error?: string
 }
@@ -41,17 +42,22 @@ export interface ModuleWithRolesResponse {
     error?: string
 }
 
-export interface RoleResponse{
+export interface RoleResponse {
     role?: Role,
     error?: string
 }
 
-export interface RoleDeleteResponse{
+export interface RoleDeleteResponse {
     message?: string,
     error?: string
 }
 
-export interface RolesArrayResponse{
+export interface RolesArrayResponse {
     roles?: Role[],
+    error?: string
+}
+
+export interface RoleByModuleResponse {
+    modules?: Module[]
     error?: string
 }
