@@ -101,6 +101,26 @@
       "developer": "Developer",
       "owner": "Owner",
       "employee": "Employee"
+    },
+    "errors": {
+      "UNEXPECTED_ERROR": "An unexpected error has occurred"
+    },
+    "customers": {
+      "page": {
+        "title": "Customers",
+        "buttons": {
+          "register": "Register customer"
+        }
+      },
+      "fields": {
+        "companyName": "Company name",
+        "tradingName": "Trading name",
+        "personName": "Person name",
+        "document": "Document",
+        "state": "State",
+        "city": "City",
+        "status": "Status"
+      }
     }
   }
 }

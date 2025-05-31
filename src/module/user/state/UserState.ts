@@ -14,7 +14,7 @@ const UsersListAsyncAtom = atom(async (get) => {
   get(UserUpdateAtom);
   const page = get(UserListPage);
 
-  const filters = get(UserFilterAtom)
+  const filters = get(UserFilterAtom);
 
   return usersUseCase.getUsers(page, filters);
 });

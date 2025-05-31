@@ -96,6 +96,26 @@
       "developer": "Desenvolvedor",
       "owner": "Proprietário",
       "employee": "Funcionário"
+    },
+    "errors": {
+      "UNEXPECTED_ERROR": "Ocorreu um erro inesperado"
+    },
+    "customers": {
+      "page": {
+        "title": "Clientes",
+        "buttons": {
+          "register": "Cadastrar cliente"
+        }
+      },
+      "fields": {
+        "companyName": "Razão social",
+        "tradingName": "Nome fantasia",
+        "personName": "Nome pessoal",
+        "document": "CNPJ",
+        "state": "Estado",
+        "city": "Cidade",
+        "status": "Status"
+      }
     }
   }
 }
