@@ -1,16 +1,18 @@
 import {Select, styled} from "@mui/joy";
 import {FormControl, FormHelperText, FormLabel, Option} from "@mui/joy";
 import {Controller, FieldError, useFormContext} from "react-hook-form";
+// @ts-ignore
+import {UseControllerProps} from "react-hook-form/dist/types/controller";
 
 const SelectInput = styled(Select)(() => ({
-    '--Input-radius': '5px',
+    '--Select-radius': '5px',
     borderBottom: '3px solid',
     borderColor: '#bdbdbd',
     '&:hover': {
         borderColor: '#9e9e9e',
     },
     '&::before': {
-        borderBottom: '5px solid var(--Input-focusedHighlight)',
+        borderBottom: '5px solid var(--Select-focusedHighlight)',
         transform: 'scaleX(0)',
         left: 0,
         right: 0,
@@ -29,12 +31,11 @@ const SelectInput = styled(Select)(() => ({
     }
 }));
 
-type OptionType = { value: string; label: string };
+export type OptionType = { value: string; label: string };
 
-interface CrmSelectProps {
+interface CrmSelectProps extends UseControllerProps{
     name: string;
     label: string;
-    rules?: never;
     options: OptionType[];
     error?: FieldError;
 }
@@ -43,6 +44,7 @@ export const CrmSelect = (
     {
         name,
         label,
+        // @ts-ignore
         rules,
         options,
         error
@@ -52,7 +54,9 @@ export const CrmSelect = (
 
     return (
         <FormControl error={!!error}>
-            <FormLabel>{label}</FormLabel>
+            {label && (
+                <FormLabel>{label}</FormLabel>
+            )}
             <Controller
                 name={name}
                 control={control}
@@ -60,7 +64,7 @@ export const CrmSelect = (
                 render={({field}) => (
                     <SelectInput
                         {...field}
-                        size="md"
+                        size="sm"
                         variant="soft"
                         value={field.value ?? options[0]?.value}
                         onChange={(_, newValue) => field.onChange(newValue)}
@@ -73,9 +77,13 @@ export const CrmSelect = (
                     </SelectInput>
                 )}
             />
-            <FormHelperText sx={{minHeight: "1rem"}}>
-                {error?.message}
-            </FormHelperText>
+            {
+                rules && (
+                    <FormHelperText sx={{minHeight: "1rem"}}>
+                        {error?.message}
+                    </FormHelperText>
+                )
+            }
         </FormControl>
     );
 };

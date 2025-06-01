@@ -1,40 +1,64 @@
 export interface Customer extends PreCustomer {
     uuid?: string,
-    contacts?: Contact[],
-    economicActivities?: string,
+    economicActivities?: EconomicActivity[],
     observation?: string,
     status?: string,
     createdAt?: string,
     modifiedAt?: string,
     createdBy?: string,
-    modifiedBy?: string
+    modifiedBy?: string,
+    economicActivitiesCodesForm?: EconomicActivityCodeForm[],
+}
+
+export interface EconomicActivity {
+    uuid?: string,
+    code?: string,
+    description?: string,
+    division?: {
+        code?: string,
+        description?: string,
+    },
+    group?: {
+        code?: string,
+        description?: string,
+    },
+    section?: {
+        code?: string,
+        description?: string,
+    }
+}
+
+export interface EconomicActivityCodeForm {
+    value?: string
 }
 
 export interface PreCustomer {
     companyName?: string,
     tradingName?: string,
     personName?: string,
-    document: string,
+    document?: string,
     state?: string,
     city?: string,
     zipCode?: string,
     address?: string,
     addressNumber?: string,
+    complement?: string,
     economicActivitiesCodes?: string[],
+    contacts?: Contact[],
 }
 
 export interface Contact {
     uuid?: string,
-    contactType: ContactType,
-    label: string,
-    isPrincipal: boolean 
+    contactType?: ContactType,
+    label?: string,
+    isPrincipal?: boolean
 }
 
 export enum ContactType {
-    EMAIL,
-    PHONE,
-    MEDIA,
-    NONE
+    EMAIL = "EMAIL",
+    PHONE = "PHONE",
+    MEDIA = "MEDIA",
+    NONE = "NONE"
 }
 
 export interface CustomerResponse {
@@ -43,7 +67,7 @@ export interface CustomerResponse {
 }
 
 export interface PreCustomerReponse {
-    preCustomer?: PreCustomer,
+    customer?: PreCustomer,
     error?: string
 }
 

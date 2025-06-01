@@ -162,7 +162,6 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     display={"flex"}
                     justifyContent={"space-between"}
                     alignItems={"center"}
-                    sx={{pb: 0.5, pt: 0.5, pr: 0.5, pl: "var(--Tabs-spacing)"}}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
                         {userUUID ? "Edit" : "Register"} User
@@ -179,201 +178,204 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: 1,
+                        pt: 2
                     }}
                     component={"form"}
                     onSubmit={handleFormUsers}
                 >
-                    <Box sx={{display: "flex", flexDirection: "column"}}>
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <FormControl>
-                                <FormLabel>{t("users.fields.login")}</FormLabel>
-                                <TextInput
-                                    {...register("login", {required: "The login is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.login?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                            {
-                                !userUUID && (
-                                    <FormControl>
-                                        <FormLabel>{t("users.fields.password")}</FormLabel>
-                                        <TextInput
-                                            {...register("password", {required: "The password is required"})}
-                                            size={"md"}
-                                            variant={"soft"}
-                                        />
-                                        <FormHelperText sx={{minHeight: "1rem"}}>
-                                            {errors?.password?.message as string}
-                                        </FormHelperText>
-                                    </FormControl>
-                                )
-                            }
-                            <Box sx={{width: "100%"}}>
-                                <CrmSelect
-                                    name={"userType"}
-                                    label={t("users.fields.user_type")}
-                                    options={[
-                                        {
-                                            value: "EMPLOYEE",
-                                            label: t("role_types.employee"),
-                                        },
-                                        {
-                                            value: "OWNER",
-                                            label: t("role_types.owner"),
-                                        },
-                                        {
-                                            value: "DEV",
-                                            label: t("role_types.developer"),
-                                        },
-                                    ]}
-                                />
-                            </Box>
-                        </Box>
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <FormControl>
-                                <FormLabel>{t("users.fields.name")}</FormLabel>
-                                <TextInput
-                                    {...register("name", {required: "The name is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.name?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{t('users.fields.surname')}</FormLabel>
-                                <TextInput
-                                    {...register("surname", {required: "The surname is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.surname?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{t("users.fields.document")}</FormLabel>
-                                <CpfInput
-                                    {...register("document", {required: "The document is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.document?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                        </Box>
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
                         <FormControl>
-                            <FormLabel>{t("users.fields.email")}</FormLabel>
+                            <FormLabel>{t("users.fields.login")}</FormLabel>
                             <TextInput
-                                {...register("email", {required: "The email is required"})}
-                                size={"md"}
+                                {...register("login", {required: "The login is required"})}
+                                size={"sm"}
                                 variant={"soft"}
                             />
                             <FormHelperText sx={{minHeight: "1rem"}}>
-                                {errors?.email?.message as string}
+                                {errors?.login?.message as string}
                             </FormHelperText>
                         </FormControl>
+                        {
+                            !userUUID && (
+                                <FormControl>
+                                    <FormLabel>{t("users.fields.password")}</FormLabel>
+                                    <TextInput
+                                        {...register("password", {required: "The password is required"})}
+                                        size={"sm"}
+                                        variant={"soft"}
+                                    />
+                                    <FormHelperText sx={{minHeight: "1rem"}}>
+                                        {errors?.password?.message as string}
+                                    </FormHelperText>
+                                </FormControl>
+                            )
+                        }
+                        <Box sx={{width: "100%"}}>
+                            <CrmSelect
+                                name={"userType"}
+                                label={t("users.fields.user_type")}
+                                options={[
+                                    {
+                                        value: "EMPLOYEE",
+                                        label: t("role_types.employee"),
+                                    },
+                                    {
+                                        value: "OWNER",
+                                        label: t("role_types.owner"),
+                                    },
+                                    {
+                                        value: "DEV",
+                                        label: t("role_types.developer"),
+                                    },
+                                ]}
+                                // @ts-ignore
+                                rules={{rules: {required: "The user type is required"}}}
+                            />
+                        </Box>
+                    </Box>
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                        <FormControl>
+                            <FormLabel>{t("users.fields.name")}</FormLabel>
+                            <TextInput
+                                {...register("name", {required: "The name is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.name?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>{t('users.fields.surname')}</FormLabel>
+                            <TextInput
+                                {...register("surname", {required: "The surname is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.surname?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>{t("users.fields.document")}</FormLabel>
+                            <CpfInput
+                                {...register("document", {required: "The document is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.document?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                    </Box>
+                    <FormControl>
+                        <FormLabel>{t("users.fields.email")}</FormLabel>
+                        <TextInput
+                            {...register("email", {required: "The email is required"})}
+                            size={"sm"}
+                            variant={"soft"}
+                        />
+                        <FormHelperText sx={{minHeight: "1rem"}}>
+                            {errors?.email?.message as string}
+                        </FormHelperText>
+                    </FormControl>
 
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <Box sx={{width: "100%"}}>
-                                <FormControl>
-                                    <FormLabel>{t("users.fields.phone")}</FormLabel>
-                                    <PhoneInput
-                                        {...register("phone")}
-                                        size={"md"}
-                                        variant={"soft"}
-                                    />
-                                    <FormHelperText sx={{minHeight: "1rem"}}>
-                                        {errors?.phone?.message as string}
-                                    </FormHelperText>
-                                </FormControl>
-                            </Box>
-                            <Box sx={{width: "100%"}}>
-                                <FormControl>
-                                    <FormLabel>{t("users.fields.date_of_birth")}</FormLabel>
-                                    <DateInput
-                                        {...register("dateOfBirth", {required: "The date of birth is required"})}
-                                        size={"md"}
-                                        variant={"soft"}
-                                    />
-                                    <FormHelperText sx={{minHeight: "1rem"}}>
-                                        {errors?.dateOfBirth?.message as string}
-                                    </FormHelperText>
-                                </FormControl>
-                            </Box>
-                        </Box>
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                        <Box sx={{width: "100%"}}>
                             <FormControl>
-                                <FormLabel>CEP</FormLabel>
-                                <ZipCodeInput
-                                    {...register("zipCode", {required: "The zip code is required"})}
-                                    size={"md"}
+                                <FormLabel>{t("users.fields.phone")}</FormLabel>
+                                <PhoneInput
+                                    {...register("phone")}
+                                    size={"sm"}
                                     variant={"soft"}
                                 />
                                 <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.zipCode?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{t("users.fields.city")}</FormLabel>
-                                <TextInput
-                                    {...register("city", {required: "The city is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.city?.message as string}
-                                </FormHelperText>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>{t("users.fields.state")}</FormLabel>
-                                <TextInput
-                                    {...register("state", {required: "The state is required"})}
-                                    size={"md"}
-                                    variant={"soft"}
-                                />
-                                <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.state?.message as string}
+                                    {errors?.phone?.message as string}
                                 </FormHelperText>
                             </FormControl>
                         </Box>
-                        <Box display={"flex"} alignItems={"center"} gap={1}>
-                            <FormControl sx={{flex: 1}}>
-                                <FormLabel>{t("users.fields.address")}</FormLabel>
-                                <TextInput
-                                    {...register("address", {required: "The address is required"})}
-                                    size={"md"}
+                        <Box sx={{width: "100%"}}>
+                            <FormControl>
+                                <FormLabel>{t("users.fields.date_of_birth")}</FormLabel>
+                                <DateInput
+                                    {...register("dateOfBirth", {required: "The date of birth is required"})}
+                                    size={"sm"}
                                     variant={"soft"}
                                 />
                                 <FormHelperText sx={{minHeight: "1rem"}}>
-                                    {errors?.address?.message as string}
+                                    {errors?.dateOfBirth?.message as string}
                                 </FormHelperText>
                             </FormControl>
-                            <Box sx={{flex: 0.5}}>
-                                <CrmSelect
-                                    name={"status"}
-                                    label={t("users.fields.status.label")}
-                                    options={[
-                                        {
-                                            value: "ACTIVE",
-                                            label: t("users.fields.status.active"),
-                                        },
-                                        {
-                                            value: "INACTIVE",
-                                            label: t("users.fields.status.inactive"),
-                                        },
-                                        {
-                                            value: "FIRST_ACCESS",
-                                            label: t("users.fields.status.first_access"),
-                                        }
-                                    ]}
-                                />
-                            </Box>
+                        </Box>
+                    </Box>
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                        <FormControl>
+                            <FormLabel>CEP</FormLabel>
+                            <ZipCodeInput
+                                {...register("zipCode", {required: "The zip code is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.zipCode?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>{t("users.fields.city")}</FormLabel>
+                            <TextInput
+                                {...register("city", {required: "The city is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.city?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel>{t("users.fields.state")}</FormLabel>
+                            <TextInput
+                                {...register("state", {required: "The state is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.state?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                    </Box>
+                    <Box display={"flex"} alignItems={"center"} gap={1}>
+                        <FormControl sx={{flex: 1}}>
+                            <FormLabel>{t("users.fields.address")}</FormLabel>
+                            <TextInput
+                                {...register("address", {required: "The address is required"})}
+                                size={"sm"}
+                                variant={"soft"}
+                            />
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.address?.message as string}
+                            </FormHelperText>
+                        </FormControl>
+                        <Box sx={{flex: 0.5}}>
+                            <CrmSelect
+                                name={"status"}
+                                label={t("users.fields.status.label")}
+                                options={[
+                                    {
+                                        value: "ACTIVE",
+                                        label: t("users.fields.status.active"),
+                                    },
+                                    {
+                                        value: "INACTIVE",
+                                        label: t("users.fields.status.inactive"),
+                                    },
+                                    {
+                                        value: "FIRST_ACCESS",
+                                        label: t("users.fields.status.first_access"),
+                                    }
+                                ]}
+                                // @ts-ignore
+                                rules={{rules: {required: "The status is required"}}}
+                            />
                         </Box>
                     </Box>
                     <Box sx={{p: "var(--Tabs-spacing)", pt: 0}} display={"flex"}>

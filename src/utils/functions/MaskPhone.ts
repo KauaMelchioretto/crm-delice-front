@@ -1,6 +1,14 @@
 export function maskPhone(v: string) {
-    if(!v){
+    if (!v) {
         return ""
+    }
+
+    if (v.length === 11) {
+        v = "55" + v
+    }
+
+    if(v.length === 10){
+        v = "55" + v.substring(0, 2) + "9" + v.substring(2)
     }
 
     v = v.replace(/\D/g, "")

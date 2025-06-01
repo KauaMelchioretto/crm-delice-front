@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { CustomerFormType } from "../entities/entities";
+import { CustomerFormType } from "../entities/entities.ts";
 import { CrmFilter } from "../../../utils/entities/entities";
 import { customersUseCase } from "../usecase/CustomersUseCase";
 import { loadable } from "jotai/utils";
