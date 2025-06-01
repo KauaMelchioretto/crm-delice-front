@@ -416,8 +416,6 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
         })
     });
 
-    console.log(roles)
-
     useEffect(() => {
         if (rolesAtom.state === "hasData") {
             usersUseCase.getUserRolesByUUID(userUUID).then((response) => {
