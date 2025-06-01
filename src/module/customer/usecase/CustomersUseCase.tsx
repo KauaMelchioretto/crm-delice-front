@@ -1,9 +1,10 @@
 import {CrmFilter} from "../../../utils/entities/entities";
 import {
+    ApprovalCustomerResponse,
     ContactType,
-    Customer,
+    Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
-    CustomersListResponse,
+    CustomersListResponse, CustomerStatus,
     PreCustomerReponse
 } from "../entities/entities.ts";
 import {customersRepository} from "../repository/CustomersRepository";
@@ -12,6 +13,7 @@ import {customersRepository} from "../repository/CustomersRepository";
 class CustomersUseCase {
     INVALID_DOCUMENT = "Invalid document"
     INVALID_UUID = "Invalid customer ID"
+    INVALID_APPROVAL_STATUS = "Customer status invalid"
     DOCUMENT_MUST_BE_PROVIDED = "The document must be provided"
     PERSON_NAME_MUST_BE_PROVIDED = "The person name must be provided"
     COMPANY_NAME_MUST_BE_PROVIDED = "The company name must be provided"
@@ -48,10 +50,6 @@ class CustomersUseCase {
     }
 
     async createCustomer(customer: Customer): Promise<CustomerResponse> {
-        if (!customer.uuid) {
-            return {error: this.INVALID_UUID}
-        }
-
         const validate = this.validateCustomer(customer)
 
         if (validate.error) {
@@ -72,6 +70,10 @@ class CustomersUseCase {
     async saveCustomer(customer: Customer): Promise<CustomerResponse> {
         const validate = this.validateCustomer(customer)
 
+        if (!customer.uuid) {
+            return {error: this.INVALID_UUID}
+        }
+
         if (validate.error) {
             return {error: validate.error}
         }
@@ -85,6 +87,25 @@ class CustomersUseCase {
         customer.zipCode = customer.zipCode?.replace("-", "");
 
         return customersRepository.saveCustomer(customer);
+    }
+
+    async listCustomerEconomicActivities(customerUUID: string): Promise<CustomerEconomicActivitiesResponse> {
+        if (!customerUUID) {
+            return {error: this.INVALID_UUID}
+        }
+
+        return customersRepository.listCustomerEconomicActivities(customerUUID)
+    }
+
+    async approvalCustomer(customerUUID: string, status: CustomerStatus): Promise<ApprovalCustomerResponse> {
+        if (!customerUUID) {
+            return {error: this.INVALID_UUID}
+        }
+        if (!status) {
+            return {error: this.INVALID_APPROVAL_STATUS}
+        }
+
+        return customersRepository.approvalCustomer(customerUUID, status)
     }
 
     validateCustomer(customer: Customer): CustomerResponse {

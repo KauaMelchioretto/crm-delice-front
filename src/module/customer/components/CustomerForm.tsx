@@ -1,10 +1,11 @@
 import CustomersState from "../state/CustomersState.ts";
-import {ContactType, Customer, CustomerFormType} from "../entities/entities.ts";
+import {ContactType, Customer, CustomerFormType, CustomerStatus, EconomicActivity} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {FieldValues, FormProvider, useFieldArray, useForm, useFormContext} from "react-hook-form";
 import {
+    Accordion, AccordionDetails, AccordionGroup, AccordionSummary, accordionSummaryClasses,
     Box,
     Button,
     Divider,
@@ -30,11 +31,14 @@ import RemoveCircleRounded from '@mui/icons-material/RemoveCircleRounded';
 import {customersUseCase} from "../usecase/CustomersUseCase.tsx";
 import {maskZipCode} from "../../../utils/functions/MaskZipCode.ts";
 import {CrmCheckbox} from "../../../utils/components/core/CrmCheckbox.tsx";
-import {Fragment, useEffect} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {PhoneInput} from "../../../utils/components/inputs/PhoneInput.tsx";
 import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {maskCNPJ} from "../../../utils/functions/DocumentValidation.ts";
+import AddBusinessRounded from '@mui/icons-material/AddBusinessRounded';
+import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
+import PublishedWithChangesRounded from "@mui/icons-material/PublishedWithChangesRounded";
 
 export const CustomerForm = () => {
     const [formType, setFormType] = useAtom(CustomersState.CustomerFormTypeAtom)
@@ -61,7 +65,16 @@ export const CustomerForm = () => {
                 >
                     <CustomerRegister customerUUID={customerUUID}/>
                 </CrmModal>
-            )
+            );
+        case CustomerFormType.APPROVAL_CUSTOMER:
+            return (
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(CustomerFormType.EMPTY)}
+                >
+                    <ApprovalCustomer customerUUID={customerUUID}/>
+                </CrmModal>
+            );
     }
 }
 
@@ -82,6 +95,25 @@ const contactTypes: OptionType[] = [
         value: ContactType.NONE,
         label: "Outros"
     }
+]
+
+const customerStatus: OptionType[] = [
+    {
+        value: CustomerStatus.PENDING.toString(),
+        label: "Pendente"
+    },
+    {
+        value: CustomerStatus.FIT.toString(),
+        label: "Apto"
+    },
+    {
+        value: CustomerStatus.NOT_FIT.toString(),
+        label: "Não apto"
+    },
+    {
+        value: CustomerStatus.INACTIVE.toString(),
+        label: "Inativo"
+    },
 ]
 
 const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
@@ -230,6 +262,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     setValue("complement", customer.complement)
                     setValue("address", customer.address)
                     setValue("addressNumber", customer.addressNumber)
+                    setValue("observation", customer.observation)
 
                     customer.economicActivities?.map(x => x.code)?.forEach((x, i) => {
                         if (i >= economicActivitiesCodes.fields.length) {
@@ -310,6 +343,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         )}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={!!customerUUID}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.document?.message as string}
@@ -435,6 +469,8 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 0.5,
+                                        maxHeight: "250px",
+                                        overflowY: "auto",
                                     }}
                                 >
                                     {
@@ -495,6 +531,8 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         display: "flex",
                                         flexDirection: "column",
                                         gap: 0.5,
+                                        maxHeight: "250px",
+                                        overflowY: "auto",
                                     }}
                                 >
                                     {
@@ -607,5 +645,413 @@ const CustomerContact = ({index}: { index: number }) => {
                 <Component/>
             </FormControl>
         </Fragment>
+    )
+}
+
+const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
+    const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
+    const setFormType = useSetAtom(CustomersState.CustomerFormTypeAtom)
+    const formMethods = useForm({
+        defaultValues: {
+            status: CustomerStatus.PENDING
+        }
+    });
+
+    const [customer, setCustomer] = useState<Customer>()
+    const [activities, setActivities] = useState<EconomicActivity[]>([])
+
+    const {handleSubmit, setValue} = formMethods
+
+    const handleFormApproval = handleSubmit((data: FieldValues) => {
+        customersUseCase.approvalCustomer(customerUUID, CustomerStatus[data.status as keyof typeof CustomerStatus]).then((response) => {
+            if (response.error) {
+                popup.toast("error", response.error, 2000);
+            } else {
+                popup.toast("success", "The customer is included with success", 2000);
+                updateList(prev => !prev);
+                setFormType(CustomerFormType.EMPTY);
+            }
+        })
+    });
+
+    useEffect(() => {
+        Promise.all([
+            customersUseCase.getCustomerByUUID(customerUUID),
+            customersUseCase.listCustomerEconomicActivities(customerUUID),
+        ]).then((response) => {
+            const temp1 = response[0]
+
+            if (temp1.customer) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                const status = CustomerStatus[temp1.customer?.status ?? "PENDING"]
+                setValue("status", status.toString())
+
+                setCustomer(temp1.customer)
+            }
+
+            const temp2 = response[1]
+
+            if (temp2.activities) {
+                setActivities(temp2.activities)
+            }
+        })
+    }, [customerUUID]);
+
+    const address = () => {
+        return `${
+            maskZipCode(customer?.zipCode ?? "")
+        } ${
+            customer?.address ?? ""
+        }, Nº ${
+            customer?.addressNumber ?? ""
+        } - ${
+            customer?.city ?? ""
+        } ${customer?.state ?? ""}`
+    }
+
+    return (
+        <CrmContainer>
+            <FormProvider {...formMethods}>
+                <Box
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    width={700}
+                >
+                    <Typography level={"body-md"} fontWeight={"bold"}>
+                        {customerUUID ? "Edit" : "Register"} Customer
+                    </Typography>
+                    <IconButton
+                        size={"sm"}
+                        onClick={() => setFormType(CustomerFormType.EMPTY)}
+                    >
+                        <CloseRounded/>
+                    </IconButton>
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                    }}
+                    component={"form"}
+                    onSubmit={handleFormApproval}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <span
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: 5
+                            }}
+                        >
+                            <AddBusinessRounded sx={{fontSize: 25}}/>
+                            <Typography
+                                level={"body-md"}
+                                fontWeight={"bold"}
+                            >
+                                {customer?.companyName ?? ""}
+                            </Typography>
+                        </span>
+                        <Typography
+                            level={"body-md"}
+                            fontWeight={"bold"}
+                        >
+                            {maskCNPJ(customer?.document ?? "")}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            Nome Fantasia
+                        </Typography>
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            {customer?.tradingName ?? ""}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            Observação
+                        </Typography>
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            {customer?.observation ?? ""}
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            Endereço
+                        </Typography>
+                        <Typography
+                            level={"body-sm"}
+                        >
+                            {address()}
+                        </Typography>
+                    </Box>
+                    <Divider>Atividades econômicas</Divider>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            maxHeight: "400px",
+                            overflowY: "auto",
+                            gap: 1
+                        }}
+                    >
+                        {
+                            activities.map((a, i) => (
+                                <CustomerEconomicActivity activity={a} key={`customer_economic_activity_${i}`}/>
+                            ))
+                        }
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "end",
+                            gap: 1
+                        }}
+                    >
+                        <Box sx={{width: "100%", flex: 1}}>
+                            <CrmSelect
+                                name={"status"}
+                                options={customerStatus}
+                                label={"Aprovação do cliente"}
+                            />
+                        </Box>
+                        <Button
+                            type={"submit"}
+                            sx={{flex: 1}}
+                            startDecorator={
+                                <PublishedWithChangesRounded/>
+                            }
+                        >
+                            Salvar
+                        </Button>
+                    </Box>
+                </Box>
+            </FormProvider>
+        </CrmContainer>
+    )
+}
+
+export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) => {
+    const [open, setOpen] = useState(false)
+
+    return (
+        <AccordionGroup
+            sx={{
+                [`& .${accordionSummaryClasses.indicator}`]: {
+                    display: "none"
+                },
+                [`& .${accordionSummaryClasses.button}`]: {
+                    p: 0,
+                    width: "100%"
+                },
+                [`& .${accordionSummaryClasses.root}`]: {
+                    m: 0,
+                    width: "-webkit-fill-available"
+                },
+            }}
+        >
+            <Accordion expanded={open}>
+                <AccordionSummary
+                    indicator={<></>}
+                    onClick={() => setOpen(prev => !prev)}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            width: "100%"
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "start",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Typography
+                                level={"body-sm"}
+                                fontWeight={"bold"}
+                            >
+                                {props.activity.code}
+                            </Typography>
+                            <Typography
+                                level={"body-sm"}
+                                sx={{
+                                    maxWidth: "550px",
+                                    minWidth: "550px",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    textAlign: "start"
+                                }}
+                            >
+                                {props.activity.description}
+                            </Typography>
+                        </Box>
+                        <Divider>
+                            <IconButton
+                                variant={"plain"}
+                                size={"sm"}
+                                sx={{
+                                    borderRadius: "50%",
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    minWidth: "1.4rem !important",
+                                    minHeight: "1.4rem !important",
+                                    transform: open ? "rotate(270deg)" : "rotate(90deg)",
+                                    transition: "transform 100ms linear"
+                                }}
+                            >
+                                {
+                                    <KeyboardArrowRightRounded sx={{fontSize: "0.9rem"}}/>
+                                }
+                            </IconButton>
+                        </Divider>
+                    </Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "start",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Typography
+                                level={"body-sm"}
+                                fontWeight={"bold"}
+                            >
+                                Sessão {props.activity.section?.code ?? ""}
+                            </Typography>
+                            <Typography
+                                level={"body-sm"}
+                                sx={{
+                                    maxWidth: "550px",
+                                    minWidth: "550px",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    textAlign: "start"
+                                }}
+                            >
+                                {props.activity.section?.description ?? ""}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "start",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Typography
+                                level={"body-sm"}
+                                fontWeight={"bold"}
+                            >
+                                Divisão {props.activity.division?.code ?? ""}
+                            </Typography>
+                            <Typography
+                                level={"body-sm"}
+                                sx={{
+                                    maxWidth: "550px",
+                                    minWidth: "550px",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    textAlign: "start"
+                                }}
+                            >
+                                {props.activity.division?.description ?? ""}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "start",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Typography
+                                level={"body-sm"}
+                                fontWeight={"bold"}
+                            >
+                                Grupo {props.activity.group?.code ?? ""}
+                            </Typography>
+                            <Typography
+                                level={"body-sm"}
+                                sx={{
+                                    maxWidth: "550px",
+                                    minWidth: "550px",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    textAlign: "start"
+                                }}
+                            >
+                                {props.activity.group?.description ?? ""}
+                            </Typography>
+                        </Box>
+                    </Box>
+                </AccordionDetails>
+            </Accordion>
+        </AccordionGroup>
     )
 }

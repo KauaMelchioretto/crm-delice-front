@@ -1,8 +1,9 @@
 import {CrmFilter} from "../../../utils/entities/entities";
 import {
-    Customer,
+    ApprovalCustomerResponse,
+    Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
-    CustomersListResponse,
+    CustomersListResponse, CustomerStatus,
     PreCustomerReponse
 } from "../entities/entities.ts";
 import {http} from "../../../core/config/api/http";
@@ -101,7 +102,7 @@ class CustomersRepository {
     async getCustomerByUUID(customerUUID: string): Promise<CustomerResponse> {
         try {
             const response = await http.get(
-                `customer/getCustomerByUIUD?uuid=${customerUUID}`
+                `/customer/getCustomerByUIUD?uuid=${customerUUID}`
             );
 
             return response.data as CustomerResponse;
@@ -134,6 +135,46 @@ class CustomersRepository {
             );
 
             return response.data?.customers as CustomersListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.CUSTOMERS_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.CUSTOMERS_UNEXPECTED_ERROR.code};
+        }
+    }
+
+    async listCustomerEconomicActivities(customerUUID: string): Promise<CustomerEconomicActivitiesResponse> {
+        try {
+            const response = await http.get(
+                `/customer/customerEconomicActivities/${customerUUID}`
+            );
+
+            return response.data as CustomerEconomicActivitiesResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.CUSTOMERS_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.CUSTOMERS_UNEXPECTED_ERROR.code};
+        }
+    }
+
+    async approvalCustomer(customerUUID: string, status: CustomerStatus): Promise<ApprovalCustomerResponse> {
+        try {
+            const response = await http.post(
+                `/customer/approval/${customerUUID}?status=${status}`
+            );
+
+            return response.data as ApprovalCustomerResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

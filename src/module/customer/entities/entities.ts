@@ -61,6 +61,13 @@ export enum ContactType {
     NONE = "NONE"
 }
 
+export enum CustomerStatus {
+    PENDING = 0,
+    FIT = 1,
+    NOT_FIT = 2,
+    INACTIVE = 3
+}
+
 export interface CustomerResponse {
     customer?: Customer,
     error?: string
@@ -82,5 +89,15 @@ export interface CustomersListResponse {
     items?: Customer[],
     page?: number,
     total?: number,
+    error?: string
+}
+
+export interface CustomerEconomicActivitiesResponse {
+    activities?: EconomicActivity[],
+    error?: string
+}
+
+export interface ApprovalCustomerResponse {
+    ok?: boolean,
     error?: string
 }
