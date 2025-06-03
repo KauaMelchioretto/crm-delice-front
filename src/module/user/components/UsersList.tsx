@@ -52,7 +52,7 @@ export const UsersList = () => {
     return (
         <CrmContainer>
             <UsersFilter/>
-            <CrmTableContainer sx={{height: 450}}>
+            <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {

@@ -1,7 +1,6 @@
 import {
-    Avatar,
     Box,
-    Divider, IconButton,
+    Divider,
     List,
     ListItem,
     ListItemButton,
@@ -16,16 +15,43 @@ import RuleRounded from "@mui/icons-material/RuleRounded"
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
-import {Fragment, useContext} from "react";
+import {useContext} from "react";
 import Layout from "../../layout/Layout.tsx";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import {popup} from "../../alerts/Popup.ts";
 
 export const MenuSide = () => {
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const {open} = useContext(Layout.SideNavContext)
 
-    const {user, logout} = useAuth();
+    const {logout, modules} = useAuth();
+
+    const SYSTEM_MODULES = [
+        {
+            code: "USER_MODULE",
+            icon: AccountCircleRoundedIcon,
+            label: t("modules.user")
+        },
+        {
+            code: "CUSTOMER",
+            icon: PeopleAltRoundedIcon,
+            label: t("modules.customers")
+        },
+        {
+            code: "SYSTEM_ROLES",
+            icon: RuleRounded,
+            label: t("modules.modules_config")
+        },
+    ]
+
+    const handleConfirmLogout = () => {
+        popup.confirm("question", "Deseja sair da sua conta?", "", "Sim").then((response) => {
+            if (response.isConfirmed) {
+                logout();
+            }
+        })
+    }
 
     return (
         <Box
@@ -54,7 +80,12 @@ export const MenuSide = () => {
                             <ListItemButton>
                                 <HomeRounded fontSize={"small"}/>
                                 <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.home")}</Typography>
+                                    <Typography
+                                        level="title-sm"
+                                        sx={{textWrap: "nowrap"}}
+                                    >
+                                        {t("modules.home")}
+                                    </Typography>
                                 </ListItemContent>
                             </ListItemButton>
                         ) : (
@@ -64,54 +95,44 @@ export const MenuSide = () => {
                         )
                     }
                 </ListItem>
-                <ListItem onClick={() => navigate("/user")}>
-                    {
-                        open ? (
-                            <ListItemButton>
-                                <AccountCircleRoundedIcon fontSize={"small"}/>
-                                <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.user")}</Typography>
-                                </ListItemContent>
-                            </ListItemButton>
-                        ) : (
-                            <ListItemButton>
-                                <AccountCircleRoundedIcon fontSize={"small"}/>
-                            </ListItemButton>
+                {
+                    SYSTEM_MODULES?.map((m, i) => {
+                        const module = modules?.find(x => x.code === m.code);
+
+                        if(!module) return
+
+                        const Icon = m.icon
+
+                        return (
+                            <ListItem
+                                key={`module_menu_side_${i}`}
+                                onClick={() => navigate(module?.path ?? "")}
+                            >
+                                {
+                                    open ? (
+                                        <ListItemButton>
+                                            <Icon fontSize={"small"}/>
+                                            <ListItemContent>
+                                                <Typography
+                                                    level="title-sm"
+                                                    sx={{
+                                                        textWrap: "nowrap"
+                                                    }}
+                                                >
+                                                    {m.label}
+                                                </Typography>
+                                            </ListItemContent>
+                                        </ListItemButton>
+                                    ) : (
+                                        <ListItemButton>
+                                            <Icon fontSize={"small"}/>
+                                        </ListItemButton>
+                                    )
+                                }
+                            </ListItem>
                         )
-                    }
-                </ListItem>
-                <ListItem onClick={() => navigate("/modules")}>
-                    {
-                        open ? (
-                            <ListItemButton>
-                                <RuleRounded fontSize={"small"}/>
-                                <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.modules_config")}</Typography>
-                                </ListItemContent>
-                            </ListItemButton>
-                        ) : (
-                            <ListItemButton>
-                                <RuleRounded fontSize={"small"}/>
-                            </ListItemButton>
-                        )
-                    }
-                </ListItem>
-                <ListItem onClick={() => navigate("/customers")}>
-                    {
-                        open ? (
-                            <ListItemButton>
-                                <PeopleAltRoundedIcon fontSize={"small"}/>
-                                <ListItemContent>
-                                    <Typography level="title-sm" sx={{textWrap: "nowrap"}}>{t("modules.customers")}</Typography>
-                                </ListItemContent>
-                            </ListItemButton>
-                        ) : (
-                            <ListItemButton>
-                                <PeopleAltRoundedIcon fontSize={"small"}/>
-                            </ListItemButton>
-                        )
-                    }
-                </ListItem>
+                    })
+                }
             </List>
             <Divider/>
             <Box
@@ -121,34 +142,38 @@ export const MenuSide = () => {
                     alignItems: 'center',
                     justifyContent: open ? "start" : "center",
                     pt: 1,
-                    pb: 1
                 }}
             >
-                <Avatar
-                    variant="outlined"
+                <List
                     size="sm"
-                    alt={user?.name.substring(0, 1)}
-                    src={user?.avatar}
-                />
-                {
-                    open && (
-                        <Fragment>
-                            <Box sx={{minWidth: 0, flex: 1}}>
-                                <Typography level="title-sm" sx={{textWrap: "nowrap"}}>
-                                    {user?.name} {user?.surname.substring(0, 1)}.
-                                </Typography>
-                            </Box>
-                            <IconButton
-                                size="sm"
-                                variant="plain"
-                                color="neutral"
-                                onClick={() => logout()}
-                            >
-                                <LogoutRounded/>
-                            </IconButton>
-                        </Fragment>
-                    )
-                }
+                    sx={{
+                        gap: 0,
+                        '--List-nestedInsetStart': '30px',
+                        '--ListItem-radius': (theme) => theme.vars.radius.sm,
+                    }}
+                >
+                    {
+                        open ? (
+                            <ListItemButton onClick={() => handleConfirmLogout()}>
+                                <LogoutRounded fontSize={"small"}/>
+                                <ListItemContent>
+                                    <Typography
+                                        level="title-sm"
+                                        sx={{
+                                            textWrap: "nowrap"
+                                        }}
+                                    >
+                                        Desvincular conta
+                                    </Typography>
+                                </ListItemContent>
+                            </ListItemButton>
+                        ) : (
+                            <ListItemButton onClick={() => handleConfirmLogout()}>
+                                <LogoutRounded fontSize={"small"}/>
+                            </ListItemButton>
+                        )
+                    }
+                </List>
             </Box>
         </Box>
     )

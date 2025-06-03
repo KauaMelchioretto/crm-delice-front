@@ -7,7 +7,7 @@ import {FieldValues, FormProvider, useFieldArray, useForm, useFormContext} from 
 import {
     Accordion, AccordionDetails, AccordionGroup, AccordionSummary, accordionSummaryClasses,
     Box,
-    Button,
+    Button, CircularProgress,
     Divider,
     FormControl,
     FormHelperText,
@@ -31,7 +31,7 @@ import RemoveCircleRounded from '@mui/icons-material/RemoveCircleRounded';
 import {customersUseCase} from "../usecase/CustomersUseCase.tsx";
 import {maskZipCode} from "../../../utils/functions/MaskZipCode.ts";
 import {CrmCheckbox} from "../../../utils/components/core/CrmCheckbox.tsx";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {PhoneInput} from "../../../utils/components/inputs/PhoneInput.tsx";
 import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
@@ -39,6 +39,7 @@ import {maskCNPJ} from "../../../utils/functions/DocumentValidation.ts";
 import AddBusinessRounded from '@mui/icons-material/AddBusinessRounded';
 import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
 import PublishedWithChangesRounded from "@mui/icons-material/PublishedWithChangesRounded";
+import SearchRounded from '@mui/icons-material/SearchRounded';
 
 export const CustomerForm = () => {
     const [formType, setFormType] = useAtom(CustomersState.CustomerFormTypeAtom)
@@ -136,6 +137,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
         } as Customer
     });
 
+    const inputCNPJ = useRef(null);
+    const [loading, setLoading] = useState(false);
+
     const {handleSubmit, register, formState: {errors}, control, setValue} = formMethods
 
     const contacts = useFieldArray({
@@ -149,6 +153,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
     })
 
     const handleFormCustomers = handleSubmit((data: FieldValues) => {
+        setLoading(true);
         if (customerUUID) {
             customersUseCase.saveCustomer({
                 uuid: customerUUID,
@@ -202,6 +207,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
     });
 
     const handleGetPreCustomer = (document: string) => {
+        setLoading(true)
         customersUseCase.getPreCustomer(document).then((response) => {
             if (response.customer != undefined) {
                 const preCustomer = response.customer;
@@ -243,6 +249,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     }
                 })
             }
+            setLoading(false);
         })
     }
 
@@ -325,7 +332,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     <Tabs defaultValue={0} sx={{pt: 0.5}}>
                         <TabList>
                             <Tab>Register</Tab>
-                            <Tab>Infomações comerciais</Tab>
+                            <Tab disabled={loading}>Infomações comerciais</Tab>
                         </TabList>
                         <TabPanel value={0} sx={{pl: 0, pr: 0}}>
                             <Box display={"flex"} alignItems={"center"} gap={1}>
@@ -336,14 +343,31 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                             "document",
                                             {
                                                 required: "The CNPJ is required",
-                                                onBlur: (evt) => {
-                                                    handleGetPreCustomer(evt.target.value)
-                                                }
                                             }
                                         )}
+                                        inputRef={inputCNPJ}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={!!customerUUID}
+                                        endDecorator={
+                                            loading ? (
+                                                <CircularProgress size={"sm"}/>
+                                            ) : (
+                                                <IconButton
+                                                    onClick={() => {
+                                                        if (inputCNPJ.current === null) return
+
+                                                        const query = (inputCNPJ.current as HTMLInputElement).value ?? ""
+
+                                                        if (!query) return
+
+                                                        handleGetPreCustomer(query)
+                                                    }}
+                                                >
+                                                    <SearchRounded/>
+                                                </IconButton>
+                                            )
+                                        }
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.document?.message as string}
@@ -355,6 +379,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("personName", {required: "The person name is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.personName?.message as string}
@@ -367,6 +392,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     {...register("companyName", {required: "The company name is required"})}
                                     size={"sm"}
                                     variant={"soft"}
+                                    disabled={loading}
                                 />
                                 <FormHelperText sx={{minHeight: "1rem"}}>
                                     {errors?.companyName?.message as string}
@@ -378,6 +404,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     {...register("tradingName", {required: "The trading name is required"})}
                                     size={"sm"}
                                     variant={"soft"}
+                                    disabled={loading}
                                 />
                                 <FormHelperText sx={{minHeight: "1rem"}}>
                                     {errors?.tradingName?.message as string}
@@ -390,6 +417,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("zipCode", {required: "The zip code is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.zipCode?.message as string}
@@ -401,6 +429,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("city", {required: "The city is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.city?.message as string}
@@ -412,6 +441,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("state", {required: "The state is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.state?.message as string}
@@ -423,6 +453,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("complement", {required: "The complement is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.complement?.message as string}
@@ -436,6 +467,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("address", {required: "The address is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.address?.message as string}
@@ -447,6 +479,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         {...register("addressNumber", {required: "The address number is required"})}
                                         size={"sm"}
                                         variant={"soft"}
+                                        disabled={loading}
                                     />
                                     <FormHelperText sx={{minHeight: "1rem"}}>
                                         {errors?.addressNumber?.message as string}

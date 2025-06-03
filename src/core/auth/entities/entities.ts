@@ -21,6 +21,7 @@ export interface Role{
 export interface Module{
     code?: string,
     path?: string,
+    label?: string,
     roles?: Role[]
 }
 

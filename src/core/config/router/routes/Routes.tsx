@@ -4,7 +4,8 @@ import {Home} from "../../../../module/home/page/Home.tsx";
 import {User} from "../../../../module/user/page/Users.tsx";
 import {Modules} from "../../../../module/modules/page/Modules.tsx";
 import {NoPermissionPage} from "../../../../utils/pages/NoPermissionPage.tsx";
-import { Customers } from "../../../../module/customer/page/Customers.tsx";
+import {Customers} from "../../../../module/customer/page/Customers.tsx";
+import {Me} from "../../../auth/page/Me.tsx";
 
 interface Route {
     element?: ReactElement,
@@ -35,7 +36,12 @@ export const routes: Route[] = [
     },
     {
         path: "/customers",
-        element: <Customers />,
+        element: <Customers/>,
         permissionRequired: true
+    },
+    {
+        path: "/me",
+        element: <Me/>,
+        permissionRequired: false
     }
 ]

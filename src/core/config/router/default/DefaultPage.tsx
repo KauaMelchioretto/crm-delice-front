@@ -3,6 +3,7 @@ import Layout from "../../../../utils/layout/Layout.tsx";
 import {MenuSide} from "../../../../utils/components/menuside/MenuSide.tsx";
 import {StoreRounded} from "@mui/icons-material";
 import {
+    Avatar,
     Box,
     Button,
     FormControl,
@@ -31,6 +32,8 @@ export const DefaultPage = () => (
 
 const Content = () => {
     const {show} = useContext(Layout.RootContext);
+
+    const navigate = useNavigate()
 
     const {user} = useAuth()
 
@@ -61,6 +64,18 @@ const Content = () => {
                                 <Stack direction={"row"} alignItems={"center"} gap={1}>
                                     <ToggleThemeButton/>
                                     <ToggleLanguageButton/>
+                                    <Avatar
+                                        variant="outlined"
+                                        size="sm"
+                                        alt={user?.name.substring(0, 1)}
+                                        src={user?.avatar}
+                                        sx={{
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => {
+                                            navigate("/me")
+                                        }}
+                                    />
                                 </Stack>
                             </Box>
                         </Layout.Header>

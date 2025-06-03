@@ -35,7 +35,7 @@ export const User = () => {
                     {t('users.page.buttons.register')}
                 </Button>
             </CrmTitleContainer>
-            <Box display={"flex"} gap={2}>
+            <Box display={"flex"}>
                 <UsersList/>
                 <UserForm/>
             </Box>
