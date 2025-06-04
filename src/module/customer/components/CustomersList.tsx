@@ -17,6 +17,7 @@ import VerifiedRounded from '@mui/icons-material/VerifiedRounded';
 import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded';
 import QueryBuilderRounded from '@mui/icons-material/QueryBuilderRounded';
 import CancelRounded from '@mui/icons-material/CancelRounded';
+import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 
 export const CustomersList = () => {
     const {t} = useTranslation();
@@ -24,6 +25,17 @@ export const CustomersList = () => {
     const modifiedCustomer = useSetAtom(CustomersState.CustomerFormUUIDAtom);
     const modifiedCustomerForm = useSetAtom(CustomersState.CustomerFormTypeAtom);
     const customersAtom = useAtomValue(CustomersState.CustomersListAtom);
+
+    const filterFields = [
+        { value: "", label: t("filter_keys.none") },
+        { value: "companyName", label: t("customers.fields.company_name") },
+        { value: "tradingName", label: t("customers.fields.trading_name") },
+        { value: "personName", label: t("customers.fields.person_name") },
+        { value: "document", label: t("customers.fields.document") },
+        { value: "state", label: t("customers.fields.state") },
+        { value: "city", label: t("customers.fields.city") },
+        { value: "status", label: t("customers.fields.status") },
+    ];
 
     let customers: Customer[] = [];
 
@@ -116,7 +128,8 @@ export const CustomersList = () => {
 
     return (
         <CrmContainer>
-            <CrmTableContainer sx={{height: 450}}>
+            <FilterComponent fields={filterFields} filterAtom={CustomersState.CustomerFilterAtom} />
+            <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
@@ -155,9 +168,9 @@ export const CustomersList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>{t("customers.fields.companyName")}</th>
-                        <th>{t("customers.fields.tradingName")}</th>
-                        <th>{t("customers.fields.personName")}</th>
+                        <th>{t("customers.fields.company_name")}</th>
+                        <th>{t("customers.fields.trading_name")}</th>
+                        <th>{t("customers.fields.person_name")}</th>
                         <th>{t("customers.fields.status")}</th>
                         <th>{t("customers.fields.document")}</th>
                         <th>{t("customers.fields.state")}</th>

@@ -114,9 +114,9 @@
         }
       },
       "fields": {
-        "companyName": "Company name",
-        "tradingName": "Trading name",
-        "personName": "Person name",
+        "company_name": "Company name",
+        "trading_name": "Trading name",
+        "person_name": "Person name",
         "document": "Document",
         "state": "State",
         "city": "City",

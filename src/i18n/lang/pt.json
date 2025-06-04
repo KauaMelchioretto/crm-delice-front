@@ -109,9 +109,9 @@
         }
       },
       "fields": {
-        "companyName": "Razão social",
-        "tradingName": "Nome fantasia",
-        "personName": "Nome pessoal",
+        "company_name": "Razão social",
+        "trading_name": "Nome fantasia",
+        "person_name": "Nome pessoal",
         "document": "CNPJ",
         "state": "Estado",
         "city": "Cidade",
