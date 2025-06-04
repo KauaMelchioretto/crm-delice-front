@@ -168,6 +168,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                 address: data.address,
                 complement: data.complement,
                 addressNumber: data.addressNumber,
+                status: data.status,
                 economicActivitiesCodes: data.economicActivitiesCodesForm.map((x: { value: string }) => x.value),
                 observation: data.observation,
             }).then((response) => {
@@ -274,6 +275,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     setValue("address", customer.address)
                     setValue("addressNumber", customer.addressNumber)
                     setValue("observation", customer.observation)
+                    setValue("status", customer.status)
 
                     customer.economicActivities?.map(x => x.code)?.forEach((x, i) => {
                         if (i >= economicActivitiesCodes.fields.length) {
@@ -333,6 +335,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     component={"form"}
                     onSubmit={handleFormCustomers}
                 >
+                    <input type={"hidden"} {...register("status")} />
                     <Tabs defaultValue={0} sx={{pt: 0.5}}>
                         <TabList>
                             <Tab>Register</Tab>

@@ -82,6 +82,7 @@ class CustomersRepository {
                 address: customer.address,
                 addressNumber: customer.addressNumber,
                 complement: customer.complement,
+                status: customer.status,
                 economicActivitiesCodes: customer.economicActivitiesCodes,
             });
 

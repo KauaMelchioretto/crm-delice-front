@@ -4,13 +4,16 @@ import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import {useTranslation} from "react-i18next";
 import {useAtomValue, useSetAtom} from "jotai";
 import WalletState from "../state/WalletState.ts";
-import {CircularProgress, IconButton} from "@mui/joy";
-import {Wallet, WalletFormType} from "../entities/entities.ts";
+import {Box, CircularProgress, IconButton, Typography} from "@mui/joy";
+import {Wallet, WalletFormType, WalletStatus} from "../entities/entities.ts";
 import {EditRounded} from "@mui/icons-material";
 import dayjs from "dayjs";
 import {useAtom} from "jotai/index";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
+import {getColorContrast} from "../../../utils/functions/getColorContrast.ts";
+import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
+import CancelRounded from "@mui/icons-material/CancelRounded";
 
 export const WalletsList = () => {
     const {t} = useTranslation()
@@ -18,6 +21,62 @@ export const WalletsList = () => {
     const walletAtom = useAtomValue(WalletState.ListAtom)
     const modifiedWallet = useSetAtom(WalletState.CurrentUUIDAtom)
     const modifiedWalletForm = useSetAtom(WalletState.FormTypeAtom)
+
+    const walletStatus = {
+        [WalletStatus.ACTIVE]: {
+            color: "#118D57",
+            label: "Ativo",
+            icon: VerifiedRounded
+        },
+        [WalletStatus.INACTIVE]: {
+            color: "#ff543f",
+            label: "Inativo",
+            icon: CancelRounded
+        },
+    }
+
+    const CardStatus = ({status}: { status: string }) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const s = walletStatus[WalletStatus[status]]
+
+        const colors = getColorContrast(s.color)
+
+        const Icon = s.icon
+
+        return (
+            <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                <Box
+                    sx={{
+                        backgroundColor: colors.transparent,
+                        p: 0.5,
+                        borderRadius: "8px",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: 0.5
+                    }}
+                >
+                    <Icon
+                        sx={{
+                            color: s.color,
+                            fontSize: "14pt"
+                        }}
+                    />
+                    <Typography
+                        sx={{
+                            color: s.color,
+                            fontWeight: "bold",
+                            fontSize: "9pt",
+                        }}
+                    >
+                        {s.label}
+                    </Typography>
+                </Box>
+            </Box>
+        )
+    }
 
     let wallets: Wallet[] = []
 
@@ -88,7 +147,9 @@ export const WalletsList = () => {
                             <td>{wallet.label}</td>
                             <td>{wallet.accountable?.login}</td>
                             <td>{wallet.customers?.length}</td>
-                            <td>{wallet.status}</td>
+                            <td>
+                                <CardStatus status={wallet?.status ?? "ACTIVE"}/>
+                            </td>
                             <td>{dayjs(wallet.createdAt).format("DD/MM/YYYY")}</td>
                             <td>
                                 <IconButton

@@ -37,7 +37,9 @@ const CustomersListTotalCountAsyncAtom = atom(async (get) => {
 
 const CustomersListTotalCountAtom = loadable(CustomersListTotalCountAsyncAtom);
 
-const SimpleCustomersAtom = loadable(atom(async () => {
+const SimpleCustomersAtom = loadable(atom(async (get) => {
+    get(CustomerUpdateAtom)
+
     return customersUseCase.listSimpleCustomers()
 }))
 

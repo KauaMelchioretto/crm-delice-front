@@ -37,7 +37,9 @@ const UserListPage = atom(0);
 
 const UserFilterAtom = atom<CrmFilter | null>(null)
 
-const SimpleUsersAtom = loadable(atom(async () => {
+const SimpleUsersAtom = loadable(atom(async (get) => {
+    get(UserUpdateAtom);
+
     return usersUseCase.listSimpleUsers()
 }))
 

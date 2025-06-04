@@ -13,7 +13,6 @@ import {SimpleCustomer} from "../../customer/entities/entities.ts";
 import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {CrmTextarea} from "../../../utils/components/core/CrmTextarea.tsx";
-import {maskCNPJ} from "../../../utils/functions/DocumentValidation.ts";
 import AddCircleRounded from "@mui/icons-material/AddCircleRounded";
 import RemoveCircleRounded from "@mui/icons-material/RemoveCircleRounded";
 import {walletUseCase} from "../usecase/WalletUseCase.ts";
@@ -23,6 +22,13 @@ import {useEffect} from "react";
 export const WalletForm = () => {
     const [formType, setFormType] = useAtom(WalletState.FormTypeAtom)
     const walletUUID = useAtomValue(WalletState.CurrentUUIDAtom)
+
+    const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
+    const simpleCustomersAtom = useAtomValue(CustomersState.SimpleCustomersAtom)
+
+    if (simpleUsersAtom.state === "loading" || simpleCustomersAtom.state === "loading") {
+        return <></>
+    }
 
     switch (formType) {
         case WalletFormType.EMPTY:
@@ -119,14 +125,6 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
         })
     })
 
-    const userOptions: OptionType[] = simpleUsers.map((x) => (
-        {value: x?.uuid ?? "", label: x?.login ?? ""})
-    );
-
-    const customerOptions: OptionType[] = simpleCustomers.map((x) => (
-        {value: x?.uuid ?? "", label: maskCNPJ(x?.document ?? "") + " " + x?.companyName})
-    );
-
     useEffect(() => {
         if (walletUUID) {
             walletUseCase.getWalletUUID(walletUUID).then((response) => {
@@ -148,6 +146,14 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             })
         }
     }, [walletUUID]);
+
+    const userOptions: OptionType[] = simpleUsers.map((x) => (
+        {value: x?.uuid ?? "", label: x?.login ?? ""})
+    );
+
+    const customerOptions: OptionType[] = simpleCustomers.map((x) => (
+        {value: x?.uuid ?? "", label: x?.companyName ?? ""})
+    );
 
     return (
         <CrmContainer>
