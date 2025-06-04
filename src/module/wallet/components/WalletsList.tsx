@@ -1,0 +1,128 @@
+import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
+import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
+import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
+import {useTranslation} from "react-i18next";
+import {useAtomValue, useSetAtom} from "jotai";
+import WalletState from "../state/WalletState.ts";
+import {CircularProgress, IconButton} from "@mui/joy";
+import {Wallet, WalletFormType} from "../entities/entities.ts";
+import {EditRounded} from "@mui/icons-material";
+import dayjs from "dayjs";
+import {useAtom} from "jotai/index";
+import {ChangeEvent} from "react";
+import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
+
+export const WalletsList = () => {
+    const {t} = useTranslation()
+
+    const walletAtom = useAtomValue(WalletState.ListAtom)
+    const modifiedWallet = useSetAtom(WalletState.CurrentUUIDAtom)
+    const modifiedWalletForm = useSetAtom(WalletState.FormTypeAtom)
+
+    let wallets: Wallet[] = []
+
+    if (walletAtom.state === "loading") {
+        return (
+            <CrmContainer sx={{width: "100%"}}>
+                <CrmTableContainer
+                    sx={{
+                        height: 500,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <CircularProgress/>
+                </CrmTableContainer>
+            </CrmContainer>
+        );
+    }
+
+    if (walletAtom.state === "hasData") {
+        wallets = walletAtom.data.items ?? []
+    }
+
+    return (
+        <CrmContainer>
+            <CrmTableContainer sx={{height: 450}}>
+                <CrmTable
+                    sx={{
+                        "& thead th:nth-child(1)": {
+                            width: 200,
+                        },
+                        "& thead th:nth-child(2)": {
+                            width: 200,
+                        },
+                        "& thead th:nth-child(3)": {
+                            width: 100,
+                        },
+                        "& thead th:nth-child(4)": {
+                            width: 100,
+                        },
+                        "& thead th:nth-child(5)": {
+                            width: 100,
+                        },
+                        "& thead th:nth-child(6)": {
+                            width: 50,
+                        },
+                        "& td": {
+                            textWrap: "nowrap",
+                            textOverflow: "ellipsis",
+                            overflow: "hidden"
+                        }
+                    }}
+                >
+                    <thead>
+                    <tr>
+                        <th>{t("wallets.fields.title")}</th>
+                        <th>{t("wallets.fields.accountable")}</th>
+                        <th>{t("wallets.fields.customers_quantity")}</th>
+                        <th>{t("wallets.fields.status")}</th>
+                        <th>{t("wallets.fields.created_at")}</th>
+                        <th>{t("wallets.fields.edit")}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {wallets.map((wallet: Wallet) => (
+                        <tr key={`wallet_list_key_${wallet.uuid}`}>
+                            <td>{wallet.label}</td>
+                            <td>{wallet.accountable?.login}</td>
+                            <td>{wallet.customers?.length}</td>
+                            <td>{wallet.status}</td>
+                            <td>{dayjs(wallet.createdAt).format("DD/MM/YYYY")}</td>
+                            <td>
+                                <IconButton
+                                    size={"sm"}
+                                    onClick={() => {
+                                        modifiedWallet(wallet?.uuid ?? "");
+                                        modifiedWalletForm(WalletFormType.EDIT_WALLET);
+                                    }}
+                                >
+                                    <EditRounded/>
+                                </IconButton>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </CrmTable>
+            </CrmTableContainer>
+            <CustomerPagination/>
+        </CrmContainer>
+    )
+}
+
+export const CustomerPagination = () => {
+    const [page, setPage] = useAtom(WalletState.PageAtom);
+    const pageCount = useAtomValue(WalletState.ListTotalCountAtom);
+
+    if (pageCount.state === "loading") return;
+
+    const count = pageCount.state === "hasData" ? pageCount.data : 0;
+    const handleChange = (_: ChangeEvent<unknown>, value: number) => {
+        setPage(--value);
+    };
+
+    return (
+        <CrmPagination page={page + 1} count={count} onChange={handleChange}/>
+    );
+};

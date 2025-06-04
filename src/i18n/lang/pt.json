@@ -82,7 +82,8 @@
       "home": "Início",
       "user": "Usuários",
       "modules_config": "Módulos",
-      "customers": "Clientes"
+      "customers": "Clientes",
+      "wallet": "Carteira"
     },
     "actions": {
       "save": "Salvar",
@@ -115,6 +116,23 @@
         "state": "Estado",
         "city": "Cidade",
         "status": "Status"
+      }
+    },
+    "wallets": {
+      "page": {
+        "title": "Carteiras",
+        "buttons": {
+          "register": "Cadastrar carteira"
+        }
+      },
+      "fields": {
+        "title": "Titulo",
+        "accountable": "Responsável",
+        "status": "Situação",
+        "customers_quantity": "Quantidade de clientes",
+        "created_at": "Criado em",
+        "created_by": "Criado por",
+        "edit": "Alterar"
       }
     }
   }

@@ -46,3 +46,13 @@ export interface UserRolesResponse {
     error?: string
 }
 
+export interface SimpleUser{
+    uuid?: string,
+    login?: string,
+    userName?: string
+}
+
+export interface SimpleUserListResponse{
+    users?: SimpleUser[],
+    error?: string
+}

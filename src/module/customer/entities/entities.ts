@@ -101,3 +101,14 @@ export interface ApprovalCustomerResponse {
     ok?: boolean,
     error?: string
 }
+
+export interface SimpleCustomer {
+    uuid?: string,
+    companyName?: string,
+    document?: string
+}
+
+export interface SimpleCustomerListResponse {
+    customers?: SimpleCustomer[],
+    error?: string
+}

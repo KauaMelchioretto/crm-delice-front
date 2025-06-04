@@ -1,5 +1,11 @@
 import { CrmFilter } from "../../../utils/entities/entities.ts";
-import {User, UserResponse, UserRolesResponse, UsersListResponse} from "../entities/entities.ts";
+import {
+    SimpleUserListResponse,
+    User,
+    UserResponse,
+    UserRolesResponse,
+    UsersListResponse
+} from "../entities/entities.ts";
 import {usersRepository} from "../repository/UsersRepository.ts";
 
 class UsersUseCase {
@@ -100,6 +106,10 @@ class UsersUseCase {
         user.zipCode = user.zipCode.replace("-", "");
 
         return usersRepository.saveUser(user);
+    }
+
+    async listSimpleUsers(): Promise<SimpleUserListResponse> {
+        return usersRepository.listSimpleUsers()
     }
 }
 

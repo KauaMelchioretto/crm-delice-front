@@ -2,7 +2,7 @@ import {
     User,
     UserResponse,
     UsersListResponse,
-    UserRolesResponse
+    UserRolesResponse, SimpleUserListResponse
 } from "../entities/entities";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
@@ -133,6 +133,26 @@ class UsersRepository {
                 return {error: e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR}
             }
             return {error: this.USERS_UNEXPECTED_ERROR}
+        }
+    }
+
+    async listSimpleUsers(): Promise<SimpleUserListResponse> {
+        try {
+            const response = await http.get(
+                "/user/simple"
+            );
+
+            return response.data as SimpleUserListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.USERS_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.USERS_UNEXPECTED_ERROR};
         }
     }
 }

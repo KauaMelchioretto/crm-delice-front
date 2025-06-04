@@ -5,7 +5,7 @@ import {
     Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
     CustomersListResponse, CustomerStatus,
-    PreCustomerReponse
+    PreCustomerReponse, SimpleCustomerListResponse
 } from "../entities/entities.ts";
 import {customersRepository} from "../repository/CustomersRepository";
 
@@ -106,6 +106,10 @@ class CustomersUseCase {
         }
 
         return customersRepository.approvalCustomer(customerUUID, status)
+    }
+
+    async listSimpleCustomers(): Promise<SimpleCustomerListResponse>{
+        return customersRepository.listSimpleCustomers()
     }
 
     validateCustomer(customer: Customer): CustomerResponse {

@@ -37,6 +37,10 @@ const CustomersListTotalCountAsyncAtom = atom(async (get) => {
 
 const CustomersListTotalCountAtom = loadable(CustomersListTotalCountAsyncAtom);
 
+const SimpleCustomersAtom = loadable(atom(async () => {
+    return customersUseCase.listSimpleCustomers()
+}))
+
 export default {
     CustomerFormTypeAtom,
     CustomerFormUUIDAtom,
@@ -44,5 +48,6 @@ export default {
     CustomersListAtom,
     CustomerFilterAtom,
     CustomersListTotalCountAtom,
-    CustomersListPage
+    CustomersListPage,
+    SimpleCustomersAtom
 }

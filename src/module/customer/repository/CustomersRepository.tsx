@@ -4,7 +4,7 @@ import {
     Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
     CustomersListResponse, CustomerStatus,
-    PreCustomerReponse
+    PreCustomerReponse, SimpleCustomerListResponse
 } from "../entities/entities.ts";
 import {http} from "../../../core/config/api/http";
 import {AxiosError} from "axios";
@@ -175,6 +175,26 @@ class CustomersRepository {
             );
 
             return response.data as ApprovalCustomerResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.CUSTOMERS_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.CUSTOMERS_UNEXPECTED_ERROR.code};
+        }
+    }
+
+    async listSimpleCustomers(): Promise<SimpleCustomerListResponse> {
+        try {
+            const response = await http.get(
+                "/customer/simple"
+            );
+
+            return response.data as SimpleCustomerListResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {
