@@ -40,14 +40,14 @@ export const MenuSide = () => {
             label: t("modules.customers")
         },
         {
-            code: "SYSTEM_ROLES",
-            icon: RuleRounded,
-            label: t("modules.modules_config")
-        },
-        {
             code: "WALLET",
             icon: WalletRoundedIcon,
             label: t("modules.wallet")
+        },
+        {
+            code: "SYSTEM_ROLES",
+            icon: RuleRounded,
+            label: t("modules.modules_config")
         },
     ]
 
