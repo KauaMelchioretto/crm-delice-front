@@ -13,7 +13,7 @@ import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
 import {useTranslation} from "react-i18next";
-import {UsersFilter} from "./UserFilter.tsx";
+import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 
 export const UsersList = () => {
     const {t} = useTranslation();
@@ -21,6 +21,17 @@ export const UsersList = () => {
     const modifiedUser = useSetAtom(UserState.UserFormUUIDAtom);
     const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom);
     const usersAtom = useAtomValue(UserState.UsersListAtom);
+    
+    const filterFields = [
+        {value: "", label: t("filter_keys.none")},
+        {value: "login", label: t("users.fields.user")},
+        {value: "name", label: t("users.fields.name")},
+        {value: "email", label: t("users.fields.email")},
+        {value: "document", label: t("users.fields.document")},
+        {value: "phone", label: t("users.fields.phone")},
+        {value: "state", label: t("users.fields.state")},
+        {value: "city", label: t("users.fields.city")},
+    ];
 
     const {modules: userModules} = useAuth();
     const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
@@ -51,7 +62,7 @@ export const UsersList = () => {
 
     return (
         <CrmContainer>
-            <UsersFilter/>
+            <FilterComponent fields={filterFields} filterAtom={UserState.UserFilterAtom} />
             <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{

@@ -178,6 +178,8 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     updateList(prev => !prev);
                     setFormType(CustomerFormType.EMPTY);
                 }
+
+                setLoading(false);
             })
             return;
         }
@@ -203,6 +205,8 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                 updateList(prev => !prev);
                 setFormType(CustomerFormType.EMPTY);
             }
+
+            setLoading(false);
         })
     });
 
