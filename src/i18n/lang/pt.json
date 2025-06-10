@@ -90,7 +90,8 @@
       "edit": "Editar",
       "roles": "Papéis",
       "delete": "Deletar",
-      "register": "Cadastrar"
+      "register": "Cadastrar",
+      "approve": "Aprovar"
     },
     "role_types": {
       "user": "Usuário",
@@ -99,13 +100,38 @@
       "employee": "Funcionário"
     },
     "errors": {
-      "UNEXPECTED_ERROR": "Ocorreu um erro inesperado"
+      "UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+      "error": "Erro"
     },
     "customers": {
       "page": {
         "title": "Clientes",
+        "entity": "Cliente",
         "buttons": {
           "register": "Cadastrar cliente"
+        },
+        "tabs": {
+          "customer_data" : "Dados do cliente",
+          "comercial_informations": "Informações comerciais"
+        },
+        "sections": {
+          "contacts": "Contatos",
+          "economic_activities": "Atividades economicas - CNAE"
+        },
+        "placeholders": {
+          "inform_the_contact": "Informe o contato"
+        },
+        "contacts_types": {
+          "email": "E-mail",
+          "phone": "Telefone",
+          "social_media": "Mídia social",
+          "others": "Outros"
+        },
+        "customer_status": {
+          "pending": "Pendente",
+          "fit": "Apto",
+          "not_fit": "Não apto",
+          "inactive": "Inativo"
         }
       },
       "fields": {
@@ -115,7 +141,32 @@
         "document": "CNPJ",
         "state": "Estado",
         "city": "Cidade",
-        "status": "Status"
+        "status": "Status",
+        "zip_code": "CEP",
+        "complement": "Complemento",
+        "address": "Endereço",
+        "number": "N°",
+        "main": "Principal",
+        "economic_activity": "Atividade economica",
+        "economic_activities": "Atividades econômicas",
+        "observations": "Observações",
+        "customer_approval": "Aprovação do cliente",
+        "session": "Sessão",
+        "division": "Divisão",
+        "group": "Grupo"
+      },
+      "messages": {
+        "document_required": "O CNPJ é obrigatório",
+        "person_name_required": "O nome pessoal é obrigatório",
+        "company_name_required": "A razão social é obrigatória",
+        "trading_name_required": "O nome fantasia é obrigatório",
+        "zip_code_required": "O CEP é obrigatório",
+        "city_required": "A cidade é obrigatória",
+        "state_required": "O estado é obrigatório",
+        "complement_required": "O complemento é obrigatório",
+        "address_required": "O endereço é obrigatório",
+        "number_required": "O n° é obrigatório",
+        "customer_included_success": "O cliente foi incluído com sucesso"
       }
     },
     "wallets": {
@@ -134,6 +185,23 @@
         "created_by": "Criado por",
         "edit": "Alterar"
       }
-    }
+    },
+    "me": {
+      "title": "Minhas informações",
+      "sections": {
+        "personal_informations": "Informações pessoais",
+        "user_informations": "Informações do usuário",
+        "permissions": "Permissões"
+      },
+      "fields": {
+        "access_login": "Login de acesso",
+        "user_type": "Tipo de usuário",
+        "last_change": "Última alteração",
+        "creation": "Criação"
+      },
+      "messages": {
+        "user_without_permissions": "Usuário sem permissões"
+      }
+    } 
   }
 }
