@@ -9,10 +9,12 @@ import {Fragment} from "react";
 import LaunchRounded from '@mui/icons-material/LaunchRounded';
 import {useNavigate} from "react-router-dom";
 import PlaylistRemoveRounded from '@mui/icons-material/PlaylistRemoveRounded';
+import { useTranslation } from "react-i18next";
 
 export const Me = () => {
     const {user, modules} = useAuth()
     const navigate = useNavigate()
+    const { t } = useTranslation();
 
     const fullName = user?.name + " " + user?.surname
 
@@ -38,7 +40,7 @@ export const Me = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    Minhas informações
+                    {t("me.title")}
                 </Typography>
             </CrmTitleContainer>
             <Box
@@ -118,7 +120,7 @@ export const Me = () => {
                             gap: 0.5
                         }}
                     >
-                        <Divider>Informações pessoais</Divider>
+                        <Divider>{t("me.sections.personal_informations")}</Divider>
                         <Box
                             sx={{
                                 display: "flex",
@@ -131,7 +133,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                CPF
+                                {t("users.fields.document")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -152,7 +154,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Endereço
+                                {t("users.fields.address")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -181,7 +183,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Data de nascimento
+                                {t("users.fields.date_of_birth")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -190,7 +192,7 @@ export const Me = () => {
                                 {dayjs(user?.dateOfBirth).format("DD/MM/YYYY")}
                             </Typography>
                         </Box>
-                        <Divider sx={{mt: 5}}>Informações do usuário</Divider>
+                        <Divider sx={{mt: 5}}>{t("me.sections.user_informations")}</Divider>
                         <Box
                             sx={{
                                 display: "flex",
@@ -203,7 +205,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Login de acesso
+                                {t("me.fields.access_login")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -224,7 +226,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Tipo de usuário
+                                {t("me.fields.user_type")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -245,7 +247,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Ultima alteração
+                                {t("me.fields.last_change")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -266,7 +268,7 @@ export const Me = () => {
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Criação
+                                {t("me.fields.creation")}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -295,7 +297,7 @@ export const Me = () => {
                         level={"body-lg"}
                         fontWeight={"bold"}
                     >
-                        Permissões
+                        {t("me.sections.permissions")}
                     </Typography>
                     <Box
                         sx={{
@@ -318,7 +320,7 @@ export const Me = () => {
                                     level={"body-md"}
                                     fontWeight={"bold"}
                                 >
-                                    Usuário sem permissões
+                                    {t("me.messages.user_without_permissions")}
                                 </Typography>
                             </Box>
                         )}

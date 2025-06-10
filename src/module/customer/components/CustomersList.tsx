@@ -175,8 +175,8 @@ export const CustomersList = () => {
                         <th>{t("customers.fields.document")}</th>
                         <th>{t("customers.fields.state")}</th>
                         <th>{t("customers.fields.city")}</th>
-                        <th>Edit</th>
-                        <th>Approval</th>
+                        <th>{t("actions.edit")}</th>
+                        <th>{t("actions.approve")}</th>
                     </tr>
                     </thead>
                     <tbody>

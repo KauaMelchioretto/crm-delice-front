@@ -40,12 +40,12 @@ import AddBusinessRounded from '@mui/icons-material/AddBusinessRounded';
 import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
 import PublishedWithChangesRounded from "@mui/icons-material/PublishedWithChangesRounded";
 import SearchRounded from '@mui/icons-material/SearchRounded';
+import { useTranslation } from "react-i18next";
 
 export const CustomerForm = () => {
     const [formType, setFormType] = useAtom(CustomersState.CustomerFormTypeAtom)
-
     const customerUUID = useAtomValue(CustomersState.CustomerFormUUIDAtom);
-
+    
     switch (formType) {
         case CustomerFormType.EMPTY:
             return <></>;
@@ -58,8 +58,8 @@ export const CustomerForm = () => {
                     <CustomerRegister/>
                 </CrmModal>
             );
-        case CustomerFormType.EDIT_CUSTOMER:
-            return (
+            case CustomerFormType.EDIT_CUSTOMER:
+                return (
                 <CrmModal
                     open={true}
                     onClose={() => setFormType(CustomerFormType.EMPTY)}
@@ -79,47 +79,10 @@ export const CustomerForm = () => {
     }
 }
 
-const contactTypes: OptionType[] = [
-    {
-        value: ContactType.EMAIL,
-        label: "E-mail"
-    },
-    {
-        value: ContactType.PHONE,
-        label: "Telefone"
-    },
-    {
-        value: ContactType.MEDIA,
-        label: "Mídia social"
-    },
-    {
-        value: ContactType.NONE,
-        label: "Outros"
-    }
-]
-
-const customerStatus: OptionType[] = [
-    {
-        value: CustomerStatus.PENDING.toString(),
-        label: "Pendente"
-    },
-    {
-        value: CustomerStatus.FIT.toString(),
-        label: "Apto"
-    },
-    {
-        value: CustomerStatus.NOT_FIT.toString(),
-        label: "Não apto"
-    },
-    {
-        value: CustomerStatus.INACTIVE.toString(),
-        label: "Inativo"
-    },
-]
-
 const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
     const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
     const setFormType = useSetAtom(CustomersState.CustomerFormTypeAtom)
+    const { t } = useTranslation();
     const formMethods = useForm({
         defaultValues: {
             contacts: [
@@ -175,7 +138,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                 if (response.error) {
                     popup.toast("error", response.error, 2000);
                 } else {
-                    popup.toast("success", "The customer is included with success", 2000);
+                    popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                     updateList(prev => !prev);
                     setFormType(CustomerFormType.EMPTY);
                 }
@@ -202,7 +165,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
             if (response.error) {
                 popup.toast("error", response.error, 2000);
             } else {
-                popup.toast("success", "The customer is included with success", 2000);
+                popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                 updateList(prev => !prev);
                 setFormType(CustomerFormType.EMPTY);
             }
@@ -317,7 +280,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {customerUUID ? "Edit" : "Register"} Customer
+                        {customerUUID ? t("actions.edit") : t("actions.register")} {t("customers.page.title")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -338,18 +301,18 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     <input type={"hidden"} {...register("status")} />
                     <Tabs defaultValue={0} sx={{pt: 0.5}}>
                         <TabList>
-                            <Tab>Register</Tab>
-                            <Tab disabled={loading}>Infomações comerciais</Tab>
+                            <Tab>{t("customers.page.tabs.customer_data")}</Tab>
+                            <Tab disabled={loading}>{t("customers.page.tabs.comercial_informations")}</Tab>
                         </TabList>
                         <TabPanel value={0} sx={{pl: 0, pr: 0}}>
                             <Box display={"flex"} alignItems={"center"} gap={1}>
                                 <FormControl>
-                                    <FormLabel>CNPJ</FormLabel>
+                                    <FormLabel>{t("customers.fields.document")}</FormLabel>
                                     <CnpjInput
                                         {...register(
                                             "document",
                                             {
-                                                required: "The CNPJ is required",
+                                                required: t("customers.messages.document_required"),
                                             }
                                         )}
                                         inputRef={inputCNPJ}
@@ -381,9 +344,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     </FormHelperText>
                                 </FormControl>
                                 <FormControl sx={{flex: 1}}>
-                                    <FormLabel>Nome pessoal</FormLabel>
+                                    <FormLabel>{t("customers.fields.person_name")}</FormLabel>
                                     <TextInput
-                                        {...register("personName", {required: "The person name is required"})}
+                                        {...register("personName", {required: t("customers.messages.person_name_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -394,9 +357,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                 </FormControl>
                             </Box>
                             <FormControl>
-                                <FormLabel>Razão social</FormLabel>
+                                <FormLabel>{t("customers.fields.company_name")}</FormLabel>
                                 <TextInput
-                                    {...register("companyName", {required: "The company name is required"})}
+                                    {...register("companyName", {required: t("customers.messages.company_name_required")})}
                                     size={"sm"}
                                     variant={"soft"}
                                     disabled={loading}
@@ -406,9 +369,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                 </FormHelperText>
                             </FormControl>
                             <FormControl>
-                                <FormLabel>Nome fantasia</FormLabel>
+                                <FormLabel>{t("customers.fields.trading_name")}</FormLabel>
                                 <TextInput
-                                    {...register("tradingName", {required: "The trading name is required"})}
+                                    {...register("tradingName", {required: t("customers.messages.trading_name_required")})}
                                     size={"sm"}
                                     variant={"soft"}
                                     disabled={loading}
@@ -419,9 +382,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                             </FormControl>
                             <Box display={"flex"} alignItems={"center"} gap={1}>
                                 <FormControl>
-                                    <FormLabel>CEP</FormLabel>
+                                    <FormLabel>{t("customers.fields.zip_code")}</FormLabel>
                                     <ZipCodeInput
-                                        {...register("zipCode", {required: "The zip code is required"})}
+                                        {...register("zipCode", {required: t("customers.messages.zip_code_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -431,9 +394,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     </FormHelperText>
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Cidade</FormLabel>
+                                    <FormLabel>{t("customers.fields.city")}</FormLabel>
                                     <TextInput
-                                        {...register("city", {required: "The city is required"})}
+                                        {...register("city", {required: t("customers.messages.city_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -443,9 +406,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     </FormHelperText>
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Estado</FormLabel>
+                                    <FormLabel>{t("customers.fields.state")}</FormLabel>
                                     <TextInput
-                                        {...register("state", {required: "The state is required"})}
+                                        {...register("state", {required: t("customers.messages.state_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -455,9 +418,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     </FormHelperText>
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Complemento</FormLabel>
+                                    <FormLabel>{t("customers.fields.complement")}</FormLabel>
                                     <TextInput
-                                        {...register("complement", {required: "The complement is required"})}
+                                        {...register("complement", {required: t("customers.messages.complement_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -469,9 +432,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                             </Box>
                             <Box display={"flex"} alignItems={"center"} gap={1}>
                                 <FormControl sx={{flex: 1}}>
-                                    <FormLabel>Endereço</FormLabel>
+                                    <FormLabel>{t("customers.fields.address")}</FormLabel>
                                     <TextInput
-                                        {...register("address", {required: "The address is required"})}
+                                        {...register("address", {required: t("customers.messages.address_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -481,9 +444,9 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     </FormHelperText>
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Nº</FormLabel>
+                                    <FormLabel>{t("customers.fields.number")}</FormLabel>
                                     <NumericInput
-                                        {...register("addressNumber", {required: "The address number is required"})}
+                                        {...register("addressNumber", {required: t("customers.messages.number_required")})}
                                         size={"sm"}
                                         variant={"soft"}
                                         disabled={loading}
@@ -503,7 +466,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     minWidth: "700px"
                                 }}
                             >
-                                <Divider>Contatos</Divider>
+                                <Divider>{t("customers.page.sections.contacts")}</Divider>
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -535,7 +498,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                                         type={"checkbox"}
                                                         {...register(`contacts.${i}.isPrincipal`)}
                                                     />
-                                                    <FormLabel>Principal</FormLabel>
+                                                    <FormLabel>{t("customers.fields.main")}</FormLabel>
                                                 </FormControl>
                                                 {
                                                     (contacts.fields.length - 1) === i ? (
@@ -565,7 +528,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                         ))
                                     }
                                 </Box>
-                                <Divider sx={{mt: 2}}>Atividades economicas - CNAE</Divider>
+                                <Divider sx={{mt: 2}}>{t("customers.page.sections.economic_activities")}</Divider>
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -588,7 +551,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                                         {...register(`economicActivitiesCodesForm.${i}.value`)}
                                                         size={"sm"}
                                                         variant={"soft"}
-                                                        placeholder={"Atividade economica"}
+                                                        placeholder={t("customers.fields.economic_activity")}
                                                     />
                                                 </FormControl>
                                                 {
@@ -619,7 +582,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                     }
                                 </Box>
                                 <FormControl>
-                                    <FormLabel>Observação</FormLabel>
+                                    <FormLabel>{t("customers.fields.observations")}</FormLabel>
                                     <CrmTextarea
                                         {...register("observation")}
                                         size={"sm"}
@@ -636,7 +599,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        {customerUUID ? "Salvar" : "Registrar"}
+                        {customerUUID ? t("actions.save") : t("actions.register")}
                     </Button>
                 </Box>
             </FormProvider>
@@ -646,6 +609,25 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
 
 const CustomerContact = ({index}: { index: number }) => {
     const {register, watch} = useFormContext()
+    const { t } = useTranslation();
+    const contactTypes: OptionType[] = [
+    {
+        value: ContactType.EMAIL,
+        label: t("customers.page.contacts_types.email")
+    },
+    {
+        value: ContactType.PHONE,
+        label: t("customers.page.contacts_types.phone")
+    },
+    {
+        value: ContactType.MEDIA,
+        label: t("customers.page.contacts_types.social_media")
+    },
+    {
+        value: ContactType.NONE,
+        label: t("customers.page.contacts_types.others")
+    }
+]
 
     const type = watch(`contacts.${index}.contactType`) as ContactType
 
@@ -657,7 +639,7 @@ const CustomerContact = ({index}: { index: number }) => {
                         {...register(`contacts.${index}.label`)}
                         size={"sm"}
                         variant={"soft"}
-                        placeholder={"Informe o contato"}
+                        placeholder={t("customers.page.placeholders.inform_the_contact")}
                     />
                 )
             default:
@@ -666,7 +648,7 @@ const CustomerContact = ({index}: { index: number }) => {
                         {...register(`contacts.${index}.label`)}
                         size={"sm"}
                         variant={"soft"}
-                        placeholder={"Informe o contato"}
+                        placeholder={t("customers.page.placeholders.inform_the_contact")}
                     />
                 )
         }
@@ -696,6 +678,26 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
             status: CustomerStatus.PENDING
         }
     });
+    const { t } = useTranslation();
+
+    const customerStatus: OptionType[] = [
+        {
+            value: CustomerStatus.PENDING.toString(),
+            label: t("customers.page.customer_status.pending")
+        },
+        {
+            value: CustomerStatus.FIT.toString(),
+            label: t("customers.page.customer_status.fit")
+        },
+        {
+            value: CustomerStatus.NOT_FIT.toString(),
+            label: t("customers.page.customer_status.not_fit")
+        },
+        {
+            value: CustomerStatus.INACTIVE.toString(),
+            label: t("customers.page.customer_status.inactive")
+        },
+    ]
 
     const [customer, setCustomer] = useState<Customer>()
     const [activities, setActivities] = useState<EconomicActivity[]>([])
@@ -707,7 +709,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
             if (response.error) {
                 popup.toast("error", response.error, 2000);
             } else {
-                popup.toast("success", "The customer is included with success", 2000);
+                popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                 updateList(prev => !prev);
                 setFormType(CustomerFormType.EMPTY);
             }
@@ -760,7 +762,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                     width={700}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {customerUUID ? "Edit" : "Register"} Customer
+                        {customerUUID ? t("actions.edit") : t("actions.register")} {t("customers.page.entity")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -821,7 +823,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                         <Typography
                             level={"body-sm"}
                         >
-                            Nome Fantasia
+                            {t("customers.fields.trading_name")}
                         </Typography>
                         <Typography
                             level={"body-sm"}
@@ -840,7 +842,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                         <Typography
                             level={"body-sm"}
                         >
-                            Observação
+                            {t("customers.fields.observations")}
                         </Typography>
                         <Typography
                             level={"body-sm"}
@@ -859,7 +861,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                         <Typography
                             level={"body-sm"}
                         >
-                            Endereço
+                            {t("customers.fields.address")}
                         </Typography>
                         <Typography
                             level={"body-sm"}
@@ -867,7 +869,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                             {address()}
                         </Typography>
                     </Box>
-                    <Divider>Atividades econômicas</Divider>
+                    <Divider>{t("customers.fields.economic_activities")}</Divider>
                     <Box
                         sx={{
                             display: "flex",
@@ -895,7 +897,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                             <CrmSelect
                                 name={"status"}
                                 options={customerStatus}
-                                label={"Aprovação do cliente"}
+                                label={t("customers.fields.customer_approval")}
                             />
                         </Box>
                         <Button
@@ -905,7 +907,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                                 <PublishedWithChangesRounded/>
                             }
                         >
-                            Salvar
+                            {t("actions.save")}
                         </Button>
                     </Box>
                 </Box>
@@ -916,6 +918,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
 
 export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) => {
     const [open, setOpen] = useState(false)
+    const { t } = useTranslation();
 
     return (
         <AccordionGroup
@@ -1014,7 +1017,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Sessão {props.activity.section?.code ?? ""}
+                                {t("customers.fields.session")} {props.activity.section?.code ?? ""}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -1028,7 +1031,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                     textAlign: "start"
                                 }}
                             >
-                                {props.activity.section?.description ?? ""}
+                               {t("customers.fields.session")}{props.activity.section?.description ?? ""}
                             </Typography>
                         </Box>
                         <Box
@@ -1043,7 +1046,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Divisão {props.activity.division?.code ?? ""}
+                                {t("customers.fields.division")} {props.activity.division?.code ?? ""}
                             </Typography>
                             <Typography
                                 level={"body-sm"}
@@ -1072,7 +1075,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                 level={"body-sm"}
                                 fontWeight={"bold"}
                             >
-                                Grupo {props.activity.group?.code ?? ""}
+                                {t("customers.fields.group")} {props.activity.group?.code ?? ""}
                             </Typography>
                             <Typography
                                 level={"body-sm"}

@@ -95,7 +95,8 @@
       "edit": "Edit",
       "roles": "Roles",
       "delete": "Delete",
-      "register": "Register"
+      "register": "Register",
+      "approve": "Approve"
     },
     "role_types": {
       "user": "User",
@@ -104,14 +105,39 @@
       "employee": "Employee"
     },
     "errors": {
-      "UNEXPECTED_ERROR": "An unexpected error has occurred"
+      "UNEXPECTED_ERROR": "An unexpected error has occurred",
+      "error": "Error"
     },
     "customers": {
       "page": {
         "title": "Customers",
+        "entity": "Customer", 
         "buttons": {
           "register": "Register customer"
-        }
+        },
+        "tabs": {
+          "customer_data" : "Customer data",
+          "comercial_informations": "Comercial informations"
+        },
+        "sections" : {
+          "contacts": "Contacts",
+          "economic_activities": "Economic activities - CNAE"
+        },
+        "placeholders": {
+          "inform_the_contact": "Inform the contact"
+        },
+        "contacts_types": {
+          "email": "Email",
+          "phone": "Phone",
+          "social_media": "Social media",
+          "others": "Others"
+        },
+        "customer_status": {
+          "pending": "Pending",
+          "fit": "Fit",
+          "not_fit": "Not fit",
+          "inactive": "Inactive"
+        } 
       },
       "fields": {
         "company_name": "Company name",
@@ -120,7 +146,32 @@
         "document": "Document",
         "state": "State",
         "city": "City",
-        "status": "Status"
+        "status": "Status",
+        "zip_code": "Zip Code",
+        "complement": "Complement",
+        "address": "Address",
+        "number": "Number",
+        "main": "Main",
+        "economic_activity": "Economic activity",
+        "economic_activities": "Economic activities",
+        "observations": "Observations",
+        "customer_approval": "Customer approval",
+        "session": "Session",
+        "division": "Division",
+        "group": "Group"
+      },
+      "messages": {
+        "document_required": "The document is required",
+        "person_name_required": "The person name is required",
+        "company_name_required": "The company name is required",
+        "trading_name_required": "The trading name is required",
+        "zip_code_required": "The zip code is required",
+        "city_required": "The city is required",
+        "state_required": "The state is required",
+        "complement_required": "The complement is required",
+        "address_required": "The address is required",
+        "number_required": "The number is required",
+        "customer_included_success": "The customer is included with success"
       }
     },
     "wallets": {
@@ -128,6 +179,10 @@
         "title": "Wallets",
         "buttons": {
           "register": "Register wallet"
+        },
+        "tabs": {
+          "customer_data" : "Customer data",
+          "comercial_informations": "Comercial informations"
         }
       },
       "fields": {
@@ -138,6 +193,23 @@
         "created_at": "Created at",
         "created_by": "Created by",
         "edit": "Edit"
+      }
+    },
+    "me": {
+      "title": "My informations",
+      "sections": {
+        "personal_informations": "Personal informations",
+        "user_informations": "User informations",
+        "permissions": "Permissions"
+      },
+      "fields": {
+        "access_login": "Access login",
+        "user_type": "Type of user",
+        "last_change": "Last change",
+        "creation": "Creation"
+      },
+      "messages": {
+        "user_without_permissions": "User without permissions"
       }
     }
   }
