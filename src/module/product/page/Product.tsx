@@ -3,6 +3,8 @@ import {useSetAtom} from "jotai";
 import ProductState from "../state/ProductState.ts";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {ProductFormType} from "../entities/entities.ts";
+import {ProductList} from "../components/ProductList.tsx";
+import {ProductForm} from "../components/ProductForm.tsx";
 
 export const Product = () => {
     const modifiedProductFormType = useSetAtom(ProductState.FormType)
@@ -39,7 +41,8 @@ export const Product = () => {
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
-
+                <ProductList/>
+                <ProductForm/>
             </Box>
         </Box>
     )

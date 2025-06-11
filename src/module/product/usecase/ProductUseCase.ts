@@ -26,6 +26,28 @@ class ProductUseCase {
         return productRepository.createProduct(product)
     }
 
+    async updateProduct(product: Product): Promise<ProductResponse> {
+        const validate = this.validateProduct(product)
+
+        if (validate.error) {
+            return {error: validate.error}
+        }
+
+        if (!product.uuid) {
+            return {error: this.PRODUCT_ID_INVALID}
+        }
+
+        return productRepository.updateProduct(product)
+    }
+
+    async getProductUUID(uuid: string): Promise<ProductResponse> {
+        if (!uuid) {
+            return {error: this.PRODUCT_ID_INVALID}
+        }
+
+        return productRepository.getProductUUID(uuid)
+    }
+
     validateProduct(product: Product): ProductResponse {
         if (!product.name) {
             return {error: this.PRODUCT_NAME_IS_EMPTY}
@@ -42,3 +64,5 @@ class ProductUseCase {
         return {}
     }
 }
+
+export const productUseCase = new ProductUseCase();
