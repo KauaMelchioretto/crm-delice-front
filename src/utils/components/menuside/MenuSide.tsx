@@ -14,6 +14,7 @@ import LogoutRounded from "@mui/icons-material/LogoutRounded"
 import RuleRounded from "@mui/icons-material/RuleRounded"
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import WalletRoundedIcon from '@mui/icons-material/WalletRounded';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {useContext} from "react";
@@ -43,6 +44,11 @@ export const MenuSide = () => {
             code: "WALLET",
             icon: WalletRoundedIcon,
             label: t("modules.wallet")
+        },
+        {
+            code: "PRODUCT",
+            icon: CategoryRoundedIcon,
+            label: t("modules.product")
         },
         {
             code: "SYSTEM_ROLES",

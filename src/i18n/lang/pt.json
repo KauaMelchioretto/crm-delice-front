@@ -83,7 +83,8 @@
       "user": "Usuários",
       "modules_config": "Módulos",
       "customers": "Clientes",
-      "wallet": "Carteira"
+      "wallet": "Carteira",
+      "product": "Produtos"
     },
     "actions": {
       "save": "Salvar",
