@@ -1,6 +1,6 @@
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import ProductState from "../state/ProductState.ts";
-import {ProductFormType, ProductStatus} from "../entities/entities.ts";
+import {ProductStatus} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
@@ -14,28 +14,30 @@ import {ValueInput} from "../../../utils/components/inputs/ValueInput.tsx";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {productUseCase} from "../usecase/ProductUseCase.ts";
 import {useEffect} from "react";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const ProductForm = () => {
-    const [formType, setFormType] = useAtom(ProductState.FormType);
-    const productUUID = useAtomValue(ProductState.CurrentUUIDAtom);
+    const [formType, setFormType] = useAtom(CrmState.FormType);
+    const productUUID = useAtomValue(CrmState.EntityFormUUID);
 
     switch (formType) {
-        case ProductFormType.EMPTY:
+        case CrmFormType.EMPTY:
             return <></>;
-        case ProductFormType.REGISTER_PRODUCT:
+        case CrmFormType.REGISTER_PRODUCT:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(ProductFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <ProductFormRegister/>
                 </CrmModal>
             );
-        case ProductFormType.EDIT_PRODUCT:
+        case CrmFormType.EDIT_PRODUCT:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(ProductFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <ProductFormRegister producUUID={productUUID}/>
                 </CrmModal>
@@ -44,7 +46,7 @@ export const ProductForm = () => {
 }
 
 const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
-    const setFormType = useSetAtom(ProductState.FormType)
+    const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(ProductState.UpdateAtom)
     const formMethods = useForm();
 
@@ -66,7 +68,7 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
                 } else {
                     popup.toast("success", "The wallet is changed with success", 2000);
                     updateList(prev => !prev);
-                    setFormType(ProductFormType.EMPTY);
+                    setFormType(CrmFormType.EMPTY);
                 }
             })
             return
@@ -83,7 +85,7 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
             } else {
                 popup.toast("success", "The wallet is changed with success", 2000);
                 updateList(prev => !prev);
-                setFormType(ProductFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
         })
     })
@@ -118,7 +120,7 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
                     </Typography>
                     <IconButton
                         size={"sm"}
-                        onClick={() => setFormType(ProductFormType.EMPTY)}
+                        onClick={() => setFormType(CrmFormType.EMPTY)}
                     >
                         <CloseRounded/>
                     </IconButton>

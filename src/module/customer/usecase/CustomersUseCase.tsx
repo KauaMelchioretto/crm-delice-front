@@ -5,7 +5,7 @@ import {
     Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
     CustomersListResponse, CustomerStatus,
-    PreCustomerReponse, SimpleCustomerListResponse
+    PreCustomerResponse, SimpleCustomerListResponse
 } from "../entities/entities.ts";
 import {customersRepository} from "../repository/CustomersRepository";
 
@@ -27,7 +27,7 @@ class CustomersUseCase {
     CONTACTS_IS_EMPTY = "At least one contact must be provided"
     ECONOMIC_ACTIVITY_IS_EMPTY = "At least one CNAE must be provided"
 
-    async getPreCustomer(document: string): Promise<PreCustomerReponse> {
+    async getPreCustomer(document: string): Promise<PreCustomerResponse> {
         const query = document.replace(/\D/g, '')
 
         if (!query || query.length < 14) {

@@ -1,13 +1,12 @@
 import {Box, Button, Typography} from "@mui/joy";
 import {useSetAtom} from "jotai";
-import ProductState from "../state/ProductState.ts";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
-import {ProductFormType} from "../entities/entities.ts";
 import {ProductList} from "../components/ProductList.tsx";
-import {ProductForm} from "../components/ProductForm.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const Product = () => {
-    const modifiedProductFormType = useSetAtom(ProductState.FormType)
+    const modifiedProductFormType = useSetAtom(CrmState.FormType)
 
     return (
         <Box
@@ -35,14 +34,13 @@ export const Product = () => {
                 </Typography>
                 <Button
                     size="sm"
-                    onClick={() => modifiedProductFormType(ProductFormType.REGISTER_PRODUCT)}
+                    onClick={() => modifiedProductFormType(CrmFormType.REGISTER_PRODUCT)}
                 >
                     Register product
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <ProductList/>
-                <ProductForm/>
             </Box>
         </Box>
     )

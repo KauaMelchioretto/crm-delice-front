@@ -1,16 +1,15 @@
 import {Box, Button, Typography} from "@mui/joy";
 import {useSetAtom} from "jotai";
 import {UsersList} from "../components/UsersList";
-import UserState from "../state/UserState.ts";
-import {UserForm} from "../components/UserForm.tsx";
-import {UsersFormType} from "../entities/entities.ts";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {useTranslation} from "react-i18next";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const User = () => {
     const {t} = useTranslation()
 
-    const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom);
+    const modifiedUserForm = useSetAtom(CrmState.FormType);
 
     return (
         <Box
@@ -31,13 +30,12 @@ export const User = () => {
                 }}
             >
                 <Typography level={"body-lg"} fontWeight={"bold"}>{t('users.page.title')}</Typography>
-                <Button size="sm" onClick={() => modifiedUserForm(UsersFormType.REGISTER_USER)}>
+                <Button size="sm" onClick={() => modifiedUserForm(CrmFormType.REGISTER_USER)}>
                     {t('users.page.buttons.register')}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"}>
                 <UsersList/>
-                <UserForm/>
             </Box>
         </Box>
     );

@@ -2,14 +2,13 @@ import {Box, Button, Typography} from "@mui/joy";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer";
 import {useTranslation} from "react-i18next";
 import {useSetAtom} from "jotai";
-import CustomersState from "../state/CustomersState.ts";
-import {CustomerFormType} from "../entities/entities.ts";
 import {CustomersList} from "../components/CustomersList";
-import {CustomerForm} from "../components/CustomerForm.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const Customers = () => {
     const {t} = useTranslation();
-    const modifiedCustomerForm = useSetAtom(CustomersState.CustomerFormTypeAtom);
+    const modifiedCustomerForm = useSetAtom(CrmState.FormType);
 
     return (
         <Box
@@ -37,14 +36,13 @@ export const Customers = () => {
                 </Typography>
                 <Button
                     size="sm"
-                    onClick={() => modifiedCustomerForm(CustomerFormType.REGISTER_CUSTOMER)}
+                    onClick={() => modifiedCustomerForm(CrmFormType.REGISTER_CUSTOMER)}
                 >
                     {t('customers.page.buttons.register')}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <CustomersList/>
-                <CustomerForm/>
             </Box>
         </Box>
     );

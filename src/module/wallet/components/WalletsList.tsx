@@ -5,22 +5,24 @@ import {useTranslation} from "react-i18next";
 import {useAtomValue, useSetAtom} from "jotai";
 import WalletState from "../state/WalletState.ts";
 import {Box, CircularProgress, IconButton, Typography} from "@mui/joy";
-import {Wallet, WalletFormType, WalletStatus} from "../entities/entities.ts";
+import {Wallet, WalletStatus} from "../entities/entities.ts";
 import {EditRounded} from "@mui/icons-material";
 import dayjs from "dayjs";
 import {useAtom} from "jotai/index";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
-import {getColorContrast} from "../../../utils/functions/getColorContrast.ts";
+import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const WalletsList = () => {
     const {t} = useTranslation()
 
     const walletAtom = useAtomValue(WalletState.ListAtom)
-    const modifiedWallet = useSetAtom(WalletState.CurrentUUIDAtom)
-    const modifiedWalletForm = useSetAtom(WalletState.FormTypeAtom)
+    const modifiedWallet = useSetAtom(CrmState.EntityFormUUID)
+    const modifiedWalletForm = useSetAtom(CrmState.FormType)
 
     const walletStatus = {
         [WalletStatus.ACTIVE]: {
@@ -156,7 +158,7 @@ export const WalletsList = () => {
                                     size={"sm"}
                                     onClick={() => {
                                         modifiedWallet(wallet?.uuid ?? "");
-                                        modifiedWalletForm(WalletFormType.EDIT_WALLET);
+                                        modifiedWalletForm(CrmFormType.EDIT_WALLET);
                                     }}
                                 >
                                     <EditRounded/>

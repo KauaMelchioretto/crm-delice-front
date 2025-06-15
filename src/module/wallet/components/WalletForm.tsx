@@ -1,6 +1,6 @@
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import WalletState from "../state/WalletState.ts";
-import {Wallet, WalletFormType} from "../entities/entities.ts";
+import {Wallet} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {FieldValues, FormProvider, useFieldArray, useForm} from "react-hook-form";
@@ -18,10 +18,12 @@ import RemoveCircleRounded from "@mui/icons-material/RemoveCircleRounded";
 import {walletUseCase} from "../usecase/WalletUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {useEffect} from "react";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const WalletForm = () => {
-    const [formType, setFormType] = useAtom(WalletState.FormTypeAtom)
-    const walletUUID = useAtomValue(WalletState.CurrentUUIDAtom)
+    const [formType, setFormType] = useAtom(CrmState.FormType)
+    const walletUUID = useAtomValue(CrmState.EntityFormUUID)
 
     const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
     const simpleCustomersAtom = useAtomValue(CustomersState.SimpleCustomersAtom)
@@ -31,22 +33,22 @@ export const WalletForm = () => {
     }
 
     switch (formType) {
-        case WalletFormType.EMPTY:
+        case CrmFormType.EMPTY:
             return <></>
-        case WalletFormType.REGISTER_WALLET:
+        case CrmFormType.REGISTER_WALLET:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(WalletFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <WalletFormRegister/>
                 </CrmModal>
             );
-        case WalletFormType.EDIT_WALLET:
+        case CrmFormType.EDIT_WALLET:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(WalletFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <WalletFormRegister walletUUID={walletUUID}/>
                 </CrmModal>
@@ -55,7 +57,7 @@ export const WalletForm = () => {
 }
 
 const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
-    const setFormType = useSetAtom(WalletState.FormTypeAtom)
+    const setFormType = useSetAtom(CrmState.FormType)
 
     const updateList = useSetAtom(WalletState.UpdateAtom)
 
@@ -104,7 +106,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 } else {
                     popup.toast("success", "The wallet is changed with success", 2000);
                     updateList(prev => !prev);
-                    setFormType(WalletFormType.EMPTY);
+                    setFormType(CrmFormType.EMPTY);
                 }
             })
             return
@@ -120,7 +122,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             } else {
                 popup.toast("success", "The wallet is changed with success", 2000);
                 updateList(prev => !prev);
-                setFormType(WalletFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
         })
     })
@@ -168,7 +170,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                     </Typography>
                     <IconButton
                         size={"sm"}
-                        onClick={() => setFormType(WalletFormType.EMPTY)}
+                        onClick={() => setFormType(CrmFormType.EMPTY)}
                     >
                         <CloseRounded/>
                     </IconButton>

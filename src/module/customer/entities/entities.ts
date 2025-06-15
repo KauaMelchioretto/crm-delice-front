@@ -73,16 +73,9 @@ export interface CustomerResponse {
     error?: string
 }
 
-export interface PreCustomerReponse {
+export interface PreCustomerResponse {
     customer?: PreCustomer,
     error?: string
-}
-
-export enum CustomerFormType {
-    EMPTY,
-    REGISTER_CUSTOMER,
-    EDIT_CUSTOMER,
-    APPROVAL_CUSTOMER
 }
 
 export interface CustomersListResponse {

@@ -1,5 +1,5 @@
 import CustomersState from "../state/CustomersState.ts";
-import {ContactType, Customer, CustomerFormType, CustomerStatus, EconomicActivity} from "../entities/entities.ts";
+import {ContactType, Customer, CustomerStatus, EconomicActivity} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
@@ -40,38 +40,40 @@ import AddBusinessRounded from '@mui/icons-material/AddBusinessRounded';
 import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
 import PublishedWithChangesRounded from "@mui/icons-material/PublishedWithChangesRounded";
 import SearchRounded from '@mui/icons-material/SearchRounded';
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const CustomerForm = () => {
-    const [formType, setFormType] = useAtom(CustomersState.CustomerFormTypeAtom)
+    const [formType, setFormType] = useAtom(CrmState.FormType)
 
-    const customerUUID = useAtomValue(CustomersState.CustomerFormUUIDAtom);
+    const customerUUID = useAtomValue(CrmState.EntityFormUUID);
 
     switch (formType) {
-        case CustomerFormType.EMPTY:
+        case CrmFormType.EMPTY:
             return <></>;
-        case CustomerFormType.REGISTER_CUSTOMER:
+        case CrmFormType.REGISTER_CUSTOMER:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(CustomerFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <CustomerRegister/>
                 </CrmModal>
             );
-        case CustomerFormType.EDIT_CUSTOMER:
+        case CrmFormType.EDIT_CUSTOMER:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(CustomerFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <CustomerRegister customerUUID={customerUUID}/>
                 </CrmModal>
             );
-        case CustomerFormType.APPROVAL_CUSTOMER:
+        case CrmFormType.APPROVAL_CUSTOMER:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(CustomerFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <ApprovalCustomer customerUUID={customerUUID}/>
                 </CrmModal>
@@ -119,7 +121,7 @@ const customerStatus: OptionType[] = [
 
 const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
     const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
-    const setFormType = useSetAtom(CustomersState.CustomerFormTypeAtom)
+    const setFormType = useSetAtom(CrmState.FormType)
     const formMethods = useForm({
         defaultValues: {
             contacts: [
@@ -177,7 +179,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                 } else {
                     popup.toast("success", "The customer is included with success", 2000);
                     updateList(prev => !prev);
-                    setFormType(CustomerFormType.EMPTY);
+                    setFormType(CrmFormType.EMPTY);
                 }
 
                 setLoading(false);
@@ -204,7 +206,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
             } else {
                 popup.toast("success", "The customer is included with success", 2000);
                 updateList(prev => !prev);
-                setFormType(CustomerFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
 
             setLoading(false);
@@ -321,7 +323,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                     </Typography>
                     <IconButton
                         size={"sm"}
-                        onClick={() => setFormType(CustomerFormType.EMPTY)}
+                        onClick={() => setFormType(CrmFormType.EMPTY)}
                     >
                         <CloseRounded/>
                     </IconButton>
@@ -690,7 +692,7 @@ const CustomerContact = ({index}: { index: number }) => {
 
 const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
     const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
-    const setFormType = useSetAtom(CustomersState.CustomerFormTypeAtom)
+    const setFormType = useSetAtom(CrmState.FormType)
     const formMethods = useForm({
         defaultValues: {
             status: CustomerStatus.PENDING
@@ -709,7 +711,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
             } else {
                 popup.toast("success", "The customer is included with success", 2000);
                 updateList(prev => !prev);
-                setFormType(CustomerFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
         })
     });
@@ -764,7 +766,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                     </Typography>
                     <IconButton
                         size={"sm"}
-                        onClick={() => setFormType(CustomerFormType.EMPTY)}
+                        onClick={() => setFormType(CrmFormType.EMPTY)}
                     >
                         <CloseRounded/>
                     </IconButton>

@@ -27,9 +27,3 @@ export enum ProductStatus{
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE"
 }
-
-export enum ProductFormType {
-    EMPTY,
-    REGISTER_PRODUCT,
-    EDIT_PRODUCT
-}

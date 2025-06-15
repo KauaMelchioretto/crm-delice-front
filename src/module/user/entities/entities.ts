@@ -34,13 +34,6 @@ export interface UsersListResponse {
     error?: string
 }
 
-export enum UsersFormType {
-    EMPTY,
-    REGISTER_USER,
-    EDIT_USER,
-    ATTACH_ROLE
-}
-
 export interface UserRolesResponse {
     roles?: Role[],
     error?: string

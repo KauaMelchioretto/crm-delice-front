@@ -1,6 +1,6 @@
 import {CircularProgress, IconButton} from "@mui/joy";
 import {CrmTable} from "../../../utils/components/core/CrmTable";
-import {User, UsersFormType} from "../entities/entities.ts";
+import {User} from "../entities/entities.ts";
 import EditRounded from "@mui/icons-material/EditRounded";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
@@ -13,15 +13,17 @@ import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
 import {useTranslation} from "react-i18next";
-import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
+import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const UsersList = () => {
     const {t} = useTranslation();
 
-    const modifiedUser = useSetAtom(UserState.UserFormUUIDAtom);
-    const modifiedUserForm = useSetAtom(UserState.UserFormTypeAtom);
+    const modifiedUser = useSetAtom(CrmState.EntityFormUUID);
+    const modifiedUserForm = useSetAtom(CrmState.FormType);
     const usersAtom = useAtomValue(UserState.UsersListAtom);
-    
+
     const filterFields = [
         {value: "", label: t("filter_keys.none")},
         {value: "login", label: t("users.fields.user")},
@@ -62,7 +64,7 @@ export const UsersList = () => {
 
     return (
         <CrmContainer>
-            <FilterComponent fields={filterFields} filterAtom={UserState.UserFilterAtom} />
+            <FilterComponent fields={filterFields} filterAtom={UserState.UserFilterAtom}/>
             <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
@@ -130,7 +132,7 @@ export const UsersList = () => {
                                     size={"sm"}
                                     onClick={() => {
                                         modifiedUser(user?.uuid ?? "");
-                                        modifiedUserForm(UsersFormType.EDIT_USER);
+                                        modifiedUserForm(CrmFormType.EDIT_USER);
                                     }}
                                 >
                                     <EditRounded/>
@@ -141,7 +143,7 @@ export const UsersList = () => {
                                     size={"sm"}
                                     onClick={() => {
                                         modifiedUser(user?.uuid ?? "");
-                                        modifiedUserForm(UsersFormType.ATTACH_ROLE);
+                                        modifiedUserForm(CrmFormType.ATTACH_ROLE);
                                     }}
                                     disabled={
                                         !(userModulesRoles?.includes("ATTACH_ROLES") ?? false)

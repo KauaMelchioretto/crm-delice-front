@@ -3,19 +3,22 @@ import ProductState from "../state/ProductState.ts";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
 import {Box, CircularProgress, IconButton, Typography} from "@mui/joy";
-import {Product, ProductFormType, ProductStatus} from "../entities/entities.ts";
+import {Product, ProductStatus} from "../entities/entities.ts";
 import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import {EditRounded} from "@mui/icons-material";
 import {useAtom} from "jotai/index";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
-import {getColorContrast} from "../../../utils/functions/getColorContrast.ts";
+import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const ProductList = () => {
-    const modifiedProduct = useSetAtom(ProductState.CurrentUUIDAtom)
-    const modifiedProductForm = useSetAtom(ProductState.FormType)
+    const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
+    const modifiedProductForm = useSetAtom(CrmState.FormType)
+
     const productAtom = useAtomValue(ProductState.ListAtom)
 
     let products: Product[] = []
@@ -153,7 +156,7 @@ export const ProductList = () => {
                                         size={"sm"}
                                         onClick={() => {
                                             modifiedProduct(product?.uuid ?? "");
-                                            modifiedProductForm(ProductFormType.EDIT_PRODUCT);
+                                            modifiedProductForm(CrmFormType.EDIT_PRODUCT);
                                         }}
                                     >
                                         <EditRounded/>
