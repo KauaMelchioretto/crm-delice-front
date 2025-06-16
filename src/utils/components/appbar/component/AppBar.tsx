@@ -65,6 +65,8 @@ const MenuAppBar = () => {
     const [onInput, setOnInput] = useState<boolean>(false);
     const menuResultAtom = useAtomValue(AppBarState.SearchResultAtom)
 
+    const navigate = useNavigate()
+
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
 
@@ -165,7 +167,18 @@ const MenuAppBar = () => {
                                 <Box key={`module_app_bar_${i}`}>
                                     <Stack direction={"row"} alignItems={"center"} gap={1}>
                                         <Icon/>
-                                        <Typography level="title-sm">{module.label}</Typography>
+                                        <Typography
+                                            level="title-sm"
+                                            sx={{
+                                                ":hover": {
+                                                    textDecoration: "underline",
+                                                    cursor: "pointer"
+                                                }
+                                            }}
+                                            onClick={() => navigate(module.path)}
+                                        >
+                                            {module.label}
+                                        </Typography>
                                     </Stack>
                                     <Box
                                         sx={{
