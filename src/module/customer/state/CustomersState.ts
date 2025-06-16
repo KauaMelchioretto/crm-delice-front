@@ -1,12 +1,7 @@
 import { atom } from "jotai";
-import { CustomerFormType } from "../entities/entities.ts";
 import { CrmFilter } from "../../../utils/entities/entities";
 import { customersUseCase } from "../usecase/CustomersUseCase";
 import { loadable } from "jotai/utils";
-
-const CustomerFormTypeAtom = atom<CustomerFormType>(CustomerFormType.EMPTY);
-
-const CustomerFormUUIDAtom = atom("");
 
 const CustomerUpdateAtom = atom(false);
 
@@ -37,13 +32,13 @@ const CustomersListTotalCountAsyncAtom = atom(async (get) => {
 
 const CustomersListTotalCountAtom = loadable(CustomersListTotalCountAsyncAtom);
 
-const SimpleCustomersAtom = loadable(atom(async () => {
+const SimpleCustomersAtom = loadable(atom(async (get) => {
+    get(CustomerUpdateAtom)
+
     return customersUseCase.listSimpleCustomers()
 }))
 
 export default {
-    CustomerFormTypeAtom,
-    CustomerFormUUIDAtom,
     CustomerUpdateAtom,
     CustomersListAtom,
     CustomerFilterAtom,

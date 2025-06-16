@@ -15,8 +15,8 @@ export interface Wallet {
 }
 
 export enum WalletStatus {
-    ACTIVE = 0,
-    INACTIVE = 1
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE"
 }
 
 export interface WalletListResponse {

@@ -1,14 +1,12 @@
 import {Box, Button, Typography} from "@mui/joy";
-import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer";
-import {useTranslation} from "react-i18next";
 import {useSetAtom} from "jotai";
-import {CustomersList} from "../components/CustomersList";
+import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
+import {ProductList} from "../components/ProductList.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 
-export const Customers = () => {
-    const {t} = useTranslation();
-    const modifiedCustomerForm = useSetAtom(CrmState.FormType);
+export const Product = () => {
+    const modifiedProductFormType = useSetAtom(CrmState.FormType)
 
     return (
         <Box
@@ -32,18 +30,18 @@ export const Customers = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    {t("customers.page.title")}
+                    Products
                 </Typography>
                 <Button
                     size="sm"
-                    onClick={() => modifiedCustomerForm(CrmFormType.REGISTER_CUSTOMER)}
+                    onClick={() => modifiedProductFormType(CrmFormType.REGISTER_PRODUCT)}
                 >
-                    {t('customers.page.buttons.register')}
+                    Register product
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
-                <CustomersList/>
+                <ProductList/>
             </Box>
         </Box>
-    );
-};
+    )
+}

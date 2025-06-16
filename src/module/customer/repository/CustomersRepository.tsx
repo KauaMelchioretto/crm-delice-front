@@ -4,7 +4,7 @@ import {
     Customer, CustomerEconomicActivitiesResponse,
     CustomerResponse,
     CustomersListResponse, CustomerStatus,
-    PreCustomerReponse, SimpleCustomerListResponse
+    PreCustomerResponse, SimpleCustomerListResponse
 } from "../entities/entities.ts";
 import {http} from "../../../core/config/api/http";
 import {AxiosError} from "axios";
@@ -14,13 +14,13 @@ class CustomersRepository {
         code: "UNEXPECTED_ERROR",
     };
 
-    async getPreCustomer(document: string): Promise<PreCustomerReponse> {
+    async getPreCustomer(document: string): Promise<PreCustomerResponse> {
         try {
             const response = await http.get(
                 `/preCustomer/query?document=${document}`
             );
 
-            return response.data as PreCustomerReponse;
+            return response.data as PreCustomerResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {
@@ -82,6 +82,7 @@ class CustomersRepository {
                 address: customer.address,
                 addressNumber: customer.addressNumber,
                 complement: customer.complement,
+                status: customer.status,
                 economicActivitiesCodes: customer.economicActivitiesCodes,
             });
 

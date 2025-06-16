@@ -3,14 +3,13 @@ import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContaine
 import {useTranslation} from "react-i18next";
 import {WalletsList} from "../components/WalletsList.tsx";
 import {useSetAtom} from "jotai/index";
-import WalletState from "../state/WalletState.ts";
-import {WalletFormType} from "../entities/entities.ts";
-import {WalletForm} from "../components/WalletForm.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const Wallets = () => {
     const {t} = useTranslation();
 
-    const modifiedWalletForm = useSetAtom(WalletState.FormTypeAtom)
+    const modifiedWalletForm = useSetAtom(CrmState.FormType)
 
     return (
         <Box
@@ -38,14 +37,13 @@ export const Wallets = () => {
                 </Typography>
                 <Button
                     size="sm"
-                    onClick={() => modifiedWalletForm(WalletFormType.REGISTER_WALLET)}
+                    onClick={() => modifiedWalletForm(CrmFormType.REGISTER_WALLET)}
                 >
                     {t('wallets.page.buttons.register')}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <WalletsList/>
-                <WalletForm/>
             </Box>
         </Box>
     )

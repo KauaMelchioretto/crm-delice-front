@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {Customer, CustomerFormType, CustomerStatus} from "../entities/entities.ts";
+import {Customer, CustomerStatus} from "../entities/entities.ts";
 import CustomersState from "../state/CustomersState.ts";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer";
@@ -11,19 +11,21 @@ import {EditRounded} from "@mui/icons-material";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination";
 import PublishedWithChangesRounded from '@mui/icons-material/PublishedWithChangesRounded';
-import {getColorContrast} from "../../../utils/functions/getColorContrast.ts";
+import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 
 import VerifiedRounded from '@mui/icons-material/VerifiedRounded';
 import NewReleasesRounded from '@mui/icons-material/NewReleasesRounded';
 import QueryBuilderRounded from '@mui/icons-material/QueryBuilderRounded';
 import CancelRounded from '@mui/icons-material/CancelRounded';
-import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
+import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const CustomersList = () => {
     const {t} = useTranslation();
 
-    const modifiedCustomer = useSetAtom(CustomersState.CustomerFormUUIDAtom);
-    const modifiedCustomerForm = useSetAtom(CustomersState.CustomerFormTypeAtom);
+    const modifiedCustomer = useSetAtom(CrmState.EntityFormUUID);
+    const modifiedCustomerForm = useSetAtom(CrmState.FormType);
     const customersAtom = useAtomValue(CustomersState.CustomersListAtom);
 
     const filterFields = [
@@ -196,7 +198,7 @@ export const CustomersList = () => {
                                     size={"sm"}
                                     onClick={() => {
                                         modifiedCustomer(customer?.uuid ?? "");
-                                        modifiedCustomerForm(CustomerFormType.EDIT_CUSTOMER);
+                                        modifiedCustomerForm(CrmFormType.EDIT_CUSTOMER);
                                     }}
                                 >
                                     <EditRounded/>
@@ -207,7 +209,7 @@ export const CustomersList = () => {
                                     size={"sm"}
                                     onClick={() => {
                                         modifiedCustomer(customer?.uuid ?? "");
-                                        modifiedCustomerForm(CustomerFormType.APPROVAL_CUSTOMER);
+                                        modifiedCustomerForm(CrmFormType.APPROVAL_CUSTOMER);
                                     }}
                                 >
                                     <PublishedWithChangesRounded/>

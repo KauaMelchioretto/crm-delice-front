@@ -1,13 +1,11 @@
+import {useAtomValue, useSetAtom} from "jotai";
+import ProductState from "../state/ProductState.ts";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
-import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
-import {useTranslation} from "react-i18next";
-import {useAtomValue, useSetAtom} from "jotai";
-import WalletState from "../state/WalletState.ts";
 import {Box, CircularProgress, IconButton, Typography} from "@mui/joy";
-import {Wallet, WalletStatus} from "../entities/entities.ts";
+import {Product, ProductStatus} from "../entities/entities.ts";
+import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import {EditRounded} from "@mui/icons-material";
-import dayjs from "dayjs";
 import {useAtom} from "jotai/index";
 import {ChangeEvent} from "react";
 import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.tsx";
@@ -17,20 +15,21 @@ import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 
-export const WalletsList = () => {
-    const {t} = useTranslation()
+export const ProductList = () => {
+    const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
+    const modifiedProductForm = useSetAtom(CrmState.FormType)
 
-    const walletAtom = useAtomValue(WalletState.ListAtom)
-    const modifiedWallet = useSetAtom(CrmState.EntityFormUUID)
-    const modifiedWalletForm = useSetAtom(CrmState.FormType)
+    const productAtom = useAtomValue(ProductState.ListAtom)
 
-    const walletStatus = {
-        [WalletStatus.ACTIVE]: {
+    let products: Product[] = []
+
+    const productStatus = {
+        [ProductStatus.ACTIVE]: {
             color: "#118D57",
             label: "Ativo",
             icon: VerifiedRounded
         },
-        [WalletStatus.INACTIVE]: {
+        [ProductStatus.INACTIVE]: {
             color: "#ff543f",
             label: "Inativo",
             icon: CancelRounded
@@ -40,7 +39,7 @@ export const WalletsList = () => {
     const CardStatus = ({status}: { status: string }) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const s = walletStatus[WalletStatus[status]]
+        const s = productStatus[ProductStatus[status]]
 
         const colors = getColorContrast(s.color)
 
@@ -80,9 +79,7 @@ export const WalletsList = () => {
         )
     }
 
-    let wallets: Wallet[] = []
-
-    if (walletAtom.state === "loading") {
+    if (productAtom.state === "loading") {
         return (
             <CrmContainer sx={{width: "100%"}}>
                 <CrmTableContainer
@@ -99,8 +96,8 @@ export const WalletsList = () => {
         );
     }
 
-    if (walletAtom.state === "hasData") {
-        wallets = walletAtom.data.items ?? []
+    if (productAtom.state === "hasData") {
+        products = productAtom.data.items ?? []
     }
 
     return (
@@ -109,10 +106,10 @@ export const WalletsList = () => {
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
-                            width: 200,
+                            width: 50,
                         },
                         "& thead th:nth-child(2)": {
-                            width: 200,
+                            width: 300,
                         },
                         "& thead th:nth-child(3)": {
                             width: 100,
@@ -135,48 +132,50 @@ export const WalletsList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>{t("wallets.fields.title")}</th>
-                        <th>{t("wallets.fields.accountable")}</th>
-                        <th>{t("wallets.fields.customers_quantity")}</th>
-                        <th>{t("wallets.fields.status")}</th>
-                        <th>{t("wallets.fields.created_at")}</th>
-                        <th>{t("wallets.fields.edit")}</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Weight</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {wallets.map((wallet: Wallet) => (
-                        <tr key={`wallet_list_key_${wallet.uuid}`}>
-                            <td>{wallet.label}</td>
-                            <td>{wallet.accountable?.login}</td>
-                            <td>{wallet.customers?.length}</td>
-                            <td>
-                                <CardStatus status={wallet?.status ?? "ACTIVE"}/>
-                            </td>
-                            <td>{dayjs(wallet.createdAt).format("DD/MM/YYYY")}</td>
-                            <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedWallet(wallet?.uuid ?? "");
-                                        modifiedWalletForm(CrmFormType.EDIT_WALLET);
-                                    }}
-                                >
-                                    <EditRounded/>
-                                </IconButton>
-                            </td>
-                        </tr>
-                    ))}
+                    {
+                        products?.map((product: Product) => (
+                            <tr key={`wallet_list_key_${product.uuid}`}>
+                                <td>{product.code}</td>
+                                <td>{product.name}</td>
+                                <td>{product.weight}</td>
+                                <td>{product.price}</td>
+                                <td>
+                                    <CardStatus status={product?.status ?? "ACTIVE"}/>
+                                </td>
+                                <td>
+                                    <IconButton
+                                        size={"sm"}
+                                        onClick={() => {
+                                            modifiedProduct(product?.uuid ?? "");
+                                            modifiedProductForm(CrmFormType.EDIT_PRODUCT);
+                                        }}
+                                    >
+                                        <EditRounded/>
+                                    </IconButton>
+                                </td>
+                            </tr>
+                        ))
+                    }
                     </tbody>
                 </CrmTable>
             </CrmTableContainer>
-            <CustomerPagination/>
+            <ProductPagination/>
         </CrmContainer>
     )
 }
 
-export const CustomerPagination = () => {
-    const [page, setPage] = useAtom(WalletState.PageAtom);
-    const pageCount = useAtomValue(WalletState.ListTotalCountAtom);
+export const ProductPagination = () => {
+    const [page, setPage] = useAtom(ProductState.PageAtom);
+    const pageCount = useAtomValue(ProductState.ListTotalCountAtom);
 
     if (pageCount.state === "loading") return;
 

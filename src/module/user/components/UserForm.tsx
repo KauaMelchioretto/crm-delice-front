@@ -11,7 +11,6 @@ import {
     IconButton,
     Typography,
 } from "@mui/joy";
-import {UsersFormType} from "../entities/entities.ts";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import CloseRounded from "@mui/icons-material/CloseRounded";
@@ -29,37 +28,39 @@ import {maskPhone} from "../../../utils/functions/MaskPhone.ts";
 import {maskZipCode} from "../../../utils/functions/MaskZipCode.ts";
 import {useTranslation} from "react-i18next";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const UserForm = () => {
-    const [formType, setFormType] = useAtom(UserState.UserFormTypeAtom)
-    const userUUID = useAtomValue(UserState.UserFormUUIDAtom)
+    const [formType, setFormType] = useAtom(CrmState.FormType)
+    const userUUID = useAtomValue(CrmState.EntityFormUUID)
 
     switch (formType) {
-        case UsersFormType.EMPTY:
+        case CrmFormType.EMPTY:
             return <></>
-        case UsersFormType.REGISTER_USER:
+        case CrmFormType.REGISTER_USER:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <UserRegister/>
                 </CrmModal>
             );
-        case UsersFormType.EDIT_USER:
+        case CrmFormType.EDIT_USER:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <UserRegister userUUID={userUUID}/>
                 </CrmModal>
             );
-        case UsersFormType.ATTACH_ROLE:
+        case CrmFormType.ATTACH_ROLE:
             return (
                 <CrmModal
                     open={true}
-                    onClose={() => setFormType(UsersFormType.EMPTY)}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
                     <UserAttachRole userUUID={userUUID}/>
                 </CrmModal>
@@ -70,7 +71,7 @@ export const UserForm = () => {
 const UserRegister = ({userUUID}: { userUUID?: string }) => {
     const {t} = useTranslation();
 
-    const setFormType = useSetAtom(UserState.UserFormTypeAtom);
+    const setFormType = useSetAtom(CrmState.FormType);
 
     const updateList = useSetAtom(UserState.UserUpdateAtom)
 
@@ -102,7 +103,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                 } else {
                     popup.toast("success", "The module is included with success", 2000);
                     updateList(prev => !prev);
-                    setFormType(UsersFormType.EMPTY);
+                    setFormType(CrmFormType.EMPTY);
                 }
             })
             return;
@@ -127,7 +128,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
             } else {
                 popup.toast("success", "The module is included with success", 2000);
                 updateList(prev => !prev);
-                setFormType(UsersFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
         })
     });
@@ -168,7 +169,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     </Typography>
                     <IconButton
                         size={"sm"}
-                        onClick={() => setFormType(UsersFormType.EMPTY)}
+                        onClick={() => setFormType(CrmFormType.EMPTY)}
                     >
                         <CloseRounded/>
                     </IconButton>
@@ -393,7 +394,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
 }
 
 const UserAttachRole = ({userUUID}: { userUUID: string }) => {
-    const setFormType = useSetAtom(UserState.UserFormTypeAtom);
+    const setFormType = useSetAtom(CrmState.FormType);
     const [roles, setRoles] = useState<string[]>([]);
     const rolesAtom = useAtomValue(ModulesState.AllRolesAtom);
     const {t} = useTranslation();
@@ -411,7 +412,7 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
                 popup.toast("error", response.error, 2000);
             } else {
                 popup.toast("success", "The module is included with success", 2000);
-                setFormType(UsersFormType.EMPTY);
+                setFormType(CrmFormType.EMPTY);
             }
         })
     });
@@ -456,7 +457,7 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
                         </Typography>
                         <IconButton
                             size={"sm"}
-                            onClick={() => setFormType(UsersFormType.EMPTY)}
+                            onClick={() => setFormType(CrmFormType.EMPTY)}
                         >
                             <CloseRounded/>
                         </IconButton>

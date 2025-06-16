@@ -1,12 +1,7 @@
 import {atom} from "jotai";
 import {usersUseCase} from "../usecase/UsersUseCase.ts";
 import {loadable} from "jotai/utils";
-import {UsersFormType} from "../entities/entities.ts";
 import {CrmFilter} from "../../../utils/entities/entities.ts";
-
-const UserFormTypeAtom = atom<UsersFormType>(UsersFormType.EMPTY);
-
-const UserFormUUIDAtom = atom("");
 
 const UserUpdateAtom = atom(false);
 
@@ -37,13 +32,13 @@ const UserListPage = atom(0);
 
 const UserFilterAtom = atom<CrmFilter | null>(null)
 
-const SimpleUsersAtom = loadable(atom(async () => {
+const SimpleUsersAtom = loadable(atom(async (get) => {
+    get(UserUpdateAtom);
+
     return usersUseCase.listSimpleUsers()
 }))
 
 export default {
-    UserFormTypeAtom,
-    UserFormUUIDAtom,
     UsersListAtom,
     UserUpdateAtom,
     UserListTotalCountAtom,

@@ -88,7 +88,8 @@
       "user": "Users",
       "modules_config": "Modules",
       "customers": "Customers",
-      "wallet": "Wallet"
+      "wallet": "Wallet",
+      "product": "Products"
     },
     "actions": {
       "save": "Save",

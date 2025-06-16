@@ -3,7 +3,6 @@ import Layout from "../../../../utils/layout/Layout.tsx";
 import {MenuSide} from "../../../../utils/components/menuside/MenuSide.tsx";
 import {StoreRounded} from "@mui/icons-material";
 import {
-    Avatar,
     Box,
     Button,
     FormControl,
@@ -22,6 +21,8 @@ import {PasswordInput} from "../../../../utils/components/inputs/PasswordInput.t
 import {authUseCase} from "../../../auth/usecase/AuthUseCase.ts";
 import {popup} from "../../../../utils/alerts/Popup.ts";
 import {CrmModal} from "../../../../utils/components/core/CrmModal.tsx";
+import {CrmAppBar} from "../../../../utils/components/appbar/component/AppBar.tsx";
+import {forms} from "../forms/ModulesForms.tsx";
 
 export const DefaultPage = () => (
     <Layout.Root>
@@ -32,8 +33,6 @@ export const DefaultPage = () => (
 
 const Content = () => {
     const {show} = useContext(Layout.RootContext);
-
-    const navigate = useNavigate()
 
     const {user} = useAuth()
 
@@ -47,37 +46,7 @@ const Content = () => {
                 show && (
                     <Fragment>
                         <Layout.Header>
-                            <Box
-                                sx={{
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}
-                            >
-                                <Stack direction={"row"} alignItems={"center"} gap={1}>
-                                    <StoreRounded color={"action"}/>
-                                    <Typography level={"title-md"} color={"neutral"}>
-                                        Delice CRM
-                                    </Typography>
-                                </Stack>
-                                <Stack direction={"row"} alignItems={"center"} gap={1}>
-                                    <ToggleThemeButton/>
-                                    <ToggleLanguageButton/>
-                                    <Avatar
-                                        variant="outlined"
-                                        size="sm"
-                                        alt={user?.name.substring(0, 1)}
-                                        src={user?.avatar}
-                                        sx={{
-                                            cursor: "pointer"
-                                        }}
-                                        onClick={() => {
-                                            navigate("/me")
-                                        }}
-                                    />
-                                </Stack>
-                            </Box>
+                            <CrmAppBar/>
                         </Layout.Header>
                         <Layout.SideNav>
                             <MenuSide/>
@@ -88,6 +57,9 @@ const Content = () => {
             <Layout.Main>
                 <Outlet/>
             </Layout.Main>
+            {
+                forms.map((x) => x.form)
+            }
         </Fragment>
     )
 }
