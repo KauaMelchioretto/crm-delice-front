@@ -9,12 +9,18 @@ import {Fragment} from "react";
 import LaunchRounded from '@mui/icons-material/LaunchRounded';
 import {useNavigate} from "react-router-dom";
 import PlaylistRemoveRounded from '@mui/icons-material/PlaylistRemoveRounded';
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
+import {useSetAtom} from "jotai";
+import CrmState from "../../../utils/state/CrmState.ts";
+import {CrmFormType} from "../../../utils/entities/entities.ts";
 
 export const Me = () => {
     const {user, modules} = useAuth()
     const navigate = useNavigate()
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+
+    const setFormType = useSetAtom(CrmState.FormType)
 
     const fullName = user?.name + " " + user?.surname
 
@@ -22,7 +28,6 @@ export const Me = () => {
         <Box
             sx={{
                 width: "100%",
-                height: "100%",
                 gap: 2,
                 display: "flex",
                 flexDirection: "column",
@@ -92,23 +97,43 @@ export const Me = () => {
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "start",
-                                height: "100%"
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                height: "100%",
+                                width: "100%"
                             }}
                         >
-                            <Typography
-                                level={"body-lg"}
-                                fontWeight={"bold"}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
                             >
-                                {fullName}
-                            </Typography>
-                            <Typography
-                                level={"body-sm"}
-                                fontWeight={"bold"}
+                                <Typography
+                                    level={"body-lg"}
+                                    fontWeight={"bold"}
+                                >
+                                    {fullName}
+                                </Typography>
+                                <Typography
+                                    level={"body-sm"}
+                                    fontWeight={"bold"}
+                                >
+                                    {user?.email}
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
                             >
-                                {user?.email}
-                            </Typography>
+                                <IconButton
+                                    onClick={() => setFormType(CrmFormType.EDIT_MY_USER)}
+                                >
+                                    <ManageAccountsRoundedIcon/>
+                                </IconButton>
+                            </Box>
                         </Box>
                     </Box>
                     <Box

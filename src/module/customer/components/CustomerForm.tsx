@@ -62,6 +62,15 @@ export const CustomerForm = () => {
                     <CustomerRegister/>
                 </CrmModal>
             );
+        case CrmFormType.EDIT_CUSTOMER:
+            return (
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
+                >
+                    <CustomerRegister customerUUID={customerUUID}/>
+                </CrmModal>
+            );
         case CrmFormType.APPROVAL_CUSTOMER:
             return (
                 <CrmModal

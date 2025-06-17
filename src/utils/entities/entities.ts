@@ -14,5 +14,6 @@ export enum CrmFormType {
     EDIT_USER,
     ATTACH_ROLE,
     REGISTER_WALLET,
-    EDIT_WALLET
+    EDIT_WALLET,
+    EDIT_MY_USER
 }
