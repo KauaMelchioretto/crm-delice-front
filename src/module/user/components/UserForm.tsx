@@ -462,7 +462,15 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
                             <CloseRounded/>
                         </IconButton>
                     </Box>
-                    <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                            maxHeight: "500px",
+                            overflowY: "auto"
+                        }}
+                    >
                         {modules.map((m, im) => (
                             <Fragment key={`module_${im}`}>
                                 <Box

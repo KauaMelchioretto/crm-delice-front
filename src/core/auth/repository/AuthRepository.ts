@@ -1,5 +1,5 @@
 import {
-    AuthenticatedResponse, ChangePassword,
+    AuthenticatedResponse, ChangeAvatar, ChangeAvatarResponse, ChangePassword,
     ForgotPasswordResponse,
     Login,
     LoginResponse,
@@ -97,6 +97,22 @@ class AuthRepository {
                     newPassword: changePassword.newPassword,
                     confirmPassword: changePassword.confirmPassword,
                 }
+            )
+
+            return {ok: true}
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {ok: false, error: e?.response?.data?.error?.message ?? this.UNEXPECTED_ERROR}
+            }
+            return {ok: false, error: this.UNEXPECTED_ERROR}
+        }
+    }
+
+    async changeAvatar(avatar: ChangeAvatar): Promise<ChangeAvatarResponse>{
+        try {
+            await http.put(
+                `/user/changeAvatar`,
+                avatar
             )
 
             return {ok: true}

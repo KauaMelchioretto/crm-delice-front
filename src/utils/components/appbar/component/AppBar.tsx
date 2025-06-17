@@ -141,7 +141,7 @@ const MenuAppBar = () => {
                     sx={{
                         mt: 1.5,
                         backgroundColor: "background.surface",
-                        maxHeight: "800px",
+                        maxHeight: "500px",
                         width: "550px",
                         position: "absolute",
                         border: "1px solid",
@@ -165,18 +165,22 @@ const MenuAppBar = () => {
 
                             return (
                                 <Box key={`module_app_bar_${i}`}>
-                                    <Stack direction={"row"} alignItems={"center"} gap={1}>
+                                    <Stack
+                                        direction={"row"}
+                                        alignItems={"center"}
+                                        gap={1}
+                                        onClick={() => navigate(module.path)}
+                                        sx={{
+                                            ":hover": {
+                                                backgroundColor: "var(--TableRow-hoverBackground, var(--joy-palette-background-level3))",
+                                                cursor: "pointer"
+                                            },
+                                            p: 0.5,
+                                            borderRadius: 5
+                                        }}
+                                    >
                                         <Icon/>
-                                        <Typography
-                                            level="title-sm"
-                                            sx={{
-                                                ":hover": {
-                                                    textDecoration: "underline",
-                                                    cursor: "pointer"
-                                                }
-                                            }}
-                                            onClick={() => navigate(module.path)}
-                                        >
+                                        <Typography level="title-sm">
                                             {module.label}
                                         </Typography>
                                     </Stack>
@@ -184,7 +188,7 @@ const MenuAppBar = () => {
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
-                                            gap: 0.5
+                                            gap: 0.8,
                                         }}
                                     >
                                         {
@@ -195,21 +199,20 @@ const MenuAppBar = () => {
                                                         direction={"row"}
                                                         alignItems={"center"}
                                                         gap={1}
+                                                        sx={{
+                                                            ":hover": {
+                                                                backgroundColor: "var(--TableRow-hoverBackground, var(--joy-palette-background-level3))",
+                                                                cursor: "pointer"
+                                                            },
+                                                            p: 0.5,
+                                                            borderRadius: 5
+                                                        }}
+                                                        onClick={() => {
+                                                            modifiedFormType(module.formType)
+                                                            modifiedEntityUUID(v.uuid)
+                                                        }}
                                                     >
-                                                        <Icon/>
-                                                        <Typography
-                                                            level="body-sm"
-                                                            sx={{
-                                                                ":hover": {
-                                                                    textDecoration: "underline",
-                                                                    cursor: "pointer"
-                                                                }
-                                                            }}
-                                                            onClick={() => {
-                                                                modifiedFormType(module.formType)
-                                                                modifiedEntityUUID(v.uuid)
-                                                            }}
-                                                        >
+                                                        <Typography level="body-sm">
                                                             {v.value}
                                                         </Typography>
                                                     </Stack>

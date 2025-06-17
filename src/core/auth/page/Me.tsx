@@ -315,7 +315,9 @@ export const Me = () => {
                         },
                         display: "flex",
                         flexDirection: "column",
-                        gap: 2
+                        gap: 2,
+                        maxHeight: "500px",
+                        overflowY: "auto"
                     }}
                 >
                     <Typography
