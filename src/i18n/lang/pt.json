@@ -80,11 +80,11 @@
         "module": "Módulo"
       },
       "home": "Início",
-      "user": "Usuários",
+      "users": "Usuários",
       "modules_config": "Módulos",
       "customers": "Clientes",
-      "wallet": "Carteira",
-      "product": "Produtos"
+      "wallet": "Carteiras",
+      "products": "Produtos"
     },
     "actions": {
       "save": "Salvar",
@@ -178,13 +178,19 @@
         }
       },
       "fields": {
-        "title": "Titulo",
+        "title": "Título",
         "accountable": "Responsável",
         "status": "Situação",
         "customers_quantity": "Quantidade de clientes",
         "created_at": "Criado em",
         "created_by": "Criado por",
-        "edit": "Alterar"
+        "observations": "Observações"
+      },
+      "messages" : {
+        "update_success": "A carteira foi alterada com sucesso",
+        "create_success": "A carteira foi criada com sucesso",
+        "title_required": "O título é obrigatório",
+        "user_required": "O usuário é obrigatório"
       }
     },
     "me": {
@@ -203,6 +209,37 @@
       "messages": {
         "user_without_permissions": "Usuário sem permissões"
       }
-    } 
+    },
+    "products": {
+      "title": "Produtos",
+      "page": {
+        "buttons": {
+          "register": "Cadastrar produto" 
+        }
+      },
+      "fields": {
+        "code": "Código",
+        "name": "Nome",
+        "weight": "Peso",
+        "price": "Preço",
+        "description": "Descrição"
+      },
+      "messages": {
+        "create_success": "O produto foi criado com sucesso",
+        "update_success": "O produto foi alterado com sucesso",
+        "code_required": "O código é obrigatório",
+        "status_required": "O status é obrigatório",
+        "name_required": "O nome é obrigatório",
+        "price_required": "O preço é obrigatório",
+        "weight_required": "O peso é obrigatório"
+      },
+      "status": {
+        "active": "Ativo",
+        "inactive": "Inativo"
+      }
+    },
+    "app_bar": {
+      "placeholder": "Procurar..."
+    }
   }
 }

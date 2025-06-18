@@ -14,11 +14,13 @@ import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import { useTranslation } from "react-i18next";
 
 export const ProductList = () => {
     const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
     const modifiedProductForm = useSetAtom(CrmState.FormType)
-
+    const { t } = useTranslation();
+    
     const productAtom = useAtomValue(ProductState.ListAtom)
 
     let products: Product[] = []
@@ -132,12 +134,12 @@ export const ProductList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Weight</th>
-                        <th>Price</th>
+                        <th>{t("products.fields.code")}</th>
+                        <th>{t("products.fields.name")}</th>
+                        <th>{t("products.fields.weight")}</th>
+                        <th>{t("products.fields.price")}</th>
                         <th>Status</th>
-                        <th>Edit</th>
+                        <th>{t("actions.edit")}</th>
                     </tr>
                     </thead>
                     <tbody>
