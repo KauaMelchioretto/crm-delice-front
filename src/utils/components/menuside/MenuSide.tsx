@@ -33,7 +33,7 @@ export const MenuSide = () => {
         {
             code: "USER_MODULE",
             icon: AccountCircleRoundedIcon,
-            label: t("modules.user")
+            label: t("modules.users")
         },
         {
             code: "CUSTOMER",
@@ -48,7 +48,7 @@ export const MenuSide = () => {
         {
             code: "PRODUCT",
             icon: CategoryRoundedIcon,
-            label: t("modules.product")
+            label: t("modules.products")
         },
         {
             code: "SYSTEM_ROLES",

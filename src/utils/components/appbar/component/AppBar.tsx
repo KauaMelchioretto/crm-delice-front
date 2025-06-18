@@ -17,6 +17,7 @@ import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
+import { useTranslation } from "react-i18next";
 
 export const CrmAppBar = () => {
     const {user} = useAuth()
@@ -70,6 +71,8 @@ const MenuAppBar = () => {
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
 
+    const { t } = useTranslation();
+
     const defaultMenuResult = {
         totalResults: 0,
     } as Menu
@@ -81,25 +84,25 @@ const MenuAppBar = () => {
     const modulesIcons = {
         [MenuOptionType.User]: {
             icon: AccountCircleRoundedIcon,
-            label: "Usuários",
+            label: t("modules.users"),
             path: "/user",
             formType: CrmFormType.EDIT_USER,
         },
         [MenuOptionType.Customer]: {
             icon: PeopleAltRoundedIcon,
-            label: "Clientes",
+            label: t("modules.customers"),
             path: "/customers",
             formType: CrmFormType.EDIT_CUSTOMER,
         },
         [MenuOptionType.Wallet]: {
             icon: WalletRoundedIcon,
-            label: "Carteiras",
+            label: t("modules.wallets"),
             path: "/wallets",
             formType: CrmFormType.EDIT_WALLET,
         },
         [MenuOptionType.Product]: {
             icon: CategoryRoundedIcon,
-            label: "Produtos",
+            label: t("modules.products"),
             path: "/products",
             formType: CrmFormType.EDIT_PRODUCT,
         }
@@ -123,7 +126,7 @@ const MenuAppBar = () => {
                             setOnInput(false)
                         }, 200)
                     }}
-                    placeholder={"Procurar..."}
+                    placeholder={t("app_bar.placeholder")}
                     endDecorator={<SearchRoundedIcon/>}
                     sx={{
                         width: "400px"
@@ -133,7 +136,7 @@ const MenuAppBar = () => {
                     size={"sm"}
                     endDecorator={<AddRoundedIcon/>}
                 >
-                    Criar
+                    {t("actions.register")}
                 </Button>
             </Stack>
             {(onInput && menuResult.totalResults > 0) && (

@@ -85,11 +85,11 @@
         "include_new_role": "Include new role"
       },
       "home": "Home",
-      "user": "Users",
+      "users": "Users",
       "modules_config": "Modules",
       "customers": "Customers",
-      "wallet": "Wallet",
-      "product": "Products"
+      "wallet": "Wallets",
+      "products": "Products"
     },
     "actions": {
       "save": "Save",
@@ -193,7 +193,13 @@
         "customers_quantity": "Customers quantity",
         "created_at": "Created at",
         "created_by": "Created by",
-        "edit": "Edit"
+        "observations": "Observations"
+      },
+      "messages" : {
+        "create_success": "The wallet has been created with success",
+        "update_success": "The wallet has been changed with success",
+        "title_required": "The title is required",
+        "user_required": "The user is required"
       }
     },
     "me": {
@@ -212,6 +218,37 @@
       "messages": {
         "user_without_permissions": "User without permissions"
       }
+    },
+    "products": {
+      "title": "Products",
+      "page": {
+        "buttons": {
+          "register": "Register product" 
+        }
+      },
+      "fields": {
+        "code": "Code",
+        "name": "Name",
+        "weight": "Weight",
+        "price": "Price",
+        "description": "Description"
+      },
+      "messages": {
+        "create_success": "The product has been created with success",
+        "update_success": "The product has been changed with success",
+        "code_required": "The code is required",
+        "status_required": "The status is required",
+        "name_required": "The name is required",
+        "price_required": "The price is required",
+        "weight_required": "The weight is required"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "app_bar": {
+      "placeholder": "Search..."
     }
   }
 }
