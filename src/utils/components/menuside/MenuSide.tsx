@@ -9,18 +9,15 @@ import {
     Typography
 } from "@mui/joy";
 import HomeRounded from "@mui/icons-material/HomeRounded"
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import LogoutRounded from "@mui/icons-material/LogoutRounded"
-import RuleRounded from "@mui/icons-material/RuleRounded"
-import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
-import WalletRoundedIcon from '@mui/icons-material/WalletRounded';
-import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {useContext} from "react";
 import Layout from "../../layout/Layout.tsx";
 import {useTranslation} from "react-i18next";
 import {popup} from "../../alerts/Popup.ts";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
+import {SvgIconComponent} from "@mui/icons-material";
 
 export const MenuSide = () => {
     const navigate = useNavigate();
@@ -28,34 +25,13 @@ export const MenuSide = () => {
     const {open} = useContext(Layout.SideNavContext)
 
     const {logout, modules} = useAuth();
+    const {crmModules} = useApp()
 
-    const SYSTEM_MODULES = [
-        {
-            code: "USER_MODULE",
-            icon: AccountCircleRoundedIcon,
-            label: t("modules.user")
-        },
-        {
-            code: "CUSTOMER",
-            icon: PeopleAltRoundedIcon,
-            label: t("modules.customers")
-        },
-        {
-            code: "WALLET",
-            icon: WalletRoundedIcon,
-            label: t("modules.wallet")
-        },
-        {
-            code: "PRODUCT",
-            icon: CategoryRoundedIcon,
-            label: t("modules.product")
-        },
-        {
-            code: "SYSTEM_ROLES",
-            icon: RuleRounded,
-            label: t("modules.modules_config")
-        },
-    ]
+    const sideBarModules = crmModules.filter(x => {
+        if(modules?.find(m => m.code === x.code) && x.sideBar){
+            return x
+        }
+    })
 
     const handleConfirmLogout = () => {
         popup.confirm("question", "Deseja sair da sua conta?", "", "Sim").then((response) => {
@@ -108,12 +84,12 @@ export const MenuSide = () => {
                     }
                 </ListItem>
                 {
-                    SYSTEM_MODULES?.map((m, i) => {
+                    sideBarModules?.map((m, i) => {
                         const module = modules?.find(x => x.code === m.code);
 
                         if(!module) return
 
-                        const Icon = m.icon
+                        const Icon = m.icon as SvgIconComponent
 
                         return (
                             <ListItem

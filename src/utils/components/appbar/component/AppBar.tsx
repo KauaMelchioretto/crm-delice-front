@@ -1,5 +1,5 @@
 import {Avatar, Box, Dropdown, MenuButton, Menu as MenuJoy, MenuItem, Stack, Typography} from "@mui/joy";
-import {StoreRounded} from "@mui/icons-material";
+import {StoreRounded, SvgIconComponent} from "@mui/icons-material";
 import {ToggleThemeButton} from "../../theme/ToggleThemeMode.tsx";
 import {ToggleLanguageButton} from "../../../../i18n/components/ToggleLanguageButton.tsx";
 import {useNavigate} from "react-router-dom";
@@ -8,15 +8,12 @@ import {TextInput} from "../../core/TextInput.tsx";
 import {SetStateAction, useAtom, useAtomValue, useSetAtom} from "jotai";
 import AppBarState from "../state/AppBarState.ts";
 import {Dispatch, memo, useState} from "react";
-import {Menu, MenuOptionType} from "../entities/entities.ts";
+import {Menu} from "../entities/entities.ts";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
-import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
-import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
+import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 
 export const CrmAppBar = () => {
     const {user} = useAuth()
@@ -59,46 +56,13 @@ export const CrmAppBar = () => {
     )
 }
 
-const modulesIcons = {
-    [MenuOptionType.User]: {
-        icon: AccountCircleRoundedIcon,
-        label: "Usuários",
-        create: "Criar usuário",
-        path: "/user",
-        editFormType: CrmFormType.EDIT_USER,
-        createFormType: CrmFormType.REGISTER_USER
-    },
-    [MenuOptionType.Customer]: {
-        icon: PeopleAltRoundedIcon,
-        label: "Clientes",
-        create: "Criar cliente",
-        path: "/customers",
-        editFormType: CrmFormType.EDIT_CUSTOMER,
-        createFormType: CrmFormType.REGISTER_CUSTOMER
-    },
-    [MenuOptionType.Wallet]: {
-        icon: WalletRoundedIcon,
-        label: "Carteiras",
-        create: "Criar carteira",
-        path: "/wallets",
-        editFormType: CrmFormType.EDIT_WALLET,
-        createFormType: CrmFormType.REGISTER_WALLET
-    },
-    [MenuOptionType.Product]: {
-        icon: CategoryRoundedIcon,
-        label: "Produtos",
-        create: "Criar produto",
-        path: "/products",
-        editFormType: CrmFormType.EDIT_PRODUCT,
-        createFormType: CrmFormType.REGISTER_PRODUCT
-    }
-}
-
 const MenuAppBar = () => {
     const [onInput, setOnInput] = useState<boolean>(false);
     const menuResultAtom = useAtomValue(AppBarState.SearchResultAtom)
 
     const navigate = useNavigate()
+
+    const {crmModules} = useApp()
 
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
@@ -144,9 +108,11 @@ const MenuAppBar = () => {
                 >
                     {
                         menuResult.result?.map((m, i) => {
-                            const module = modulesIcons[m.type]
+                            const module = crmModules.find(x => x.code === m.type)
 
-                            const Icon = module.icon
+                            if (!module) return
+
+                            const Icon = module.icon as SvgIconComponent
 
                             return (
                                 <Box key={`module_app_bar_${i}`}>
@@ -193,7 +159,7 @@ const MenuAppBar = () => {
                                                             borderRadius: 5
                                                         }}
                                                         onClick={() => {
-                                                            modifiedFormType(module.editFormType)
+                                                            modifiedFormType(module.editFormType as CrmFormType)
                                                             modifiedEntityUUID(v.uuid)
                                                         }}
                                                     >
@@ -215,7 +181,7 @@ const MenuAppBar = () => {
     )
 }
 
-const SearchBarInput = memo(({setOnInput}: {setOnInput: Dispatch<SetStateAction<boolean>> }) => {
+const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction<boolean>> }) => {
     const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
 
     const [searchBarValue, setSearchBarValue] = useAtom(AppBarState.SearchBarValueAtom)
@@ -248,6 +214,15 @@ const SearchBarInput = memo(({setOnInput}: {setOnInput: Dispatch<SetStateAction<
 const CreateButton = () => {
     const setFormType = useSetAtom(CrmState.FormType)
 
+    const {modules} = useAuth()
+    const {crmModules} = useApp()
+
+    const createModules = crmModules.filter(x => {
+        if(modules?.find(m => m.code === x.code) && x.createFormType !== undefined){
+            return x
+        }
+    });
+
     return (
         <Dropdown>
             <MenuButton
@@ -260,21 +235,17 @@ const CreateButton = () => {
             </MenuButton>
             <MenuJoy>
                 {
-                    Object.keys(modulesIcons).map((x) => {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-expect-error
-                        const module = modulesIcons[x]
-
-                        const Icon = module.icon
+                    createModules.map((x) => {
+                        const Icon = x.icon as SvgIconComponent
 
                         return (
                             <MenuItem
                                 onClick={() => {
-                                    setFormType(module.createFormType)
+                                    setFormType(x.createFormType as CrmFormType)
                                 }}
                             >
                                 <Icon/>
-                                {module.create}
+                                {x.createLabel}
                             </MenuItem>
                         )
                     })

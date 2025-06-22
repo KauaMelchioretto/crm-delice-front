@@ -1,6 +1,34 @@
+import {ReactElement} from "react";
+import {SvgIconComponent} from "@mui/icons-material";
+
 export interface CrmFilter {
     field?: string,
     value?: string
+}
+
+export interface CrmModule {
+    element?: ReactElement,
+    path: string,
+    sideBar: boolean,
+    permissionRequired: boolean,
+    form?: ReactElement,
+    code: string,
+    icon?: SvgIconComponent,
+    label?: string,
+    createLabel?: string,
+    editFormType?: CrmFormType,
+    createFormType?: CrmFormType,
+}
+
+export enum CrmModules {
+    Home = "HOME",
+    Wallet = 'WALLET',
+    Customer = 'CUSTOMER',
+    User = 'USER_MODULE',
+    Product = 'PRODUCT',
+    System = 'SYSTEM_ROLES',
+    NoPermission = 'NO_PERMISSION',
+    Me = 'ME',
 }
 
 export enum CrmFormType {
