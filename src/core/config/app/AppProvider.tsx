@@ -63,8 +63,8 @@ export const AppProvider = (props: AppProviderProps) => {
             form: <UserForm/>,
             code: CrmModules.User,
             icon: AccountCircleRoundedIcon,
-            label: t("modules.user"),
-            createLabel: "Criar usuário",
+            label: t("modules.users"),
+            createLabel: t("users.page.buttons.register"),
             editFormType: CrmFormType.EDIT_USER,
             createFormType: CrmFormType.REGISTER_USER
         },
@@ -77,7 +77,7 @@ export const AppProvider = (props: AppProviderProps) => {
             icon: PeopleAltRoundedIcon,
             label: t("modules.customers"),
             code: CrmModules.Customer,
-            createLabel: "Criar cliente",
+            createLabel: t("customers.page.buttons.register"),
             editFormType: CrmFormType.EDIT_CUSTOMER,
             createFormType: CrmFormType.REGISTER_CUSTOMER
         },
@@ -90,7 +90,7 @@ export const AppProvider = (props: AppProviderProps) => {
             icon: WalletRoundedIcon,
             label: t("modules.wallet"),
             code: CrmModules.Wallet,
-            createLabel: "Criar carteira",
+            createLabel: t("wallets.page.buttons.register"),
             editFormType: CrmFormType.EDIT_WALLET,
             createFormType: CrmFormType.REGISTER_WALLET
         },
@@ -108,9 +108,9 @@ export const AppProvider = (props: AppProviderProps) => {
             permissionRequired: true,
             form: <ProductForm/>,
             icon: CategoryRoundedIcon,
-            label: t("modules.product"),
+            label: t("modules.products"),
             code: CrmModules.Product,
-            createLabel: "Criar produto",
+            createLabel: t("products.page.buttons.register"),
             editFormType: CrmFormType.EDIT_PRODUCT,
             createFormType: CrmFormType.REGISTER_PRODUCT
         },

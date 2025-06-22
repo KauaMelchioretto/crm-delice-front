@@ -6,6 +6,7 @@
     "your_password_input": "Your password",
     "login_access_input": "sign in",
     "forget_password_label": "Did you forgotten your password?",
+    "logout_button": "Logout",
     "forgotten_password_page": {
       "title": "Reset password",
       "description": "After submitting the request, you will receive a link in your email inbox to continue resetting your password.",
@@ -231,7 +232,13 @@
         "name": "Name",
         "weight": "Weight",
         "price": "Price",
-        "description": "Description"
+        "description": "Description",
+        "status": "Status",
+        "images": "Images",
+        "media": "Product Images",
+        "image_principal": "Image Principal",
+        "change_principal": "Change to principal",
+        "add_image": "Add image"
       },
       "messages": {
         "create_success": "The product has been created with success",

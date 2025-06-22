@@ -29,12 +29,12 @@ export const ProductList = () => {
     const productStatus = {
         [ProductStatus.ACTIVE]: {
             color: "#118D57",
-            label: "Ativo",
+            label: t("products.status.active"),
             icon: VerifiedRounded
         },
         [ProductStatus.INACTIVE]: {
             color: "#ff543f",
-            label: "Inativo",
+            label: t("products.status.inactive"),
             icon: CancelRounded
         },
     }
@@ -142,8 +142,8 @@ export const ProductList = () => {
                         <th>{t("products.fields.name")}</th>
                         <th>{t("products.fields.weight")}</th>
                         <th>{t("products.fields.price")}</th>
-                        <th>Status</th>
-                        <th>Image</th>  
+                        <th>{t("products.fields.status")}</th>
+                        <th>{t("products.fields.images")}</th>
                         <th>{t("actions.edit")}</th>
                     </tr>
                     </thead>

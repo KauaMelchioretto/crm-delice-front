@@ -21,6 +21,7 @@ import {Image, Carousel, Empty} from "antd";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {CrmAntImage} from "../../../utils/components/image/CrmAntImage.tsx";
 import uuid from "react-native-uuid"
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 export const ProductForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
@@ -131,7 +132,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {producUUID ? t("actions.edit") : t("actions.register")} {t("products.title")}
+                        {productUUID ? t("actions.edit") : t("actions.register")} {t("products.title")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -249,7 +250,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        {producUUID ? t("actions.save") : t("actions.register")}
+                        {productUUID ? t("actions.save") : t("actions.register")}
                     </Button>
                 </Box>
             </FormProvider>
@@ -259,6 +260,8 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
 
 const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
+
+    const {t} = useTranslation()
 
     const [principal, setPrincipal] = useState<ProductMedia | null>(null)
     const [images, setImages] = useState<ProductMedia[]>([])
@@ -349,7 +352,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                 alignItems={"center"}
             >
                 <Typography level={"body-md"} fontWeight={"bold"}>
-                    Product Media
+                    {t("products.fields.media")}
                 </Typography>
                 <IconButton
                     size={"sm"}
@@ -370,7 +373,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                     {
                         principal && (
                             <Fragment>
-                                <Typography level={"title-md"}>Image principal</Typography>
+                                <Typography level={"title-md"}>{t("products.fields.image_principal")}</Typography>
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -406,7 +409,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                             alignItems: "center"
                         }}
                     >
-                        <Typography level={"title-md"}>Images</Typography>
+                        <Typography level={"title-md"}>{t("products.fields.images")}</Typography>
                         <Button
                             size={"sm"}
                             onClick={() => {
@@ -414,8 +417,9 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                                     inputRef.current.click();
                                 }
                             }}
+                            startDecorator={<AddRoundedIcon/>}
                         >
-                            Add image
+                            {t("products.fields.add_image")}
                         </Button>
                     </Box>
                     {
@@ -465,7 +469,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                                                             changeToPrincipal(m)
                                                         }}
                                                     >
-                                                        Change to principal
+                                                        {t("products.fields.change_principal")}
                                                     </Button>
                                                     <IconButton
                                                         size={"sm"}
@@ -499,7 +503,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
                     sx={{flex: 1, mt: 2}}
                     onClick={() => saveProductMedia()}
                 >
-                    Save
+                    {t("actions.save")}
                 </Button>
             </Box>
         </CrmContainer>

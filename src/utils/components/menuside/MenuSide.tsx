@@ -151,7 +151,7 @@ export const MenuSide = () => {
                                             textWrap: "nowrap"
                                         }}
                                     >
-                                        Desvincular conta
+                                        {t("logout_button")}
                                     </Typography>
                                 </ListItemContent>
                             </ListItemButton>
