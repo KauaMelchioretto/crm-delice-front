@@ -4,9 +4,11 @@ import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContaine
 import {ProductList} from "../components/ProductList.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import { useTranslation } from "react-i18next";
 
 export const Product = () => {
     const modifiedProductFormType = useSetAtom(CrmState.FormType)
+    const { t } = useTranslation();
 
     return (
         <Box
@@ -30,13 +32,13 @@ export const Product = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    Products
+                    {t("products.title")}
                 </Typography>
                 <Button
                     size="sm"
                     onClick={() => modifiedProductFormType(CrmFormType.REGISTER_PRODUCT)}
                 >
-                    Register product
+                    {t("products.page.buttons.register")}
                 </Button>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>

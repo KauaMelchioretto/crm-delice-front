@@ -20,6 +20,7 @@ import {popup} from "../../../utils/alerts/Popup.ts";
 import {useEffect} from "react";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import { useTranslation } from "react-i18next";
 
 export const WalletForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
@@ -58,6 +59,7 @@ export const WalletForm = () => {
 
 const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
+    const { t } = useTranslation();
 
     const updateList = useSetAtom(WalletState.UpdateAtom)
 
@@ -105,7 +107,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 if (response.error) {
                     popup.toast("error", response.error, 2000);
                 } else {
-                    popup.toast("success", "The wallet is changed with success", 2000);
+                    popup.toast("success", t("wallets.messages.update_success"), 2000);
                     updateList(prev => !prev);
                     setFormType(CrmFormType.EMPTY);
                 }
@@ -121,7 +123,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             if (response.error) {
                 popup.toast("error", response.error, 2000);
             } else {
-                popup.toast("success", "The wallet is changed with success", 2000);
+                popup.toast("success", t("wallets.messages.create_success"), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -167,7 +169,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {walletUUID ? "Edit" : "Register"} Wallet
+                        {walletUUID ? t("actions.edit") : t("actions.register")} {t("modules.wallet")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -200,9 +202,9 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                             }}
                         >
                             <FormControl sx={{flex: 1}}>
-                                <FormLabel>Titulo</FormLabel>
+                                <FormLabel>{t("wallets.fields.title")}</FormLabel>
                                 <TextInput
-                                    {...register("label", {required: "The title is required"})}
+                                    {...register("label", {required: t("wallets.messages.title_required")})}
                                     size={"sm"}
                                     variant={"soft"}
                                 />
@@ -214,9 +216,9 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                 <CrmSelect
                                     name={"accountable.uuid"}
                                     options={userOptions}
-                                    label={"Accountable"}
+                                    label={t("wallets.fields.accountable")}
                                     // @ts-ignore
-                                    rules={{rules: {required: "The user is required"}}}
+                                    rules={{rules: {required: t("wallets.messages.user_required")}}}
                                 />
                             </Box>
                             {
@@ -303,7 +305,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                         </Box>
                     </Box>
                     <FormControl>
-                        <FormLabel>Observação</FormLabel>
+                        <FormLabel>{t("wallets.fields.observations")}</FormLabel>
                         <CrmTextarea
                             {...register("observation")}
                             size={"sm"}
@@ -317,7 +319,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        {walletUUID ? "Salvar" : "Registrar"}
+                        {walletUUID ? t("actions.save") : t("actions.register")}
                     </Button>
                 </Box>
             </FormProvider>

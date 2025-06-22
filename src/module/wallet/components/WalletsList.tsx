@@ -140,7 +140,7 @@ export const WalletsList = () => {
                         <th>{t("wallets.fields.customers_quantity")}</th>
                         <th>{t("wallets.fields.status")}</th>
                         <th>{t("wallets.fields.created_at")}</th>
-                        <th>{t("wallets.fields.edit")}</th>
+                        <th>{t("actions.edit")}</th>
                     </tr>
                     </thead>
                     <tbody>

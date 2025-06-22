@@ -16,6 +16,7 @@ import {productUseCase} from "../usecase/ProductUseCase.ts";
 import {ChangeEvent, Fragment, useEffect, useRef, useState} from "react";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import { useTranslation } from "react-i18next";
 import {Image, Carousel, Empty} from "antd";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {CrmAntImage} from "../../../utils/components/image/CrmAntImage.tsx";
@@ -62,6 +63,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(ProductState.UpdateAtom)
     const formMethods = useForm();
+    const { t } = useTranslation();
 
     const {handleSubmit, register, formState: {errors}, setValue} = formMethods
 
@@ -79,7 +81,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                 if (response.error) {
                     popup.toast("error", response.error, 2000);
                 } else {
-                    popup.toast("success", "The wallet is changed with success", 2000);
+                    popup.toast("success", t("products.messages.update_success"), 2000);
                     updateList(prev => !prev);
                     setFormType(CrmFormType.EMPTY);
                 }
@@ -96,7 +98,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
             if (response.error) {
                 popup.toast("error", response.error, 2000);
             } else {
-                popup.toast("success", "The wallet is changed with success", 2000);
+                popup.toast("success", t("products.messages.create_success"), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -129,7 +131,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {productUUID ? "Edit" : "Register"} Product
+                        {producUUID ? t("actions.edit") : t("actions.register")} {t("products.title")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -156,9 +158,9 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         }}
                     >
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Code</FormLabel>
+                            <FormLabel>{t("products.fields.code")}</FormLabel>
                             <NumericInput
-                                {...register("code", {required: "The code is required"})}
+                                {...register("code", {required: t("products.messages.code_required")})}
                                 size={"sm"}
                                 variant={"soft"}
                                 disabled={!!productUUID}
@@ -174,26 +176,26 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                                         name={"status"}
                                         options={[
                                             {
-                                                label: "Active",
+                                                label: t("products.status.active"),
                                                 value: ProductStatus.ACTIVE
                                             },
                                             {
-                                                label: "Inactive",
+                                                label: t("products.status.inactive"),
                                                 value: ProductStatus.INACTIVE
                                             }
                                         ]}
                                         label={"Status"}
                                         // @ts-ignore
-                                        rules={{rules: {required: "The status is required"}}}
+                                        rules={{rules: {required: t("products.messages.status_required")}}}
                                     />
                                 </Box>
                             )
                         }
                     </Box>
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>{t("products.fields.name")}</FormLabel>
                         <TextInput
-                            {...register("name", {required: "The name is required"})}
+                            {...register("name", {required: t("products.messages.name_required")})}
                             size={"sm"}
                             variant={"soft"}
                         />
@@ -210,9 +212,9 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         }}
                     >
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Price (R$)</FormLabel>
+                            <FormLabel>{t("products.fields.price")} (R$)</FormLabel>
                             <ValueInput
-                                {...register("price", {required: "The price is required"})}
+                                {...register("price", {required: t("products.messages.price_required")})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -221,9 +223,9 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                             </FormHelperText>
                         </FormControl>
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Weight (g)</FormLabel>
+                            <FormLabel>{t("products.fields.weight")} (g)</FormLabel>
                             <NumericInput
-                                {...register("weight", {required: "The weight is required"})}
+                                {...register("weight", {required: t("products.messages.weight_required")})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -233,7 +235,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         </FormControl>
                     </Box>
                     <FormControl>
-                        <FormLabel>Descrição</FormLabel>
+                        <FormLabel>{t("products.fields.description")}</FormLabel>
                         <CrmTextarea
                             {...register("description")}
                             size={"sm"}
@@ -247,7 +249,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        {productUUID ? "Save" : "Register"}
+                        {producUUID ? t("actions.save") : t("actions.register")}
                     </Button>
                 </Box>
             </FormProvider>

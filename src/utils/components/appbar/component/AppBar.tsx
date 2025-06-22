@@ -13,6 +13,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
+import { useTranslation } from "react-i18next";
 import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 
 export const CrmAppBar = () => {
@@ -66,6 +67,8 @@ const MenuAppBar = () => {
 
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
+
+    const { t } = useTranslation();
 
     const defaultMenuResult = {
         totalResults: 0,
@@ -185,6 +188,8 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
     const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
 
     const [searchBarValue, setSearchBarValue] = useAtom(AppBarState.SearchBarValueAtom)
+    
+    const { t } = useTranslation();
 
     return (
         <TextInput
@@ -202,7 +207,7 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
                     setOnInput(false)
                 }, 200)
             }}
-            placeholder={"Procurar..."}
+            placeholder={t("app_bar.placeholder")}
             endDecorator={<SearchRoundedIcon/>}
             sx={{
                 width: "500px"
@@ -213,6 +218,8 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
 
 const CreateButton = () => {
     const setFormType = useSetAtom(CrmState.FormType)
+    
+    const { t } = useTranslation();
 
     const {modules} = useAuth()
     const {crmModules} = useApp()
@@ -231,7 +238,7 @@ const CreateButton = () => {
                 color={"primary"}
                 endDecorator={<AddRoundedIcon/>}
             >
-                Create
+                {t("actions.register")}
             </MenuButton>
             <MenuJoy>
                 {
