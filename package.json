@@ -17,6 +17,7 @@
     "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^7.0.2",
     "@mui/x-date-pickers": "^8.1.0",
+    "antd": "^5.26.1",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
     "i18next": "^25.1.2",
@@ -28,6 +29,7 @@
     "react-hook-form": "^7.55.0",
     "react-i18next": "^15.5.1",
     "react-imask": "^7.6.1",
+    "react-native-uuid": "^2.0.3",
     "react-router-dom": "^7.4.0",
     "sweetalert2": "^11.17.2"
   },

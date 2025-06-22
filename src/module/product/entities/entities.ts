@@ -3,7 +3,7 @@ export interface Product {
     name?: string,
     code?: string,
     description?: string,
-    image?: string,
+    images?: ProductMedia[],
     price?: number,
     weight?: number
     status?: ProductStatus,
@@ -20,6 +20,19 @@ export interface ProductListResponse {
     items?: Product[],
     page?: number,
     total?: number,
+    error?: string
+}
+
+export interface ProductMedia{
+    uuid?: string,
+    image: string,
+    isPrincipal: boolean,
+    createdAt?: string,
+    modifiedAt?: string,
+}
+
+export interface ProductMediaResponse{
+    media?: ProductMedia[],
     error?: string
 }
 

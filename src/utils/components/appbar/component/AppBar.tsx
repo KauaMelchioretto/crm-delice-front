@@ -1,13 +1,13 @@
-import {Avatar, Box, Button, Stack, Typography} from "@mui/joy";
+import {Avatar, Box, Dropdown, MenuButton, Menu as MenuJoy, MenuItem, Stack, Typography} from "@mui/joy";
 import {StoreRounded} from "@mui/icons-material";
 import {ToggleThemeButton} from "../../theme/ToggleThemeMode.tsx";
 import {ToggleLanguageButton} from "../../../../i18n/components/ToggleLanguageButton.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../../core/auth/provider/AuthProvider.tsx";
 import {TextInput} from "../../core/TextInput.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
+import {SetStateAction, useAtom, useAtomValue, useSetAtom} from "jotai";
 import AppBarState from "../state/AppBarState.ts";
-import {useState} from "react";
+import {Dispatch, memo, useState} from "react";
 import {Menu, MenuOptionType} from "../entities/entities.ts";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -59,9 +59,42 @@ export const CrmAppBar = () => {
     )
 }
 
-const MenuAppBar = () => {
-    const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
+const modulesIcons = {
+    [MenuOptionType.User]: {
+        icon: AccountCircleRoundedIcon,
+        label: "Usuários",
+        create: "Criar usuário",
+        path: "/user",
+        editFormType: CrmFormType.EDIT_USER,
+        createFormType: CrmFormType.REGISTER_USER
+    },
+    [MenuOptionType.Customer]: {
+        icon: PeopleAltRoundedIcon,
+        label: "Clientes",
+        create: "Criar cliente",
+        path: "/customers",
+        editFormType: CrmFormType.EDIT_CUSTOMER,
+        createFormType: CrmFormType.REGISTER_CUSTOMER
+    },
+    [MenuOptionType.Wallet]: {
+        icon: WalletRoundedIcon,
+        label: "Carteiras",
+        create: "Criar carteira",
+        path: "/wallets",
+        editFormType: CrmFormType.EDIT_WALLET,
+        createFormType: CrmFormType.REGISTER_WALLET
+    },
+    [MenuOptionType.Product]: {
+        icon: CategoryRoundedIcon,
+        label: "Produtos",
+        create: "Criar produto",
+        path: "/products",
+        editFormType: CrmFormType.EDIT_PRODUCT,
+        createFormType: CrmFormType.REGISTER_PRODUCT
+    }
+}
 
+const MenuAppBar = () => {
     const [onInput, setOnInput] = useState<boolean>(false);
     const menuResultAtom = useAtomValue(AppBarState.SearchResultAtom)
 
@@ -78,33 +111,6 @@ const MenuAppBar = () => {
         ? (menuResultAtom.data?.menu ?? defaultMenuResult)
         : defaultMenuResult
 
-    const modulesIcons = {
-        [MenuOptionType.User]: {
-            icon: AccountCircleRoundedIcon,
-            label: "Usuários",
-            path: "/user",
-            formType: CrmFormType.EDIT_USER,
-        },
-        [MenuOptionType.Customer]: {
-            icon: PeopleAltRoundedIcon,
-            label: "Clientes",
-            path: "/customers",
-            formType: CrmFormType.EDIT_CUSTOMER,
-        },
-        [MenuOptionType.Wallet]: {
-            icon: WalletRoundedIcon,
-            label: "Carteiras",
-            path: "/wallets",
-            formType: CrmFormType.EDIT_WALLET,
-        },
-        [MenuOptionType.Product]: {
-            icon: CategoryRoundedIcon,
-            label: "Produtos",
-            path: "/products",
-            formType: CrmFormType.EDIT_PRODUCT,
-        }
-    }
-
     return (
         <Box
             sx={{
@@ -112,29 +118,8 @@ const MenuAppBar = () => {
             }}
         >
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <TextInput
-                    size={"sm"}
-                    onChange={(evt) => setSearchValue(evt.target.value)}
-                    onFocus={() => {
-                        setOnInput(true)
-                    }}
-                    onBlur={() => {
-                        setTimeout(() => {
-                            setOnInput(false)
-                        }, 200)
-                    }}
-                    placeholder={"Procurar..."}
-                    endDecorator={<SearchRoundedIcon/>}
-                    sx={{
-                        width: "400px"
-                    }}
-                />
-                <Button
-                    size={"sm"}
-                    endDecorator={<AddRoundedIcon/>}
-                >
-                    Criar
-                </Button>
+                <SearchBarInput setOnInput={setOnInput}/>
+                <CreateButton/>
             </Stack>
             {(onInput && menuResult.totalResults > 0) && (
                 <Box
@@ -142,7 +127,7 @@ const MenuAppBar = () => {
                         mt: 1.5,
                         backgroundColor: "background.surface",
                         maxHeight: "500px",
-                        width: "550px",
+                        width: "750px",
                         position: "absolute",
                         border: "1px solid",
                         borderColor: "divider",
@@ -208,7 +193,7 @@ const MenuAppBar = () => {
                                                             borderRadius: 5
                                                         }}
                                                         onClick={() => {
-                                                            modifiedFormType(module.formType)
+                                                            modifiedFormType(module.editFormType)
                                                             modifiedEntityUUID(v.uuid)
                                                         }}
                                                     >
@@ -227,5 +212,74 @@ const MenuAppBar = () => {
                 </Box>
             )}
         </Box>
+    )
+}
+
+const SearchBarInput = memo(({setOnInput}: {setOnInput: Dispatch<SetStateAction<boolean>> }) => {
+    const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
+
+    const [searchBarValue, setSearchBarValue] = useAtom(AppBarState.SearchBarValueAtom)
+
+    return (
+        <TextInput
+            size={"sm"}
+            onChange={(evt) => {
+                setSearchValue(evt.target.value)
+                setSearchBarValue(evt.target.value)
+            }}
+            value={searchBarValue}
+            onFocus={() => {
+                setOnInput(true)
+            }}
+            onBlur={() => {
+                setTimeout(() => {
+                    setOnInput(false)
+                }, 200)
+            }}
+            placeholder={"Procurar..."}
+            endDecorator={<SearchRoundedIcon/>}
+            sx={{
+                width: "500px"
+            }}
+        />
+    )
+})
+
+const CreateButton = () => {
+    const setFormType = useSetAtom(CrmState.FormType)
+
+    return (
+        <Dropdown>
+            <MenuButton
+                size={"sm"}
+                variant={"solid"}
+                color={"primary"}
+                endDecorator={<AddRoundedIcon/>}
+            >
+                Create
+            </MenuButton>
+            <MenuJoy>
+                {
+                    Object.keys(modulesIcons).map((x) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        const module = modulesIcons[x]
+
+                        const Icon = module.icon
+
+                        return (
+                            <MenuItem
+                                onClick={() => {
+                                    setFormType(module.createFormType)
+                                }}
+                            >
+                                <Icon/>
+                                {module.create}
+                            </MenuItem>
+                        )
+                    })
+                }
+            </MenuJoy>
+        </Dropdown>
     )
 }

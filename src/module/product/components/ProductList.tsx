@@ -14,6 +14,7 @@ import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import BurstModeRounded from '@mui/icons-material/BurstModeRounded';
 
 export const ProductList = () => {
     const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
@@ -123,6 +124,9 @@ export const ProductList = () => {
                         "& thead th:nth-child(6)": {
                             width: 50,
                         },
+                        "& thead th:nth-child(7)": {
+                            width: 50,
+                        },
                         "& td": {
                             textWrap: "nowrap",
                             textOverflow: "ellipsis",
@@ -137,6 +141,7 @@ export const ProductList = () => {
                         <th>Weight</th>
                         <th>Price</th>
                         <th>Status</th>
+                        <th>Image</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
@@ -150,6 +155,17 @@ export const ProductList = () => {
                                 <td>{product.price}</td>
                                 <td>
                                     <CardStatus status={product?.status ?? "ACTIVE"}/>
+                                </td>
+                                <td>
+                                    <IconButton
+                                        size={"sm"}
+                                        onClick={() => {
+                                            modifiedProduct(product?.uuid ?? "");
+                                            modifiedProductForm(CrmFormType.PRODUCT_MEDIA);
+                                        }}
+                                    >
+                                        <BurstModeRounded/>
+                                    </IconButton>
                                 </td>
                                 <td>
                                     <IconButton
