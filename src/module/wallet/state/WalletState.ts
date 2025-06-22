@@ -2,7 +2,6 @@ import {loadable} from "jotai/utils";
 import {atom} from "jotai";
 import {walletUseCase} from "../usecase/WalletUseCase.ts";
 import {CrmFilter} from "../../../utils/entities/entities.ts";
-import {WalletFormType} from "../entities/entities.ts";
 
 const UpdateAtom = atom(false)
 const PageAtom = atom(0);
@@ -27,16 +26,10 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
     return 0;
 }));
 
-const FormTypeAtom = atom<WalletFormType>(WalletFormType.EMPTY);
-
-const CurrentUUIDAtom = atom("")
-
 export default {
     UpdateAtom,
     PageAtom,
     FilterAtom,
     ListAtom,
     ListTotalCountAtom,
-    FormTypeAtom,
-    CurrentUUIDAtom
 }

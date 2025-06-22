@@ -1,6 +1,6 @@
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import ProductState from "../state/ProductState.ts";
-import {ProductStatus} from "../entities/entities.ts";
+import {ProductMedia, ProductStatus} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
@@ -13,10 +13,14 @@ import {NumericInput} from "../../../utils/components/inputs/NumericInput.tsx";
 import {ValueInput} from "../../../utils/components/inputs/ValueInput.tsx";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {productUseCase} from "../usecase/ProductUseCase.ts";
-import {useEffect} from "react";
+import {ChangeEvent, Fragment, useEffect, useRef, useState} from "react";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import { useTranslation } from "react-i18next";
+import {Image, Carousel, Empty} from "antd";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import {CrmAntImage} from "../../../utils/components/image/CrmAntImage.tsx";
+import uuid from "react-native-uuid"
 
 export const ProductForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
@@ -40,13 +44,22 @@ export const ProductForm = () => {
                     open={true}
                     onClose={() => setFormType(CrmFormType.EMPTY)}
                 >
-                    <ProductFormRegister producUUID={productUUID}/>
+                    <ProductFormRegister productUUID={productUUID}/>
+                </CrmModal>
+            );
+        case CrmFormType.PRODUCT_MEDIA:
+            return (
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
+                >
+                    <ProductMediaRegister productUUID={productUUID}/>
                 </CrmModal>
             );
     }
 }
 
-const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
+const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(ProductState.UpdateAtom)
     const formMethods = useForm();
@@ -55,9 +68,9 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
     const {handleSubmit, register, formState: {errors}, setValue} = formMethods
 
     const handleSubmitProduct = handleSubmit((data: FieldValues) => {
-        if (producUUID) {
+        if (productUUID) {
             productUseCase.updateProduct({
-                uuid: producUUID,
+                uuid: productUUID,
                 status: data.status,
                 code: data.code,
                 name: data.name,
@@ -93,8 +106,8 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
     })
 
     useEffect(() => {
-        if (producUUID) {
-            productUseCase.getProductUUID(producUUID).then((response) => {
+        if (productUUID) {
+            productUseCase.getProductUUID(productUUID).then((response) => {
                 if (response.product) {
                     const product = response.product
 
@@ -107,7 +120,7 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
                 }
             })
         }
-    }, [producUUID]);
+    }, [productUUID]);
 
     return (
         <CrmContainer>
@@ -150,14 +163,14 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
                                 {...register("code", {required: t("products.messages.code_required")})}
                                 size={"sm"}
                                 variant={"soft"}
-                                disabled={!!producUUID}
+                                disabled={!!productUUID}
                             />
                             <FormHelperText sx={{minHeight: "1rem"}}>
                                 {errors?.code?.message as string}
                             </FormHelperText>
                         </FormControl>
                         {
-                            producUUID && (
+                            productUUID && (
                                 <Box sx={{width: "100%", flex: 1}}>
                                     <CrmSelect
                                         name={"status"}
@@ -240,6 +253,255 @@ const ProductFormRegister = ({producUUID}: { producUUID?: string }) => {
                     </Button>
                 </Box>
             </FormProvider>
+        </CrmContainer>
+    )
+}
+
+const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
+    const setFormType = useSetAtom(CrmState.FormType)
+
+    const [principal, setPrincipal] = useState<ProductMedia | null>(null)
+    const [images, setImages] = useState<ProductMedia[]>([])
+
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (productUUID) {
+            productUseCase.getProductUUID(productUUID).then((response) => {
+                if (response.product) {
+                    const tempPrincipal = response.product?.images?.find(x => x.isPrincipal)
+
+                    if (tempPrincipal) {
+                        setPrincipal(tempPrincipal)
+                    }
+
+                    const tempImages = response.product?.images?.filter(x => !x.isPrincipal);
+
+                    if (tempImages) {
+                        setImages(tempImages)
+                    }
+                }
+            })
+        }
+    }, [productUUID]);
+
+    const addImage = (evt: ChangeEvent<HTMLInputElement>) => {
+        if (evt?.target?.files) {
+            const files = Array.from(evt.target.files);
+            const tempImages: ProductMedia[] = [];
+            let loadedCount = 0;
+
+            files.forEach((file) => {
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const fileBase64 = event?.target?.result;
+
+                    tempImages.push({
+                        image: fileBase64!.toString(),
+                        isPrincipal: false,
+                        uuid: uuid.v4()
+                    });
+
+                    loadedCount++;
+                    if (loadedCount === files.length) {
+                        setImages(prev => [...prev, ...tempImages]);
+                    }
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+    };
+
+    const changeToPrincipal = (media: ProductMedia) => {
+        media.isPrincipal = true
+        setPrincipal(media)
+        if (principal) {
+            setImages(prev => [...(prev.filter(x => x.uuid !== media.uuid)), principal as ProductMedia])
+        } else {
+            setImages(prev => [...(prev.filter(x => x.uuid !== media.uuid))])
+        }
+    }
+
+    const saveProductMedia = () => {
+        if(!images) return
+
+        if(!principal) return
+
+        const temp: ProductMedia[] = [...images.map(x => ({...x, isPrincipal: false})), principal]
+
+        productUseCase.saveProductMedia(temp, productUUID).then((response) => {
+            if (response.error) {
+                popup.toast("error", response.error, 2000);
+            } else {
+                popup.toast("success", "The product images is saved with success", 2000);
+                setFormType(CrmFormType.EMPTY);
+            }
+        })
+    }
+
+    return (
+        <CrmContainer sx={{minWidth: "750px", maxWidth: "750px"}}>
+            <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+            >
+                <Typography level={"body-md"} fontWeight={"bold"}>
+                    Product Media
+                </Typography>
+                <IconButton
+                    size={"sm"}
+                    onClick={() => setFormType(CrmFormType.EMPTY)}
+                >
+                    <CloseRounded/>
+                </IconButton>
+            </Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
+                    mt: 2
+                }}
+            >
+                <Image.PreviewGroup>
+                    {
+                        principal && (
+                            <Fragment>
+                                <Typography level={"title-md"}>Image principal</Typography>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "start",
+                                        gap: 1,
+                                        userSelect: "none"
+                                    }}
+                                >
+                                    <Image
+                                        height={150}
+                                        src={principal.image}
+                                    />
+                                    <IconButton
+                                        size={"sm"}
+                                        color={"danger"}
+                                        variant={"solid"}
+                                        onClick={() => {
+                                            setPrincipal(null)
+                                        }}
+                                    >
+                                        <DeleteRoundedIcon/>
+                                    </IconButton>
+                                </Box>
+                            </Fragment>
+                        )
+                    }
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}
+                    >
+                        <Typography level={"title-md"}>Images</Typography>
+                        <Button
+                            size={"sm"}
+                            onClick={() => {
+                                if (inputRef.current) {
+                                    inputRef.current.click();
+                                }
+                            }}
+                        >
+                            Add image
+                        </Button>
+                    </Box>
+                    {
+                        images && (
+                            images.length == 0 ? (
+                                <Empty/>
+                            ) : (
+                                <Carousel
+                                    arrows
+                                    infinite={false}
+                                    slidesPerRow={3}
+                                    dots={false}
+                                    draggable={true}
+                                    style={{
+                                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+                                        padding: "5px",
+                                        paddingLeft: "0px",
+                                        paddingRight: "0px",
+                                        borderRadius: "11px"
+                                    }}
+                                >
+                                    {
+                                        images.map((m, i) => (
+                                            <Box
+                                                key={`image_product_${productUUID}_${i}`}
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    gap: 1,
+                                                    pl: "5px",
+                                                    pr: "5px",
+                                                    userSelect: "none",
+                                                }}
+                                            >
+                                                <CrmAntImage src={m.image}/>
+                                                <Box
+                                                    sx={{
+                                                        display: "flex",
+                                                        flexDirection: "row",
+                                                        gap: 1
+                                                    }}
+                                                >
+                                                    <Button
+                                                        size={"sm"}
+                                                        sx={{flex: 1}}
+                                                        onClick={() => {
+                                                            changeToPrincipal(m)
+                                                        }}
+                                                    >
+                                                        Change to principal
+                                                    </Button>
+                                                    <IconButton
+                                                        size={"sm"}
+                                                        color={"danger"}
+                                                        variant={"solid"}
+                                                        onClick={() => {
+                                                            setImages(prev => prev.filter(x => x.uuid !== m.uuid))
+                                                        }}
+                                                    >
+                                                        <DeleteRoundedIcon/>
+                                                    </IconButton>
+                                                </Box>
+                                            </Box>
+                                        ))
+                                    }
+                                </Carousel>
+                            )
+                        )
+                    }
+                </Image.PreviewGroup>
+                <input
+                    id={"file_product_image"}
+                    type="file"
+                    onChange={(evt) => addImage(evt)}
+                    accept=".png,.jpeg,.jpg"
+                    style={{display: "none"}}
+                    multiple={true}
+                    ref={inputRef}
+                />
+                <Button
+                    sx={{flex: 1, mt: 2}}
+                    onClick={() => saveProductMedia()}
+                >
+                    Save
+                </Button>
+            </Box>
         </CrmContainer>
     )
 }

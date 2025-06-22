@@ -15,7 +15,7 @@ import {CrmPagination} from "../../../utils/components/pagination/CrmPagination.
 import {useTranslation} from "react-i18next";
 import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
 
 export const UsersList = () => {
     const {t} = useTranslation();
@@ -36,7 +36,7 @@ export const UsersList = () => {
     ];
 
     const {modules: userModules} = useAuth();
-    const systemRoles = userModules?.find((x) => x.code === "USER_MODULE");
+    const systemRoles = userModules?.find((x) => x.code === CrmModules.User);
     const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
 
     let users: User[] = [];

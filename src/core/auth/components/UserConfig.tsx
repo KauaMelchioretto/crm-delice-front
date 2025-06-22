@@ -2,10 +2,12 @@ import {useAtom} from "jotai";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
-import {Avatar, Box} from "@mui/joy";
+import {Avatar, Box, Button, Typography} from "@mui/joy";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {useAuth} from "../provider/AuthProvider.tsx";
 import {ChangeEvent, useRef, useState} from "react";
+import {authUseCase} from "../usecase/AuthUseCase.ts";
+import {popup} from "../../../utils/alerts/Popup.ts";
 
 export const UserConfig = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
@@ -45,8 +47,19 @@ const UserConfigForm = () => {
         }
     }
 
+    const saveAvatar = () => {
+        authUseCase.changeAvatar({avatar: avatar}).then((response) => {
+            if (response.error) {
+                popup.toast("error", response.error, 2000);
+            } else {
+                popup.toast("success", "The avatar is changed with success", 2000);
+                window.location.reload();
+            }
+        })
+    }
+
     const openFileImage = () => {
-        if(inputRef.current){
+        if (inputRef.current) {
             inputRef.current.click();
         }
     }
@@ -57,9 +70,29 @@ const UserConfigForm = () => {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: 1,
+                    gap: 3,
                 }}
             >
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        position: "relative",
+                        ":hover": {
+                            ["& .avatar_container"]: {
+                                opacity: 1
+                            }
+                        }
+                    }}
+                >
+                    <Typography
+                        level={"body-lg"}
+                        fontWeight={"bold"}
+                    >
+                        User profile config
+                    </Typography>
+                </Box>
                 <Box
                     sx={{
                         display: "flex",
@@ -108,10 +141,17 @@ const UserConfigForm = () => {
                             cursor: "pointer",
                             transition: "opacity 50ms linear"
                         }}
+                        onClick={() => openFileImage()}
                     >
                         Change avatar
                     </Box>
                 </Box>
+                <Button
+                    sx={{flex: 1}}
+                    onClick={() => saveAvatar()}
+                >
+                    Save
+                </Button>
             </Box>
         </CrmContainer>
     )

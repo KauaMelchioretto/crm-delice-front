@@ -30,9 +30,3 @@ export interface WalletResponse {
     wallet?: Wallet,
     error?: string
 }
-
-export enum WalletFormType {
-    EMPTY,
-    REGISTER_WALLET,
-    EDIT_WALLET
-}

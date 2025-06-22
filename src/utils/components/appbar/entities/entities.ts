@@ -1,9 +1,4 @@
-export enum MenuOptionType {
-    Customer = 'CUSTOMER_MODULE',
-    User = 'USER_MODULE',
-    Wallet = 'WALLET_MODULE',
-    Product = 'PRODUCT_MODULE',
-}
+import {CrmModules} from "../../../entities/entities.ts";
 
 export interface MenuResponse {
     menu?: Menu,
@@ -16,7 +11,7 @@ export interface Menu {
 }
 
 export interface MenuOption {
-    type: MenuOptionType,
+    type: CrmModules,
     values: MenuOptionValue[]
 }
 

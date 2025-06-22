@@ -1,23 +1,20 @@
-import {Avatar, Box, Button, Stack, Typography} from "@mui/joy";
-import {StoreRounded} from "@mui/icons-material";
+import {Avatar, Box, Dropdown, MenuButton, Menu as MenuJoy, MenuItem, Stack, Typography} from "@mui/joy";
+import {StoreRounded, SvgIconComponent} from "@mui/icons-material";
 import {ToggleThemeButton} from "../../theme/ToggleThemeMode.tsx";
 import {ToggleLanguageButton} from "../../../../i18n/components/ToggleLanguageButton.tsx";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../../../../core/auth/provider/AuthProvider.tsx";
 import {TextInput} from "../../core/TextInput.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
+import {SetStateAction, useAtom, useAtomValue, useSetAtom} from "jotai";
 import AppBarState from "../state/AppBarState.ts";
-import {useState} from "react";
-import {Menu, MenuOptionType} from "../entities/entities.ts";
+import {Dispatch, memo, useState} from "react";
+import {Menu} from "../entities/entities.ts";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
-import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
-import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
 import { useTranslation } from "react-i18next";
+import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 
 export const CrmAppBar = () => {
     const {user} = useAuth()
@@ -61,12 +58,12 @@ export const CrmAppBar = () => {
 }
 
 const MenuAppBar = () => {
-    const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
-
     const [onInput, setOnInput] = useState<boolean>(false);
     const menuResultAtom = useAtomValue(AppBarState.SearchResultAtom)
 
     const navigate = useNavigate()
+
+    const {crmModules} = useApp()
 
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
@@ -81,33 +78,6 @@ const MenuAppBar = () => {
         ? (menuResultAtom.data?.menu ?? defaultMenuResult)
         : defaultMenuResult
 
-    const modulesIcons = {
-        [MenuOptionType.User]: {
-            icon: AccountCircleRoundedIcon,
-            label: t("modules.users"),
-            path: "/user",
-            formType: CrmFormType.EDIT_USER,
-        },
-        [MenuOptionType.Customer]: {
-            icon: PeopleAltRoundedIcon,
-            label: t("modules.customers"),
-            path: "/customers",
-            formType: CrmFormType.EDIT_CUSTOMER,
-        },
-        [MenuOptionType.Wallet]: {
-            icon: WalletRoundedIcon,
-            label: t("modules.wallets"),
-            path: "/wallets",
-            formType: CrmFormType.EDIT_WALLET,
-        },
-        [MenuOptionType.Product]: {
-            icon: CategoryRoundedIcon,
-            label: t("modules.products"),
-            path: "/products",
-            formType: CrmFormType.EDIT_PRODUCT,
-        }
-    }
-
     return (
         <Box
             sx={{
@@ -115,37 +85,16 @@ const MenuAppBar = () => {
             }}
         >
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <TextInput
-                    size={"sm"}
-                    onChange={(evt) => setSearchValue(evt.target.value)}
-                    onFocus={() => {
-                        setOnInput(true)
-                    }}
-                    onBlur={() => {
-                        setTimeout(() => {
-                            setOnInput(false)
-                        }, 200)
-                    }}
-                    placeholder={t("app_bar.placeholder")}
-                    endDecorator={<SearchRoundedIcon/>}
-                    sx={{
-                        width: "400px"
-                    }}
-                />
-                <Button
-                    size={"sm"}
-                    endDecorator={<AddRoundedIcon/>}
-                >
-                    {t("actions.register")}
-                </Button>
+                <SearchBarInput setOnInput={setOnInput}/>
+                <CreateButton/>
             </Stack>
             {(onInput && menuResult.totalResults > 0) && (
                 <Box
                     sx={{
                         mt: 1.5,
                         backgroundColor: "background.surface",
-                        maxHeight: "800px",
-                        width: "550px",
+                        maxHeight: "500px",
+                        width: "750px",
                         position: "absolute",
                         border: "1px solid",
                         borderColor: "divider",
@@ -162,24 +111,30 @@ const MenuAppBar = () => {
                 >
                     {
                         menuResult.result?.map((m, i) => {
-                            const module = modulesIcons[m.type]
+                            const module = crmModules.find(x => x.code === m.type)
 
-                            const Icon = module.icon
+                            if (!module) return
+
+                            const Icon = module.icon as SvgIconComponent
 
                             return (
                                 <Box key={`module_app_bar_${i}`}>
-                                    <Stack direction={"row"} alignItems={"center"} gap={1}>
+                                    <Stack
+                                        direction={"row"}
+                                        alignItems={"center"}
+                                        gap={1}
+                                        onClick={() => navigate(module.path)}
+                                        sx={{
+                                            ":hover": {
+                                                backgroundColor: "var(--TableRow-hoverBackground, var(--joy-palette-background-level3))",
+                                                cursor: "pointer"
+                                            },
+                                            p: 0.5,
+                                            borderRadius: 5
+                                        }}
+                                    >
                                         <Icon/>
-                                        <Typography
-                                            level="title-sm"
-                                            sx={{
-                                                ":hover": {
-                                                    textDecoration: "underline",
-                                                    cursor: "pointer"
-                                                }
-                                            }}
-                                            onClick={() => navigate(module.path)}
-                                        >
+                                        <Typography level="title-sm">
                                             {module.label}
                                         </Typography>
                                     </Stack>
@@ -187,7 +142,7 @@ const MenuAppBar = () => {
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
-                                            gap: 0.5
+                                            gap: 0.8,
                                         }}
                                     >
                                         {
@@ -198,21 +153,20 @@ const MenuAppBar = () => {
                                                         direction={"row"}
                                                         alignItems={"center"}
                                                         gap={1}
+                                                        sx={{
+                                                            ":hover": {
+                                                                backgroundColor: "var(--TableRow-hoverBackground, var(--joy-palette-background-level3))",
+                                                                cursor: "pointer"
+                                                            },
+                                                            p: 0.5,
+                                                            borderRadius: 5
+                                                        }}
+                                                        onClick={() => {
+                                                            modifiedFormType(module.editFormType as CrmFormType)
+                                                            modifiedEntityUUID(v.uuid)
+                                                        }}
                                                     >
-                                                        <Icon/>
-                                                        <Typography
-                                                            level="body-sm"
-                                                            sx={{
-                                                                ":hover": {
-                                                                    textDecoration: "underline",
-                                                                    cursor: "pointer"
-                                                                }
-                                                            }}
-                                                            onClick={() => {
-                                                                modifiedFormType(module.formType)
-                                                                modifiedEntityUUID(v.uuid)
-                                                            }}
-                                                        >
+                                                        <Typography level="body-sm">
                                                             {v.value}
                                                         </Typography>
                                                     </Stack>
@@ -227,5 +181,83 @@ const MenuAppBar = () => {
                 </Box>
             )}
         </Box>
+    )
+}
+
+const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction<boolean>> }) => {
+    const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
+
+    const [searchBarValue, setSearchBarValue] = useAtom(AppBarState.SearchBarValueAtom)
+    
+    const { t } = useTranslation();
+
+    return (
+        <TextInput
+            size={"sm"}
+            onChange={(evt) => {
+                setSearchValue(evt.target.value)
+                setSearchBarValue(evt.target.value)
+            }}
+            value={searchBarValue}
+            onFocus={() => {
+                setOnInput(true)
+            }}
+            onBlur={() => {
+                setTimeout(() => {
+                    setOnInput(false)
+                }, 200)
+            }}
+            placeholder={t("app_bar.placeholder")}
+            endDecorator={<SearchRoundedIcon/>}
+            sx={{
+                width: "500px"
+            }}
+        />
+    )
+})
+
+const CreateButton = () => {
+    const setFormType = useSetAtom(CrmState.FormType)
+    
+    const { t } = useTranslation();
+
+    const {modules} = useAuth()
+    const {crmModules} = useApp()
+
+    const createModules = crmModules.filter(x => {
+        if(modules?.find(m => m.code === x.code) && x.createFormType !== undefined){
+            return x
+        }
+    });
+
+    return (
+        <Dropdown>
+            <MenuButton
+                size={"sm"}
+                variant={"solid"}
+                color={"primary"}
+                endDecorator={<AddRoundedIcon/>}
+            >
+                {t("actions.register")}
+            </MenuButton>
+            <MenuJoy>
+                {
+                    createModules.map((x) => {
+                        const Icon = x.icon as SvgIconComponent
+
+                        return (
+                            <MenuItem
+                                onClick={() => {
+                                    setFormType(x.createFormType as CrmFormType)
+                                }}
+                            >
+                                <Icon/>
+                                {x.createLabel}
+                            </MenuItem>
+                        )
+                    })
+                }
+            </MenuJoy>
+        </Dropdown>
     )
 }

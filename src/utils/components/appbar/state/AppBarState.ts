@@ -13,7 +13,10 @@ const SearchResultAtom = loadable(atom(async (get) => {
     return appBarRepository.queryMenuOptions(query);
 }))
 
+const SearchBarValueAtom = atom("")
+
 export default {
     SearchValueAtom,
-    SearchResultAtom
+    SearchResultAtom,
+    SearchBarValueAtom
 }
