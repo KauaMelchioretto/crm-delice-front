@@ -14,7 +14,7 @@ class ProductRepository {
             let query = "";
 
             if (filter) {
-                query += `${filter.field}=${filter.value}`;
+                query += `&${filter.field}=${filter.value}`;
             }
 
             const response = await http.get(

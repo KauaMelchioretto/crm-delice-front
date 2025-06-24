@@ -4,7 +4,7 @@
     "login_welcome": "Welcome back! Enter your details to enter the system",
     "your_login_input": "Your login",
     "your_password_input": "Your password",
-    "login_access_input": "sign in",
+    "login_access_input": "Sign in",
     "forget_password_label": "Did you forgotten your password?",
     "forgotten_password_page": {
       "title": "Reset password",
@@ -97,7 +97,8 @@
       "roles": "Roles",
       "delete": "Delete",
       "register": "Register",
-      "approve": "Approve"
+      "approve": "Approve",
+      "log_out": "Log out"
     },
     "role_types": {
       "user": "User",
