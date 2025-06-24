@@ -1,5 +1,11 @@
 import {CrmFilter} from "../../../utils/entities/entities.ts";
-import {Product, ProductListResponse, ProductResponse} from "../entities/entities.ts";
+import {
+    Product,
+    ProductListResponse,
+    ProductMedia,
+    ProductMediaResponse,
+    ProductResponse
+} from "../entities/entities.ts";
 import {productRepository} from "../repository/ProductRepository.ts";
 
 class ProductUseCase {
@@ -8,6 +14,7 @@ class ProductUseCase {
     PRODUCT_CODE_IS_EMPTY = "Product code is empty"
     PRODUCT_PRICE_IS_EMPTY = "Product price is empty"
     PRODUCT_WEIGHT_IS_EMPTY = "Product weight is empty"
+    PRODUCT_MEDIA_IS_EMPTY = "Product images is empty"
 
     async getProduct(
         page: number,
@@ -46,6 +53,19 @@ class ProductUseCase {
         }
 
         return productRepository.getProductUUID(uuid)
+    }
+
+    async saveProductMedia(media: ProductMedia[], productUUID: string): Promise<ProductMediaResponse> {
+        if (!productUUID) {
+            return {error: this.PRODUCT_ID_INVALID}
+        }
+        if (!media) {
+            return {error: this.PRODUCT_MEDIA_IS_EMPTY}
+        }
+
+        media = media.map(x => ({...x, uuid: ""}))
+
+        return productRepository.saveProductMedia(media, productUUID)
     }
 
     validateProduct(product: Product): ProductResponse {

@@ -50,3 +50,12 @@ export interface ResetPasswordResponse{
     ok?: boolean,
     error?: string
 }
+
+export interface ChangeAvatar{
+    avatar: string
+}
+
+export interface ChangeAvatarResponse{
+    ok?: boolean,
+    error?: string
+}

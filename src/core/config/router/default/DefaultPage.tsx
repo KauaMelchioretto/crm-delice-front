@@ -22,7 +22,7 @@ import {authUseCase} from "../../../auth/usecase/AuthUseCase.ts";
 import {popup} from "../../../../utils/alerts/Popup.ts";
 import {CrmModal} from "../../../../utils/components/core/CrmModal.tsx";
 import {CrmAppBar} from "../../../../utils/components/appbar/component/AppBar.tsx";
-import {forms} from "../forms/ModulesForms.tsx";
+import {useApp} from "../../app/AppProvider.tsx";
 
 export const DefaultPage = () => (
     <Layout.Root>
@@ -35,6 +35,9 @@ const Content = () => {
     const {show} = useContext(Layout.RootContext);
 
     const {user} = useAuth()
+    const {crmModules} = useApp();
+
+    const forms = crmModules.map(x => x.form)
 
     if(user?.status === "FIRST_ACCESS"){
         return
@@ -57,9 +60,7 @@ const Content = () => {
             <Layout.Main>
                 <Outlet/>
             </Layout.Main>
-            {
-                forms.map((x) => x.form)
-            }
+            {forms}
         </Fragment>
     )
 }
@@ -147,7 +148,6 @@ const ValidateFirstAccess = () => {
                                 {errors?.confirmPassword?.message as string}
                             </FormHelperText>
                         </FormControl>
-
                         <Button type={"submit"}>confirmar</Button>
                     </Box>
                 </FormProvider>

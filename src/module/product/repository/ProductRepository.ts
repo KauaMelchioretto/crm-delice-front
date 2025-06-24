@@ -1,4 +1,10 @@
-import {Product, ProductListResponse, ProductResponse} from "../entities/entities.ts";
+import {
+    Product,
+    ProductListResponse,
+    ProductMedia,
+    ProductMediaResponse,
+    ProductResponse
+} from "../entities/entities.ts";
 import {CrmFilter} from "../../../utils/entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
@@ -84,6 +90,27 @@ class ProductRepository {
             );
 
             return response.data as ProductResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.PRODUCT_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.PRODUCT_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveProductMedia(media: ProductMedia[], productUUID: string): Promise<ProductMediaResponse> {
+        try {
+            const response = await http.post(
+                `/product/productMedia/save/${productUUID}`,
+                media
+            );
+
+            return response.data as ProductMediaResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

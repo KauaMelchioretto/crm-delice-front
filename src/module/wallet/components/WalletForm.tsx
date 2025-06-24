@@ -1,6 +1,6 @@
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import WalletState from "../state/WalletState.ts";
-import {Wallet} from "../entities/entities.ts";
+import {Wallet, WalletStatus} from "../entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {FieldValues, FormProvider, useFieldArray, useForm} from "react-hook-form";
@@ -101,7 +101,8 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 label: data.label,
                 observation: data.observation,
                 accountable: data.accountable,
-                customers: data.customers
+                customers: data.customers,
+                status: data.status,
             }).then((response) => {
                 if (response.error) {
                     popup.toast("error", response.error , 2000);
@@ -220,6 +221,28 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                     rules={{rules: {required: t("wallets.messages.user_required")}}}
                                 />
                             </Box>
+                            {
+                                walletUUID && (
+                                    <Box sx={{width: "100%", flex: 1}}>
+                                        <CrmSelect
+                                            name={"status"}
+                                            options={[
+                                                {
+                                                    label: "Active",
+                                                    value: WalletStatus.ACTIVE
+                                                },
+                                                {
+                                                    label: "Inactive",
+                                                    value: WalletStatus.INACTIVE
+                                                }
+                                            ]}
+                                            label={"Status"}
+                                            // @ts-ignore
+                                            rules={{rules: {required: "The status is required"}}}
+                                        />
+                                    </Box>
+                                )
+                            }
                         </Box>
                         <Box
                             sx={{

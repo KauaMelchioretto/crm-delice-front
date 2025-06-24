@@ -1,5 +1,5 @@
 import {
-    AuthenticatedResponse, ChangePassword,
+    AuthenticatedResponse, ChangeAvatar, ChangeAvatarResponse, ChangePassword,
     ForgotPasswordResponse,
     Login,
     LoginResponse,
@@ -12,6 +12,7 @@ class AuthUseCase {
     PASSWORD_MUST_BE_PROVIDED: string = "The password must be provided"
     CONFIRM_PASSWORD_MUST_BE_PROVIDED: string = "The password must be provided"
     EMAIL_MUST_BE_PROVIDED: string = "The e-mail must be provided"
+    IMAGE_IS_EMPTY: string = "The image is empty"
 
     async login(login: Login): Promise<LoginResponse> {
         if (!login.login) {
@@ -61,6 +62,14 @@ class AuthUseCase {
         }
 
         return authRepository.changePassword(changePassword)
+    }
+
+    async changeAvatar(avatar: ChangeAvatar): Promise<ChangeAvatarResponse>{
+        if(!avatar.avatar){
+            return {error: this.IMAGE_IS_EMPTY}
+        }
+
+        return authRepository.changeAvatar(avatar)
     }
 }
 

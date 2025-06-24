@@ -6,6 +6,7 @@
     "your_password_input": "Sua senha",
     "login_access_input": "Acessar",
     "forget_password_label": "Você esqueceu a sua senha?",
+    "logout_button": "Desvincular conta",
     "forgotten_password_page": {
       "title": "Recuperar senha",
       "description": "Após enviar a solicitação, você receberá um link no seu email para continuar a redefinição de senha.",
@@ -223,7 +224,13 @@
         "name": "Nome",
         "weight": "Peso",
         "price": "Preço",
-        "description": "Descrição"
+        "description": "Descrição",
+        "status": "Situação",
+        "images": "Imagens",
+        "media": "Imagens do Produto",
+        "image_principal": "Imagem principal",
+        "change_principal": "Alterar para principal",
+        "add_image": "Adicionar imagem"
       },
       "messages": {
         "create_success": "O produto foi criado com sucesso",

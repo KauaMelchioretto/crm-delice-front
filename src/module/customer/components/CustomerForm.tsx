@@ -40,7 +40,7 @@ import AddBusinessRounded from '@mui/icons-material/AddBusinessRounded';
 import KeyboardArrowRightRounded from "@mui/icons-material/KeyboardArrowRightRounded";
 import PublishedWithChangesRounded from "@mui/icons-material/PublishedWithChangesRounded";
 import SearchRounded from '@mui/icons-material/SearchRounded';
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
@@ -85,9 +85,9 @@ export const CustomerForm = () => {
 
 const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
     const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const setFormType = useSetAtom(CrmState.FormType)
-    
+
     const formMethods = useForm({
         defaultValues: {
             contacts: [
@@ -557,6 +557,11 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                                                         size={"sm"}
                                                         variant={"soft"}
                                                         placeholder={t("customers.fields.economic_activity")}
+                                                        slotProps={{
+                                                            input: {
+                                                                maxLength: 5,
+                                                            },
+                                                        }}
                                                     />
                                                 </FormControl>
                                                 {
@@ -614,25 +619,25 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
 
 const CustomerContact = ({index}: { index: number }) => {
     const {register, watch} = useFormContext()
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const contactTypes: OptionType[] = [
-    {
-        value: ContactType.EMAIL,
-        label: t("customers.page.contacts_types.email")
-    },
-    {
-        value: ContactType.PHONE,
-        label: t("customers.page.contacts_types.phone")
-    },
-    {
-        value: ContactType.MEDIA,
-        label: t("customers.page.contacts_types.social_media")
-    },
-    {
-        value: ContactType.NONE,
-        label: t("customers.page.contacts_types.others")
-    }
-]
+        {
+            value: ContactType.EMAIL,
+            label: t("customers.page.contacts_types.email")
+        },
+        {
+            value: ContactType.PHONE,
+            label: t("customers.page.contacts_types.phone")
+        },
+        {
+            value: ContactType.MEDIA,
+            label: t("customers.page.contacts_types.social_media")
+        },
+        {
+            value: ContactType.NONE,
+            label: t("customers.page.contacts_types.others")
+        }
+    ]
 
     const type = watch(`contacts.${index}.contactType`) as ContactType
 
@@ -683,7 +688,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
             status: CustomerStatus.PENDING
         }
     });
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const customerStatus: OptionType[] = [
         {
@@ -923,7 +928,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
 
 export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) => {
     const [open, setOpen] = useState(false)
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <AccordionGroup
@@ -1036,7 +1041,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                     textAlign: "start"
                                 }}
                             >
-                               {t("customers.fields.session")}{props.activity.section?.description ?? ""}
+                                {t("customers.fields.session")}{props.activity.section?.description ?? ""}
                             </Typography>
                         </Box>
                         <Box
