@@ -16,6 +16,7 @@ import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 
 export const WalletsList = () => {
     const {t} = useTranslation()
@@ -23,6 +24,12 @@ export const WalletsList = () => {
     const walletAtom = useAtomValue(WalletState.ListAtom)
     const modifiedWallet = useSetAtom(CrmState.EntityFormUUID)
     const modifiedWalletForm = useSetAtom(CrmState.FormType)
+
+    const walletFields = [
+        { value: "", label: t("filter_keys.none") },
+        { value: "label", label: t("wallets.fields.title") },
+        { value: "accountable", label: t("wallets.fields.accountable") },
+    ]
 
     const walletStatus = {
         [WalletStatus.ACTIVE]: {
@@ -105,6 +112,7 @@ export const WalletsList = () => {
 
     return (
         <CrmContainer>
+            <FilterComponent fields={walletFields} filterAtom={WalletState.FilterAtom} />
             <CrmTableContainer sx={{height: 450}}>
                 <CrmTable
                     sx={{

@@ -4,7 +4,7 @@
     "login_welcome": "Seja bem-vindo! Digite seus dados para acessar o sistema",
     "your_login_input": "Seu login",
     "your_password_input": "Sua senha",
-    "login_access_input": "acessar",
+    "login_access_input": "Acessar",
     "forget_password_label": "Você esqueceu a sua senha?",
     "logout_button": "Desvincular conta",
     "forgotten_password_page": {
@@ -93,7 +93,8 @@
       "roles": "Papéis",
       "delete": "Deletar",
       "register": "Cadastrar",
-      "approve": "Aprovar"
+      "approve": "Aprovar",
+      "log_out": "Sair"
     },
     "role_types": {
       "user": "Usuário",

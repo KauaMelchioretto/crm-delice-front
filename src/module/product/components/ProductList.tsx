@@ -16,12 +16,13 @@ import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import { useTranslation } from "react-i18next";
 import BurstModeRounded from '@mui/icons-material/BurstModeRounded';
+import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 
 export const ProductList = () => {
     const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
     const modifiedProductForm = useSetAtom(CrmState.FormType)
     const { t } = useTranslation();
-    
+
     const productAtom = useAtomValue(ProductState.ListAtom)
 
     let products: Product[] = []
@@ -38,6 +39,14 @@ export const ProductList = () => {
             icon: CancelRounded
         },
     }
+
+    const productFields = [
+        { value: "", label: t("filter_keys.none") },
+        { value: "name", label: t("products.fields.name") },
+        { value: "code", label: t("products.fields.code") },
+        { value: "weight", label: t("products.fields.weight") },
+        { value: "price", label: t("products.fields.price") },
+    ]
 
     const CardStatus = ({status}: { status: string }) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -105,6 +114,7 @@ export const ProductList = () => {
 
     return (
         <CrmContainer>
+            <FilterComponent fields={productFields} filterAtom={ProductState.FilterAtom} />
             <CrmTableContainer sx={{height: 450}}>
                 <CrmTable
                     sx={{
