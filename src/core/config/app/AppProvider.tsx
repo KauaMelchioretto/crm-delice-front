@@ -20,6 +20,7 @@ import {WalletForm} from "../../../module/wallet/components/WalletForm.tsx";
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 import {ProductForm} from "../../../module/product/components/ProductForm.tsx";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
+import {UserConfig} from "../../auth/components/UserConfig.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[]
@@ -99,7 +100,8 @@ export const AppProvider = (props: AppProviderProps) => {
             sideBar: false,
             element: <Me/>,
             permissionRequired: false,
-            code: CrmModules.Me
+            code: CrmModules.Me,
+            form: <UserConfig/>
         },
         {
             path: "/products",

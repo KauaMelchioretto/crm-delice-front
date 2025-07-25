@@ -3,12 +3,19 @@ import {useSetAtom} from "jotai";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {ProductList} from "../components/ProductList.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
-import { useTranslation } from "react-i18next";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useTranslation} from "react-i18next";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const Product = () => {
     const modifiedProductFormType = useSetAtom(CrmState.FormType)
-    const { t } = useTranslation();
+    const {t} = useTranslation();
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Product)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_PRODUCT" || x.code === "ALL_PRODUCT").length > 0
 
     return (
         <Box
@@ -34,12 +41,16 @@ export const Product = () => {
                 >
                     {t("products.title")}
                 </Typography>
-                <Button
-                    size="sm"
-                    onClick={() => modifiedProductFormType(CrmFormType.REGISTER_PRODUCT)}
-                >
-                    {t("products.page.buttons.register")}
-                </Button>
+                {
+                    canCreate && (
+                        <Button
+                            size="sm"
+                            onClick={() => modifiedProductFormType(CrmFormType.REGISTER_PRODUCT)}
+                        >
+                            {t("products.page.buttons.register")}
+                        </Button>
+                    )
+                }
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <ProductList/>

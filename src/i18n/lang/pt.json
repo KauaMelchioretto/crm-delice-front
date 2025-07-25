@@ -7,6 +7,18 @@
     "login_access_input": "Acessar",
     "forget_password_label": "Você esqueceu a sua senha?",
     "logout_button": "Desvincular conta",
+    "logout_message": {
+      "label": "Deseja sair da sua conta?",
+      "confirm": "Sim",
+      "cancel": "Não"
+    },
+    "first_access": {
+      "title": "Olá seja muito bem vindo ao nosso CRM",
+      "text": "Para seu primeiro acesso, é necessário que você altere a sua senha",
+      "password": "Senha",
+      "confirm_password": "Confirme a sua senha",
+      "confirm": "Confirmar"
+    },
     "forgotten_password_page": {
       "title": "Recuperar senha",
       "description": "Após enviar a solicitação, você receberá um link no seu email para continuar a redefinição de senha.",
@@ -92,7 +104,7 @@
       "edit": "Editar",
       "roles": "Papéis",
       "delete": "Deletar",
-      "register": "Cadastrar",
+      "register": "Criar",
       "approve": "Aprovar",
       "log_out": "Sair"
     },

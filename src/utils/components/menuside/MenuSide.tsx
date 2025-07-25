@@ -34,7 +34,13 @@ export const MenuSide = () => {
     })
 
     const handleConfirmLogout = () => {
-        popup.confirm("question", "Deseja sair da sua conta?", "", "Sim").then((response) => {
+        popup.confirm(
+            "question",
+            t('logout_message.label'),
+            "",
+            t('logout_message.confirm'),
+            t('logout_message.cancel')
+        ).then((response) => {
             if (response.isConfirmed) {
                 logout();
             }

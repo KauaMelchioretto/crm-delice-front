@@ -7,6 +7,18 @@
     "login_access_input": "Sign in",
     "forget_password_label": "Did you forgotten your password?",
     "logout_button": "Logout",
+    "logout_message": {
+      "label": "Do you want to log out of your account?",
+      "confirm": "Yes",
+      "cancel": "No"
+    },
+    "first_access": {
+      "title": "Hello, welcome to our CRM",
+      "text": "For your first access, you need to change your password",
+      "password": "Password",
+      "confirm_password": "Confirm your password",
+      "confirm": "Confirm"
+    },
     "forgotten_password_page": {
       "title": "Reset password",
       "description": "After submitting the request, you will receive a link in your email inbox to continue resetting your password.",
@@ -97,7 +109,7 @@
       "edit": "Edit",
       "roles": "Roles",
       "delete": "Delete",
-      "register": "Register",
+      "register": "Create",
       "approve": "Approve",
       "log_out": "Log out"
     },
@@ -114,15 +126,15 @@
     "customers": {
       "page": {
         "title": "Customers",
-        "entity": "Customer", 
+        "entity": "Customer",
         "buttons": {
           "register": "Register customer"
         },
         "tabs": {
-          "customer_data" : "Customer data",
+          "customer_data": "Customer data",
           "comercial_informations": "Comercial informations"
         },
-        "sections" : {
+        "sections": {
           "contacts": "Contacts",
           "economic_activities": "Economic activities - CNAE"
         },
@@ -140,7 +152,7 @@
           "fit": "Fit",
           "not_fit": "Not fit",
           "inactive": "Inactive"
-        } 
+        }
       },
       "fields": {
         "company_name": "Company name",
@@ -184,7 +196,7 @@
           "register": "Register wallet"
         },
         "tabs": {
-          "customer_data" : "Customer data",
+          "customer_data": "Customer data",
           "comercial_informations": "Comercial informations"
         }
       },
@@ -197,7 +209,7 @@
         "created_by": "Created by",
         "observations": "Observations"
       },
-      "messages" : {
+      "messages": {
         "create_success": "The wallet has been created with success",
         "update_success": "The wallet has been changed with success",
         "title_required": "The title is required",
@@ -225,7 +237,7 @@
       "title": "Products",
       "page": {
         "buttons": {
-          "register": "Register product" 
+          "register": "Register product"
         }
       },
       "fields": {

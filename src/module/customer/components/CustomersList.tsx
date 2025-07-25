@@ -19,7 +19,8 @@ import QueryBuilderRounded from '@mui/icons-material/QueryBuilderRounded';
 import CancelRounded from '@mui/icons-material/CancelRounded';
 import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const CustomersList = () => {
     const {t} = useTranslation();
@@ -29,15 +30,22 @@ export const CustomersList = () => {
     const customersAtom = useAtomValue(CustomersState.CustomersListAtom);
 
     const filterFields = [
-        { value: "", label: t("filter_keys.none") },
-        { value: "companyName", label: t("customers.fields.company_name") },
-        { value: "tradingName", label: t("customers.fields.trading_name") },
-        { value: "personName", label: t("customers.fields.person_name") },
-        { value: "document", label: t("customers.fields.document") },
-        { value: "state", label: t("customers.fields.state") },
-        { value: "city", label: t("customers.fields.city") },
-        { value: "status", label: t("customers.fields.status") },
+        {value: "", label: t("filter_keys.none")},
+        {value: "companyName", label: t("customers.fields.company_name")},
+        {value: "tradingName", label: t("customers.fields.trading_name")},
+        {value: "personName", label: t("customers.fields.person_name")},
+        {value: "document", label: t("customers.fields.document")},
+        {value: "state", label: t("customers.fields.state")},
+        {value: "city", label: t("customers.fields.city")},
+        {value: "status", label: t("customers.fields.status")},
     ];
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Customer)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_CUSTOMER" || x.code === "ALL_CUSTOMER").length > 0
+    const canApproval = roles.filter(x => x.code === "APPROVAL_CUSTOMER" || x.code === "ALL_CUSTOMER").length > 0
 
     let customers: Customer[] = [];
 
@@ -130,7 +138,7 @@ export const CustomersList = () => {
 
     return (
         <CrmContainer>
-            <FilterComponent fields={filterFields} filterAtom={CustomersState.CustomerFilterAtom} />
+            <FilterComponent fields={filterFields} filterAtom={CustomersState.CustomerFilterAtom}/>
             <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
@@ -177,8 +185,8 @@ export const CustomersList = () => {
                         <th>{t("customers.fields.document")}</th>
                         <th>{t("customers.fields.state")}</th>
                         <th>{t("customers.fields.city")}</th>
-                        <th>{t("actions.edit")}</th>
-                        <th>{t("actions.approve")}</th>
+                        {canCreate && (<th>{t("actions.edit")}</th>)}
+                        {canApproval && (<th>{t("actions.approve")}</th>)}
                     </tr>
                     </thead>
                     <tbody>
@@ -193,28 +201,36 @@ export const CustomersList = () => {
                             <td>{maskCNPJ(customer.document ?? "")}</td>
                             <td>{customer.state}</td>
                             <td>{customer.city}</td>
-                            <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedCustomer(customer?.uuid ?? "");
-                                        modifiedCustomerForm(CrmFormType.EDIT_CUSTOMER);
-                                    }}
-                                >
-                                    <EditRounded/>
-                                </IconButton>
-                            </td>
-                            <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedCustomer(customer?.uuid ?? "");
-                                        modifiedCustomerForm(CrmFormType.APPROVAL_CUSTOMER);
-                                    }}
-                                >
-                                    <PublishedWithChangesRounded/>
-                                </IconButton>
-                            </td>
+                            {
+                                canCreate && (
+                                    <td>
+                                        <IconButton
+                                            size={"sm"}
+                                            onClick={() => {
+                                                modifiedCustomer(customer?.uuid ?? "");
+                                                modifiedCustomerForm(CrmFormType.EDIT_CUSTOMER);
+                                            }}
+                                        >
+                                            <EditRounded/>
+                                        </IconButton>
+                                    </td>
+                                )
+                            }
+                            {
+                                canApproval && (
+                                    <td>
+                                        <IconButton
+                                            size={"sm"}
+                                            onClick={() => {
+                                                modifiedCustomer(customer?.uuid ?? "");
+                                                modifiedCustomerForm(CrmFormType.APPROVAL_CUSTOMER);
+                                            }}
+                                        >
+                                            <PublishedWithChangesRounded/>
+                                        </IconButton>
+                                    </td>
+                                )
+                            }
                         </tr>
                     ))}
                     </tbody>

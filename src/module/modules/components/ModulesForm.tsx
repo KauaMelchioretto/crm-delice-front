@@ -21,7 +21,6 @@ import {CrmTableContainer} from "../../../utils/components/core/CrmTableContaine
 import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
-import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import { useTranslation } from "react-i18next";
 
@@ -167,10 +166,6 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
 
     const {register, handleSubmit, formState: {errors}} = formMethods;
 
-    const {modules: userModules} = useAuth();
-
-    const systemRoles = userModules?.find(x => x.code === "SYSTEM_ROLES");
-
     const [module, setModule] = useState<ModuleWithRolesResponse>();
     const [update, setUpdate] = useState(false)
 
@@ -191,11 +186,6 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
     });
 
     const handleDeleteRole = (roleUUID: string) => {
-        if (!systemRoles || systemRoles?.roles?.find(x => x.code === "DELETE_ROLE") === undefined) {
-            popup.toast("warning", "You don't have permission to delete roles", 2000);
-            return;
-        }
-
         popup.confirm("question", "Delete role?", "Are sure that want delete this role?", "Yes").then((r) => {
             if (r.isConfirmed) {
                 modulesUseCase.deleteRoleByUUID(roleUUID).then((response) => {

@@ -11,7 +11,6 @@ import ModulesState from "../state/ModulesState.ts";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {modulesUseCase} from "../usecase/ModulesUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
-import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import { useTranslation } from "react-i18next";
 
 export const ModulesList = () => {
@@ -20,19 +19,10 @@ export const ModulesList = () => {
     const modulesAtom = useAtomValue(ModulesState.ModuleListAtom);
     const updateList = useSetAtom(ModulesState.ModuleUpdateAtom);
     const { t } = useTranslation();
-    
-    const {modules: userModules} = useAuth();
-
-    const systemRoles = userModules?.find(x => x.code === "SYSTEM_ROLES");
 
     let modules: Module[] = [];
 
     const deleteModule = (uuid: string) => {
-        if (!systemRoles || systemRoles?.roles?.find(x => x.code === "DELETE_ROLE") === undefined) {
-            popup.toast("warning", "You don't have permission to delete modules", 2000);
-            return;
-        }
-
         popup.confirm("question", "Delete module?", "Are sure that want delete this module?", "Yes").then((r) => {
             if (r.isConfirmed) {
                 modulesUseCase.deleteModuleByUUID(uuid).then((response) => {

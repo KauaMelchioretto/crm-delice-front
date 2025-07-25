@@ -7,9 +7,6 @@ import {FieldValues, FormProvider, useFieldArray, useForm} from "react-hook-form
 import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import UserState from "../../user/state/UserState.ts";
-import CustomersState from "../../customer/state/CustomersState.ts";
-import {SimpleUser} from "../../user/entities/entities.ts";
-import {SimpleCustomer} from "../../customer/entities/entities.ts";
 import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {CrmTextarea} from "../../../utils/components/core/CrmTextarea.tsx";
@@ -17,17 +14,17 @@ import AddCircleRounded from "@mui/icons-material/AddCircleRounded";
 import RemoveCircleRounded from "@mui/icons-material/RemoveCircleRounded";
 import {walletUseCase} from "../usecase/WalletUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 export const WalletForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
     const walletUUID = useAtomValue(CrmState.EntityFormUUID)
 
     const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
-    const simpleCustomersAtom = useAtomValue(CustomersState.SimpleCustomersAtom)
+    const simpleCustomersAtom = useAtomValue(WalletState.FreeCustomersAtom)
 
     if (simpleUsersAtom.state === "loading" || simpleCustomersAtom.state === "loading") {
         return <></>
@@ -59,37 +56,30 @@ export const WalletForm = () => {
 
 const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const updateList = useSetAtom(WalletState.UpdateAtom)
 
     const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
-    const simpleCustomersAtom = useAtomValue(CustomersState.SimpleCustomersAtom)
+    const simpleCustomersAtom = useAtomValue(WalletState.FreeCustomersAtom)
 
-    let simpleUsers: SimpleUser[] = []
-    let simpleCustomers: SimpleCustomer[] = []
-
-    if (simpleUsersAtom.state === "hasData") {
-        simpleUsers = simpleUsersAtom.data.users ?? []
-    }
-    if (simpleCustomersAtom.state === "hasData") {
-        simpleCustomers = simpleCustomersAtom.data.customers ?? []
-    }
+    const [users, setUsers] = useState<OptionType[]>([])
+    const [customers, setCustomers] = useState<OptionType[]>([])
 
     const formMethods = useForm({
         defaultValues: {
             customers: [{
-                uuid: simpleCustomers[0]?.uuid ?? ""
+                uuid: ""
             }],
             accountable: {
-                uuid: simpleUsers[0]?.uuid ?? ""
+                uuid: ""
             }
         } as Wallet
     })
 
     const {handleSubmit, register, formState: {errors}, control, setValue} = formMethods
 
-    const customers = useFieldArray({
+    const customersControl = useFieldArray({
         control: control,
         name: "customers"
     })
@@ -105,7 +95,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 status: data.status,
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error , 2000);
+                    popup.toast("error", response.error, 2000);
                 } else {
                     popup.toast("success", t("wallets.messages.update_success"), 2000);
                     updateList(prev => !prev);
@@ -131,6 +121,21 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
     })
 
     useEffect(() => {
+        let tempUsers: OptionType[] = []
+        let tempCustomers: OptionType[] = []
+
+        if (simpleUsersAtom.state === "hasData") {
+            tempUsers = (simpleUsersAtom.data.users ?? []).map((x) => (
+                {value: x?.uuid ?? "", label: x?.login ?? ""})
+            )
+        }
+
+        if (simpleCustomersAtom.state === "hasData") {
+            tempCustomers = (simpleCustomersAtom.data ?? []).map((x) => (
+                {value: x?.uuid ?? "", label: x?.companyName ?? ""})
+            )
+        }
+
         if (walletUUID) {
             walletUseCase.getWalletUUID(walletUUID).then((response) => {
                 if (response.wallet) {
@@ -139,26 +144,26 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                     setValue("observation", response.wallet?.observation)
 
                     response.wallet.customers?.forEach((x, i) => {
-                        if (i >= customers.fields.length) {
-                            customers.append({
+                        tempCustomers.push({value: x?.uuid ?? "", label: x?.companyName ?? ""})
+
+                        if (i >= customersControl.fields.length) {
+                            customersControl.append({
                                 uuid: x.uuid
                             })
                         } else {
                             setValue(`customers.${i}.uuid`, x?.uuid)
                         }
                     })
+
+                    setUsers(tempUsers)
+                    setCustomers(tempCustomers)
                 }
             })
+        } else {
+            setUsers(tempUsers)
+            setCustomers(tempCustomers)
         }
     }, [walletUUID]);
-
-    const userOptions: OptionType[] = simpleUsers.map((x) => (
-        {value: x?.uuid ?? "", label: x?.login ?? ""})
-    );
-
-    const customerOptions: OptionType[] = simpleCustomers.map((x) => (
-        {value: x?.uuid ?? "", label: x?.companyName ?? ""})
-    );
 
     return (
         <CrmContainer>
@@ -215,7 +220,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                             <Box sx={{width: "100%", flex: 1}}>
                                 <CrmSelect
                                     name={"accountable.uuid"}
-                                    options={userOptions}
+                                    options={users}
                                     label={t("wallets.fields.accountable")}
                                     // @ts-ignore
                                     rules={{rules: {required: t("wallets.messages.user_required")}}}
@@ -260,9 +265,9 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                 }}
                             >
                                 {
-                                    customers.fields.map((_, i) => (
+                                    customersControl.fields.map((field, i) => (
                                         <Box
-                                            key={`customer_field_${i}`}
+                                            key={field.id}
                                             display={"flex"}
                                             alignItems={"center"}
                                             gap={1}
@@ -271,16 +276,16 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                             <Box sx={{width: "300px"}}>
                                                 <CrmSelect
                                                     name={`customers.${i}.uuid`}
-                                                    options={customerOptions}
+                                                    options={customers}
                                                     label={""}
                                                 />
                                             </Box>
                                             {
-                                                (customers.fields.length - 1) === i ? (
+                                                (customersControl.fields.length - 1) === i ? (
                                                     <IconButton
                                                         onClick={() => {
-                                                            customers.append({
-                                                                uuid: simpleCustomers[0]?.uuid
+                                                            customersControl.append({
+                                                                uuid: customers[0].value
                                                             })
                                                         }}
                                                         color={"primary"}
@@ -290,7 +295,8 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                                 ) : (
                                                     <IconButton
                                                         onClick={() => {
-                                                            customers.remove(i)
+                                                            console.log(i)
+                                                            customersControl.remove(i)
                                                         }}
                                                         color={"danger"}
                                                     >

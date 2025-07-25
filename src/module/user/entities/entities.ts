@@ -1,4 +1,4 @@
-import { Role } from "../../modules/enitites/entities"
+import {Role} from "../../modules/enitites/entities"
 
 export interface User {
     uuid?: string,
@@ -39,13 +39,19 @@ export interface UserRolesResponse {
     error?: string
 }
 
-export interface SimpleUser{
+export interface SimpleUser {
     uuid?: string,
     login?: string,
     userName?: string
 }
 
-export interface SimpleUserListResponse{
+export interface SimpleUserListResponse {
     users?: SimpleUser[],
     error?: string
+}
+
+export enum UserStatus {
+    ACTIVE = 0,
+    INACTIVE = 1,
+    FIRST_ACCESS = 2
 }

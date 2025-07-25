@@ -1041,7 +1041,7 @@ export const CustomerEconomicActivity = (props: { activity: EconomicActivity }) 
                                     textAlign: "start"
                                 }}
                             >
-                                {t("customers.fields.session")}{props.activity.section?.description ?? ""}
+                                {props.activity.section?.description ?? ""}
                             </Typography>
                         </Box>
                         <Box

@@ -26,10 +26,23 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
     return 0;
 }));
 
+const FreeCustomersAtom = loadable(atom(async (get) => {
+    get(UpdateAtom)
+
+    const response = await walletUseCase.getFreeCustomers()
+
+    if (response.error) {
+        return []
+    }
+
+    return response.customers ?? []
+}))
+
 export default {
     UpdateAtom,
     PageAtom,
     FilterAtom,
     ListAtom,
     ListTotalCountAtom,
+    FreeCustomersAtom
 }

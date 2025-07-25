@@ -7,13 +7,13 @@ import {useAuth} from "../../../../core/auth/provider/AuthProvider.tsx";
 import {TextInput} from "../../core/TextInput.tsx";
 import {SetStateAction, useAtom, useAtomValue, useSetAtom} from "jotai";
 import AppBarState from "../state/AppBarState.ts";
-import {Dispatch, memo, useState} from "react";
+import {Dispatch, memo, useRef, useState} from "react";
 import {Menu} from "../entities/entities.ts";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 
 export const CrmAppBar = () => {
@@ -26,12 +26,11 @@ export const CrmAppBar = () => {
                 width: "100%",
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center",
-                position: "relative"
+                alignItems: "center"
             }}
         >
             <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <StoreRounded color={"action"}/>
+                <StoreRounded color={"action"} sx={{fontSize: "15pt"}}/>
                 <Typography level={"title-md"} color={"neutral"}>
                     Delice CRM
                 </Typography>
@@ -65,10 +64,10 @@ const MenuAppBar = () => {
 
     const {crmModules} = useApp()
 
+    const anchorEl = useRef(null)
+
     const modifiedFormType = useSetAtom(CrmState.FormType)
     const modifiedEntityUUID = useSetAtom(CrmState.EntityFormUUID)
-
-    const { t } = useTranslation();
 
     const defaultMenuResult = {
         totalResults: 0,
@@ -79,37 +78,26 @@ const MenuAppBar = () => {
         : defaultMenuResult
 
     return (
-        <Box
-            sx={{
-                position: "relative",
-            }}
-        >
-            <Stack direction={"row"} alignItems={"center"} gap={1}>
+        <Dropdown>
+            <Stack direction={"row"} alignItems={"center"} gap={1} ref={anchorEl}>
                 <SearchBarInput setOnInput={setOnInput}/>
                 <CreateButton/>
             </Stack>
-            {(onInput && menuResult.totalResults > 0) && (
+            <MenuJoy
+                anchorEl={anchorEl.current}
+                open={onInput && menuResult.totalResults > 0}
+                sx={{
+                    p: 1
+                }}
+            >
                 <Box
                     sx={{
-                        mt: 1.5,
-                        backgroundColor: "background.surface",
-                        maxHeight: "500px",
-                        width: "750px",
-                        position: "absolute",
-                        border: "1px solid",
-                        borderColor: "divider",
-                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
-                        borderRadius: "5px",
-                        p: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1.5,
                         overflowY: "auto",
-                        left: "50%",
-                        transform: "translate(-50%, 0%)"
+                        maxHeight: "500px",
+                        width: "700px"
                     }}
                 >
-                    {
+                    {(onInput && menuResult.totalResults > 0) &&
                         menuResult.result?.map((m, i) => {
                             const module = crmModules.find(x => x.code === m.type)
 
@@ -179,8 +167,8 @@ const MenuAppBar = () => {
                         })
                     }
                 </Box>
-            )}
-        </Box>
+            </MenuJoy>
+        </Dropdown>
     )
 }
 
@@ -188,8 +176,8 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
     const setSearchValue = useSetAtom(AppBarState.SearchValueAtom)
 
     const [searchBarValue, setSearchBarValue] = useAtom(AppBarState.SearchBarValueAtom)
-    
-    const { t } = useTranslation();
+
+    const {t} = useTranslation();
 
     return (
         <TextInput
@@ -210,7 +198,13 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
             placeholder={t("app_bar.placeholder")}
             endDecorator={<SearchRoundedIcon/>}
             sx={{
-                width: "500px"
+                width: {
+                    xl: "700px",
+                    lg: "500px",
+                    md: "300px",
+                    sm: "300px",
+                    xs: "100px",
+                }
             }}
         />
     )
@@ -218,14 +212,14 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
 
 const CreateButton = () => {
     const setFormType = useSetAtom(CrmState.FormType)
-    
-    const { t } = useTranslation();
+
+    const {t} = useTranslation();
 
     const {modules} = useAuth()
     const {crmModules} = useApp()
 
     const createModules = crmModules.filter(x => {
-        if(modules?.find(m => m.code === x.code) && x.createFormType !== undefined){
+        if (modules?.find(m => m.code === x.code) && x.createFormType !== undefined) {
             return x
         }
     });

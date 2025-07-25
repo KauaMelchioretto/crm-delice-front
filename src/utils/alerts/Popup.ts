@@ -40,13 +40,15 @@ class Popup {
         icon: SweetAlertIcon,
         title: string,
         text: string,
-        buttonText: string
+        confirm: string,
+        cancel?: string
     ) {
         return Swal.fire({
             icon: icon,
             text: text,
             title: title,
-            confirmButtonText: buttonText,
+            confirmButtonText: confirm,
+            cancelButtonText: cancel ?? "Cancel",
             showCancelButton: true,
             reverseButtons: true,
             theme: this.getTheme() as SweetAlertTheme

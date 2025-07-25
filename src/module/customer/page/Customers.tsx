@@ -4,11 +4,18 @@ import {useTranslation} from "react-i18next";
 import {useSetAtom} from "jotai";
 import {CustomersList} from "../components/CustomersList";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const Customers = () => {
     const {t} = useTranslation();
     const modifiedCustomerForm = useSetAtom(CrmState.FormType);
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Customer)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_CUSTOMER" || x.code === "ALL_CUSTOMER").length > 0
 
     return (
         <Box
@@ -34,12 +41,16 @@ export const Customers = () => {
                 >
                     {t("customers.page.title")}
                 </Typography>
-                <Button
-                    size="sm"
-                    onClick={() => modifiedCustomerForm(CrmFormType.REGISTER_CUSTOMER)}
-                >
-                    {t('customers.page.buttons.register')}
-                </Button>
+                {
+                    canCreate && (
+                        <Button
+                            size="sm"
+                            onClick={() => modifiedCustomerForm(CrmFormType.REGISTER_CUSTOMER)}
+                        >
+                            {t('customers.page.buttons.register')}
+                        </Button>
+                    )
+                }
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <CustomersList/>

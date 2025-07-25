@@ -1,6 +1,6 @@
 import {useAtom, useAtomValue} from "jotai";
 import UserState from "../state/UserState.ts";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {useSetAtom} from "jotai/index";
 import {
     Box,
@@ -30,6 +30,8 @@ import {useTranslation} from "react-i18next";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
+import SearchRounded from '@mui/icons-material/SearchRounded';
+import {handleGetAddress} from "../../../utils/functions/Address.ts";
 
 export const UserForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
@@ -76,6 +78,9 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
     const updateList = useSetAtom(UserState.UserUpdateAtom)
 
     const formMethods = useForm();
+
+    const inputZipCode = useRef(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const {register, handleSubmit, setValue, formState: {errors}} = formMethods
 
@@ -132,6 +137,18 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
             }
         })
     });
+
+    const handleGetUserAddress = (query: string) => {
+        setLoading(true)
+        handleGetAddress(query).then((response) => {
+            if (response.address) {
+                setValue("zipCode", maskZipCode(response.address.zipCode))
+                setValue("city", response.address.city)
+                setValue("state", response.address.state)
+                setValue("address", `${response.address.address} - ${response.address.district}`)
+            }
+        }).finally(() => setLoading(false))
+    }
 
     useEffect(() => {
         if (userUUID) {
@@ -191,6 +208,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 {...register("login", {required: "The login is required"})}
                                 size={"sm"}
                                 variant={"soft"}
+                                disabled={!!userUUID}
                             />
                             <FormHelperText sx={{minHeight: "1rem"}}>
                                 {errors?.login?.message as string}
@@ -316,6 +334,26 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 {...register("zipCode", {required: "The zip code is required"})}
                                 size={"sm"}
                                 variant={"soft"}
+                                inputRef={inputZipCode}
+                                endDecorator={
+                                    loading ? (
+                                        <CircularProgress size={"sm"}/>
+                                    ) : (
+                                        <IconButton
+                                            onClick={() => {
+                                                if (inputZipCode.current === null) return
+
+                                                const query = (inputZipCode.current as HTMLInputElement).value ?? ""
+
+                                                if (!query) return
+
+                                                handleGetUserAddress(query)
+                                            }}
+                                        >
+                                            <SearchRounded/>
+                                        </IconButton>
+                                    )
+                                }
                             />
                             <FormHelperText sx={{minHeight: "1rem"}}>
                                 {errors?.zipCode?.message as string}

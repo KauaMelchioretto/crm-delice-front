@@ -1,6 +1,6 @@
-import {CircularProgress, IconButton} from "@mui/joy";
+import {Box, CircularProgress, IconButton, Typography} from "@mui/joy";
 import {CrmTable} from "../../../utils/components/core/CrmTable";
-import {User} from "../entities/entities.ts";
+import {User, UserStatus} from "../entities/entities.ts";
 import EditRounded from "@mui/icons-material/EditRounded";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
@@ -16,6 +16,10 @@ import {useTranslation} from "react-i18next";
 import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import QueryBuilderRounded from "@mui/icons-material/QueryBuilderRounded";
+import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
+import CancelRounded from "@mui/icons-material/CancelRounded";
+import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 
 export const UsersList = () => {
     const {t} = useTranslation();
@@ -35,11 +39,75 @@ export const UsersList = () => {
         {value: "city", label: t("users.fields.city")},
     ];
 
-    const {modules: userModules} = useAuth();
-    const systemRoles = userModules?.find((x) => x.code === CrmModules.User);
-    const userModulesRoles = systemRoles?.roles?.map((x) => x.code);
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.User)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_USER" || x.code === "ALL_USER").length > 0
+    const canAttachRoles = roles.filter(x => x.code === "ATTACH_ROLES" || x.code === "ALL_USER").length > 0
 
     let users: User[] = [];
+
+    const userStatus = {
+        [UserStatus.ACTIVE]: {
+            color: "#118D57",
+            label: "Ativo",
+            icon: VerifiedRounded
+        },
+        [UserStatus.FIRST_ACCESS]: {
+            color: "#2685E2",
+            label: "Primeiro acesso",
+            icon: QueryBuilderRounded
+        },
+        [UserStatus.INACTIVE]: {
+            color: "#ff543f",
+            label: "Inativo",
+            icon: CancelRounded
+        },
+    }
+
+    const CardStatus = ({status}: { status: string }) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const s = userStatus[UserStatus[status]]
+
+        const colors = getColorContrast(s.color)
+
+        const Icon = s.icon
+
+        return (
+            <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+                <Box
+                    sx={{
+                        backgroundColor: colors.transparent,
+                        p: 0.5,
+                        borderRadius: "8px",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: 0.5
+                    }}
+                >
+                    <Icon
+                        sx={{
+                            color: s.color,
+                            fontSize: "14pt"
+                        }}
+                    />
+                    <Typography
+                        sx={{
+                            color: s.color,
+                            fontWeight: "bold",
+                            fontSize: "9pt",
+                        }}
+                    >
+                        {s.label}
+                    </Typography>
+                </Box>
+            </Box>
+        )
+    }
 
     if (usersAtom.state === "loading") {
         return (
@@ -90,12 +158,15 @@ export const UsersList = () => {
                             width: 50,
                         },
                         "& thead th:nth-child(8)": {
-                            width: 50,
+                            width: 100,
                         },
                         "& thead th:nth-child(9)": {
-                            width: 50,
+                            width: 150,
                         },
                         "& thead th:nth-child(10)": {
+                            width: 50,
+                        },
+                        "& thead th:nth-child(11)": {
                             width: 50,
                         },
                     }}
@@ -110,8 +181,9 @@ export const UsersList = () => {
                         <th>{t("users.fields.phone")}</th>
                         <th>{t("users.fields.state")}</th>
                         <th>{t("users.fields.city")}</th>
-                        <th>{t("actions.edit")}</th>
-                        <th>{t("actions.roles")}</th>
+                        <th>{t("users.fields.status.label")}</th>
+                        {canCreate && (<th>{t("actions.edit")}</th>)}
+                        {canAttachRoles && (<th>{t("actions.roles")}</th>)}
                     </tr>
                     </thead>
                     <tbody>
@@ -128,30 +200,38 @@ export const UsersList = () => {
                             <td>{user.state}</td>
                             <td>{user.city}</td>
                             <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedUser(user?.uuid ?? "");
-                                        modifiedUserForm(CrmFormType.EDIT_USER);
-                                    }}
-                                >
-                                    <EditRounded/>
-                                </IconButton>
+                                <CardStatus status={user?.status ?? "PENDING"}/>
                             </td>
-                            <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedUser(user?.uuid ?? "");
-                                        modifiedUserForm(CrmFormType.ATTACH_ROLE);
-                                    }}
-                                    disabled={
-                                        !(userModulesRoles?.includes("ATTACH_ROLES") ?? false)
-                                    }
-                                >
-                                    <Rule/>
-                                </IconButton>
-                            </td>
+                            {
+                                canCreate && (
+                                    <td>
+                                        <IconButton
+                                            size={"sm"}
+                                            onClick={() => {
+                                                modifiedUser(user?.uuid ?? "");
+                                                modifiedUserForm(CrmFormType.EDIT_USER);
+                                            }}
+                                        >
+                                            <EditRounded/>
+                                        </IconButton>
+                                    </td>
+                                )
+                            }
+                            {
+                                canAttachRoles && (
+                                    <td>
+                                        <IconButton
+                                            size={"sm"}
+                                            onClick={() => {
+                                                modifiedUser(user?.uuid ?? "");
+                                                modifiedUserForm(CrmFormType.ATTACH_ROLE);
+                                            }}
+                                        >
+                                            <Rule/>
+                                        </IconButton>
+                                    </td>
+                                )
+                            }
                         </tr>
                     ))}
                     </tbody>

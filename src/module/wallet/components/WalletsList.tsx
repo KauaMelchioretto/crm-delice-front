@@ -15,8 +15,9 @@ import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
-import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const WalletsList = () => {
     const {t} = useTranslation()
@@ -25,10 +26,16 @@ export const WalletsList = () => {
     const modifiedWallet = useSetAtom(CrmState.EntityFormUUID)
     const modifiedWalletForm = useSetAtom(CrmState.FormType)
 
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Wallet)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_WALLET" || x.code === "ALL_WALLET").length > 0
+
     const walletFields = [
-        { value: "", label: t("filter_keys.none") },
-        { value: "label", label: t("wallets.fields.title") },
-        { value: "accountable", label: t("wallets.fields.accountable") },
+        {value: "", label: t("filter_keys.none")},
+        {value: "label", label: t("wallets.fields.title")},
+        {value: "accountable", label: t("wallets.fields.accountable")},
     ]
 
     const walletStatus = {
@@ -112,8 +119,8 @@ export const WalletsList = () => {
 
     return (
         <CrmContainer>
-            <FilterComponent fields={walletFields} filterAtom={WalletState.FilterAtom} />
-            <CrmTableContainer sx={{height: 450}}>
+            <FilterComponent fields={walletFields} filterAtom={WalletState.FilterAtom}/>
+            <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
@@ -148,7 +155,7 @@ export const WalletsList = () => {
                         <th>{t("wallets.fields.customers_quantity")}</th>
                         <th>{t("wallets.fields.status")}</th>
                         <th>{t("wallets.fields.created_at")}</th>
-                        <th>{t("actions.edit")}</th>
+                        {canCreate && (<th>{t("actions.edit")}</th>)}
                     </tr>
                     </thead>
                     <tbody>
@@ -161,17 +168,21 @@ export const WalletsList = () => {
                                 <CardStatus status={wallet?.status ?? "ACTIVE"}/>
                             </td>
                             <td>{dayjs(wallet.createdAt).format("DD/MM/YYYY")}</td>
-                            <td>
-                                <IconButton
-                                    size={"sm"}
-                                    onClick={() => {
-                                        modifiedWallet(wallet?.uuid ?? "");
-                                        modifiedWalletForm(CrmFormType.EDIT_WALLET);
-                                    }}
-                                >
-                                    <EditRounded/>
-                                </IconButton>
-                            </td>
+                            {
+                                canCreate && (
+                                    <td>
+                                        <IconButton
+                                            size={"sm"}
+                                            onClick={() => {
+                                                modifiedWallet(wallet?.uuid ?? "");
+                                                modifiedWalletForm(CrmFormType.EDIT_WALLET);
+                                            }}
+                                        >
+                                            <EditRounded/>
+                                        </IconButton>
+                                    </td>
+                                )
+                            }
                         </tr>
                     ))}
                     </tbody>

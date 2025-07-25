@@ -23,6 +23,7 @@ import {popup} from "../../../../utils/alerts/Popup.ts";
 import {CrmModal} from "../../../../utils/components/core/CrmModal.tsx";
 import {CrmAppBar} from "../../../../utils/components/appbar/component/AppBar.tsx";
 import {useApp} from "../../app/AppProvider.tsx";
+import {useTranslation} from "react-i18next";
 
 export const DefaultPage = () => (
     <Layout.Root>
@@ -67,6 +68,8 @@ const Content = () => {
 
 const ValidateFirstAccess = () => {
     const {user} = useAuth()
+
+    const {t} = useTranslation()
 
     const formMethods = useForm();
 
@@ -117,17 +120,17 @@ const ValidateFirstAccess = () => {
                         </Box>
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} sx={{mt: 1}}>
                             <Typography color={"neutral"} level={"body-lg"} fontWeight={"bold"}>
-                                Olá seja muito bem vindo ao nosso CRM
+                                {t('first_access.title')}
                             </Typography>
                         </Box>
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} sx={{mt: 5}}>
                             <Typography color={"danger"} level={"body-md"} fontWeight={"bold"}>
-                                Para seu primeiro acesso, é necessário que você altere a sua senha
+                                {t('first_access.text')}
                             </Typography>
                         </Box>
 
                         <FormControl>
-                            <FormLabel>Senha</FormLabel>
+                            <FormLabel>{t('first_access.password')}</FormLabel>
                             <PasswordInput
                                 {...register("password", {required: "The password is required"})}
                                 size={"md"}
@@ -138,7 +141,7 @@ const ValidateFirstAccess = () => {
                             </FormHelperText>
                         </FormControl>
                         <FormControl>
-                            <FormLabel>Confirme sua senha</FormLabel>
+                            <FormLabel>{t('first_access.confirm_password')}</FormLabel>
                             <PasswordInput
                                 {...register("confirmPassword", {required: "The confirm password is required"})}
                                 size={"md"}
@@ -148,7 +151,7 @@ const ValidateFirstAccess = () => {
                                 {errors?.confirmPassword?.message as string}
                             </FormHelperText>
                         </FormControl>
-                        <Button type={"submit"}>confirmar</Button>
+                        <Button type={"submit"}>{t('first_access.confirm')}</Button>
                     </Box>
                 </FormProvider>
             </CrmContainer>

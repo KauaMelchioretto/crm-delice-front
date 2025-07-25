@@ -4,12 +4,19 @@ import {UsersList} from "../components/UsersList";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {useTranslation} from "react-i18next";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const User = () => {
     const {t} = useTranslation()
 
     const modifiedUserForm = useSetAtom(CrmState.FormType);
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.User)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_USER" || x.code === "ALL_USER").length > 0
 
     return (
         <Box
@@ -30,9 +37,13 @@ export const User = () => {
                 }}
             >
                 <Typography level={"body-lg"} fontWeight={"bold"}>{t('users.page.title')}</Typography>
-                <Button size="sm" onClick={() => modifiedUserForm(CrmFormType.REGISTER_USER)}>
-                    {t('users.page.buttons.register')}
-                </Button>
+                {
+                    canCreate && (
+                        <Button size="sm" onClick={() => modifiedUserForm(CrmFormType.REGISTER_USER)}>
+                            {t('users.page.buttons.register')}
+                        </Button>
+                    )
+                }
             </CrmTitleContainer>
             <Box display={"flex"}>
                 <UsersList/>

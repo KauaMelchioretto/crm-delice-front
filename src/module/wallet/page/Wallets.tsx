@@ -4,12 +4,19 @@ import {useTranslation} from "react-i18next";
 import {WalletsList} from "../components/WalletsList.tsx";
 import {useSetAtom} from "jotai/index";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const Wallets = () => {
     const {t} = useTranslation();
 
     const modifiedWalletForm = useSetAtom(CrmState.FormType)
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Wallet)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_WALLET" || x.code === "ALL_WALLET").length > 0
 
     return (
         <Box
@@ -35,12 +42,16 @@ export const Wallets = () => {
                 >
                     {t("wallets.page.title")}
                 </Typography>
-                <Button
-                    size="sm"
-                    onClick={() => modifiedWalletForm(CrmFormType.REGISTER_WALLET)}
-                >
-                    {t('wallets.page.buttons.register')}
-                </Button>
+                {
+                    canCreate && (
+                        <Button
+                            size="sm"
+                            onClick={() => modifiedWalletForm(CrmFormType.REGISTER_WALLET)}
+                        >
+                            {t('wallets.page.buttons.register')}
+                        </Button>
+                    )
+                }
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
                 <WalletsList/>

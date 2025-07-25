@@ -1,16 +1,18 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
-import {AuthenticatedResponse, LoginResponse, LogoutResponse, Module} from "../entities/entities.ts";
+import {AuthenticatedResponse, LoginResponse, LogoutResponse, Module, Role} from "../entities/entities.ts";
 import {authUseCase} from "../usecase/AuthUseCase.ts";
 import {useLocation, useNavigate} from "react-router-dom";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {Box, CircularProgress} from "@mui/joy";
+import {CrmModules} from "../../../utils/entities/entities.ts";
 
 interface AuthProps {
     user?: Record<string, string>,
     modules?: Module[],
     authenticated: boolean,
     login: (login: string, password: string) => void,
-    logout: () => void
+    logout: () => void,
+    getRolesByModule: (module: CrmModules) => Role[]
 }
 
 const initProps: AuthProps = {
@@ -18,7 +20,8 @@ const initProps: AuthProps = {
     login: () => {
     },
     logout: () => {
-    }
+    },
+    getRolesByModule: () => { return []}
 }
 
 const AuthContext = createContext<AuthProps>(initProps)
@@ -66,6 +69,16 @@ export const AuthProvider = (params: AuthProviderParams) => {
         })
     }
 
+    const getRolesByModule = (module: CrmModules) => {
+        if (!data?.modules) return []
+
+        const temp = data.modules.find(x => x.code === module);
+
+        if (!temp) return []
+
+        return temp.roles ?? []
+    }
+
     if (loading) {
         return (
             <Box
@@ -87,7 +100,8 @@ export const AuthProvider = (params: AuthProviderParams) => {
         logout,
         authenticated: !(data?.error),
         user: data?.user,
-        modules: data?.modules
+        modules: data?.modules,
+        getRolesByModule
     }
 
     return (

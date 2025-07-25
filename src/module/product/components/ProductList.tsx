@@ -13,17 +13,24 @@ import {getColorContrast} from "../../../utils/functions/GetColorContrast.ts";
 import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
-import { useTranslation } from "react-i18next";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {useTranslation} from "react-i18next";
 import BurstModeRounded from '@mui/icons-material/BurstModeRounded';
-import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
+import {FilterComponent} from "../../../utils/components/filter/FilterComponent.tsx";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 
 export const ProductList = () => {
     const modifiedProduct = useSetAtom(CrmState.EntityFormUUID)
     const modifiedProductForm = useSetAtom(CrmState.FormType)
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const productAtom = useAtomValue(ProductState.ListAtom)
+
+    const {getRolesByModule} = useAuth()
+
+    const roles = getRolesByModule(CrmModules.Product)
+
+    const canCreate = roles.filter(x => x.code === "CREATE_PRODUCT" || x.code === "ALL_PRODUCT").length > 0
 
     let products: Product[] = []
 
@@ -41,11 +48,11 @@ export const ProductList = () => {
     }
 
     const productFields = [
-        { value: "", label: t("filter_keys.none") },
-        { value: "name", label: t("products.fields.name") },
-        { value: "code", label: t("products.fields.code") },
-        { value: "weight", label: t("products.fields.weight") },
-        { value: "price", label: t("products.fields.price") },
+        {value: "", label: t("filter_keys.none")},
+        {value: "name", label: t("products.fields.name")},
+        {value: "code", label: t("products.fields.code")},
+        {value: "weight", label: t("products.fields.weight")},
+        {value: "price", label: t("products.fields.price")},
     ]
 
     const CardStatus = ({status}: { status: string }) => {
@@ -114,8 +121,8 @@ export const ProductList = () => {
 
     return (
         <CrmContainer>
-            <FilterComponent fields={productFields} filterAtom={ProductState.FilterAtom} />
-            <CrmTableContainer sx={{height: 450}}>
+            <FilterComponent fields={productFields} filterAtom={ProductState.FilterAtom}/>
+            <CrmTableContainer sx={{height: 450, pt: 2}}>
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
@@ -154,7 +161,7 @@ export const ProductList = () => {
                         <th>{t("products.fields.price")}</th>
                         <th>{t("products.fields.status")}</th>
                         <th>{t("products.fields.images")}</th>
-                        <th>{t("actions.edit")}</th>
+                        {canCreate && (<th>{t("actions.edit")}</th>)}
                     </tr>
                     </thead>
                     <tbody>
@@ -179,17 +186,21 @@ export const ProductList = () => {
                                         <BurstModeRounded/>
                                     </IconButton>
                                 </td>
-                                <td>
-                                    <IconButton
-                                        size={"sm"}
-                                        onClick={() => {
-                                            modifiedProduct(product?.uuid ?? "");
-                                            modifiedProductForm(CrmFormType.EDIT_PRODUCT);
-                                        }}
-                                    >
-                                        <EditRounded/>
-                                    </IconButton>
-                                </td>
+                                {
+                                    canCreate && (
+                                        <td>
+                                            <IconButton
+                                                size={"sm"}
+                                                onClick={() => {
+                                                    modifiedProduct(product?.uuid ?? "");
+                                                    modifiedProductForm(CrmFormType.EDIT_PRODUCT);
+                                                }}
+                                            >
+                                                <EditRounded/>
+                                            </IconButton>
+                                        </td>
+                                    )
+                                }
                             </tr>
                         ))
                     }

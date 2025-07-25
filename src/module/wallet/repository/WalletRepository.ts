@@ -2,6 +2,7 @@ import {CrmFilter} from "../../../utils/entities/entities.ts";
 import {Wallet, WalletListResponse, WalletResponse} from "../entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
+import {SimpleCustomerListResponse} from "../../customer/entities/entities.ts";
 
 class WalletRepository {
     WALLET_UNEXPECTED_ERROR = "An unexpected error has occurred";
@@ -84,6 +85,26 @@ class WalletRepository {
             );
 
             return response.data as WalletResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.WALLET_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.WALLET_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getFreeCustomers(): Promise<SimpleCustomerListResponse>{
+        try {
+            const response = await http.get(
+                `/wallet/getFreeCustomers`
+            );
+
+            return response.data as SimpleCustomerListResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

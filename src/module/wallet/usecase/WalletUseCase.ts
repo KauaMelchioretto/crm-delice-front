@@ -1,6 +1,7 @@
 import {CrmFilter} from "../../../utils/entities/entities.ts";
 import {Wallet, WalletListResponse, WalletResponse} from "../entities/entities.ts";
 import {walletRepository} from "../repository/WalletRepository.ts";
+import {SimpleCustomerListResponse} from "../../customer/entities/entities.ts";
 
 class WalletUseCase {
     UUID_INVALID = "Invalid wallet ID"
@@ -45,6 +46,10 @@ class WalletUseCase {
         }
 
         return walletRepository.getWalletUUID(uuid)
+    }
+
+    async getFreeCustomers(): Promise<SimpleCustomerListResponse>{
+        return walletRepository.getFreeCustomers()
     }
 
     validateWallet(wallet: Wallet): WalletResponse {
