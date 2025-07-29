@@ -21,6 +21,9 @@ import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 import {ProductForm} from "../../../module/product/components/ProductForm.tsx";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import {UserConfig} from "../../auth/components/UserConfig.tsx";
+import {BoardPage} from "../../../module/kanban/page/BoardPage.tsx";
+import ViewKanbanRoundedIcon from '@mui/icons-material/ViewKanbanRounded';
+import {BoardForm} from "../../../module/kanban/components/BoardForm.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[]
@@ -115,6 +118,16 @@ export const AppProvider = (props: AppProviderProps) => {
             createLabel: t("products.page.buttons.register"),
             editFormType: CrmFormType.EDIT_PRODUCT,
             createFormType: CrmFormType.REGISTER_PRODUCT
+        },
+        {
+            path: "/kanban",
+            sideBar: true,
+            element: <BoardPage/>,
+            permissionRequired: true,
+            icon: ViewKanbanRoundedIcon,
+            label: t("modules.kanbans"),
+            code: CrmModules.Kanban,
+            form: <BoardForm/>
         },
         {
             path: "/modules",

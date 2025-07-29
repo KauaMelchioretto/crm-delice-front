@@ -1,4 +1,5 @@
-import Kanban from "../../../utils/components/kanban/Kanban.tsx";
+import Kanban from "../../kanban/components/Kanban.tsx";
+import {KanbanKeys} from "../../kanban/entities/entities.ts";
 
 export const Home = () => {
     return (
@@ -11,7 +12,7 @@ export const Home = () => {
                 alignItems: "center"
             }}
         >
-            <Kanban.Provider/>
+            <Kanban.Provider kanbanKey={KanbanKeys.LEADS} />
         </div>
     )
 }

@@ -102,7 +102,8 @@
       "modules_config": "Modules",
       "customers": "Customers",
       "wallet": "Wallets",
-      "products": "Products"
+      "products": "Products",
+      "kanbans": "Manage Kanban"
     },
     "actions": {
       "save": "Save",
@@ -265,6 +266,34 @@
       "status": {
         "active": "Active",
         "inactive": "Inactive"
+      }
+    },
+    "kanbans": {
+      "title": {
+        "boards": "Boards",
+        "columns": "Board columns",
+        "tags": "Board tags",
+        "rules": "Board rules"
+      },
+      "page": {
+        "buttons": {
+          "register": "Register board"
+        }
+      },
+      "fields": {
+        "code": "Code",
+        "title": "Title",
+        "description": "Description",
+        "status": "Status",
+        "edit_columns": "Columns",
+        "edit_tags": "Tags",
+        "edit_rules": "Rules"
+      },
+      "status": {
+        "board": {
+          "active": "Active",
+          "inactive": "Inactive"
+        }
       }
     },
     "app_bar": {

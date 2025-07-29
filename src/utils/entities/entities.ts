@@ -29,6 +29,7 @@ export enum CrmModules {
     System = 'SYSTEM_ROLES',
     NoPermission = 'NO_PERMISSION',
     Me = 'ME',
+    Kanban = 'KANBAN',
 }
 
 export enum CrmFormType {
@@ -44,5 +45,8 @@ export enum CrmFormType {
     ATTACH_ROLE,
     REGISTER_WALLET,
     EDIT_WALLET,
-    EDIT_MY_USER
+    EDIT_MY_USER,
+    REGISTER_BOARD,
+    EDIT_BOARD,
+    EDIT_TAGS,
 }

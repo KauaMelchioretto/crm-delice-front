@@ -1,8 +1,8 @@
-import {Column as ColumnProps} from "../entities/entities.ts";
+import {Column as ColumnProps} from "../../entities/entities.ts";
 import {Box, Chip, Typography} from "@mui/joy";
 import {Card} from "../card/Card.tsx";
 import {useDroppable} from "@dnd-kit/core";
-import {useKanban} from "../provider/Provider.tsx";
+import {useKanban} from "../../provider/Provider.tsx";
 import DoDisturbRoundedIcon from '@mui/icons-material/DoDisturbRounded';
 import ContentPasteGoRoundedIcon from '@mui/icons-material/ContentPasteGoRounded';
 import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
@@ -22,12 +22,10 @@ export const Column = (props: ColumnProps) => {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                borderRadius: "8px",
-                boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
                 minWidth: "250px",
+                maxWidth: "250px",
                 flex: "0 0 auto",
-                backgroundColor: "background.level1",
-                p: 0.5,
+                gap: 2
             }}
         >
             <Box
@@ -37,7 +35,10 @@ export const Column = (props: ColumnProps) => {
                     justifyContent: "center",
                     pt: 1,
                     pb: 1,
-                    position: "relative"
+                    position: "relative",
+                    borderRadius: "8px",
+                    boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+                    backgroundColor: "background.level1",
                 }}
             >
                 <Typography
@@ -53,7 +54,7 @@ export const Column = (props: ColumnProps) => {
                         sx={{
                             borderRadius: "8px",
                             position: "absolute",
-                            right: 0
+                            right: "4px"
                         }}
                     >
                         {filtered.length}
@@ -71,7 +72,10 @@ export const Column = (props: ColumnProps) => {
                     borderRadius: "8px",
                     border: active ? `3px dashed ${overColor}` : undefined,
                     width: "100%",
-                    position: "relative"
+                    position: "relative",
+                    p: 0.5,
+                    boxShadow: isOver ? undefined : "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+                    backgroundColor: "background.level1",
                 }}
             >
                 {filtered.length === 0 && !isOver && (

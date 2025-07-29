@@ -97,7 +97,8 @@
       "modules_config": "Módulos",
       "customers": "Clientes",
       "wallet": "Carteiras",
-      "products": "Produtos"
+      "products": "Produtos",
+      "kanbans": "Kanban"
     },
     "actions": {
       "save": "Salvar",
@@ -256,6 +257,34 @@
       "status": {
         "active": "Ativo",
         "inactive": "Inativo"
+      }
+    },
+    "kanbans": {
+      "title": {
+        "boards": "Quadros",
+        "columns": "Colunas",
+        "tags": "Tags",
+        "rules": "Regras"
+      },
+      "page": {
+        "buttons": {
+          "register": "Cadastrar quadro"
+        }
+      },
+      "fields": {
+        "code": "Código",
+        "title": "Titulo",
+        "description": "Descrição",
+        "status": "Situação",
+        "edit_columns": "Colunas",
+        "edit_tags": "Tags",
+        "edit_rules": "Regras"
+      },
+      "status": {
+        "board": {
+          "active": "Ativo",
+          "inactive": "Inativo"
+        }
       }
     },
     "app_bar": {

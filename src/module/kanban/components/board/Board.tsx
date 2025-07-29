@@ -1,12 +1,12 @@
-import {Board as BoardProps} from "../entities/entities.ts";
+import {Board as BoardProps} from "../../entities/entities.ts";
 import {Box, Typography} from "@mui/joy";
 import {Column} from "../column/Column.tsx";
-import {useKanban} from "../provider/Provider.tsx";
+import {useKanban} from "../../provider/Provider.tsx";
 import {DndContext} from "@dnd-kit/core";
 import {DragEndEvent} from "@dnd-kit/core/dist/types/events";
-import {popup} from "../../../alerts/Popup.ts";
-import {CrmContainer} from "../../core/CrmContainer.tsx";
-import {CrmTitleContainer} from "../../core/CrmTitleContainer.tsx";
+import {popup} from "../../../../utils/alerts/Popup.ts";
+import {CrmContainer} from "../../../../utils/components/core/CrmContainer.tsx";
+import {CrmTitleContainer} from "../../../../utils/components/core/CrmTitleContainer.tsx";
 
 export const Board = (props: BoardProps) => {
     const {columns, cards, moveCard} = useKanban();
@@ -24,12 +24,37 @@ export const Board = (props: BoardProps) => {
 
         if (!card || !targetColumn) return;
 
-        if (!targetColumn.allowedColumns.includes(card.columnUUID)) {
-            popup.toast("warning", "You cant do this action", 2000)
-            return;
-        }
+        if (card.validateMove) {
+            card.validateMove().then((response) => {
+                if (response) {
+                    if (!targetColumn.allowedColumns.includes(card.columnUUID)) {
+                        popup.toast("warning", "You cant do this action", 2000)
+                        return;
+                    }
 
-        moveCard(cardUUID, targetColumnUUID);
+                    if (card.onChange) {
+                        card.onChange(event.activatorEvent, {uuid: cardUUID, toColumnUUID: targetColumnUUID})
+                    }
+
+                    moveCard(cardUUID, targetColumnUUID);
+                    return;
+                } else {
+                    popup.toast("warning", "You cant do this action", 2000)
+                    return;
+                }
+            })
+        } else {
+            if (!targetColumn.allowedColumns.includes(card.columnUUID)) {
+                popup.toast("warning", "You cant do this action", 2000)
+                return;
+            }
+
+            if (card.onChange) {
+                card.onChange(event.activatorEvent, {uuid: cardUUID, toColumnUUID: targetColumnUUID})
+            }
+
+            moveCard(cardUUID, targetColumnUUID);
+        }
     }
 
     return (
@@ -58,6 +83,12 @@ export const Board = (props: BoardProps) => {
                     </Typography>
                     <Typography
                         level={"body-md"}
+                        sx={{
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                        }}
                     >
                         {props.description}
                     </Typography>
