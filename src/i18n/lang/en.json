@@ -294,6 +294,17 @@
           "active": "Active",
           "inactive": "Inactive"
         }
+      },
+      "columnRule": {
+        "type": {
+          "SEND_EMAIL": "Send email",
+          "NOTIFY_USER": "Notify users",
+          "ADD_TAG":  "Add tag",
+          "OPEN_CARD": "Open card",
+          "VALIDATE_CUSTOMER":  "Validate customer",
+          "VALIDATE_CUSTOMER_WALLET": "Validate wallet",
+          "APPROVE_CUSTOMER":  "Approve customer"
+        }
       }
     },
     "app_bar": {

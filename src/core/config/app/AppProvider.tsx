@@ -23,10 +23,14 @@ import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import {UserConfig} from "../../auth/components/UserConfig.tsx";
 import {BoardPage} from "../../../module/kanban/page/BoardPage.tsx";
 import ViewKanbanRoundedIcon from '@mui/icons-material/ViewKanbanRounded';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import {BoardForm} from "../../../module/kanban/components/BoardForm.tsx";
+import {RuleBoardPage} from "../../../module/kanban/page/RuleBoardPage.tsx";
+import {BoardRuleForm} from "../../../module/kanban/components/BoardRuleForm.tsx";
 
 interface AppContextProps {
-    crmModules: CrmModule[]
+    crmModules: CrmModule[],
+    getModuleByCode: (code: CrmModules) => CrmModule
 }
 
 interface AppProviderProps {
@@ -34,7 +38,10 @@ interface AppProviderProps {
 }
 
 const init: AppContextProps = {
-    crmModules: []
+    crmModules: [],
+    getModuleByCode: () => {
+        throw new Error("method not implemented")
+    }
 }
 
 const AppContext = createContext(init)
@@ -130,6 +137,16 @@ export const AppProvider = (props: AppProviderProps) => {
             form: <BoardForm/>
         },
         {
+            path: "/kanban/:uuid",
+            sideBar: false,
+            element: <RuleBoardPage/>,
+            permissionRequired: true,
+            icon: LanRoundedIcon,
+            label: t("modules.kanbans"),
+            code: CrmModules.KanbanRule,
+            form: <BoardRuleForm/>
+        },
+        {
             path: "/modules",
             sideBar: true,
             element: <Modules/>,
@@ -141,8 +158,16 @@ export const AppProvider = (props: AppProviderProps) => {
         },
     ]
 
+    const getModuleByCode = (code: CrmModules) => {
+        const m = modules.find(x => x.code == code)
+
+        if(!m) throw new Error("invalid module code")
+
+        return m
+    }
+
     return (
-        <AppContext.Provider value={{crmModules: modules}}>
+        <AppContext.Provider value={{crmModules: modules, getModuleByCode}}>
             {props.children}
         </AppContext.Provider>
     )

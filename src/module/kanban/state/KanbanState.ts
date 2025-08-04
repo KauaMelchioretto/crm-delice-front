@@ -1,7 +1,10 @@
-import {atom} from "jotai";
+import {atom, useAtomValue, useSetAtom} from "jotai";
 import {CrmFilter} from "../../../utils/entities/entities.ts";
 import {loadable} from "jotai/utils";
 import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {Board} from "../entities/entities.ts";
 
 const PageAtom = atom(0)
 const FilterAtom = atom<CrmFilter | null>(null)
@@ -26,10 +29,36 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
     return 0;
 }));
 
+const BoardAtom = atom<Board | null>(null)
+
+const useLoadBoard = () => {
+    const {uuid} = useParams()
+    const setBoard = useSetAtom(BoardAtom)
+
+    const [loading, setLoading] = useState(true)
+
+    const update = useAtomValue(UpdateAtom)
+
+    useEffect(() => {
+        if (!uuid) return
+
+        kanbanUseCase.getBoardByUUID(uuid).then((r1) => {
+            if (r1.board) {
+                setBoard(r1.board)
+            }
+            setLoading(false)
+        })
+    }, [uuid, update])
+
+    return {loading}
+}
+
 export default {
     PageAtom,
     FilterAtom,
     UpdateAtom,
     ListAtom,
-    ListTotalCountAtom
+    ListTotalCountAtom,
+    BoardAtom,
+    useLoadBoard
 }

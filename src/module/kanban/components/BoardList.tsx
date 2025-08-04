@@ -21,6 +21,8 @@ import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import LayersRoundedIcon from '@mui/icons-material/LayersRounded';
 import CrmState from "../../../utils/state/CrmState.ts";
 import {useSetAtom} from "jotai";
+import {useNavigate} from "react-router-dom";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
 
 export const BoardList = () => {
     const setFormType = useSetAtom(CrmState.FormType);
@@ -28,6 +30,11 @@ export const BoardList = () => {
 
     const {t} = useTranslation()
     const {getRolesByModule} = useAuth()
+    const {getModuleByCode} = useApp()
+
+    const kanbanRuleModule = getModuleByCode(CrmModules.KanbanRule)
+
+    const navigate = useNavigate()
 
     const boardAtom = useAtomValue(KanbanState.ListAtom)
 
@@ -132,16 +139,16 @@ export const BoardList = () => {
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
-                            width: 100,
+                            width: 200,
                         },
                         "& thead th:nth-child(2)": {
-                            width: 300,
+                            width: 350,
                         },
                         "& thead th:nth-child(3)": {
-                            width: 300,
+                            width: 100,
                         },
                         "& thead th:nth-child(4)": {
-                            width: 100,
+                            width: 50,
                         },
                         "& thead th:nth-child(5)": {
                             width: 50,
@@ -150,9 +157,6 @@ export const BoardList = () => {
                             width: 50,
                         },
                         "& thead th:nth-child(7)": {
-                            width: 50,
-                        },
-                        "& thead th:nth-child(8)": {
                             width: 50,
                         },
                         "& td": {
@@ -164,7 +168,6 @@ export const BoardList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>{t("kanbans.fields.code")}</th>
                         <th>{t("kanbans.fields.title")}</th>
                         <th>{t("kanbans.fields.description")}</th>
                         <th>{t("kanbans.fields.status")}</th>
@@ -178,7 +181,6 @@ export const BoardList = () => {
                     {
                         boards?.map((board: Board) => (
                             <tr key={`wallet_list_key_${board.uuid}`}>
-                                <td>{board.code}</td>
                                 <td>{board.title}</td>
                                 <td>{board.description}</td>
                                 <td>
@@ -220,6 +222,8 @@ export const BoardList = () => {
                                             <IconButton
                                                 size={"sm"}
                                                 onClick={() => {
+                                                    setFormType(CrmFormType.EDIT_COLUMNS)
+                                                    setEntityUUID(board.uuid ?? "")
                                                 }}
                                             >
                                                 <LeaderboardRoundedIcon/>
@@ -233,6 +237,10 @@ export const BoardList = () => {
                                             <IconButton
                                                 size={"sm"}
                                                 onClick={() => {
+                                                    const url = kanbanRuleModule.path.replace(
+                                                        ":uuid", board.uuid ?? ""
+                                                    )
+                                                    navigate(url)
                                                 }}
                                             >
                                                 <LanRoundedIcon/>

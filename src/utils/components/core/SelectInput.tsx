@@ -31,7 +31,7 @@ const SelectInput = styled(Select)(() => ({
     }
 }));
 
-export type OptionType = { value: string; label: string };
+export type OptionType = { value: string | null; label: string };
 
 interface CrmSelectProps extends UseControllerProps{
     name: string;

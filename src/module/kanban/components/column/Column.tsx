@@ -9,11 +9,11 @@ import EqualizerRoundedIcon from '@mui/icons-material/EqualizerRounded';
 
 export const Column = (props: ColumnProps) => {
     const {cards} = useKanban();
-    const {setNodeRef, isOver, active} = useDroppable({id: props.uuid});
+    const {setNodeRef, isOver, active} = useDroppable({id: props.uuid ?? ""});
 
     const filtered = cards.filter(c => c.columnUUID === props.uuid);
 
-    const cannotMove = isOver && !props.allowedColumns.includes(active?.data.current?.columnUUID)
+    const cannotMove = isOver && !props.allowedColumns?.includes(active?.data.current?.columnUUID)
 
     const overColor = isOver ? cannotMove ? "#f64545" : "#259de4" : "#f3f3f3"
 

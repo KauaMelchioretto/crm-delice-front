@@ -30,6 +30,7 @@ export enum CrmModules {
     NoPermission = 'NO_PERMISSION',
     Me = 'ME',
     Kanban = 'KANBAN',
+    KanbanRule = 'KANBAN_RULE',
 }
 
 export enum CrmFormType {
@@ -49,4 +50,7 @@ export enum CrmFormType {
     REGISTER_BOARD,
     EDIT_BOARD,
     EDIT_TAGS,
+    EDIT_COLUMNS,
+    REGISTER_RULE,
+    REGISTER_ALLOWED_COLUMN,
 }

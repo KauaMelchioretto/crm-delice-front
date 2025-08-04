@@ -1,6 +1,7 @@
 import {useState} from 'react';
-import {Box, Input, Sheet} from '@mui/joy';
+import {Box, Input, Sheet, Typography} from '@mui/joy';
 import {HexColorPicker} from 'react-colorful';
+import {CrmModal} from "../core/CrmModal.tsx";
 
 interface CrmColorPickerProps {
     initialColor: string,
@@ -35,17 +36,36 @@ export const CrmColorPicker = (props: CrmColorPickerProps) => {
                 }}
             >
                 {open && (
-                    <Box
-                        sx={{
-                            backgroundColor: "var(--joy-palette-background-surface)",
-                            borderRadius: 'sm',
-                            border: '1px solid #ccc',
-                            cursor: "pointer",
-                            p: 1
-                        }}
+                    <CrmModal
+                        open={true}
+                        onClose={() => setOpen(false)}
                     >
-                        <HexColorPicker color={color} onChange={handleColorChange}/>
-                    </Box>
+                        <Box
+                            sx={{
+                                backgroundColor: "var(--joy-palette-background-surface)",
+                                borderRadius: 'sm',
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                p: 1,
+                                gap: 1
+                            }}
+                        >
+                            <Typography
+                                fontWeight={"bold"}
+                                level={"body-sm"}
+                            >
+                                Color picker
+                            </Typography>
+                            <HexColorPicker
+                                style={{
+                                    width: "100%"
+                                }}
+                                color={color}
+                                onChange={handleColorChange}
+                            />
+                        </Box>
+                    </CrmModal>
                 )}
             </div>
             <Box display="flex" gap={1} alignItems="center">

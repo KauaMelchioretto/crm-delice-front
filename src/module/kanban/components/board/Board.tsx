@@ -27,7 +27,7 @@ export const Board = (props: BoardProps) => {
         if (card.validateMove) {
             card.validateMove().then((response) => {
                 if (response) {
-                    if (!targetColumn.allowedColumns.includes(card.columnUUID)) {
+                    if (!targetColumn.allowedColumns?.includes(card.columnUUID)) {
                         popup.toast("warning", "You cant do this action", 2000)
                         return;
                     }
@@ -44,7 +44,7 @@ export const Board = (props: BoardProps) => {
                 }
             })
         } else {
-            if (!targetColumn.allowedColumns.includes(card.columnUUID)) {
+            if (!targetColumn.allowedColumns?.includes(card.columnUUID)) {
                 popup.toast("warning", "You cant do this action", 2000)
                 return;
             }

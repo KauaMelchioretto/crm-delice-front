@@ -285,6 +285,17 @@
           "active": "Ativo",
           "inactive": "Inativo"
         }
+      },
+      "columnRule": {
+        "type": {
+          "SEND_EMAIL": "Enviar e-mail",
+          "NOTIFY_USER": "Notificar usuário",
+          "ADD_TAG":  "Adicionar tag",
+          "OPEN_CARD": "Abrir cartão",
+          "VALIDATE_CUSTOMER":  "Validar cliente",
+          "VALIDATE_CUSTOMER_WALLET": "Validar carteira",
+          "APPROVE_CUSTOMER":  "Aprovar cliente"
+        }
       }
     },
     "app_bar": {

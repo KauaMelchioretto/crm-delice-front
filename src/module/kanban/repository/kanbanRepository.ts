@@ -1,4 +1,12 @@
-import {Board, BoardListResponse, BoardResponse} from "../entities/entities.ts";
+import {
+    Board,
+    BoardListResponse,
+    BoardResponse, Column, ColumnListResponse, ColumnResponse, ColumnRule, ColumnRuleResponse,
+    MessageBoardResponse, ReorderColumn,
+    Tag,
+    TagListResponse,
+    TagResponse
+} from "../entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
 import {CrmFilter} from "../../../utils/entities/entities.ts";
@@ -88,6 +96,196 @@ class KanbanRepository {
             );
 
             return response.data as BoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getTagsByBoardUUID(boardUUID: string): Promise<TagListResponse> {
+        try {
+            const response = await http.get(
+                `/kanban/tagByBoardUUID/${boardUUID}`
+            );
+
+            return response.data as TagListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveTag(tag: Tag): Promise<TagResponse> {
+        try {
+            const response = await http.post("/kanban/saveTag",
+                {
+                    title: tag.title,
+                    boardUUID: tag.boardUUID,
+                    description: tag.description,
+                    color: tag.color
+                }
+            );
+
+            return response.data as TagResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async deleteTagByUUID(tagUUID: string): Promise<MessageBoardResponse> {
+        try {
+            const response = await http.delete(`/kanban/deleteTagByUUID/${tagUUID}`);
+
+            return response.data as MessageBoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getColumnsByBoardUUID(boardUUID: string): Promise<ColumnListResponse> {
+        try {
+            const response = await http.get(
+                `/kanban/columnByBoardUUID/${boardUUID}`
+            );
+
+            return response.data as ColumnListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveColumn(column: Column): Promise<ColumnResponse> {
+        try {
+            const response = await http.post("/kanban/saveColumn",
+                {
+                    title: column.title,
+                    boardUUID: column.boardUUID,
+                    description: column.description,
+                    code: column.code,
+                    type: column.type,
+                }
+            );
+
+            return response.data as TagResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async deleteColumnByUUID(columnUUID: string): Promise<MessageBoardResponse> {
+        try {
+            const response = await http.delete(`/kanban/deleteColumnByUUID/${columnUUID}`);
+
+            return response.data as MessageBoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async reorderColumns(columns: ReorderColumn[]): Promise<ColumnListResponse> {
+        try {
+            const response = await http.post(
+                "/kanban/reorderColumns",
+                columns
+            );
+
+            return response.data as ColumnListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveColumnRule(rule: ColumnRule): Promise<ColumnRuleResponse> {
+        try {
+            const response = await http.post(
+                "/kanban/saveColumnRule",
+                rule
+            );
+
+            return response.data as ColumnRuleResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async saveAllowedColumns(columnUUID: string, allowed: string[]): Promise<MessageBoardResponse> {
+        try {
+            const response = await http.post(
+                `/kanban/saveAllowedColumns/${columnUUID}`,
+                allowed
+            );
+
+            return response.data as MessageBoardResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

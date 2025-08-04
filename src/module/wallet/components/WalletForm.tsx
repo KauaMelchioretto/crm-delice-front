@@ -285,7 +285,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                                     <IconButton
                                                         onClick={() => {
                                                             customersControl.append({
-                                                                uuid: customers[0].value
+                                                                uuid: customers[0].value ?? ""
                                                             })
                                                         }}
                                                         color={"primary"}
@@ -295,7 +295,6 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                                 ) : (
                                                     <IconButton
                                                         onClick={() => {
-                                                            console.log(i)
                                                             customersControl.remove(i)
                                                         }}
                                                         color={"danger"}
