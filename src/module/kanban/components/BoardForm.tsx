@@ -5,7 +5,6 @@ import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography, Radio} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
-import {NumericInput} from "../../../utils/components/inputs/NumericInput.tsx";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {CrmTextarea} from "../../../utils/components/core/CrmTextarea.tsx";
@@ -151,7 +150,7 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
                     >
                         <FormControl sx={{flex: 1}}>
                             <FormLabel>Código</FormLabel>
-                            <NumericInput
+                            <TextInput
                                 {...register("code", {required: "Código é obrigatório"})}
                                 size={"sm"}
                                 variant={"soft"}
