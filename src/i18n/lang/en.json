@@ -300,9 +300,12 @@
           "SEND_EMAIL": "Send email",
           "NOTIFY_USER": "Notify users",
           "ADD_TAG":  "Add tag",
-          "OPEN_CARD": "Open card",
+          "REMOVE_TAG": "Remove tag",
           "VALIDATE_CUSTOMER":  "Validate customer",
           "VALIDATE_CUSTOMER_WALLET": "Validate wallet",
+          "REVIEW_CUSTOMER": "Review customer",
+          "REPROVE_CUSTOMER": "Reprove customer",
+          "NOT_MOVABLE":  "Not move card",
           "APPROVE_CUSTOMER":  "Approve customer"
         }
       }

@@ -31,6 +31,8 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
 
 const BoardAtom = atom<Board | null>(null)
 
+const RuleAtomUUID = atom<string>("")
+
 const useLoadBoard = () => {
     const {uuid} = useParams()
     const setBoard = useSetAtom(BoardAtom)
@@ -60,5 +62,6 @@ export default {
     ListAtom,
     ListTotalCountAtom,
     BoardAtom,
+    RuleAtomUUID,
     useLoadBoard
 }

@@ -25,7 +25,7 @@ export const Column = (props: ColumnProps) => {
                 minWidth: "250px",
                 maxWidth: "250px",
                 flex: "0 0 auto",
-                gap: 2
+                gap: 2,
             }}
         >
             <Box
@@ -35,10 +35,11 @@ export const Column = (props: ColumnProps) => {
                     justifyContent: "center",
                     pt: 1,
                     pb: 1,
-                    position: "relative",
                     borderRadius: "8px",
                     boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
                     backgroundColor: "background.level1",
+                    position: "relative",
+                    zIndex: 4
                 }}
             >
                 <Typography

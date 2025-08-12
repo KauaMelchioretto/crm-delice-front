@@ -3,13 +3,17 @@ import {Box, Chip, Typography} from "@mui/joy";
 import {useDraggable} from "@dnd-kit/core";
 import {NoDragZone} from "../../../../utils/components/core/NoDragZone.tsx";
 import {useApp} from "../../../../core/config/app/AppProvider.tsx";
-import {CrmModules} from "../../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../../utils/entities/entities.ts";
 import {useTheme} from "@mui/material";
+import CrmState from "../../../../utils/state/CrmState.ts";
+import {useSetAtom} from "jotai";
 
 export const Card = (props: CardProps) => {
+    const setFormType = useSetAtom(CrmState.FormType)
+    const setEntityUUID = useSetAtom(CrmState.EntityFormUUID)
+
     const {attributes, listeners, setNodeRef, transform, isDragging} = useDraggable({
         id: props.uuid,
-        disabled: !props.movable,
         data: props
     });
 
@@ -35,33 +39,36 @@ export const Card = (props: CardProps) => {
                 flexDirection: "column",
                 width: "100%",
                 height: "8rem",
-                backgroundColor: "background.level2",
-                borderRadius: "4px",
                 opacity: props.hidden ? "50%" : "100%",
                 transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
-                boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                p: 1,
                 cursor: "pointer",
                 zIndex: isDragging ? 3 : 2,
+                backgroundColor: "background.level2",
+                borderRadius: "4px",
                 borderLeft: props.tag ? `5px solid ${props.tag.color}` : undefined,
+                boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
+                p: 1
             }}
         >
             <NoDragZone
                 component={Typography}
                 sx={{
-                    ":hover": props.onClick ? {
+                    ":hover": {
                         textDecoration: "underline"
-                    } : undefined,
+                    },
                     userSelect: "none",
                     textOverflow: "ellipsis",
                     textWrap: "nowrap",
                     overflow: "hidden",
                     fontWeight: "bold"
                 }}
-                onClick={props.onClick}
+                onClick={() => {
+                    setFormType(CrmFormType.READ_CARD)
+                    setEntityUUID(props.uuid)
+                }}
                 level={"body-sm"}
             >
-                {props.title}
+                {props.code} {props.title}
             </NoDragZone>
             <Typography
                 sx={{
@@ -103,11 +110,11 @@ export const Card = (props: CardProps) => {
                                     color={"primary"}
                                     sx={{
                                         borderRadius: "8px",
-                                        maxWidth: `calc(50% - ${theme.spacing(0.5)})`
+                                        maxWidth: props.metadata?.wallet ? `calc(50% - ${theme.spacing(0.5)})` : "100%"
                                     }}
                                     startDecorator={CustomerIcon && <CustomerIcon/>}
                                 >
-                                    {props.metadata.customer.companyName}
+                                    {props.metadata.customer.tradingName}
                                 </Chip>
                             )
                         }

@@ -1,8 +1,16 @@
 import {
     Board,
     BoardListResponse,
-    BoardResponse, Column, ColumnListResponse, ColumnResponse, ColumnRule, ColumnRuleResponse,
-    MessageBoardResponse, ReorderColumn,
+    BoardResponse,
+    CardListResponse,
+    CardResponse,
+    Column,
+    ColumnListResponse,
+    ColumnResponse,
+    ColumnRule,
+    ColumnRuleResponse,
+    MessageBoardResponse,
+    ReorderColumn,
     Tag,
     TagListResponse,
     TagResponse
@@ -286,6 +294,142 @@ class KanbanRepository {
             );
 
             return response.data as MessageBoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getColumnRuleByUUID(uuid: string): Promise<ColumnRuleResponse> {
+        try {
+            const response = await http.get(
+                `/kanban/getColumnRuleByUUID/${uuid}`
+            );
+
+            return response.data as ColumnRuleResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async deleteAllowedColumnUUID(column: string, allowed: string): Promise<MessageBoardResponse> {
+        try {
+            const response = await http.delete(`/kanban/deleteAllowedColumnUUID/${column}/${allowed}`);
+
+            return response.data as MessageBoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async deleteColumnRuleByUUID(columnRule: string): Promise<MessageBoardResponse> {
+        try {
+            const response = await http.delete(`/kanban/deleteColumnRuleByUUID/${columnRule}`);
+
+            return response.data as MessageBoardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getColumnByUUID(uuid: string): Promise<ColumnResponse> {
+        try {
+            const response = await http.get(
+                `/kanban/column/${uuid}`
+            );
+
+            return response.data as ColumnResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async moveCardToColumn(cardUUID: string, columnUUID: string): Promise<CardListResponse> {
+        try {
+            const response = await http.post(
+                `/kanban/moveCardToColumn/${cardUUID}/${columnUUID}`
+            );
+
+            return response.data as CardListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getCardByUUID(cardUUID: string): Promise<CardResponse> {
+        try {
+            const response = await http.get(
+                `/kanban/card/${cardUUID}`
+            );
+
+            return response.data as CardResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async setDefaultColumn(boardUUID: string, columnUUID: string): Promise<ColumnListResponse> {
+        try {
+            const response = await http.post(
+                `/kanban/setDefaultColumn/${boardUUID}/${columnUUID}`
+            );
+
+            return response.data as ColumnListResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

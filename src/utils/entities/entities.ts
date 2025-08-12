@@ -52,5 +52,7 @@ export enum CrmFormType {
     EDIT_TAGS,
     EDIT_COLUMNS,
     REGISTER_RULE,
+    EDIT_RULE,
     REGISTER_ALLOWED_COLUMN,
+    READ_CARD
 }

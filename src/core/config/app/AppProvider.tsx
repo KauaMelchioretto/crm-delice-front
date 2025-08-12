@@ -25,8 +25,8 @@ import {BoardPage} from "../../../module/kanban/page/BoardPage.tsx";
 import ViewKanbanRoundedIcon from '@mui/icons-material/ViewKanbanRounded';
 import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import {BoardForm} from "../../../module/kanban/components/BoardForm.tsx";
-import {RuleBoardPage} from "../../../module/kanban/page/RuleBoardPage.tsx";
-import {BoardRuleForm} from "../../../module/kanban/components/BoardRuleForm.tsx";
+import {RulePage} from "../../../module/kanban/page/RulePage.tsx";
+import {RuleForm} from "../../../module/kanban/components/RuleForm.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[],
@@ -139,12 +139,12 @@ export const AppProvider = (props: AppProviderProps) => {
         {
             path: "/kanban/:uuid",
             sideBar: false,
-            element: <RuleBoardPage/>,
+            element: <RulePage/>,
             permissionRequired: true,
             icon: LanRoundedIcon,
             label: t("modules.kanbans"),
             code: CrmModules.KanbanRule,
-            form: <BoardRuleForm/>
+            form: <RuleForm/>
         },
         {
             path: "/modules",

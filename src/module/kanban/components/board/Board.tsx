@@ -4,7 +4,6 @@ import {Column} from "../column/Column.tsx";
 import {useKanban} from "../../provider/Provider.tsx";
 import {DndContext} from "@dnd-kit/core";
 import {DragEndEvent} from "@dnd-kit/core/dist/types/events";
-import {popup} from "../../../../utils/alerts/Popup.ts";
 import {CrmContainer} from "../../../../utils/components/core/CrmContainer.tsx";
 import {CrmTitleContainer} from "../../../../utils/components/core/CrmTitleContainer.tsx";
 
@@ -24,37 +23,13 @@ export const Board = (props: BoardProps) => {
 
         if (!card || !targetColumn) return;
 
-        if (card.validateMove) {
-            card.validateMove().then((response) => {
-                if (response) {
-                    if (!targetColumn.allowedColumns?.includes(card.columnUUID)) {
-                        popup.toast("warning", "You cant do this action", 2000)
-                        return;
-                    }
+        if (card.columnUUID === targetColumnUUID) return;
 
-                    if (card.onChange) {
-                        card.onChange(event.activatorEvent, {uuid: cardUUID, toColumnUUID: targetColumnUUID})
-                    }
-
-                    moveCard(cardUUID, targetColumnUUID);
-                    return;
-                } else {
-                    popup.toast("warning", "You cant do this action", 2000)
-                    return;
-                }
-            })
-        } else {
-            if (!targetColumn.allowedColumns?.includes(card.columnUUID)) {
-                popup.toast("warning", "You cant do this action", 2000)
-                return;
-            }
-
-            if (card.onChange) {
-                card.onChange(event.activatorEvent, {uuid: cardUUID, toColumnUUID: targetColumnUUID})
-            }
-
-            moveCard(cardUUID, targetColumnUUID);
+        if (card.onChange) {
+            card.onChange(event.activatorEvent, {uuid: cardUUID, toColumnUUID: targetColumnUUID})
         }
+
+        moveCard(cardUUID, targetColumnUUID);
     }
 
     return (
@@ -71,27 +46,36 @@ export const Board = (props: BoardProps) => {
                 <CrmTitleContainer
                     sx={{
                         display: "flex",
-                        flexDirection: "column",
-                        overflow: "hidden"
+                        flexDirection: "row",
+                        overflow: "hidden",
+                        justifyContent: "space-between",
+                        alignItems: "start"
                     }}
                 >
-                    <Typography
-                        level={"body-lg"}
-                        fontWeight={"bold"}
-                    >
-                        {props.title}
-                    </Typography>
-                    <Typography
-                        level={"body-md"}
+                    <Box
                         sx={{
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
+                            display: "flex",
+                            flexDirection: "column",
                         }}
                     >
-                        {props.description}
-                    </Typography>
+                        <Typography
+                            level={"body-lg"}
+                            fontWeight={"bold"}
+                        >
+                            {props.title}
+                        </Typography>
+                        <Typography
+                            level={"body-md"}
+                            sx={{
+                                textOverflow: "ellipsis",
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                            }}
+                        >
+                            {props.description}
+                        </Typography>
+                    </Box>
                 </CrmTitleContainer>
                 <CrmContainer
                     sx={{

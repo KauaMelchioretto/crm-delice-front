@@ -1,4 +1,4 @@
-import {Box, Breadcrumbs, Typography, Link, CircularProgress, Button, Chip} from "@mui/joy";
+import {Box, Breadcrumbs, Button, Chip, CircularProgress, Link, Typography} from "@mui/joy";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {useAtomValue} from "jotai";
 import KanbanState from "../state/KanbanState.ts";
@@ -19,7 +19,11 @@ import {useTheme} from "@mui/material";
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import {Fragment} from "react";
 
-export const RuleBoardPage = () => {
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
+import {popup} from "../../../utils/alerts/Popup.ts";
+
+export const RulePage = () => {
     const setFormType = useSetAtom(CrmState.FormType);
     const setEntityUUID = useSetAtom(CrmState.EntityFormUUID);
 
@@ -151,6 +155,16 @@ export const RuleBoardPage = () => {
                     >
                         Cadastrar colunas
                     </Button>
+                    <Button
+                        size={"sm"}
+                        onClick={() => {
+                            setFormType(CrmFormType.EDIT_BOARD)
+                            setEntityUUID(board?.uuid ?? "")
+                        }}
+                        startDecorator={<LeaderboardRoundedIcon/>}
+                    >
+                        Editar quadro
+                    </Button>
                 </Box>
             </CrmTitleContainer>
             <Box display={"flex"} gap={2}>
@@ -199,11 +213,44 @@ const EditColumn = (props: Column) => {
     const theme = useTheme()
     const setFormType = useSetAtom(CrmState.FormType);
     const setColumnUUID = useSetAtom(CrmState.EntityFormUUID);
+    const setColumnRuleUUID = useSetAtom(KanbanState.RuleAtomUUID);
 
     const board = useAtomValue(KanbanState.BoardAtom)
 
-    if(board == null) {
+    const updateList = useSetAtom(KanbanState.UpdateAtom)
+
+    if (board == null) {
         return <Fragment/>
+    }
+
+    const handleDeleteColumnRule = (uuid: string) => {
+        popup.confirm("question", "Delete Column?", "Are sure that want delete this rule?", "Yes").then((r) => {
+            if (r.isConfirmed) {
+                kanbanUseCase.deleteColumnRuleByUUID(uuid).then((response) => {
+                    if (response.error) {
+                        popup.toast("error", response.error, 2000);
+                    } else {
+                        popup.toast("success", response.message as string, 2000);
+                    }
+                    updateList(prev => !prev)
+                });
+            }
+        });
+    }
+
+    const handleDeleteColumnAllowed = (uuid: string) => {
+        popup.confirm("question", "Delete Column?", "Are sure that want delete this allowed column?", "Yes").then((r) => {
+            if (r.isConfirmed) {
+                kanbanUseCase.deleteAllowedColumnUUID(props.uuid ?? "", uuid).then((response) => {
+                    if (response.error) {
+                        popup.toast("error", response.error, 2000);
+                    } else {
+                        popup.toast("success", response.message as string, 2000);
+                    }
+                    updateList(prev => !prev)
+                });
+            }
+        });
     }
 
     return (
@@ -281,53 +328,27 @@ const EditColumn = (props: Column) => {
                     }}
                 >
                     {props.rules && props.rules.map((rule) => (
-                        <Chip
+                        <Box
                             key={`column_rule_${rule.uuid}`}
-                            variant={"outlined"}
-                            color={"warning"}
                             sx={{
                                 minWidth: "100%",
-                                pt: 0.5,
-                                pb: 0.5,
-                                borderRadius: theme.spacing(1),
+                                display: "flex",
+                                gap: 1
                             }}
                         >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: 5
-                                }}
-                            >
-                                <VerifiedUserRoundedIcon/>
-                                {rule.title}
-                            </div>
-                        </Chip>
-                    ))}
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 1,
-                        mt: "auto",
-                        width: "100%"
-                    }}
-                >
-                    {props.allowedColumns && props.allowedColumns.filter(x => x !== props.uuid).map((allowed) => {
-                        const column = board.columns?.find(c => c.uuid === allowed)
-
-                        return (
                             <Chip
-                                key={`column_allowed_${allowed}`}
                                 variant={"outlined"}
-                                color={"success"}
+                                color={"warning"}
                                 sx={{
-                                    minWidth: "100%",
                                     pt: 0.5,
                                     pb: 0.5,
                                     borderRadius: theme.spacing(1),
+                                    minWidth: `calc(100% - 40px - ${theme.spacing(1)})`
+                                }}
+                                onClick={() => {
+                                    setFormType(CrmFormType.EDIT_RULE)
+                                    setColumnUUID(props.uuid ?? "")
+                                    setColumnRuleUUID(rule.uuid ?? "")
                                 }}
                             >
                                 <div
@@ -338,10 +359,106 @@ const EditColumn = (props: Column) => {
                                         gap: 5
                                     }}
                                 >
-                                    <AccountTreeRoundedIcon/>
-                                    {column?.title}
+                                    <VerifiedUserRoundedIcon/>
+                                    {rule.title}
                                 </div>
                             </Chip>
+                            <Chip
+                                size={"sm"}
+                                variant={"outlined"}
+                                color={"warning"}
+                                sx={{
+                                    pt: 0.5,
+                                    pb: 0.5,
+                                    borderRadius: theme.spacing(1),
+                                    minWidth: "40px"
+                                }}
+                                onClick={() => {
+                                    handleDeleteColumnRule(rule.uuid ?? "")
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <DeleteRoundedIcon/>
+                                </div>
+                            </Chip>
+                        </Box>
+                    ))}
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                        mt: "auto",
+                        width: "100%",
+                        pt: 2
+                    }}
+                >
+                    {props.allowedColumns && props.allowedColumns.filter(x => x !== props.uuid).map((allowed) => {
+                        const column = board.columns?.find(c => c.uuid === allowed)
+
+                        return (
+                            <Box
+                                key={`column_allowed_${allowed}`}
+                                sx={{
+                                    minWidth: "100%",
+                                    display: "flex",
+                                    gap: 1
+                                }}
+                            >
+                                <Chip
+                                    variant={"outlined"}
+                                    color={"success"}
+                                    sx={{
+                                        pt: 0.5,
+                                        pb: 0.5,
+                                        borderRadius: theme.spacing(1),
+                                        minWidth: `calc(100% - 40px - ${theme.spacing(1)})`
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            gap: 5
+                                        }}
+                                    >
+                                        <AccountTreeRoundedIcon/>
+                                        {column?.title}
+                                    </div>
+                                </Chip>
+                                <Chip
+                                    size={"sm"}
+                                    variant={"outlined"}
+                                    color={"success"}
+                                    sx={{
+                                        pt: 0.5,
+                                        pb: 0.5,
+                                        borderRadius: theme.spacing(1),
+                                        minWidth: "40px"
+                                    }}
+                                    onClick={() => {
+                                        handleDeleteColumnAllowed(column?.uuid ?? "")
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <DeleteRoundedIcon/>
+                                    </div>
+                                </Chip>
+                            </Box>
                         )
                     })}
                 </Box>

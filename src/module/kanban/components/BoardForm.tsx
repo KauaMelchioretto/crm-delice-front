@@ -3,7 +3,7 @@ import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
-import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
+import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography, Radio} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import {NumericInput} from "../../../utils/components/inputs/NumericInput.tsx";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
@@ -267,6 +267,7 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
                 setUpdate(prev => !prev);
 
                 updateList(prev => !prev)
+                setFormType(CrmFormType.EMPTY);
             }
         })
     })
@@ -483,9 +484,18 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                 setUpdate(prev => !prev);
 
                 updateList(prev => !prev)
+                setFormType(CrmFormType.EMPTY);
             }
         })
     })
+
+    const handleChangeDefaultColumn = (columnUUID: string) => {
+        kanbanUseCase.setDefaultColumn(boardUUID, columnUUID).then(response => {
+            if (response.columns) {
+                setColumns(response.columns)
+            }
+        })
+    }
 
     useEffect(() => {
         if (boardUUID) {
@@ -561,13 +571,16 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                                 "& thead th:nth-child(3)": {
                                                     width: 200
                                                 },
+                                                "& thead th:nth-child(4)": {
+                                                    width: 50
+                                                },
+                                                "& thead th:nth-child(5)": {
+                                                    width: 50
+                                                },
                                                 "& tbody td:nth-child(3)": {
                                                     textWrap: "nowrap",
                                                     overflow: "hidden",
                                                     textOverflow: "ellipsis"
-                                                },
-                                                "& thead th:nth-child(4)": {
-                                                    width: 50
                                                 },
                                             }}
                                         >
@@ -576,6 +589,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                                 <th>Ordem</th>
                                                 <th>Titulo</th>
                                                 <th>Descrição</th>
+                                                <th>Padrão</th>
                                                 <th>Deletar</th>
                                             </tr>
                                             </thead>
@@ -587,6 +601,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                                         setUpdate(prev => !prev)
                                                         updateList(prev => !prev)
                                                     }}
+                                                    onChangeDefaultColumn={handleChangeDefaultColumn}
                                                     key={`role_list_key_${column.uuid}`}
                                                 />
                                             )) : (
@@ -706,16 +721,23 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
 }
 
 const ColumnSortableRow = (
-    {column, callback}: { column: Column, callback: () => void }
+    {column, callback, onChangeDefaultColumn}: {
+        column: Column,
+        callback: () => void
+        onChangeDefaultColumn: (uuid: string) => void
+    }
 ) => {
     const {attributes, listeners, setNodeRef, transform, transition} = useSortable(
         {id: column.uuid ?? ""}
     );
 
+    const theme = useTheme()
+
     const style = {
         transform: transform ? `translate(0px, ${transform.y}px)` : undefined,
         transition,
-        background: "#fff"
+        // @ts-ignore
+        background: theme.palette.background.body as string
     };
 
     const handleDeleteTag = (columnUUID: string) => {
@@ -745,6 +767,14 @@ const ColumnSortableRow = (
             </td>
             <td>{column.title}</td>
             <td>{column.description}</td>
+            <td>
+                <Radio
+                    checked={column.isDefault}
+                    onChange={() => onChangeDefaultColumn(column.uuid ?? '')}
+                    value="b"
+                    name="radio-buttons"
+                />
+            </td>
             <td>
                 <IconButton
                     size={"sm"}

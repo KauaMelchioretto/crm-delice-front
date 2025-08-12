@@ -4,6 +4,8 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
 import {useAtomValue} from "jotai";
 import KanbanState from "../state/KanbanState.ts";
+import {popup} from "../../../utils/alerts/Popup.ts";
+import {CardDialog} from "../components/card/CardDialog.tsx";
 
 type ProviderContextType = {
     columns: Column[];
@@ -22,7 +24,8 @@ export function useKanban() {
 }
 
 interface ProviderProps {
-    kanbanKey: string
+    kanbanKey: string,
+    onChangeCallback?: () => void
 }
 
 export const Provider = (props: ProviderProps) => {
@@ -33,11 +36,17 @@ export const Provider = (props: ProviderProps) => {
     useAtomValue(KanbanState.UpdateAtom)
 
     const moveCard = (cardUUID: string, toColumnUUID: string) => {
-        setCards(prev =>
-            prev.map(card =>
-                card.uuid === cardUUID ? {...card, columnUUID: toColumnUUID} : card
-            )
-        );
+        kanbanUseCase.moveCardToColumn(cardUUID, toColumnUUID).then((response) => {
+            if (response.cards) {
+                setCards(response.cards)
+
+                if(props.onChangeCallback){
+                    props.onChangeCallback()
+                }
+            } else {
+                popup.toast("warning", response.error as string, 2000)
+            }
+        })
     };
 
     useEffect(() => {
@@ -61,6 +70,7 @@ export const Provider = (props: ProviderProps) => {
             }}
         >
             <Board {...board}/>
+            <CardDialog/>
         </ProviderContext.Provider>
     )
 }

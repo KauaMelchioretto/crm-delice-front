@@ -1,8 +1,16 @@
 import {
     Board,
     BoardListResponse,
-    BoardResponse, Column, ColumnListResponse, ColumnResponse, ColumnRule, ColumnRuleResponse, ColumnRuleType,
-    MessageBoardResponse, ReorderColumn,
+    BoardResponse,
+    CardListResponse, CardResponse,
+    Column,
+    ColumnListResponse,
+    ColumnResponse,
+    ColumnRule,
+    ColumnRuleResponse,
+    ColumnRuleType,
+    MessageBoardResponse,
+    ReorderColumn,
     Tag,
     TagListResponse,
     TagResponse
@@ -150,11 +158,39 @@ class KanbanUseCase {
             return {error: this.COLUMN_UUID_IS_EMPTY}
         }
 
-        if(!allowed){
+        if (!allowed) {
             return {error: this.COLUMNS_IS_EMPTY}
         }
 
         return kanbanRepository.saveAllowedColumns(columnUUID, allowed)
+    }
+
+    async getColumnRuleByUUID(uuid: string): Promise<ColumnRuleResponse> {
+        return kanbanRepository.getColumnRuleByUUID(uuid)
+    }
+
+    async deleteAllowedColumnUUID(column: string, allowed: string): Promise<MessageBoardResponse> {
+        return kanbanRepository.deleteAllowedColumnUUID(column, allowed)
+    }
+
+    async deleteColumnRuleByUUID(columnRule: string): Promise<MessageBoardResponse> {
+        return kanbanRepository.deleteColumnRuleByUUID(columnRule)
+    }
+
+    async getColumnByUUID(uuid: string): Promise<ColumnResponse> {
+        return kanbanRepository.getColumnByUUID(uuid)
+    }
+
+    async moveCardToColumn(cardUUID: string, columnUUID: string): Promise<CardListResponse>{
+        return kanbanRepository.moveCardToColumn(cardUUID, columnUUID)
+    }
+
+    async getCardByUUID(cardUUID: string): Promise<CardResponse> {
+        return kanbanRepository.getCardByUUID(cardUUID)
+    }
+
+    async setDefaultColumn(boardUUID: string, columnUUID: string): Promise<ColumnListResponse> {
+        return kanbanRepository.setDefaultColumn(boardUUID, columnUUID)
     }
 }
 

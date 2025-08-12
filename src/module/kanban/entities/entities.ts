@@ -1,6 +1,5 @@
 import {Wallet} from "../../wallet/entities/entities.ts";
 import {Customer} from "../../customer/entities/entities.ts";
-import {MouseEventHandler} from "react";
 
 export interface Board {
     title: string,
@@ -22,10 +21,11 @@ export interface Column {
     code: string,
     index?: number,
     allowedColumns?: string[],
+    isDefault?: boolean,
     rules?: ColumnRule[]
 }
 
-export interface ReorderColumn{
+export interface ReorderColumn {
     uuid: string,
     index: number
 }
@@ -45,13 +45,11 @@ type CardOnChange = (event: Event, info: CardChangeEventValues) => void;
 
 export interface Card {
     uuid: string,
+    code: string,
     title: string,
     description: string,
     columnUUID: string,
-    movable: boolean,
-    onClick?: MouseEventHandler,
     onChange?: CardOnChange,
-    validateMove?: () => Promise<boolean>,
     hidden?: boolean,
     metadata?: CardMetadata,
     tag?: Tag,
@@ -72,7 +70,7 @@ export interface CardMetadata {
 }
 
 export enum KanbanKeys {
-    LEADS = "LEAD_BOARD"
+    LEADS = "LEADS"
 }
 
 export enum BoardStatus {
@@ -107,11 +105,6 @@ export interface TagListResponse {
     error?: string
 }
 
-export interface ColumnResponse {
-    column?: Column,
-    error?: string
-}
-
 export interface ColumnListResponse {
     columns?: Column[],
     error?: string
@@ -127,8 +120,8 @@ export interface ColumnRuleForm {
     columnUUID?: string,
     title: string,
     type: ColumnRuleType,
-    emails?: {value: string}[],
-    notifyUsers?: {uuid: string}[],
+    emails?: { value: string }[],
+    notifyUsers?: { uuid: string }[],
     tag?: string
 }
 
@@ -140,14 +133,29 @@ export interface ColumnRule {
     metadata?: ColumnRuleMetadata
 }
 
-export interface ColumnRuleMetadata{
+export interface ColumnRuleMetadata {
     emails?: string[],
     notifyUsers?: string[],
     tag?: string
 }
 
-export interface ColumnRuleResponse{
+export interface ColumnRuleResponse {
     columnRule?: ColumnRule,
+    error?: string
+}
+
+export interface ColumnResponse {
+    column?: Column,
+    error?: string
+}
+
+export interface CardListResponse {
+    cards?: Card[],
+    error?: string
+}
+
+export interface CardResponse{
+    card?: Card,
     error?: string
 }
 
@@ -155,8 +163,11 @@ export enum ColumnRuleType {
     SEND_EMAIL = "SEND_EMAIL",
     NOTIFY_USER = "NOTIFY_USER",
     ADD_TAG = "ADD_TAG",
-    OPEN_CARD = "OPEN_CARD",
+    REMOVE_TAG = "REMOVE_TAG",
     VALIDATE_CUSTOMER = "VALIDATE_CUSTOMER",
     VALIDATE_CUSTOMER_WALLET = "VALIDATE_CUSTOMER_WALLET",
+    REVIEW_CUSTOMER = "REVIEW_CUSTOMER",
+    REPROVE_CUSTOMER = "REPROVE_CUSTOMER",
+    NOT_MOVABLE = "NOT_MOVABLE",
     APPROVE_CUSTOMER = "APPROVE_CUSTOMER",
 }

@@ -289,12 +289,15 @@
       "columnRule": {
         "type": {
           "SEND_EMAIL": "Enviar e-mail",
-          "NOTIFY_USER": "Notificar usuário",
-          "ADD_TAG":  "Adicionar tag",
-          "OPEN_CARD": "Abrir cartão",
-          "VALIDATE_CUSTOMER":  "Validar cliente",
+          "NOTIFY_USER": "Notificar usuários",
+          "ADD_TAG": "Adicionar tag",
+          "REMOVE_TAG": "Remover tag",
+          "VALIDATE_CUSTOMER": "Validar cliente",
           "VALIDATE_CUSTOMER_WALLET": "Validar carteira",
-          "APPROVE_CUSTOMER":  "Aprovar cliente"
+          "REVIEW_CUSTOMER": "Revisar cliente",
+          "REPROVE_CUSTOMER": "Reprovar cliente",
+          "NOT_MOVABLE": "Não mover cartão",
+          "APPROVE_CUSTOMER": "Aprovar cliente"
         }
       }
     },

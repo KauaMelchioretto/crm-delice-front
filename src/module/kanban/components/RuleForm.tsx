@@ -18,9 +18,10 @@ import {useTranslation} from "react-i18next";
 import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 
-export const BoardRuleForm = () => {
+export const RuleForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
     const columnUUID = useAtomValue(CrmState.EntityFormUUID);
+    const ruleUUID = useAtomValue(KanbanState.RuleAtomUUID);
 
     const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
 
@@ -40,6 +41,15 @@ export const BoardRuleForm = () => {
                     <BoardRuleFormRegister columnUUID={columnUUID}/>
                 </CrmModal>
             );
+        case CrmFormType.EDIT_RULE:
+            return (
+                <CrmModal
+                    open={true}
+                    onClose={() => setFormType(CrmFormType.EMPTY)}
+                >
+                    <BoardRuleFormRegister columnUUID={columnUUID} ruleUUID={ruleUUID}/>
+                </CrmModal>
+            );
         case CrmFormType.REGISTER_ALLOWED_COLUMN:
             return (
                 <CrmModal
@@ -52,7 +62,9 @@ export const BoardRuleForm = () => {
     }
 }
 
-const BoardRuleFormRegister = ({columnUUID}: { columnUUID: string }) => {
+const BoardRuleFormRegister = (
+    {columnUUID, ruleUUID}: { columnUUID: string, ruleUUID?: string }
+) => {
     const board = useAtomValue(KanbanState.BoardAtom)
 
     const updateList = useSetAtom(KanbanState.UpdateAtom)
@@ -65,7 +77,17 @@ const BoardRuleFormRegister = ({columnUUID}: { columnUUID: string }) => {
         } as ColumnRuleForm
     });
 
-    const {register, handleSubmit, formState: {errors}} = formMethods;
+    const {register, handleSubmit, control, setValue, formState: {errors}} = formMethods;
+
+    const usersControl = useFieldArray({
+        control: control,
+        name: "notifyUsers"
+    })
+
+    const emailControl = useFieldArray({
+        control: control,
+        name: "emails"
+    })
 
     const handleBoardRule = handleSubmit((data: FieldValues) => {
         let metadata: ColumnRuleMetadata | undefined
@@ -83,6 +105,7 @@ const BoardRuleFormRegister = ({columnUUID}: { columnUUID: string }) => {
         }
 
         kanbanUseCase.saveColumnRule({
+            uuid: ruleUUID ? ruleUUID : undefined,
             columnUUID: columnUUID,
             title: data.title,
             type: data.type,
@@ -94,9 +117,51 @@ const BoardRuleFormRegister = ({columnUUID}: { columnUUID: string }) => {
                 popup.toast("success", "The module is included with success", 2000);
 
                 updateList(prev => !prev)
+                setFormType(CrmFormType.EMPTY);
             }
         })
     })
+
+    useEffect(() => {
+        if (ruleUUID) {
+            kanbanUseCase.getColumnRuleByUUID(ruleUUID).then(response => {
+                if (response.columnRule) {
+                    const value = response.columnRule
+
+                    setValue("type", value.type)
+                    setValue("title", value.title)
+
+                    switch (value.type) {
+                        case ColumnRuleType.ADD_TAG:
+                            setValue("tag", value.metadata?.tag)
+                            break
+                        case ColumnRuleType.NOTIFY_USER:
+                            value.metadata?.notifyUsers?.forEach((x, i) => {
+                                if (i >= usersControl.fields.length) {
+                                    usersControl.append({
+                                        uuid: x
+                                    })
+                                } else {
+                                    setValue(`notifyUsers.${i}.uuid`, x)
+                                }
+                            })
+                            break
+                        case ColumnRuleType.SEND_EMAIL:
+                            value.metadata?.emails?.forEach((x, i) => {
+                                if (i >= emailControl.fields.length) {
+                                    emailControl.append({
+                                        value: x
+                                    })
+                                } else {
+                                    setValue(`emails.${i}.value`, x)
+                                }
+                            })
+                            break
+                    }
+                }
+            })
+        }
+    }, [ruleUUID]);
 
     return (
         <CrmContainer>
@@ -373,7 +438,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
         }
     });
 
-    const {handleSubmit, control} = formMethods;
+    const {handleSubmit, control, setValue} = formMethods;
 
     const handleColumnAllowed = handleSubmit((data: FieldValues) => {
         const allowed: string[] = data.allowed?.map((x: { uuid: string }) => x.uuid)
@@ -385,6 +450,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
                 popup.toast("success", "The module is included with success", 2000);
 
                 updateList(prev => !prev)
+                setFormType(CrmFormType.EMPTY);
             }
         })
     });
@@ -394,6 +460,23 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
         name: "allowed"
     })
 
+    useEffect(() => {
+        kanbanUseCase.getColumnByUUID(columnUUID).then((response) => {
+            if (response.column) {
+                const columns = response.column.allowedColumns?.filter(x => x != columnUUID)
+
+                columns?.forEach((x, i) => {
+                    if (i >= allowedControl.fields.length) {
+                        allowedControl.append({
+                            uuid: x
+                        })
+                    } else {
+                        setValue(`allowed.${i}.uuid`, x)
+                    }
+                })
+            }
+        })
+    }, [columnUUID]);
 
     return (
         <CrmContainer>
