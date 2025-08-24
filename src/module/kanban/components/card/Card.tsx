@@ -7,6 +7,7 @@ import {CrmFormType, CrmModules} from "../../../../utils/entities/entities.ts";
 import {useTheme} from "@mui/material";
 import CrmState from "../../../../utils/state/CrmState.ts";
 import {useSetAtom} from "jotai";
+import dayjs from "dayjs";
 
 export const Card = (props: CardProps) => {
     const setFormType = useSetAtom(CrmState.FormType)
@@ -90,7 +91,7 @@ export const Card = (props: CardProps) => {
                 }}
                 level="body-xs"
             >
-                Alterado: 25/07/2025 15:12
+                Alterado: {dayjs(props.modifiedAt).format("DD/MM/YYYY HH:mm")}
             </Typography>
             {
                 props.metadata && (

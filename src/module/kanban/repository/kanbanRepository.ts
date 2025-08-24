@@ -8,7 +8,7 @@ import {
     ColumnListResponse,
     ColumnResponse,
     ColumnRule,
-    ColumnRuleResponse,
+    ColumnRuleResponse, ColumnRuleTypeListResponse,
     MessageBoardResponse,
     ReorderColumn,
     Tag,
@@ -430,6 +430,26 @@ class KanbanRepository {
             );
 
             return response.data as ColumnListResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.KANBAN_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.KANBAN_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getColumnRuleTypes(): Promise<ColumnRuleTypeListResponse> {
+        try {
+            const response = await http.get(
+                "/kanban/getColumnRuleTypes"
+            );
+
+            return response.data as ColumnRuleTypeListResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

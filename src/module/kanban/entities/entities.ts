@@ -53,6 +53,7 @@ export interface Card {
     hidden?: boolean,
     metadata?: CardMetadata,
     tag?: Tag,
+    modifiedAt: string
 }
 
 export interface Tag {
@@ -170,4 +171,9 @@ export enum ColumnRuleType {
     REPROVE_CUSTOMER = "REPROVE_CUSTOMER",
     NOT_MOVABLE = "NOT_MOVABLE",
     APPROVE_CUSTOMER = "APPROVE_CUSTOMER",
+}
+
+export interface ColumnRuleTypeListResponse{
+    rules?: ColumnRuleType,
+    error?: string
 }

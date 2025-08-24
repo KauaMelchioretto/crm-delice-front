@@ -8,7 +8,7 @@ import {
     ColumnResponse,
     ColumnRule,
     ColumnRuleResponse,
-    ColumnRuleType,
+    ColumnRuleType, ColumnRuleTypeListResponse,
     MessageBoardResponse,
     ReorderColumn,
     Tag,
@@ -191,6 +191,10 @@ class KanbanUseCase {
 
     async setDefaultColumn(boardUUID: string, columnUUID: string): Promise<ColumnListResponse> {
         return kanbanRepository.setDefaultColumn(boardUUID, columnUUID)
+    }
+
+    async getColumnRuleTypes(): Promise<ColumnRuleTypeListResponse>{
+        return kanbanRepository.getColumnRuleTypes()
     }
 }
 
