@@ -5,7 +5,7 @@ import {
     ProductMediaResponse,
     ProductResponse
 } from "../entities/entities.ts";
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
 
@@ -14,13 +14,23 @@ class ProductRepository {
 
     async getProduct(
         page: number,
-        filter: CrmFilter | null
+        filter: CrmFilter | null,
+        orderBy: CrmOrderBy | null
     ): Promise<ProductListResponse> {
         try {
             let query = "";
 
-            if (filter) {
+            if (filter?.field) {
                 query += `&${filter.field}=${filter.value}`;
+            } else if (!filter?.field && filter?.value) {
+                query += `&allFields=${filter?.value}`
+            }
+
+            if (orderBy?.field) {
+                query += `&orderBy=${orderBy?.field}:${orderBy?.ordenation}`
+            }
+            else {
+                query += `&orderBy=code`
             }
 
             const response = await http.get(

@@ -6,6 +6,11 @@ export interface CrmFilter {
     value?: string
 }
 
+export interface CrmOrderBy {
+    field?: string,
+    ordenation?: "asc" | "desc";
+}
+
 export interface CrmModule {
     element?: ReactElement,
     path: string,
