@@ -1,4 +1,4 @@
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {
     Product,
     ProductListResponse,
@@ -18,9 +18,10 @@ class ProductUseCase {
 
     async getProduct(
         page: number,
-        filter: CrmFilter | null
+        filter: CrmFilter | null,
+        orderBy: CrmOrderBy | null
     ): Promise<ProductListResponse> {
-        return productRepository.getProduct(page, filter)
+        return productRepository.getProduct(page, filter, orderBy)
     }
 
     async createProduct(product: Product): Promise<ProductResponse> {
