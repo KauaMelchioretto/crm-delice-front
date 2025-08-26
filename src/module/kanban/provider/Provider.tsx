@@ -36,6 +36,12 @@ export const Provider = (props: ProviderProps) => {
     useAtomValue(KanbanState.UpdateAtom)
 
     const moveCard = (cardUUID: string, toColumnUUID: string) => {
+        setCards(prev =>
+            prev.map(card =>
+                card.uuid === cardUUID ? {...card, columnUUID: toColumnUUID} : card
+            )
+        );
+
         kanbanUseCase.moveCardToColumn(cardUUID, toColumnUUID).then((response) => {
             if (response.cards) {
                 setCards(response.cards)

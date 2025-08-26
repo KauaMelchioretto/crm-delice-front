@@ -15,10 +15,13 @@ import {CrmFormType} from "../../../entities/entities.ts";
 import CrmState from "../../../state/CrmState.ts";
 import {useTranslation} from "react-i18next";
 import {useApp} from "../../../../core/config/app/AppProvider.tsx";
+import {Notifications} from "./Notifications.tsx";
 
 export const CrmAppBar = () => {
     const {user} = useAuth()
     const navigate = useNavigate()
+
+    useAtomValue(AppBarState.NotificationAtomEffect)
 
     return (
         <Box
@@ -37,6 +40,7 @@ export const CrmAppBar = () => {
             </Stack>
             <MenuAppBar/>
             <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <Notifications/>
                 <ToggleThemeButton/>
                 <ToggleLanguageButton/>
                 <Avatar
