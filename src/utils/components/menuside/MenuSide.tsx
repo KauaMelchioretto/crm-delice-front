@@ -10,7 +10,7 @@ import {
 } from "@mui/joy";
 import HomeRounded from "@mui/icons-material/HomeRounded"
 import LogoutRounded from "@mui/icons-material/LogoutRounded"
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {useContext} from "react";
 import Layout from "../../layout/Layout.tsx";

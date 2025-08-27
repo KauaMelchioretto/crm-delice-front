@@ -26,7 +26,7 @@ export interface Module{
 }
 
 export interface AuthenticatedResponse{
-    user?: never,
+    user?: Record<string, string>,
     modules?: Module[],
     error?: string
 }
