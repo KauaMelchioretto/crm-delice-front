@@ -18,13 +18,11 @@ import { useTranslation } from "react-i18next";
 import BurstModeRounded from "@mui/icons-material/BurstModeRounded";
 import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 import { useAuth } from "../../../core/auth/provider/AuthProvider.tsx";
-import ArrowUpwardRounded from "@mui/icons-material/ArrowUpwardRounded";
-import ArrowDownwardRounded from "@mui/icons-material/ArrowDownwardRounded";
+import { CrmTableHead } from "../../../utils/components/core/CrmTableHead.tsx";
 
 export const ProductList = () => {
   const modifiedProduct = useSetAtom(CrmState.EntityFormUUID);
   const modifiedProductForm = useSetAtom(CrmState.FormType);
-  const [orderBy, setOrderBy] = useAtom(ProductState.OrderByAtom);
   const { t } = useTranslation();
 
   const productAtom = useAtomValue(ProductState.ListAtom);
@@ -32,14 +30,6 @@ export const ProductList = () => {
   const { getRolesByModule } = useAuth();
 
   const roles = getRolesByModule(CrmModules.Product);
-
-  const handleClickColumn = (field: string) => {
-    if (orderBy?.ordenation === "asc") {
-      setOrderBy({ field: field, ordenation: "desc" });
-    } else {
-      setOrderBy({ field: field, ordenation: "asc" });
-    }
-  };
 
   const canCreate =
     roles.filter((x) => x.code === "CREATE_PRODUCT" || x.code === "ALL_PRODUCT")
@@ -61,6 +51,7 @@ export const ProductList = () => {
   };
 
   const statusFilterOptions = [
+    { value: "", label: t("filter_keys.none") },
     { value: "active", label: t("products.status.active") },
     { value: "inactive", label: t("products.status.inactive") }
   ];
@@ -177,66 +168,11 @@ export const ProductList = () => {
         >
           <thead>
             <tr>
-              <th
-                style={{ cursor: "pointer" }}
-                onClick={() => handleClickColumn("code")}
-              >
-                {t("products.fields.code")}
-                {orderBy?.field === "code" &&
-                  (orderBy.ordenation === "asc" ? (
-                    <ArrowDownwardRounded fontSize="small" />
-                  ) : (
-                    <ArrowUpwardRounded fontSize="small" />
-                  ))}
-              </th>
-              <th
-                style={{ cursor: "pointer" }}
-                onClick={() => handleClickColumn("name")}
-              >
-                {t("products.fields.name")}
-                {orderBy?.field === "name" &&
-                  (orderBy.ordenation === "asc" ? (
-                    <ArrowDownwardRounded fontSize="small" />
-                  ) : (
-                    <ArrowUpwardRounded fontSize="small" />
-                  ))}
-              </th>
-              <th
-                style={{ cursor: "pointer" }}
-                onClick={() => handleClickColumn("weight")}
-              >
-                {t("products.fields.weight")}
-                {orderBy?.field === "weight" &&
-                  (orderBy.ordenation === "asc" ? (
-                    <ArrowDownwardRounded fontSize="small" />
-                  ) : (
-                    <ArrowUpwardRounded fontSize="small" />
-                  ))}
-              </th>
-              <th
-                style={{ cursor: "pointer" }}
-                onClick={() => handleClickColumn("price")}
-              >
-                {t("products.fields.price")}
-                {orderBy?.field === "price" &&
-                  (orderBy.ordenation === "asc" ? (
-                    <ArrowDownwardRounded fontSize="small" />
-                  ) : (
-                    <ArrowUpwardRounded fontSize="small" />
-                  ))}
-              </th>
-              <th
-                style={{ cursor: "pointer" }}
-                onClick={() => handleClickColumn("status")}
-              >
-                {t("products.fields.status")}
-                {orderBy?.field === "status" &&
-                  (orderBy.ordenation === "asc" ? (
-                    <ArrowDownwardRounded fontSize="small" />
-                  ) : (
-                    <ArrowUpwardRounded fontSize="small" />
-                  ))}
-              </th>
+              <CrmTableHead field={productFields.find(x => x.value === "code")!} orderByAtom={ProductState.OrderByAtom} />
+              <CrmTableHead field={productFields.find(x => x.value === "name")!} orderByAtom={ProductState.OrderByAtom} />
+              <CrmTableHead field={productFields.find(x => x.value === "weight")!} orderByAtom={ProductState.OrderByAtom} />
+              <CrmTableHead field={productFields.find(x => x.value === "price")!} orderByAtom={ProductState.OrderByAtom} />
+              <CrmTableHead field={productFields.find(x => x.value === "status")!} orderByAtom={ProductState.OrderByAtom} />
               <th>{t("products.fields.images")}</th>
               {canCreate && <th>{t("actions.edit")}</th>}
             </tr>

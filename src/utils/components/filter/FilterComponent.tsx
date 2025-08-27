@@ -8,21 +8,10 @@ import { Search } from "@mui/icons-material";
 import { useEffect, useMemo } from "react";
 import { CrmFilter } from "../../entities/entities.ts";
 import type { WritableAtom } from "jotai";
-
-type FieldOption = {
-  value: string;
-  label: string;
-};
-
-type Field = {
-  label: string;
-  value: string;
-  filterableByOptions?: boolean;
-  filterOptions?: FieldOption[];
-};
+import { CrmField } from "../../entities/entities.ts";
 
 interface FilterProps {
-  fields: Field[];
+  fields: CrmField[];
   filterAtom: Atom<CrmFilter | null>;
 }
 
@@ -58,10 +47,16 @@ export const FilterComponent = ({ fields, filterAtom }: FilterProps) => {
     }
   }, [filter]);
 
-  // Limpa o campo de valor digitado nos filtros na alternação de tipos de filtros
+  // Limpa o campo de texto de filtro quando alterar o tipo de filtro
   useEffect(() => {
-    useFormMethods.resetField("value", { defaultValue: "" });
-  }, [selectedField, useFormMethods]);
+    const subscription = useFormMethods.watch((value, { name, type }) => {
+      if (name === "filterType") {
+        useFormMethods.resetField("value", { defaultValue: "" });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [useFormMethods]);
 
   return (
     <FormProvider {...useFormMethods}>
@@ -73,9 +68,6 @@ export const FilterComponent = ({ fields, filterAtom }: FilterProps) => {
               name="filterType"
               label={t("filter_keys.title")}
               options={fields}
-              // onChange={() => {
-                
-              // }}
             />
           </Box>
 
