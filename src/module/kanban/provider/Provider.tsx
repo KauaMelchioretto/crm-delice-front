@@ -36,21 +36,22 @@ export const Provider = (props: ProviderProps) => {
     useAtomValue(KanbanState.UpdateAtom)
 
     const moveCard = (cardUUID: string, toColumnUUID: string) => {
-        setCards(prev =>
-            prev.map(card =>
-                card.uuid === cardUUID ? {...card, columnUUID: toColumnUUID} : card
-            )
-        );
+        const card = cards.find(x => x.uuid === cardUUID)!
+
+        setCards(prev => prev.filter(x =>
+            x.uuid !== cardUUID
+        ));
 
         kanbanUseCase.moveCardToColumn(cardUUID, toColumnUUID).then((response) => {
             if (response.cards) {
                 setCards(response.cards)
 
-                if(props.onChangeCallback){
+                if (props.onChangeCallback) {
                     props.onChangeCallback()
                 }
             } else {
-                popup.toast("warning", response.error as string, 2000)
+                popup.toast("warning", response.error as string, 2000).then()
+                setCards(prev => [...prev, card]);
             }
         })
     };
