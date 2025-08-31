@@ -9,6 +9,7 @@ import {CrmTitleContainer} from "../../../../utils/components/core/CrmTitleConta
 import {ColumnTitle} from "../column/ColumnTitle.tsx";
 import {useState} from "react";
 import {Card} from "../card/Card.tsx";
+import {ColumnZone} from "../column/ColumnZone.tsx";
 
 export const Board = (props: BoardProps) => {
     const {columns, cards, moveCard} = useKanban();
@@ -125,14 +126,34 @@ export const Board = (props: BoardProps) => {
                             display: "flex",
                             flexDirection: "row",
                             width: "100%",
+                            height: "100%",
                             overflowX: "auto",
                             flex: 1,
                             gap: 1,
                             p: 1,
+                            position: "relative",
                         }}
                     >
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                width: "calc(100% - 8px)",
+                                overflowX: "auto",
+                                flex: 1,
+                                gap: 1,
+                                position: "absolute",
+                                top: 8,
+                                height: "calc(100% - 16px)",
+                                overflowY: "scroll"
+                            }}
+                        >
+                            {
+                                columns?.map(x => <Column {...x}/>)
+                            }
+                        </Box>
                         {
-                            columns?.map(x => <Column {...x}/>)
+                            columns?.map(x => <ColumnZone {...x}/>)
                         }
                     </Box>
                     <DragOverlay>
