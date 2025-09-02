@@ -52,8 +52,10 @@ export const ProductList = () => {
 
   const statusFilterOptions = [
     { value: "", label: t("filter_keys.none") },
-    { value: "active", label: t("products.status.active") },
-    { value: "inactive", label: t("products.status.inactive") }
+    ...Object.entries(productStatus).map(([key, value]) => ({
+      value: key,
+      label: value.label  
+    }))
   ];
 
   const productFields = [

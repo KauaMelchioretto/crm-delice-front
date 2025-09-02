@@ -1,48 +1,44 @@
 import { atom } from "jotai";
-import { CrmFilter } from "../../../utils/entities/entities";
+import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities";
 import { customersUseCase } from "../usecase/CustomersUseCase";
 import { loadable } from "jotai/utils";
 
-const CustomerUpdateAtom = atom(false);
+const UpdateAtom = atom(false);
+const PageAtom = atom(0);
+const FilterAtom = atom<CrmFilter | null>(null);
+const OrderByAtom = atom<CrmOrderBy | null>({field: "company_name", ordenation: "asc"});
 
-const CustomersListPage = atom(0);
+const ListAtom = loadable(atom(async (get) => {
+  get(UpdateAtom);
 
-const CustomerFilterAtom = atom<CrmFilter | null>(null);
+  const page = get(PageAtom);
+  const filters = get(FilterAtom);
+  const orderBy = get(OrderByAtom);
 
-const CustomersListAsyncAtom = atom(async (get) => {
-  get(CustomerUpdateAtom);
+  return customersUseCase.getCustomers(page, filters, orderBy);
+}));
 
-  const page = get(CustomersListPage);
-
-  const filters = get(CustomerFilterAtom);
-
-  return customersUseCase.getCustomers(page, filters);
-});
-
-const CustomersListAtom = loadable(CustomersListAsyncAtom);
-
-const CustomersListTotalCountAsyncAtom = atom(async (get) => {
-  const list = get(CustomersListAtom);
+const ListTotalCountAtom = loadable(atom(async (get) => {
+  const list = get(ListAtom);
   if (list.state === "hasData") {
     return list.data.total ?? 0;
   }
 
   return 0;
-});
-
-const CustomersListTotalCountAtom = loadable(CustomersListTotalCountAsyncAtom);
+}));
 
 const SimpleCustomersAtom = loadable(atom(async (get) => {
-    get(CustomerUpdateAtom)
+    get(UpdateAtom)
 
     return customersUseCase.listSimpleCustomers()
 }))
 
 export default {
-    CustomerUpdateAtom,
-    CustomersListAtom,
-    CustomerFilterAtom,
-    CustomersListTotalCountAtom,
-    CustomersListPage,
-    SimpleCustomersAtom
+    PageAtom,
+    FilterAtom,
+    OrderByAtom,
+    UpdateAtom,
+    ListAtom,
+    ListTotalCountAtom,
+    SimpleCustomersAtom,
 }
