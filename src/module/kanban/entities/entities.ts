@@ -51,6 +51,7 @@ export interface Card {
     columnUUID: string,
     onChange?: CardOnChange,
     hidden?: boolean,
+    lowOpacity?: boolean,
     metadata?: CardMetadata,
     tag?: Tag,
     modifiedAt: string

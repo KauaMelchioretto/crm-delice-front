@@ -40,7 +40,7 @@ export const Card = (props: CardProps) => {
                 flexDirection: "column",
                 width: "100%",
                 height: "8rem",
-                opacity: props.hidden ? "50%" : "100%",
+                opacity: props.lowOpacity ? "50%" : props.hidden ? "0%" : "100%",
                 transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
                 cursor: "pointer",
                 zIndex: isDragging ? 3 : 2,

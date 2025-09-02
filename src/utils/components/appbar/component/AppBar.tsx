@@ -21,6 +21,7 @@ export const CrmAppBar = () => {
     const {user} = useAuth()
     const navigate = useNavigate()
 
+    useAtomValue(AppBarState.NotificationWebSocketAtomEffect)
     useAtomValue(AppBarState.NotificationAtomEffect)
 
     return (

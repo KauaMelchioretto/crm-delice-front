@@ -19,23 +19,41 @@ const SearchResultAtom = loadable(atom(async (get) => {
 
 const SearchBarValueAtom = atom("")
 
+const UpdateNotifications = atom(false)
+
 const NotificationsAtom = atom<Notification[]>([])
 
 const CountNotificationsAtom = atom<number>(0)
 
-const NotificationAtomEffect = atomEffect((get, set) => {
+const NotificationIsReadFilter = atom<boolean | undefined>(undefined)
+
+const NotificationWebSocketAtomEffect = atomEffect((get, set) => {
     const handleNotification = (message: Message) => {
         const notifications = get(NotificationsAtom)
+        const currentCount = get(CountNotificationsAtom)
 
         const notification = JSON.parse(message.body) as Notification
 
-        set(NotificationsAtom, [...notifications, notification])
+        set(NotificationsAtom, [notification, ...notifications])
 
-        set(CountNotificationsAtom, notifications.length + 1)
+        set(CountNotificationsAtom, currentCount + 1)
     }
 
     connectWithWebSocket((client) => {
         client.subscribe(`/user/private/notifications`, handleNotification)
+    })
+})
+
+const NotificationAtomEffect = atomEffect((get, set) => {
+    const isRead = get(NotificationIsReadFilter)
+
+    get(UpdateNotifications)
+
+    appBarRepository.getNotifications(isRead).then((response) => {
+        const temp = response?.notifications ?? []
+
+        set(NotificationsAtom, temp)
+        set(CountNotificationsAtom, temp.filter(x => !x.read).length)
     })
 })
 
@@ -46,5 +64,8 @@ export default {
 
     NotificationsAtom,
     CountNotificationsAtom,
+    NotificationWebSocketAtomEffect,
     NotificationAtomEffect,
+    NotificationIsReadFilter,
+    UpdateNotifications
 }

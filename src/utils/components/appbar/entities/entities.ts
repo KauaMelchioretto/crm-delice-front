@@ -26,5 +26,17 @@ export interface Notification {
     message: string,
     title: string,
     sender: User,
+    read: boolean,
     receivers?: User[],
+    createdAt: string,
+}
+
+export interface NotificationResponse {
+    notification?: Notification,
+    error?: string
+}
+
+export interface NotificationListResponse {
+    notifications?: Notification[],
+    error?: string
 }
