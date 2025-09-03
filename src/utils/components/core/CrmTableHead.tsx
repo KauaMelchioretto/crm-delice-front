@@ -1,6 +1,6 @@
 import { Atom, useAtom, WritableAtom } from "jotai";
 import { CrmField, CrmOrderBy } from "../../entities/entities";
-import { ArrowDownwardRounded, ArrowUpwardRounded } from "@mui/icons-material";
+import { ArrowDownwardRounded, ArrowUpwardRounded, FolderDelete } from "@mui/icons-material";
 
 interface CrmTableHeadProps {
   field: CrmField;
@@ -25,7 +25,7 @@ export const CrmTableHead = ({ field, orderByAtom }: CrmTableHeadProps) => {
       style={{ cursor: "pointer" }}
       onClick={() => handleClickColumn(field.value)}
     >
-      {field.label}
+      <span title={field.value.toUpperCase()}>{field.label}</span>
       {orderBy?.field === field.value &&
         (orderBy.ordenation === "asc" ? (
           <ArrowDownwardRounded fontSize="small" />
