@@ -32,6 +32,7 @@ import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import SearchRounded from '@mui/icons-material/SearchRounded';
 import {handleGetAddress} from "../../../utils/functions/Address.ts";
+import { UserType } from "../entities/entities.ts";
 
 export const UserForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
@@ -75,7 +76,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
 
     const setFormType = useSetAtom(CrmState.FormType);
 
-    const updateList = useSetAtom(UserState.UserUpdateAtom)
+    const updateList = useSetAtom(UserState.UpdateAtom)
 
     const formMethods = useForm();
 
@@ -235,15 +236,15 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 label={t("users.fields.user_type")}
                                 options={[
                                     {
-                                        value: "EMPLOYEE",
+                                        value: UserType.EMPLOYEE,
                                         label: t("role_types.employee"),
                                     },
                                     {
-                                        value: "OWNER",
+                                        value: UserType.OWNER,
                                         label: t("role_types.owner"),
                                     },
                                     {
-                                        value: "DEV",
+                                        value: UserType.DEV,
                                         label: t("role_types.developer"),
                                     },
                                 ]}

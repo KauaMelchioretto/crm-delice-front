@@ -11,6 +11,18 @@ export interface CrmOrderBy {
     ordenation?: "asc" | "desc";
 }
 
+export interface CrmFieldOption {
+  value: string;
+  label: string;
+};
+
+export interface CrmField {
+  label: string;
+  value: string;
+  filterableByOptions?: boolean;
+  filterOptions?: CrmFieldOption[];
+};
+
 export interface CrmModule {
     element?: ReactElement,
     path: string,

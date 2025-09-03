@@ -1,48 +1,47 @@
-import {atom} from "jotai";
-import {usersUseCase} from "../usecase/UsersUseCase.ts";
-import {loadable} from "jotai/utils";
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import { atom } from "jotai";
+import { usersUseCase } from "../usecase/UsersUseCase.ts";
+import { loadable } from "jotai/utils";
+import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 
-const UserUpdateAtom = atom(false);
+const PageAtom = atom(0);
+const UpdateAtom = atom(false);
+const FilterAtom = atom<CrmFilter | null>(null);
+const OrderByAtom = atom<CrmOrderBy | null>({field: "login", ordenation: "asc"});
 
-const UsersListAsyncAtom = atom(async (get) => {
-    get(UserUpdateAtom);
-    const page = get(UserListPage);
+const ListAtom = loadable(atom(async (get) => {
+    get(UpdateAtom);
 
-    const filters = get(UserFilterAtom);
+    const page = get(PageAtom);
+    const filters = get(FilterAtom);
+    const orderBy = get(OrderByAtom);
 
-    return usersUseCase.getUsers(page, filters);
-});
+    return usersUseCase.getUsers(page, filters, orderBy);
+  })
+);
 
-const UsersListAtom = loadable(UsersListAsyncAtom);
+const ListTotalCountAtom = loadable(atom(async (get) => {
+  const list = get(ListAtom);
+  if (list.state === "hasData") {
+    return list.data.total ?? 0;
+  }
 
-const UserListTotalCountAsyncAtom = atom(async (get) => {
-    const list = get(UsersListAtom);
+  return 0;
+}));
 
-    if (list.state === "hasData") {
-        return list.data.total ?? 0;
-    }
+const SimpleUsersAtom = loadable(
+  atom(async (get) => {
+    get(UpdateAtom);
 
-    return 0;
-});
-
-const UserListTotalCountAtom = loadable(UserListTotalCountAsyncAtom);
-
-const UserListPage = atom(0);
-
-const UserFilterAtom = atom<CrmFilter | null>(null)
-
-const SimpleUsersAtom = loadable(atom(async (get) => {
-    get(UserUpdateAtom);
-
-    return usersUseCase.listSimpleUsers()
-}))
+    return usersUseCase.listSimpleUsers();
+  })
+);
 
 export default {
-    UsersListAtom,
-    UserUpdateAtom,
-    UserListTotalCountAtom,
-    UserListPage,
-    UserFilterAtom,
-    SimpleUsersAtom
+  PageAtom,
+  ListAtom,
+  ListTotalCountAtom,
+  UpdateAtom,
+  FilterAtom,
+  OrderByAtom,
+  SimpleUsersAtom,
 };
