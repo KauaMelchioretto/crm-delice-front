@@ -27,6 +27,9 @@ import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import {BoardForm} from "../../../module/kanban/components/BoardForm.tsx";
 import {RulePage} from "../../../module/kanban/page/RulePage.tsx";
 import {RuleForm} from "../../../module/kanban/components/RuleForm.tsx";
+import {Order} from "../../../module/order/page/Order.tsx";
+import ContentPasteRoundedIcon from '@mui/icons-material/ContentPasteRounded';
+import {OrderForm} from "../../../module/order/components/OrderForm.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[],
@@ -104,6 +107,16 @@ export const AppProvider = (props: AppProviderProps) => {
             createLabel: t("wallets.page.buttons.register"),
             editFormType: CrmFormType.EDIT_WALLET,
             createFormType: CrmFormType.REGISTER_WALLET
+        },
+        {
+            path: "/orders",
+            sideBar: true,
+            element: <Order/>,
+            permissionRequired: true,
+            form: <OrderForm/>,
+            icon: ContentPasteRoundedIcon,
+            label: t("modules.order"),
+            code: CrmModules.Order,
         },
         {
             path: "/me",
