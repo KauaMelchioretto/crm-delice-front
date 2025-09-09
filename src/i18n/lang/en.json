@@ -42,7 +42,7 @@
         "user": "User",
         "login": "Login",
         "userType": "User type",
-        "userTypeEnum": {
+        "user_type_enum": {
           "EMPLOYEE": "Employee",
           "OWNER": "Owner",
           "DEV": "Developer"

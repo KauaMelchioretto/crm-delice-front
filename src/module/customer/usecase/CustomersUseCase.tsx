@@ -1,4 +1,4 @@
-import {CrmFilter} from "../../../utils/entities/entities";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities";
 import {
     ApprovalCustomerResponse,
     ContactType,
@@ -37,8 +37,8 @@ class CustomersUseCase {
         return customersRepository.getPreCustomer(query)
     }
 
-    async getCustomers(page: number, filter: CrmFilter | null): Promise<CustomersListResponse> {
-        return customersRepository.getCustomers(page, filter);
+    async getCustomers(page: number, filter: CrmFilter | null, orderBy: CrmOrderBy | null): Promise<CustomersListResponse> {
+        return customersRepository.getCustomers(page, filter, orderBy);
     }
 
     async getCustomerByUUID(customerUUID: string): Promise<CustomerResponse> {

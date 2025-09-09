@@ -1,4 +1,4 @@
-import { CrmFilter } from "../../../utils/entities/entities.ts";
+import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 import {
     SimpleUserListResponse,
     User,
@@ -61,8 +61,8 @@ class UsersUseCase {
         return usersRepository.createUser(user);
     }
 
-    async getUsers(page: number, filter: CrmFilter | null): Promise<UsersListResponse> {
-        return usersRepository.getUsers(page, filter);
+    async getUsers(page: number, filter: CrmFilter | null, orderBy: CrmOrderBy | null): Promise<UsersListResponse> {
+        return usersRepository.getUsers(page, filter, orderBy);
     }
 
     async getUserByUUID(userUUID: string): Promise<UserResponse> {

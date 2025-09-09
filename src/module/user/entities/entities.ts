@@ -55,3 +55,9 @@ export enum UserStatus {
     INACTIVE = 1,
     FIRST_ACCESS = 2
 }
+
+export enum UserType {
+    DEV = "DEV",
+    OWNER = "OWNER",
+    EMPLOYEE = "EMPLOYEE"
+}
