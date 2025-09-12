@@ -16,7 +16,7 @@ import {
     TagResponse
 } from "../entities/entities.ts";
 import {kanbanRepository} from "../repository/kanbanRepository.ts";
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 
 class KanbanUseCase {
     INVALID_KEY = "Invalid key"
@@ -42,9 +42,10 @@ class KanbanUseCase {
 
     async getBoard(
         page: number,
-        filter: CrmFilter | null
+        filter: CrmFilter | null,
+        orderBy: CrmOrderBy | null,
     ): Promise<BoardListResponse> {
-        return kanbanRepository.getBoard(page, filter)
+        return kanbanRepository.getBoard(page, filter, orderBy)
     }
 
     async getBoardByUUID(boardUUID: string): Promise<BoardResponse> {
