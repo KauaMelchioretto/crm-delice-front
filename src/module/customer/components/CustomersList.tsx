@@ -19,7 +19,11 @@ import QueryBuilderRounded from "@mui/icons-material/QueryBuilderRounded";
 import CancelRounded from "@mui/icons-material/CancelRounded";
 import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
-import { CrmFieldOption, CrmFormType, CrmModules } from "../../../utils/entities/entities.ts";
+import {
+  CrmFieldOption,
+  CrmFormType,
+  CrmModules,
+} from "../../../utils/entities/entities.ts";
 import { useAuth } from "../../../core/auth/provider/AuthProvider.tsx";
 import { CrmTableHead } from "../../../utils/components/core/CrmTableHead.tsx";
 
@@ -76,7 +80,7 @@ export const CustomersList = () => {
     })),
   ];
 
-  const customerFields = [
+  const customerFieldsFilter = [
     { value: "", label: t("filter_keys.none") },
     { value: "company_name", label: t("customers.fields.company_name") },
     { value: "trading_name", label: t("customers.fields.trading_name") },
@@ -90,6 +94,12 @@ export const CustomersList = () => {
       filterableByOptions: true,
       filterOptions: customerStatusOptions,
     },
+  ];
+
+  const customerFields = [
+    ...customerFieldsFilter,
+    { value: t("actions.edit"), label: t("actions.edit") },
+    { value: t("actions.approve"), label: t("actions.approve") },
   ];
 
   const CardStatus = ({ status }: { status: string }) => {
@@ -150,7 +160,7 @@ export const CustomersList = () => {
         </CrmTableContainer>
       </CrmContainer>
     );
-  }
+  } 
 
   if (customersAtom.state === "hasData") {
     customers = customersAtom.data.items ?? [];
@@ -159,7 +169,7 @@ export const CustomersList = () => {
   return (
     <CrmContainer>
       <FilterComponent
-        fields={customerFields}
+        fields={customerFieldsFilter}
         filterAtom={CustomersState.FilterAtom}
       />
       <CrmTableContainer sx={{ height: 450, pt: 2 }}>
@@ -229,8 +239,24 @@ export const CustomersList = () => {
                 field={customerFields.find((x) => x.value === "city")!}
                 orderByAtom={CustomersState.OrderByAtom}
               />
-              {canCreate && <th>{t("actions.edit")}</th>}
-              {canApproval && <th>{t("actions.approve")}</th>}
+              {canCreate && (
+                <CrmTableHead
+                  field={
+                    customerFields.find((x) => x.value === t("actions.edit"))!
+                  }
+                  orderByAtom={null}
+                />
+              )}
+              {canApproval && (
+                <CrmTableHead
+                  field={
+                    customerFields.find(
+                      (x) => x.value === t("actions.approve")
+                    )!
+                  }
+                  orderByAtom={null}
+                />
+              )}
             </tr>
           </thead>
           <tbody>
