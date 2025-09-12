@@ -54,8 +54,8 @@ export const ProductList = () => {
     { value: "", label: t("filter_keys.none") },
     ...Object.entries(productStatus).map(([key, value]) => ({
       value: key,
-      label: value.label  
-    }))
+      label: value.label,
+    })),
   ];
 
   const productFields = [
@@ -64,7 +64,14 @@ export const ProductList = () => {
     { value: "code", label: t("products.fields.code") },
     { value: "weight", label: t("products.fields.weight") },
     { value: "price", label: t("products.fields.price") },
-    { value: "status", label: t("products.fields.status"), filterableByOptions: true, filterOptions: statusFilterOptions}
+    {
+      value: "status",
+      label: t("products.fields.status"),
+      filterableByOptions: true,
+      filterOptions: statusFilterOptions,
+    },
+    { value: t("products.fields.images"), label: t("products.fields.images") },
+    { value: t("actions.edit"), label: t("actions.edit") },
   ];
 
   const CardStatus = ({ status }: { status: string }) => {
@@ -170,13 +177,42 @@ export const ProductList = () => {
         >
           <thead>
             <tr>
-              <CrmTableHead field={productFields.find(x => x.value === "code")!} orderByAtom={ProductState.OrderByAtom} />
-              <CrmTableHead field={productFields.find(x => x.value === "name")!} orderByAtom={ProductState.OrderByAtom} />
-              <CrmTableHead field={productFields.find(x => x.value === "weight")!} orderByAtom={ProductState.OrderByAtom} />
-              <CrmTableHead field={productFields.find(x => x.value === "price")!} orderByAtom={ProductState.OrderByAtom} />
-              <CrmTableHead field={productFields.find(x => x.value === "status")!} orderByAtom={ProductState.OrderByAtom} />
-              <th>{t("products.fields.images")}</th>
-              {canCreate && <th>{t("actions.edit")}</th>}
+              <CrmTableHead
+                field={productFields.find((x) => x.value === "code")!}
+                orderByAtom={ProductState.OrderByAtom}
+              />
+              <CrmTableHead
+                field={productFields.find((x) => x.value === "name")!}
+                orderByAtom={ProductState.OrderByAtom}
+              />
+              <CrmTableHead
+                field={productFields.find((x) => x.value === "weight")!}
+                orderByAtom={ProductState.OrderByAtom}
+              />
+              <CrmTableHead
+                field={productFields.find((x) => x.value === "price")!}
+                orderByAtom={ProductState.OrderByAtom}
+              />
+              <CrmTableHead
+                field={productFields.find((x) => x.value === "status")!}
+                orderByAtom={ProductState.OrderByAtom}
+              />
+              <CrmTableHead
+                field={
+                  productFields.find(
+                    (x) => x.value === t("products.fields.images")
+                  )!
+                }
+                orderByAtom={null}
+              />
+              {canCreate && (
+                <CrmTableHead
+                  field={
+                    productFields.find((x) => x.value === t("actions.edit"))!
+                  }
+                  orderByAtom={null}
+                />
+              )}
             </tr>
           </thead>
           <tbody>
