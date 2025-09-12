@@ -1,4 +1,4 @@
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {Wallet, WalletListResponse, WalletResponse} from "../entities/entities.ts";
 import {walletRepository} from "../repository/WalletRepository.ts";
 import {SimpleCustomerListResponse} from "../../customer/entities/entities.ts";
@@ -11,9 +11,10 @@ class WalletUseCase {
 
     async getWallets(
         page: number,
-        filter: CrmFilter | null
+        filter: CrmFilter | null,
+        orderBy: CrmOrderBy | null,
     ): Promise<WalletListResponse> {
-        return walletRepository.getWallets(page, filter)
+        return walletRepository.getWallets(page, filter, orderBy)
     }
 
     async createWallet(wallet: Wallet): Promise<WalletResponse> {

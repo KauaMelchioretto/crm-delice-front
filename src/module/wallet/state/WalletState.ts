@@ -1,19 +1,21 @@
 import {loadable} from "jotai/utils";
 import {atom} from "jotai";
 import {walletUseCase} from "../usecase/WalletUseCase.ts";
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 
 const UpdateAtom = atom(false)
 const PageAtom = atom(0);
-const FilterAtom = atom<CrmFilter | null>(null)
+const FilterAtom = atom<CrmFilter | null>(null);
+const OrderByAtom = atom<CrmOrderBy | null>({field: "label", ordenation: "asc"});
 
 const ListAtom = loadable(atom(async (get) => {
     get(UpdateAtom)
 
     const page = get(PageAtom);
     const filter = get(FilterAtom);
+    const orderBy = get(OrderByAtom);
 
-    return walletUseCase.getWallets(page, filter)
+    return walletUseCase.getWallets(page, filter, orderBy);
 }))
 
 const ListTotalCountAtom = loadable(atom(async (get) => {
@@ -42,6 +44,7 @@ export default {
     UpdateAtom,
     PageAtom,
     FilterAtom,
+    OrderByAtom,
     ListAtom,
     ListTotalCountAtom,
     FreeCustomersAtom
