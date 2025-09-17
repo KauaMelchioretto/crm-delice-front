@@ -20,7 +20,9 @@ export interface ModuleResponse {
 }
 
 export interface ModuleListResponse {
-    modules?: Module[],
+    items?: Module[],
+    page?: number,
+    total?: number,
     error?: string
 }
 

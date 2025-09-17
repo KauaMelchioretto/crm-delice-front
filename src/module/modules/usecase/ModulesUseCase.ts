@@ -1,3 +1,4 @@
+import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 import {
     Module,
     ModuleDeleteResponse,
@@ -26,8 +27,12 @@ class ModulesUseCase {
         return modulesRepository.createModule(module)
     }
 
-    async getModules(): Promise<ModuleListResponse> {
-        return modulesRepository.getModules()
+    async getModules(
+        page: number,
+        filter: CrmFilter | null,
+        orderBy: CrmOrderBy | null
+    ): Promise<ModuleListResponse> {
+        return modulesRepository.getModules(page, filter, orderBy)
     }
 
     async getModuleByUUID(moduleUUID: string): Promise<ModuleResponse> {

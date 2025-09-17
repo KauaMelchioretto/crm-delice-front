@@ -1,5 +1,5 @@
 import {atom, useAtomValue, useSetAtom} from "jotai";
-import {CrmFilter} from "../../../utils/entities/entities.ts";
+import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {loadable} from "jotai/utils";
 import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
 import {useEffect, useState} from "react";
@@ -8,6 +8,7 @@ import {Board} from "../entities/entities.ts";
 
 const PageAtom = atom(0)
 const FilterAtom = atom<CrmFilter | null>(null)
+const OrderByAtom = atom<CrmOrderBy | null>({field: "title", ordenation: "asc"})
 const UpdateAtom = atom(false)
 
 const ListAtom = loadable(atom(async (get) => {
@@ -15,8 +16,9 @@ const ListAtom = loadable(atom(async (get) => {
 
     const page = get(PageAtom);
     const filter = get(FilterAtom);
+    const orderBy = get(OrderByAtom);
 
-    return kanbanUseCase.getBoard(page, filter)
+    return kanbanUseCase.getBoard(page, filter, orderBy)
 }))
 
 const ListTotalCountAtom = loadable(atom(async (get) => {
@@ -58,6 +60,7 @@ const useLoadBoard = () => {
 export default {
     PageAtom,
     FilterAtom,
+    OrderByAtom,
     UpdateAtom,
     ListAtom,
     ListTotalCountAtom,

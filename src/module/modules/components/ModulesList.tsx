@@ -6,12 +6,16 @@ import PlaylistAdd from '@mui/icons-material/PlaylistAdd';
 import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded';
 import EditRounded from '@mui/icons-material/EditRounded';
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
-import {useAtomValue, useSetAtom} from "jotai";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import ModulesState from "../state/ModulesState.ts";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {modulesUseCase} from "../usecase/ModulesUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import { useTranslation } from "react-i18next";
+import { ChangeEvent } from "react";
+import { CrmPagination } from "../../../utils/components/pagination/CrmPagination.tsx";
+import { FilterComponent } from "../../../utils/components/filter/FilterComponent.tsx";
+import { CrmTableHead } from "../../../utils/components/core/CrmTableHead.tsx";
 
 export const ModulesList = () => {
     const modifiedModule = useSetAtom(ModulesState.ModuleFormUUIDAtom);
@@ -48,12 +52,27 @@ export const ModulesList = () => {
     }
 
     if (modulesAtom.state === "hasData") {
-        modules = modulesAtom.data.modules ?? [];
+        modules = modulesAtom.data.items ?? [];
     }
+
+    const moduleFieldsFilter = [
+        { value: "", label: t("filter_keys.none") },
+        { value: "code", label: t("modules.fields.code") },
+        { value: "label", label: t("modules.fields.label") },
+        { value: "path", label: t("modules.fields.path")}
+    ]
+
+    const moduleFields = [
+        ...moduleFieldsFilter,
+        { value: t("actions.edit"), label: t("actions.edit") },
+        { value: t("actions.roles"), label: t("actions.roles") },
+        { value: t("actions.delete"), label: t("actions.delete") },
+    ]
 
     return (
         <CrmContainer>
-            <CrmTableContainer sx={{height: 500}}>
+            <FilterComponent fields={moduleFieldsFilter} filterAtom={ModulesState.FilterAtom} />
+            <CrmTableContainer sx={{height: 500, pt: 2}}>
                 <CrmTable
                     sx={{
                         "& thead th:nth-child(1)": {
@@ -78,12 +97,30 @@ export const ModulesList = () => {
                 >
                     <thead>
                     <tr>
-                        <th>{t("modules.fields.code")}</th>
-                        <th>{t("modules.fields.label")}</th>
-                        <th>{t("modules.fields.path")}</th>
-                        <th>{t("actions.edit")}</th>
-                        <th>{t("actions.roles")}</th>
-                        <th>{t("actions.delete")}</th>
+                        <CrmTableHead
+                        field={moduleFields.find((x) => x.value === "code")!}
+                        orderByAtom={ModulesState.OrderByAtom}
+                        />
+                        <CrmTableHead
+                        field={moduleFields.find((x) => x.value === "label")!}
+                        orderByAtom={ModulesState.OrderByAtom}
+                        />
+                        <CrmTableHead 
+                        field={moduleFields.find((x) => x.value === "path")!}
+                        orderByAtom={ModulesState.OrderByAtom}
+                        />
+                        <CrmTableHead
+                        field={moduleFields.find((x) => x.value === t("actions.edit"))!}
+                        orderByAtom={null}
+                        />
+                        <CrmTableHead
+                        field={moduleFields.find((x) => x.value === t("actions.roles"))!}
+                        orderByAtom={null}
+                        />
+                        <CrmTableHead
+                        field={moduleFields.find((x) => x.value === t("actions.delete"))!}
+                        orderByAtom={null}
+                        />
                     </tr>
                     </thead>
                     <tbody>
@@ -131,6 +168,24 @@ export const ModulesList = () => {
                     </tbody>
                 </CrmTable>
             </CrmTableContainer>
+            <ModulesPagination />
         </CrmContainer>
     );
+}
+
+export const ModulesPagination = () => {
+    const [page, setPage] = useAtom(ModulesState.PageAtom);
+    const pageCount = useAtomValue(ModulesState.ModulesListTotalCountAtom);
+
+    if (pageCount.state === "loading") return;
+
+    const count = pageCount.state === "hasData" ? pageCount.data : 0;
+    const handleChange = (_: ChangeEvent<unknown>, value: number) => {
+        setPage(--value);
+    }
+
+    return (
+        <CrmPagination page={page + 1} count={count} onChange={handleChange} />
+    );
+
 }

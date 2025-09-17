@@ -75,7 +75,7 @@ const userTypeFilterOptions = [
     { value: UserType.DEV, label: t(`users.fields.user_type_enum.${UserType.DEV}`) }
   ]
 
-  const userFields = [
+  const userFieldsFilter = [
     { value: "", label: t("filter_keys.none") },
     { value: "login", label: t("users.fields.user") },
     { value: "name", label: t("users.fields.name") },
@@ -85,7 +85,13 @@ const userTypeFilterOptions = [
     { value: "phone", label: t("users.fields.phone") },
     { value: "state", label: t("users.fields.state") },
     { value: "city", label: t("users.fields.city") },
-    { value: "status", label: t("users.fields.status.label"), filterableByOptions: true, filterOptions: statusFilterOptions }
+    { value: "status", label: t("users.fields.status.label"), filterableByOptions: true, filterOptions: statusFilterOptions },
+  ];
+
+  const userFields = [
+    ...userFieldsFilter,
+    { value: t("actions.edit"), label: t("actions.edit") },
+    { value: t("actions.roles"), label: t("actions.roles") }
   ];
 
   const CardStatus = ({ status }: { status: string }) => {
@@ -155,7 +161,7 @@ const userTypeFilterOptions = [
   return (
     <CrmContainer>
       <FilterComponent
-        fields={userFields}
+        fields={userFieldsFilter}
         filterAtom={UserState.FilterAtom}
       />
       <CrmTableContainer sx={{ height: 450, pt: 2 }}>
@@ -168,7 +174,7 @@ const userTypeFilterOptions = [
               width: 250,
             },
             "& thead th:nth-child(3)": {
-              width: 100,
+              width: 125,
             },
             "& thead th:nth-child(4)": {
               width: 250,
@@ -207,8 +213,8 @@ const userTypeFilterOptions = [
               <CrmTableHead field={userFields.find(x => x.value === "state")!} orderByAtom={UserState.OrderByAtom} />
               <CrmTableHead field={userFields.find(x => x.value === "city")!} orderByAtom={UserState.OrderByAtom} />
               <CrmTableHead field={userFields.find(x => x.value === "status")!} orderByAtom={UserState.OrderByAtom} />
-              {canCreate && <th>{t("actions.edit")}</th>}
-              {canAttachRoles && <th>{t("actions.roles")}</th>}
+              {canCreate && <CrmTableHead field={userFields.find(x => x.value === t("actions.edit"))!} orderByAtom={null} />}
+              {canAttachRoles && <CrmTableHead field={userFields.find(x => x.value === t("actions.roles"))!} orderByAtom={null} />}
             </tr>
           </thead>
           <tbody>
