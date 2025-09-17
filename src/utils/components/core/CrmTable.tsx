@@ -1,7 +1,7 @@
 import {ComponentProps} from "react";
 import {styled, Table} from "@mui/joy";
 
-const StyledCrmTable = styled(Table)(() => ({
+export const DefaultCrmTable = styled(Table)(() => ({
     "& thead th": {
         height: "20px",
         borderTopStyle: "unset !important",
@@ -12,7 +12,7 @@ const StyledCrmTable = styled(Table)(() => ({
 }))
 
 export const CrmTable = (props: ComponentProps<typeof Table>) => (
-    <StyledCrmTable
+    <DefaultCrmTable
         borderAxis="x"
         color="neutral"
         size="sm"
