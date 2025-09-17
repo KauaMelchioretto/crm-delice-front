@@ -47,9 +47,8 @@ export const FilterComponent = ({ fields, filterAtom }: FilterProps) => {
     }
   }, [filter]);
 
-  // Limpa o campo de texto de filtro quando alterar o tipo de filtro
   useEffect(() => {
-    const subscription = useFormMethods.watch((value, { name, type }) => {
+    const subscription = useFormMethods.watch((_, { name }) => {
       if (name === "filterType") {
         useFormMethods.resetField("value", { defaultValue: "" });
       }

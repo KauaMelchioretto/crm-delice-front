@@ -16,7 +16,7 @@ import { Board, BoardStatus } from "../entities/entities.ts";
 import { getColorContrast } from "../../../utils/functions/GetColorContrast.ts";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/joy";
 import { useAtom, useAtomValue } from "jotai/index";
-import { EditRounded, KeyTwoTone } from "@mui/icons-material";
+import { EditRounded } from "@mui/icons-material";
 import { ChangeEvent } from "react";
 import { CrmPagination } from "../../../utils/components/pagination/CrmPagination.tsx";
 
