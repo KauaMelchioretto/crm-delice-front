@@ -40,3 +40,13 @@ export enum ProductStatus{
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE"
 }
+
+export interface SimpleProduct{
+    uuid: string,
+    name: string
+}
+
+export interface SimpleProductListResponse{
+    products?: SimpleProduct[],
+    error?: string
+}

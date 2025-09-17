@@ -84,7 +84,7 @@ export const CustomerForm = () => {
 }
 
 const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
-    const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
+    const updateList = useSetAtom(CustomersState.UpdateAtom)
     const {t} = useTranslation();
     const setFormType = useSetAtom(CrmState.FormType)
 
@@ -681,7 +681,7 @@ const CustomerContact = ({index}: { index: number }) => {
 }
 
 const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
-    const updateList = useSetAtom(CustomersState.CustomerUpdateAtom)
+    const updateList = useSetAtom(CustomersState.UpdateAtom)
     const setFormType = useSetAtom(CrmState.FormType)
     const formMethods = useForm({
         defaultValues: {

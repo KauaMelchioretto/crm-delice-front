@@ -49,6 +49,7 @@ export enum CrmModules {
     Kanban = 'KANBAN',
     KanbanRule = 'KANBAN_RULE',
     Order = 'ORDER',
+    OrderItems = 'ORDER_ITEMS',
 }
 
 export enum CrmFormType {
@@ -74,5 +75,6 @@ export enum CrmFormType {
     REGISTER_ALLOWED_COLUMN,
     READ_CARD,
     REGISTER_ORDER,
-    UPDATE_ORDER
+    UPDATE_ORDER,
+    REGISTER_ORDER_ITEM,
 }

@@ -1,5 +1,6 @@
 import {User} from "../../user/entities/entities.ts";
 import {Customer} from "../../customer/entities/entities.ts";
+import {Product} from "../../product/entities/entities.ts";
 
 export interface Order {
     uuid?: string
@@ -8,6 +9,9 @@ export interface Order {
     netPrice?: number
     discount?: number
     defaultDiscount: number
+    totalItems?: number
+    totalProducts?: number
+    weight?: number
     items?: OrderItem[]
     customer?: Customer
     status?: OrderStatus
@@ -16,10 +20,15 @@ export interface Order {
     operator?: User
 }
 
-export enum OrderStatus{
-    OPEN = 'OPEN',
-    CLOSED = 'CLOSED',
-    CANCELED = 'CANCELED'
+export interface ManipulateOrderItem {
+    products: string[]
+    quantity: number
+    discount: number
+}
+
+export interface ManipulateOrder {
+    discount: number
+    status: OrderStatus
 }
 
 export interface OrderItem {
@@ -27,12 +36,26 @@ export interface OrderItem {
     grossPrice: number
     netPrice: number
     discount: number
-    product: number
+    weight: number
+    product: Product
     createdAt: string
     modifiedAt: string
 }
 
-export interface OrderResponse{
+export enum OrderStatus {
+    OPEN = 'OPEN',
+    CLOSED = 'CLOSED',
+    CANCELED = 'CANCELED'
+}
+
+export interface OrderResponse {
     order?: Order,
+    error?: string
+}
+
+export interface OrderListResponse {
+    items?: Order[],
+    page?: number,
+    total?: number,
     error?: string
 }

@@ -3,7 +3,7 @@ import {
     ProductListResponse,
     ProductMedia,
     ProductMediaResponse,
-    ProductResponse
+    ProductResponse, SimpleProductListResponse
 } from "../entities/entities.ts";
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
@@ -121,6 +121,26 @@ class ProductRepository {
             );
 
             return response.data as ProductMediaResponse;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                return {
+                    error:
+                        e?.response?.data?.error?.message ??
+                        this.PRODUCT_UNEXPECTED_ERROR,
+                };
+            }
+
+            return {error: this.PRODUCT_UNEXPECTED_ERROR};
+        }
+    }
+
+    async getSimpleProducts(): Promise<SimpleProductListResponse> {
+        try {
+            const response = await http.get(
+                "/product/simple"
+            );
+
+            return response.data as SimpleProductListResponse;
         } catch (e) {
             if (e instanceof AxiosError) {
                 return {

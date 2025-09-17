@@ -28,11 +28,18 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
     return 0;
 }));
 
+const SimpleProducts = loadable(atom(async (get) => {
+    get(UpdateAtom)
+
+    return productUseCase.getSimpleProducts()
+}))
+
 export default {
     PageAtom,
     FilterAtom,
     OrderByAtom,
     UpdateAtom,
     ListAtom,
-    ListTotalCountAtom
+    ListTotalCountAtom,
+    SimpleProducts
 }
