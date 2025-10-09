@@ -9,13 +9,13 @@ import {
 import {productRepository} from "../repository/ProductRepository.ts";
 
 class ProductUseCase {
-    PRODUCT_ID_INVALID = "Product id is invalid"
-    PRODUCT_NAME_IS_EMPTY = "Product name is empty"
-    PRODUCT_CODE_IS_EMPTY = "Product code is empty"
-    PRODUCT_PRICE_IS_EMPTY = "Product price is empty"
-    PRODUCT_WEIGHT_IS_EMPTY = "Product weight is empty"
-    PRODUCT_MEDIA_IS_EMPTY = "Product images is empty"
-
+    PRODUCT_ID_INVALID = "PRODUCT_ID_INVALID"
+    PRODUCT_NAME_IS_EMPTY = "PRODUCT_NAME_IS_EMPTY"
+    PRODUCT_CODE_IS_EMPTY = "PRODUCT_CODE_IS_EMPTY"
+    PRODUCT_PRICE_IS_EMPTY = "PRODUCT_PRICE_IS_EMPTY"
+    PRODUCT_WEIGHT_IS_EMPTY = "PRODUCT_WEIGHT_IS_EMPTY"
+    PRODUCT_MEDIA_IS_EMPTY = "PRODUCT_MEDIA_IS_EMPTY"
+    
     async getProduct(
         page: number,
         filter: CrmFilter | null,
