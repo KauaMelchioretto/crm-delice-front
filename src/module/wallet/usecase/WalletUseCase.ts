@@ -4,10 +4,10 @@ import {walletRepository} from "../repository/WalletRepository.ts";
 import {SimpleCustomerListResponse} from "../../customer/entities/entities.ts";
 
 class WalletUseCase {
-    UUID_INVALID = "Invalid wallet ID"
-    TITLE_IS_EMPTY = "The title is empty"
-    ACCOUNTABLE_IS_EMPTY = "The accountable user is empty"
-    CUSTOMERS_IS_EMPTY = "The customers is empty"
+    UUID_INVALID = "UUID_INVALID"
+    TITLE_IS_EMPTY = "TITLE_IS_EMPTY"
+    ACCOUNTABLE_IS_EMPTY = "ACCOUNTABLE_IS_EMPTY"
+    CUSTOMERS_IS_EMPTY = "CUSTOMERS_IS_EMPTY"
 
     async getWallets(
         page: number,
@@ -37,7 +37,6 @@ class WalletUseCase {
         if (!wallet.uuid) {
             return {error: this.UUID_INVALID}
         }
-
         return walletRepository.updateWallet(wallet)
     }
 
@@ -60,7 +59,7 @@ class WalletUseCase {
         if (!wallet.accountable?.uuid) {
             return {error: this.ACCOUNTABLE_IS_EMPTY}
         }
-        if (!wallet.customers) {
+        if (!wallet.customers || wallet.customers.length === 0) {
             return {error: this.CUSTOMERS_IS_EMPTY}
         }
 

@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 import { SimpleCustomerListResponse } from "../../customer/entities/entities.ts";
 
 class WalletRepository {
-  WALLET_UNEXPECTED_ERROR = "An unexpected error has occurred";
+  WALLET_UNEXPECTED_ERROR = "WALLET_UNEXPECTED_ERROR";
 
   async getWallets(
     page: number,
@@ -40,7 +40,7 @@ class WalletRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.WALLET_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.WALLET_UNEXPECTED_ERROR,
         };
       }
 
@@ -57,7 +57,7 @@ class WalletRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.WALLET_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.WALLET_UNEXPECTED_ERROR,
         };
       }
 
@@ -68,13 +68,13 @@ class WalletRepository {
   async updateWallet(wallet: Wallet): Promise<WalletResponse> {
     try {
       const response = await http.put("/wallet/update", wallet);
-
+      
       return response.data?.wallet as WalletResponse;
     } catch (e) {
       if (e instanceof AxiosError) {
         return {
-          error:
-            e?.response?.data?.error?.message ?? this.WALLET_UNEXPECTED_ERROR,
+          error: 
+            e?.response?.data?.error?.code ?? this.WALLET_UNEXPECTED_ERROR,
         };
       }
 
@@ -91,7 +91,7 @@ class WalletRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.WALLET_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.WALLET_UNEXPECTED_ERROR,
         };
       }
 
@@ -108,7 +108,7 @@ class WalletRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.WALLET_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.WALLET_UNEXPECTED_ERROR,
         };
       }
 
