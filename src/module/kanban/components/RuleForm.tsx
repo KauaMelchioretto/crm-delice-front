@@ -65,11 +65,11 @@ export const RuleForm = () => {
 const BoardRuleFormRegister = (
     {columnUUID, ruleUUID}: { columnUUID: string, ruleUUID?: string }
 ) => {
-    const board = useAtomValue(KanbanState.BoardAtom)
+    const board = useAtomValue(KanbanState.BoardAtom);
+    const {t} = useTranslation();
+    const updateList = useSetAtom(KanbanState.UpdateAtom);
 
-    const updateList = useSetAtom(KanbanState.UpdateAtom)
-
-    const setFormType = useSetAtom(CrmState.FormType)
+    const setFormType = useSetAtom(CrmState.FormType);
     const formMethods = useForm({
         defaultValues: {
             type: ColumnRuleType.ADD_TAG,
@@ -112,9 +112,9 @@ const BoardRuleFormRegister = (
             metadata: metadata
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t(`kanbans.messages.column_rule_created`), 2000);
 
                 updateList(prev => !prev)
                 setFormType(CrmFormType.EMPTY);
@@ -181,7 +181,7 @@ const BoardRuleFormRegister = (
                         alignItems={"center"}
                     >
                         <Typography level={"body-md"} fontWeight={"bold"}>
-                            Cadastrar Regras
+                            {t('kanbans.rules.label.register_rule')}
                         </Typography>
                         <IconButton
                             size={"sm"}
@@ -192,9 +192,9 @@ const BoardRuleFormRegister = (
                     </Box>
 
                     <FormControl>
-                        <FormLabel>Titulo</FormLabel>
+                        <FormLabel>{t('kanbans.rules.fields.title')}</FormLabel>
                         <TextInput
-                            {...register("title", {required: "The title is required"})}
+                            {...register("title", {required: t('kanbans.messages.column_rule_title_required') as string})}
                             size={"md"}
                             variant={"soft"}
                         />
@@ -206,7 +206,7 @@ const BoardRuleFormRegister = (
                     <Button
                         type={"submit"}
                     >
-                        Salvar
+                        {t('actions.save')}
                     </Button>
                 </Box>
             </FormProvider>
@@ -271,9 +271,9 @@ const RuleTypeWatcher = () => {
                 <CrmSelect
                     name={"type"}
                     options={ruleTypes}
-                    label={"Tipo"}
+                    label={t('kanbans.rules.fields.type')}
                     // @ts-ignore
-                    rules={{rules: {required: "The rule type is required"}}}
+                    rules={{rules: {required: t('kanbans.messages.column_rule_type_required') as string}}}
                 />
             </Box>
             {type === ColumnRuleType.ADD_TAG && tags && (
@@ -283,14 +283,14 @@ const RuleTypeWatcher = () => {
                         options={tags}
                         label={"Tag"}
                         // @ts-ignore
-                        rules={{rules: {required: "The rule type is required"}}}
+                        rules={{rules: {required: t('kanbans.messages.column_rule_tag_required') as string}}}
                     />
                 </Box>
             )}
             {type === ColumnRuleType.SEND_EMAIL && (
                 <Box sx={{width: "100%"}}>
                     <FormControl>
-                        <FormLabel>E-mail</FormLabel>
+                        <FormLabel>{t('kanbans.rules.fields.email')}</FormLabel>
                         <Box
                             sx={{
                                 display: "flex",
@@ -349,7 +349,7 @@ const RuleTypeWatcher = () => {
             {type === ColumnRuleType.NOTIFY_USER && users && (
                 <Box sx={{width: "100%"}}>
                     <FormControl>
-                        <FormLabel>Usuários</FormLabel>
+                        <FormLabel>{t('kanbans.rules.fields.users')}</FormLabel>
                         <Box
                             sx={{
                                 display: "flex",
@@ -411,7 +411,8 @@ const RuleTypeWatcher = () => {
 }
 
 const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) => {
-    const board = useAtomValue(KanbanState.BoardAtom)
+    const board = useAtomValue(KanbanState.BoardAtom);
+    const {t} = useTranslation();
 
     const currentColumn = board?.columns?.find(
         x => x.uuid === columnUUID
@@ -445,9 +446,9 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
 
         kanbanUseCase.saveAllowedColumns(columnUUID, allowed).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('kanbans.messages.allowed_columns_created'), 2000);
 
                 updateList(prev => !prev)
                 setFormType(CrmFormType.EMPTY);
@@ -496,7 +497,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
                         alignItems={"center"}
                     >
                         <Typography level={"body-md"} fontWeight={"bold"}>
-                            Cadastrar Regras
+                            {t('kanbans.columns.labels.allow_columns')}
                         </Typography>
                         <IconButton
                             size={"sm"}
@@ -507,7 +508,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
                     </Box>
                     <Box sx={{width: "100%"}}>
                         <FormControl>
-                            <FormLabel>Colunas</FormLabel>
+                            <FormLabel>{t('kanbans.columns.labels.columns')}</FormLabel>
                             <Box
                                 sx={{
                                     display: "flex",
@@ -566,7 +567,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
                     <Button
                         type={"submit"}
                     >
-                        Salvar
+                        {t('actions.save')}
                     </Button>
                 </Box>
             </FormProvider>

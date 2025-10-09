@@ -21,7 +21,7 @@ import { AxiosError } from "axios";
 import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 
 class KanbanRepository {
-  KANBAN_UNEXPECTED_ERROR = "An unexpected error has occurred";
+  KANBAN_UNEXPECTED_ERROR = "KANBAN_UNEXPECTED";
 
   async getBoardByKey(key: string): Promise<BoardResponse> {
     try {
@@ -32,7 +32,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+          e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -69,7 +69,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -86,7 +86,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -109,7 +109,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -126,7 +126,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -148,7 +148,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -165,7 +165,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -182,7 +182,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -205,7 +205,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -224,7 +224,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -241,7 +241,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -258,7 +258,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -281,7 +281,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -298,7 +298,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -320,7 +320,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -341,7 +341,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -358,7 +358,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -380,7 +380,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -397,7 +397,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -419,7 +419,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
@@ -436,7 +436,7 @@ class KanbanRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.KANBAN_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.KANBAN_UNEXPECTED_ERROR,
         };
       }
 
