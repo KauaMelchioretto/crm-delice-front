@@ -135,6 +135,7 @@
       "modules_config": "Modules",
       "customers": "Customers",
       "wallet": "Wallets",
+      "order": "Orders",
       "products": "Products",
       "kanbans": "Manage Kanban"
     },

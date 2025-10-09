@@ -4,7 +4,7 @@ import {useSetAtom} from "jotai";
 import CustomersState from "../../customer/state/CustomersState.ts";
 
 export const Home = () => {
-    const updateCustomerAtom = useSetAtom(CustomersState.CustomerUpdateAtom)
+    const updateCustomerAtom = useSetAtom(CustomersState.UpdateAtom)
 
     return (
         <div

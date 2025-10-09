@@ -4,7 +4,7 @@ import {
     ProductListResponse,
     ProductMedia,
     ProductMediaResponse,
-    ProductResponse
+    ProductResponse, SimpleProductListResponse
 } from "../entities/entities.ts";
 import {productRepository} from "../repository/ProductRepository.ts";
 
@@ -83,6 +83,10 @@ class ProductUseCase {
             return {error: this.PRODUCT_WEIGHT_IS_EMPTY}
         }
         return {}
+    }
+
+    async getSimpleProducts(): Promise<SimpleProductListResponse>{
+        return productRepository.getSimpleProducts()
     }
 }
 
