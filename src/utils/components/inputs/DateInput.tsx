@@ -9,3 +9,12 @@ export const DateInput = (props: ComponentProps<typeof TextInput>) => {
         />
     );
 };
+
+export const DateTimeInput = (props: ComponentProps<typeof TextInput>) => {
+    return (
+        <TextInput
+            {...props}
+            type={"datetime-local"}
+        />
+    );
+};

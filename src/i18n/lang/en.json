@@ -104,7 +104,8 @@
       "wallet": "Wallets",
       "order": "Orders",
       "products": "Products",
-      "kanbans": "Manage Kanban"
+      "kanbans": "Manage Kanban",
+      "tasks": "Tasks"
     },
     "actions": {
       "save": "Save",

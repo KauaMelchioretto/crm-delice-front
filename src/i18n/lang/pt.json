@@ -99,7 +99,8 @@
       "wallet": "Carteiras",
       "order": "Pedidos",
       "products": "Produtos",
-      "kanbans": "Kanban"
+      "kanbans": "Kanban",
+      "tasks": "Tarefas"
     },
     "actions": {
       "save": "Salvar",

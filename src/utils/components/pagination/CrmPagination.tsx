@@ -5,6 +5,9 @@ import {Button} from "@mui/joy";
 
 import NavigateNextRounded from '@mui/icons-material/NavigateNextRounded';
 import NavigateBeforeRounded from '@mui/icons-material/NavigateBeforeRounded';
+import {PrimitiveAtom, useAtom, useAtomValue} from "jotai/index";
+import {Atom} from "jotai";
+import {Loadable} from "jotai/vanilla/utils/loadable";
 
 const List = styled('ul')({
     listStyle: 'none',
@@ -109,3 +112,24 @@ export const CrmPagination = memo((props: CrmPaginationProps) => {
         </nav>
     );
 })
+
+interface CrmPaginationAtomProps {
+    page: PrimitiveAtom<number>
+    count: Atom<Loadable<Promise<number>>>
+}
+
+export const CrmPaginationAtom = (props: CrmPaginationAtomProps) => {
+    const [page, setPage] = useAtom(props.page);
+    const pageCount = useAtomValue(props.count);
+
+    if (pageCount.state === "loading") return;
+
+    const count = pageCount.state === "hasData" ? pageCount.data : 0;
+    const handleChange = (_: ChangeEvent<unknown>, value: number) => {
+        setPage(--value);
+    };
+
+    return (
+        <CrmPagination page={page + 1} count={count} onChange={handleChange}/>
+    );
+}

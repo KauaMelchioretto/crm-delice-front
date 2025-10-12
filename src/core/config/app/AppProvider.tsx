@@ -31,6 +31,9 @@ import {Order} from "../../../module/order/page/Order.tsx";
 import ContentPasteRoundedIcon from '@mui/icons-material/ContentPasteRounded';
 import {OrderForm} from "../../../module/order/components/OrderForm.tsx";
 import {OrderDetails} from "../../../module/order/page/OrderDetails.tsx";
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import {Tasks} from "../../../module/tasks/page/Tasks.tsx";
+import {TaskForm} from "../../../module/tasks/components/TaskForm.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[],
@@ -158,6 +161,16 @@ export const AppProvider = (props: AppProviderProps) => {
             label: t("modules.kanbans"),
             code: CrmModules.Kanban,
             form: <BoardForm/>
+        },
+        {
+            path: "/tasks",
+            sideBar: true,
+            permissionRequired: true,
+            icon: TaskAltRoundedIcon,
+            label: t("modules.tasks"),
+            code: CrmModules.Task,
+            element: <Tasks/>,
+            form: <TaskForm/>
         },
         {
             path: "/kanban/:uuid",
