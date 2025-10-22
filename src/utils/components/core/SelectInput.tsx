@@ -1,8 +1,9 @@
-import {Select, styled} from "@mui/joy";
+import {Select, Input, styled} from "@mui/joy";
 import {FormControl, FormHelperText, FormLabel, Option} from "@mui/joy";
 import {Controller, FieldError, useFormContext} from "react-hook-form";
 // @ts-ignore
 import {UseControllerProps} from "react-hook-form/dist/types/controller";
+import {ComponentProps, useEffect} from "react";
 
 const SelectInput = styled(Select)(() => ({
     '--Select-radius': '5px',
@@ -33,7 +34,7 @@ const SelectInput = styled(Select)(() => ({
 
 export type OptionType = { value: string | null; label: string };
 
-interface CrmSelectProps extends UseControllerProps{
+interface CrmSelectProps extends UseControllerProps {
     name: string;
     label: string;
     options: OptionType[];
@@ -50,7 +51,11 @@ export const CrmSelect = (
         error
     }: CrmSelectProps
 ) => {
-    const {control} = useFormContext()
+    const {control, setValue} = useFormContext()
+
+    useEffect(() => {
+        setValue(name, options[0]?.value)
+    }, [setValue, options]);
 
     return (
         <FormControl error={!!error}>
@@ -87,3 +92,28 @@ export const CrmSelect = (
         </FormControl>
     );
 };
+
+interface NewCrmSelect extends ComponentProps<typeof Input> {
+    options: OptionType[];
+}
+
+export const NewCrmSelect = (props: NewCrmSelect) => {
+    const { watch, setValue } = useFormContext();
+    const type = watch(props.name!) as string;
+
+    return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        <SelectInput
+            {...props}
+            value={type || "" || props.value!}
+            onChange={(_, newValue) => setValue(props.name!, newValue)}
+        >
+            {props.options.map(opt => (
+                <Option key={`select_key_${opt.value}`} value={opt.value}>
+                    {opt.label}
+                </Option>
+            ))}
+        </SelectInput>
+    )
+}

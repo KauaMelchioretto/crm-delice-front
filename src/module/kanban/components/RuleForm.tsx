@@ -7,7 +7,7 @@ import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import {ColumnRuleForm, ColumnRuleMetadata, ColumnRuleType} from "../entities/entities.ts";
-import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
+import {CrmSelect, NewCrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {Fragment, useEffect} from "react";
 import KanbanState from "../state/KanbanState.ts";
@@ -22,12 +22,6 @@ export const RuleForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
     const columnUUID = useAtomValue(CrmState.EntityFormUUID);
     const ruleUUID = useAtomValue(KanbanState.RuleAtomUUID);
-
-    const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
-
-    if (simpleUsersAtom.state === "loading") {
-        return <></>
-    }
 
     switch (formType) {
         case CrmFormType.EMPTY:
@@ -205,6 +199,7 @@ const BoardRuleFormRegister = (
                     <RuleTypeWatcher/>
                     <Button
                         type={"submit"}
+                        disabled={!!ruleUUID}
                     >
                         {t('actions.save')}
                     </Button>
@@ -216,7 +211,7 @@ const BoardRuleFormRegister = (
 
 const RuleTypeWatcher = () => {
     const {t} = useTranslation()
-    const {watch, control, register} = useFormContext()
+    const {watch, control, register, formState: {errors}} = useFormContext()
 
     const emailControl = useFieldArray({
         control: control,
@@ -228,7 +223,7 @@ const RuleTypeWatcher = () => {
         name: "notifyUsers"
     })
 
-    const simpleUsersAtom = useAtomValue(UserState.SimpleUsersAtom)
+    const users = useAtomValue(UserState.SimpleUsersAtom)
 
     const board = useAtomValue(KanbanState.BoardAtom)
 
@@ -246,10 +241,6 @@ const RuleTypeWatcher = () => {
 
     const type = watch("type") as ColumnRuleType
 
-    const users: OptionType[] | undefined = simpleUsersAtom.state === "hasData" ? (simpleUsersAtom.data.users ?? []).map((x) => (
-        {value: x?.uuid ?? "", label: x?.login ?? ""})
-    ) : undefined
-
     useEffect(() => {
         if (type === ColumnRuleType.SEND_EMAIL) {
             if (emailControl.fields.length === 0) {
@@ -265,16 +256,23 @@ const RuleTypeWatcher = () => {
         }
     }, [type, users, emailControl, usersControl]);
 
+
     return (
         <Fragment>
             <Box sx={{width: "100%"}}>
-                <CrmSelect
-                    name={"type"}
-                    options={ruleTypes}
-                    label={t('kanbans.rules.fields.type')}
-                    // @ts-ignore
-                    rules={{rules: {required: t('kanbans.messages.column_rule_type_required') as string}}}
-                />
+                <FormControl>
+                    <FormLabel>{t('kanbans.rules.fields.type')}</FormLabel>
+                    <NewCrmSelect
+                        {...register("type")}
+                        size={"md"}
+                        variant={"soft"}
+                        sx={{flex: 1}}
+                        options={ruleTypes}
+                    />
+                    <FormHelperText sx={{minHeight: "1rem"}}>
+                        {errors?.type?.message as string}
+                    </FormHelperText>
+                </FormControl>
             </Box>
             {type === ColumnRuleType.ADD_TAG && tags && (
                 <Box sx={{width: "100%"}}>
@@ -283,7 +281,7 @@ const RuleTypeWatcher = () => {
                         options={tags}
                         label={"Tag"}
                         // @ts-ignore
-                        rules={{rules: {required: t('kanbans.messages.column_rule_tag_required') as string}}}
+                        rules={{rules: {required: "The rule type is required"}}}
                     />
                 </Box>
             )}
@@ -370,10 +368,12 @@ const RuleTypeWatcher = () => {
                                         sx={{mt: 1, width: "100%",}}
                                     >
                                         <Box sx={{width: "100%"}}>
-                                            <CrmSelect
-                                                name={`notifyUsers.${i}.uuid`}
+                                            <NewCrmSelect
+                                                {...register(`notifyUsers.${i}.uuid`)}
+                                                size={"md"}
+                                                variant={"soft"}
+                                                sx={{flex: 1}}
                                                 options={users}
-                                                label={""}
                                             />
                                         </Box>
                                         {

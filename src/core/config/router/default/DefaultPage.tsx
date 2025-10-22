@@ -24,6 +24,7 @@ import {CrmModal} from "../../../../utils/components/core/CrmModal.tsx";
 import {CrmAppBar} from "../../../../utils/components/appbar/component/AppBar.tsx";
 import {useApp} from "../../app/AppProvider.tsx";
 import {useTranslation} from "react-i18next";
+import {InitAtoms} from "../../app/InitAtoms.tsx";
 
 export const DefaultPage = () => (
     <Layout.Root>
@@ -46,6 +47,7 @@ const Content = () => {
 
     return (
         <Fragment>
+            <InitAtoms/>
             {
                 show && (
                     <Fragment>

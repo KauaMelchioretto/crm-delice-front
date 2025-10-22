@@ -37,6 +37,12 @@ export interface CrmModule {
     createFormType?: CrmFormType,
 }
 
+export interface CrmCardStatusProps{
+    color: string,
+    label: string,
+    icon: SvgIconComponent
+}
+
 export enum CrmModules {
     Home = "HOME",
     Wallet = 'WALLET',
@@ -50,6 +56,7 @@ export enum CrmModules {
     KanbanRule = 'KANBAN_RULE',
     Order = 'ORDER',
     OrderItems = 'ORDER_ITEMS',
+    Task = "TASK"
 }
 
 export enum CrmFormType {
@@ -77,4 +84,7 @@ export enum CrmFormType {
     REGISTER_ORDER,
     UPDATE_ORDER,
     REGISTER_ORDER_ITEM,
+    REGISTER_TASK,
+    EDIT_TASK,
+    DETAIL_TASK
 }
