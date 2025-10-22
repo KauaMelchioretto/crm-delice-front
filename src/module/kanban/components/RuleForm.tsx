@@ -276,13 +276,19 @@ const RuleTypeWatcher = () => {
             </Box>
             {type === ColumnRuleType.ADD_TAG && tags && (
                 <Box sx={{width: "100%"}}>
-                    <CrmSelect
-                        name={"tag"}
-                        options={tags}
-                        label={"Tag"}
-                        // @ts-ignore
-                        rules={{rules: {required: "The rule type is required"}}}
-                    />
+                    <FormControl>
+                        <FormLabel>Tag</FormLabel>
+                        <NewCrmSelect
+                            {...register("tag")}
+                            size={"md"}
+                            variant={"soft"}
+                            sx={{flex: 1}}
+                            options={tags}
+                        />
+                        <FormHelperText sx={{minHeight: "1rem"}}>
+                            {errors?.tag?.message as string}
+                        </FormHelperText>
+                    </FormControl>
                 </Box>
             )}
             {type === ColumnRuleType.SEND_EMAIL && (
