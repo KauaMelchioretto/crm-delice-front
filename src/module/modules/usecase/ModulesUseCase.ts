@@ -9,9 +9,9 @@ import {
 import {modulesRepository} from "../repository/ModulesRepository.ts";
 
 class ModulesUseCase {
-    CODE_MUST_BE_PROVIDED = "The code must be provided"
-    LABEL_MUST_BE_PROVIDED = "The label must be provided"
-    PATH_MUST_BE_PROVIDED = "The path must be provided"
+    CODE_MUST_BE_PROVIDED = "CODE_MUST_BE_PROVIDED"
+    LABEL_MUST_BE_PROVIDED = "LABEL_MUST_BE_PROVIDED"
+    PATH_MUST_BE_PROVIDED = "PATH_MUST_BE_PROVIDED"
 
     async createModule(module: Module): Promise<ModuleResponse> {
         if (!module.code) {

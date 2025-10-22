@@ -27,13 +27,13 @@ export const ModulesList = () => {
     let modules: Module[] = [];
 
     const deleteModule = (uuid: string) => {
-        popup.confirm("question", "Delete module?", "Are sure that want delete this module?", "Yes").then((r) => {
+        popup.confirm("question", t('modules.messages.question_delete_module'), t('modules.messages.question_confirmation_delete_module'), t('actions.yes'), t('actions.cancel')).then((r) => {
             if (r.isConfirmed) {
                 modulesUseCase.deleteModuleByUUID(uuid).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`modules.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t(`modules.messages.${response.message}`), 2000);
                     }
                     updateList(prev => !prev);
                 });
