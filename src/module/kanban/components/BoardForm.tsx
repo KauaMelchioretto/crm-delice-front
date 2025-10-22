@@ -663,14 +663,14 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                                 label: t('kanbans.columns.type.adder')
                                             }
                                         ]}
-                                        label={"Tipo"}
+                                        label={t('kanbans.columns.fields.type')}
                                         // @ts-ignore
                                         rules={{rules: {required: t('kanbans.messages.column_type_is_required')}}}
                                     />
                                 </Box>
                             </Box>
                             <FormControl>
-                                <FormLabel>Titulo</FormLabel>
+                                <FormLabel>{t('kanbans.columns.fields.title')}</FormLabel>
                                 <TextInput
                                     {...register("title", {required: t('kanbans.messages.title_required')})}
                                     size={"md"}

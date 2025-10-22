@@ -200,7 +200,7 @@ class KanbanRepository {
         type: column.type,
       });
 
-      return response.data as TagResponse;
+      return response.data as ColumnResponse;
     } catch (e) {
       if (e instanceof AxiosError) {
         return {
