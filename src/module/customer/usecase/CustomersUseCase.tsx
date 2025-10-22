@@ -11,21 +11,21 @@ import {customersRepository} from "../repository/CustomersRepository";
 
 
 class CustomersUseCase {
-    INVALID_DOCUMENT = "Invalid document"
-    INVALID_UUID = "Invalid customer ID"
-    INVALID_APPROVAL_STATUS = "Customer status invalid"
-    DOCUMENT_MUST_BE_PROVIDED = "The document must be provided"
-    PERSON_NAME_MUST_BE_PROVIDED = "The person name must be provided"
-    COMPANY_NAME_MUST_BE_PROVIDED = "The company name must be provided"
-    TRADING_NAME_MUST_BE_PROVIDED = "The trading name must be provided"
-    ZIP_CODE_MUST_BE_PROVIDED = "The zip code of user must be provided"
-    CITY_MUST_BE_PROVIDED = "The city of user must be provided"
-    STATE_MUST_BE_PROVIDED = "The state of user must be provided"
-    COMPLEMENT_MUST_BE_PROVIDED = "The complement of user must be provided"
-    ADDRESS_MUST_BE_PROVIDED = "The address of user must be provided"
-    ADDRESS_NUMBER_MUST_BE_PROVIDED = "The address number of user must be provided"
-    CONTACTS_IS_EMPTY = "At least one contact must be provided"
-    ECONOMIC_ACTIVITY_IS_EMPTY = "At least one CNAE must be provided"
+    INVALID_DOCUMENT = "CUSTOMER_INVALID_DOCUMENT"
+    INVALID_UUID = "CUSTOMER_INVALID_UUID"
+    INVALID_APPROVAL_STATUS = "CUSTOMER_INVALID_APPROVAL_STATUS"
+    DOCUMENT_MUST_BE_PROVIDED = "DOCUMENT_MUST_BE_PROVIDED"
+    PERSON_NAME_MUST_BE_PROVIDED = "PERSON_NAME_IS_EMPTY"
+    COMPANY_NAME_MUST_BE_PROVIDED = "COMPANY_NAME_IS_EMPTY"
+    TRADING_NAME_MUST_BE_PROVIDED = "TRADING_NAME_IS_EMPTY"
+    ZIP_CODE_MUST_BE_PROVIDED = "CUSTOMER_ZIP_CODE_IS_EMPTY"
+    CITY_MUST_BE_PROVIDED = "CUSTOMER_CITY_IS_EMPTY"
+    STATE_MUST_BE_PROVIDED = "CUSTOMER_STATE_IS_EMPTY"
+    COMPLEMENT_MUST_BE_PROVIDED = "CUSTOMER_COMPLEMENT_IS_EMPTY"
+    ADDRESS_MUST_BE_PROVIDED = "CUSTOMER_ADDRESS_IS_EMPTY"
+    ADDRESS_NUMBER_MUST_BE_PROVIDED = "CUSTOMER_ADDRESS_NUMBER_IS_EMPTY"
+    CONTACTS_IS_EMPTY = "CUSTOMER_CONTACTS_IS_EMPTY"
+    ECONOMIC_ACTIVITY_IS_EMPTY = "CUSTOMER_ECONOMIC_ACTIVITIES_IS_EMPTY"
 
     async getPreCustomer(document: string): Promise<PreCustomerResponse> {
         const query = document.replace(/\D/g, '')

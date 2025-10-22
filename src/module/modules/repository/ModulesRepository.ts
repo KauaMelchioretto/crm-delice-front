@@ -30,7 +30,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -66,7 +66,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -82,7 +82,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -98,7 +98,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -118,7 +118,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -139,7 +139,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -155,7 +155,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };
@@ -171,7 +171,7 @@ class ModulesRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.MODULES_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.MODULES_UNEXPECTED_ERROR,
         };
       }
       return { error: this.MODULES_UNEXPECTED_ERROR };

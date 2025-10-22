@@ -22,10 +22,12 @@ import {Fragment} from "react";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {kanbanUseCase} from "../usecase/kanbanUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
+import { useTranslation } from "react-i18next";
 
 export const RulePage = () => {
     const setFormType = useSetAtom(CrmState.FormType);
     const setEntityUUID = useSetAtom(CrmState.EntityFormUUID);
+    const { t } = useTranslation();
 
     const board = useAtomValue(KanbanState.BoardAtom)
 
@@ -60,14 +62,14 @@ export const RulePage = () => {
                     justifyContent: "center"
                 }}
             >
-                <Empty description={"Board not found"}/>
+                <Empty description={t('kanbans.messages.rules_not_found')}/>
             </Box>
         )
     }
 
     const crumbs = [
         {
-            label: "Quadros",
+            label: t('kanbans.rules.label.board'),
             nav: () => navigate(-1)
         },
         {
@@ -75,7 +77,7 @@ export const RulePage = () => {
             nav: () => navigate(0)
         },
         {
-            label: "Regras"
+            label: t('kanbans.rules.label.rules')
         }
     ]
 
@@ -108,7 +110,7 @@ export const RulePage = () => {
                         level={"body-lg"}
                         fontWeight={"bold"}
                     >
-                        Regras
+                        {t('kanbans.rules.label.rules')}
                     </Typography>
                     <Breadcrumbs sx={{p: 0}}>
                         {
@@ -143,7 +145,7 @@ export const RulePage = () => {
                         }}
                         startDecorator={<LayersRoundedIcon/>}
                     >
-                        Cadastrar tags
+                        {t('kanbans.rules.actions.register_tags')}
                     </Button>
                     <Button
                         size={"sm"}
@@ -153,7 +155,7 @@ export const RulePage = () => {
                         }}
                         startDecorator={<LeaderboardRoundedIcon/>}
                     >
-                        Cadastrar colunas
+                        {t('kanbans.rules.actions.register_columns')}
                     </Button>
                     <Button
                         size={"sm"}
@@ -163,7 +165,7 @@ export const RulePage = () => {
                         }}
                         startDecorator={<LeaderboardRoundedIcon/>}
                     >
-                        Editar quadro
+                        {t('kanbans.rules.actions.edit_board')}
                     </Button>
                 </Box>
             </CrmTitleContainer>
@@ -214,7 +216,7 @@ const EditColumn = (props: Column) => {
     const setFormType = useSetAtom(CrmState.FormType);
     const setColumnUUID = useSetAtom(CrmState.EntityFormUUID);
     const setColumnRuleUUID = useSetAtom(KanbanState.RuleAtomUUID);
-
+    const { t } = useTranslation();
     const board = useAtomValue(KanbanState.BoardAtom)
 
     const updateList = useSetAtom(KanbanState.UpdateAtom)
@@ -224,13 +226,13 @@ const EditColumn = (props: Column) => {
     }
 
     const handleDeleteColumnRule = (uuid: string) => {
-        popup.confirm("question", "Delete Column?", "Are sure that want delete this rule?", "Yes").then((r) => {
+        popup.confirm("question", t('kanbans.messages.rules_delete_rule_question'), t('kanbans.messages.rules_delete_rule_confirmation'), t('actions.yes'), t('actions.cancel')).then((r) => {
             if (r.isConfirmed) {
                 kanbanUseCase.deleteColumnRuleByUUID(uuid).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t(`kanbans.messages.${response.message}`) as string, 2000);
                     }
                     updateList(prev => !prev)
                 });
@@ -239,13 +241,13 @@ const EditColumn = (props: Column) => {
     }
 
     const handleDeleteColumnAllowed = (uuid: string) => {
-        popup.confirm("question", "Delete Column?", "Are sure that want delete this allowed column?", "Yes").then((r) => {
+        popup.confirm("question", t(`kanbans.messages.allowed_column_delete_question`), t(`kanbans.messages.allowed_column_delete_confirmation`), t('actions.yes'), t('actions.cancel')).then((r) => {
             if (r.isConfirmed) {
                 kanbanUseCase.deleteAllowedColumnUUID(props.uuid ?? "", uuid).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t(`kanbans.messages.${response.message}`) as string, 2000);
                     }
                     updateList(prev => !prev)
                 });
@@ -306,7 +308,7 @@ const EditColumn = (props: Column) => {
                         setColumnUUID(props.uuid ?? "")
                     }}
                 >
-                    Adicionar regra
+                    {t('kanbans.rules.actions.add_rule')}
                 </Button>
                 <Button
                     variant={"outlined"}
@@ -316,7 +318,7 @@ const EditColumn = (props: Column) => {
                         setColumnUUID(props.uuid ?? "")
                     }}
                 >
-                    Permitir coluna
+                    {t('kanbans.rules.actions.allow_column')}
                 </Button>
                 <Box
                     sx={{

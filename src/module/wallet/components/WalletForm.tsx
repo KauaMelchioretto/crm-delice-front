@@ -95,7 +95,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 status: data.status,
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`wallets.errors.${response.error}`), 2000);
                 } else {
                     popup.toast("success", t("wallets.messages.update_success"), 2000);
                     updateList(prev => !prev);
@@ -111,7 +111,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             customers: data.customers
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`wallets.errors.${response.error}`), 2000);
             } else {
                 popup.toast("success", t("wallets.messages.create_success"), 2000);
                 updateList(prev => !prev);
@@ -126,8 +126,8 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
 
         if (simpleUsersAtom.state === "hasData") {
             tempUsers = (simpleUsersAtom.data.users ?? []).map((x) => (
-                {value: x?.uuid ?? "", label: x?.login ?? ""})
-            )
+                {value: x?.uuid ?? "", label: x?.login ?? ""}
+            ));
         }
 
         if (simpleCustomersAtom.state === "hasData") {
@@ -142,6 +142,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                     setValue("label", response.wallet?.label)
                     setValue("accountable.uuid", response.wallet?.accountable?.uuid)
                     setValue("observation", response.wallet?.observation)
+                    setValue("status", response.wallet?.status)
 
                     response.wallet.customers?.forEach((x, i) => {
                         tempCustomers.push({value: x?.uuid ?? "", label: x?.companyName ?? ""})
@@ -161,7 +162,14 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             })
         } else {
             setUsers(tempUsers)
+            if (tempUsers.length > 0) {
+                setValue("accountable.uuid", tempUsers[0].value!)
+            }
+
             setCustomers(tempCustomers)
+            if(tempCustomers.length > 0){
+                setValue("customers.0.uuid", tempCustomers[0].value!)
+            }
         }
     }, [walletUUID]);
 
@@ -243,7 +251,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                             ]}
                                             label={"Status"}
                                             // @ts-ignore
-                                            rules={{rules: {required: "The status is required"}}}
+                                            rules={{rules: {required: t('wallets.messages.status_required')}}}
                                         />
                                     </Box>
                                 )
@@ -255,7 +263,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                                 flexDirection: "column",
                             }}
                         >
-                            <FormLabel>Clientes</FormLabel>
+                            <FormLabel>{t('wallets.fields.customers')}</FormLabel>
                             <Box
                                 sx={{
                                     display: "flex",

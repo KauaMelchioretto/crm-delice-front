@@ -10,7 +10,7 @@ import { AxiosError } from "axios";
 import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 
 class UsersRepository {
-  USERS_UNEXPECTED_ERROR = "An unexpected error has occurred";
+  USERS_UNEXPECTED_ERROR = 'USER_UNEXPECTED';
 
   async createUser(user: User): Promise<UserResponse> {
     try {
@@ -37,7 +37,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
       return { error: this.USERS_UNEXPECTED_ERROR };
@@ -73,7 +73,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
 
@@ -90,7 +90,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
 
@@ -107,7 +107,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
 
@@ -127,7 +127,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
 
@@ -157,7 +157,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
       return { error: this.USERS_UNEXPECTED_ERROR };
@@ -173,7 +173,7 @@ class UsersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ?? this.USERS_UNEXPECTED_ERROR,
+            e?.response?.data?.error?.code ?? this.USERS_UNEXPECTED_ERROR,
         };
       }
 

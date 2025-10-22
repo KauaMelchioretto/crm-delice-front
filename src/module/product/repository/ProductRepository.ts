@@ -10,7 +10,7 @@ import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
 
 class ProductRepository {
-    PRODUCT_UNEXPECTED_ERROR = "An unexpected error has occurred";
+    PRODUCT_UNEXPECTED_ERROR = "PRODUCT_UNEXPECTED_ERROR";
 
     async getProduct(
         page: number,
@@ -42,7 +42,7 @@ class ProductRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }
@@ -63,7 +63,7 @@ class ProductRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }
@@ -84,7 +84,7 @@ class ProductRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }
@@ -104,7 +104,7 @@ class ProductRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }
@@ -125,7 +125,7 @@ class ProductRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }

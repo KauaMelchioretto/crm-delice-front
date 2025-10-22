@@ -77,9 +77,9 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
             uuid: moduleUUID
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`modules.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('modules.messages.module_saved_with_success'), 2000);
                 updateList(prev => !prev);
                 setFormType(ModulesFormType.EMPTY);
             }
@@ -123,7 +123,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                 <FormControl>
                     <FormLabel>{t("modules.fields.code")}</FormLabel>
                     <TextInput
-                        {...register("code", {required: "The code is required"})}
+                        {...register("code", {required: t('modules.messages.the_code_is_required') as string})}
                         size={"md"}
                         variant={"soft"}
                     />
@@ -134,7 +134,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                 <FormControl>
                     <FormLabel>{t("modules.fields.label")}</FormLabel>
                     <TextInput
-                        {...register("label", {required: "The label is required"})}
+                        {...register("label", {required: t('modules.messages.the_label_is_required') as string})}
                         size={"md"}
                         variant={"soft"}
                     />
@@ -145,7 +145,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
                 <FormControl>
                     <FormLabel>{t("modules.fields.path")}</FormLabel>
                     <TextInput
-                        {...register("path", {required: "The path is required"})}
+                        {...register("path", {required: t('modules.messages.the_path_is_required') as string})}
                         size={"md"}
                         variant={"soft"}
                     />
@@ -177,22 +177,22 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
             roleType: data.roleType
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`roles.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('roles.messages.role_included_with_success'), 2000);
                 setUpdate(prev => !prev);
             }
         })
     });
 
     const handleDeleteRole = (roleUUID: string) => {
-        popup.confirm("question", "Delete role?", "Are sure that want delete this role?", "Yes").then((r) => {
+        popup.confirm("question", t('roles.messages.question_delete_role'), t('roles.messages.question_confirmation_delete_role'), t('actions.yes'), t('actions.cancel')).then((r) => {
             if (r.isConfirmed) {
                 modulesUseCase.deleteRoleByUUID(roleUUID).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`roles.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t('roles.messages.DELETED_WITH_SUCCESS'), 2000);
                     }
                     setUpdate(prev => !prev);
                 });
@@ -294,7 +294,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                                             textAlign: "center"
                                         }}
                                     >
-                                        No role for this module
+                                        {t('roles.messages.no_role_for_this_module')}
                                     </td>
                                 </tr>
                             )}
@@ -317,7 +317,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                     <FormControl>
                         <FormLabel>{t("modules.fields.code")}</FormLabel>
                         <TextInput
-                            {...register("code", {required: "The code is required"})}
+                            {...register("code", {required: t('modules.messages.the_code_is_required') as string})}
                             size={"md"}
                             variant={"soft"}
                         />
@@ -328,7 +328,7 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                     <FormControl>
                         <FormLabel>{t("modules.fields.label")}</FormLabel>
                         <TextInput
-                            {...register("label", {required: "The label is required"})}
+                            {...register("label", {required: t('modules.messages.the_label_is_required') as string})}
                             size={"md"}
                             variant={"soft"}
                         />

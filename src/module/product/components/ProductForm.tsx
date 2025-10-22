@@ -80,7 +80,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                 description: data.description
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`products.errors.${response.error}`), 2000);
                 } else {
                     popup.toast("success", t("products.messages.update_success"), 2000);
                     updateList(prev => !prev);
@@ -97,7 +97,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
             description: data.description
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`products.errors.${response.error}`), 2000);
             } else {
                 popup.toast("success", t("products.messages.create_success"), 2000);
                 updateList(prev => !prev);
@@ -328,17 +328,23 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
     }
 
     const saveProductMedia = () => {
-        if(!images) return
+        if(!images || images.length === 0) {
+            popup.toast("error", t(`products.errors.PRODUCT_MEDIA_IS_EMPTY`), 2000); 
+            return
+        }
 
-        if(!principal) return
+        if(!principal) {
+            popup.toast("error", t(`products.errors.PRODUCT_MEDIA_AT_LEAST_MUST_BE_PRINCIPAL`), 2000); 
+            return
+        }
 
         const temp: ProductMedia[] = [...images.map(x => ({...x, isPrincipal: false})), principal]
 
         productUseCase.saveProductMedia(temp, productUUID).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`products.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The product images is saved with success", 2000);
+                popup.toast("success", t("products.messages.save_success"), 2000);
                 setFormType(CrmFormType.EMPTY);
             }
         })
