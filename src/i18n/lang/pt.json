@@ -132,7 +132,48 @@
       "wallet": "Carteiras",
       "order": "Pedidos",
       "products": "Produtos",
-      "kanbans": "Kanban"
+      "kanbans": "Kanban",
+      "messages": {
+        "module_saved_with_success": "O módulo foi salvo com sucesso",
+        "question_delete_module": "Deletar módulo?",
+        "question_confirmation_delete_module": "Você tem certeza de que deseja deletar este módulo?",
+        "MODULE_DELETED_WITH_SUCCESS": "O módulo foi deletado com sucesso",
+        "the_code_is_required": "O código é obrigatório",
+        "the_label_is_required": "O rótulo é obrigatório",
+        "the_path_is_required": "O caminho é obrigatório"
+      },
+      "errors": {
+        "CODE_MUST_BE_PROVIDED": "O código deve ser fornecido",
+        "LABEL_MUST_BE_PROVIDED": "O rótulo deve ser fornecido",
+        "PATH_MUST_BE_PROVIDED": "O caminho deve ser fornecido",
+        "MODULE_NOT_FOUND": "Este módulo não foi encontrado",
+        "MODULES_IS_EMPTY": "Não há módulos disponíveis",
+        "MODULE_ALREADY_EXISTS": "Este módulo já existe",
+        "MODULE_CODE_IS_EMPTY": "O código do módulo deve ser fornecido",
+        "MODULE_LABEL_IS_EMPTY": "O rótulo do módulo deve ser fornecido",
+        "MODULE_WITH_ROLE_ATTACH": "Este módulo possui papéis anexados"
+      }
+    },
+    "roles":{
+      "messages": {
+          "role_included_with_success": "O papel foi incluído com sucesso",
+          "no_role_for_this_module": "Nenhum papel para este módulo",
+          "question_delete_role": "Deletar papel?",
+          "question_confirmation_delete_role": "Você tem certeza de que deseja deletar este papel?",
+          "DELETED_WITH_SUCCESS": "O papel foi deletado com sucesso"
+        },
+        "errors": {
+          "CODE_MUST_BE_PROVIDED": "O código deve ser fornecido",
+          "LABEL_MUST_BE_PROVIDED": "O rótulo deve ser fornecido",
+          "ROLE_UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+          "ROLE_NOT_FOUND": "Este papel não foi encontrado",
+          "ROLE_ALREADY_EXISTS": "Este papel já existe",
+          "ROLE_CODE_IS_EMPTY": "O código do papel deve ser fornecido",
+          "ROLE_LABEL_IS_EMPTY": "O rótulo do papel deve ser fornecido",
+          "ROLE_MODULE_UUID_IS_EMPTY": "O UUID do módulo do papel deve ser fornecido",
+          "ROLE_WITH_INVALID_CODE": "O código é inválido para este papel",
+          "ROLE_WITH_PERMISSION_ATTACH": "Este papel possui permissões anexadas"
+        }
     },
     "actions": {
       "save": "Salvar",
@@ -365,7 +406,8 @@
           "order": "Ordem",
           "title": "Título",
           "description": "Descrição",
-          "pattern": "Padrão"
+          "pattern": "Padrão",
+          "type": "Tipo"
         },
         "actions": {
           "include_a_new_column": "Incluir uma nova coluna"
@@ -377,7 +419,10 @@
       },
       "rules": {
         "label": {
-          "register_rule": "Cadastrar regra"
+          "register_rule": "Cadastrar regra",
+          "rule": "Regra",
+          "rules": "Regras",
+          "board": "Quadro"
         },
         "fields": {
           "title": "Título",
@@ -388,7 +433,10 @@
         "actions": {
           "register_tags": "Cadastrar tags",
           "register_columns": "Cadastrar colunas",
-          "edit_card": "Editar cartão"
+          "edit_card": "Editar cartão",
+          "edit_board": "Editar quadro",
+          "add_rule": "Adicionar regra",
+          "allow_column": "Permitir coluna"
         }
       },
       "title": {
@@ -431,13 +479,18 @@
         "column_type_is_required": "O tipo da coluna é obrigatório",
         "ALLOWED_COLUMNS_SAVED_WITH_SUCCESS": "Colunas permitidas salvas com sucesso",
         "ALLOWED_COLUMN_DELETED_WITH_SUCCESS": "Coluna permitida deletada com sucesso",
+        "allowed_column_delete_question": "Deletar coluna permitida?",
+        "allowed_column_delete_confirmation": "Tem certeza de que deseja deletar esta coluna permitida?",
         "allowed_columns_created": "As colunas permitidas foram criadas com sucesso.",
         "COLUMN_RULE_DELETED_WITH_SUCCESS": "Regra da coluna deletada com sucesso",
         "column_rule_created": "A regra da coluna foi criada com sucesso",
         "column_rule_title_required": "O título da regra da coluna é obrigatório",
         "column_rule_type_required": "O tipo da regra da coluna é obrigatório",
         "column_rule_tag_required": "A tag da regra da coluna é obrigatória",
-        "CARDS_RECREATED_WITH_SUCCESS": "Cartões recriados com sucesso"
+        "CARDS_RECREATED_WITH_SUCCESS": "Cartões recriados com sucesso",
+        "rules_board_not_found": "Quadro não encontrado",
+        "rules_delete_rule_question": "Deletar regra?",
+        "rules_delete_rule_confirmation": "Tem certeza de que deseja deletar esta regra?"
       },
       "errors" : {
         "KANBAN_UNEXPECTED": "Ocorreu um erro inesperado",
@@ -469,7 +522,19 @@
         "KANBAN_COLUMN_MOVE_IN_SAME_COLUMN": "Você não pode mover para a mesma coluna",
         "KANBAN_RULE_NOT_MOVE": "Você não pode mover este cartão",
         "KANBAN_RULE_CUSTOMER_NOT_FIT": "Cliente não se encaixa",
-        "KANBAN_RULE_CUSTOMER_WITHOUT_WALLET": "Cliente sem carteira"
+        "KANBAN_RULE_CUSTOMER_WITHOUT_WALLET": "Cliente sem carteira",
+        "KANBAN_COLUMN_INVALID_KEY": "Chave inválida",
+        "INVALID_KEY": "Chave inválida",
+        "CODE_IS_EMPTY": "O código está vazio",
+        "TITLE_IS_EMPTY": "O título está vazio",
+        "DESCRIPTION_IS_EMPTY": "A descrição está vazia",
+        "COLOR_IS_EMPTY": "A cor está vazia",
+        "COLUMNS_IS_EMPTY": "A coluna está vazia",
+        "TYPE_IS_EMPTY": "O tipo está vazio",
+        "COLUMN_UUID_IS_EMPTY": "Coluna não está anexada",
+        "TAG_IS_EMPTY": "A tag está vazia",
+        "EMAIL_IS_EMPTY": "O e-mail está vazio",
+        "USER_IS_EMPTY": "O usuário está vazio"
       },
       "status": {
         "board": {

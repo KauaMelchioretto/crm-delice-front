@@ -137,7 +137,48 @@
       "wallet": "Wallets",
       "order": "Orders",
       "products": "Products",
-      "kanbans": "Manage Kanban"
+      "kanbans": "Manage Kanban",
+      "messages": {
+        "module_saved_with_success": "The module has been saved with success",
+        "question_delete_module": "Delete module?",
+        "question_confirmation_delete_module": "Are you sure that you want to delete this module?",
+        "MODULE_DELETED_WITH_SUCCESS": "The module has been deleted with success",
+        "the_code_is_required": "The code is required",
+        "the_label_is_required": "The label is required",
+        "the_path_is_required": "The path is required"
+      },
+      "errors": {
+        "CODE_MUST_BE_PROVIDED": "The code must be provided",
+        "LABEL_MUST_BE_PROVIDED": "The label must be provided",
+        "PATH_MUST_BE_PROVIDED": "The path must be provided",
+        "MODULE_NOT_FOUND": "This module not found",
+        "MODULES_IS_EMPTY": "There no modules available",
+        "MODULE_ALREADY_EXISTS": "This module already exists",
+        "MODULE_CODE_IS_EMPTY": "The module code must be provided",
+        "MODULE_LABEL_IS_EMPTY": "The module label must be provided",
+        "MODULE_WITH_ROLE_ATTACH": "This module have roles attached"
+      }
+    },
+    "roles":{
+      "messages": {
+          "role_included_with_success": "The role has been included with success",
+          "no_role_for_this_module": "No role for this module",
+          "question_delete_role": "Delete role?",
+          "question_confirmation_delete_role": "Are you sure that you want to delete this role?",
+          "DELETED_WITH_SUCCESS": "The role has been deleted with success"
+        },
+        "errors": {
+          "CODE_MUST_BE_PROVIDED": "The code must be provided",
+          "LABEL_MUST_BE_PROVIDED": "The label must be provided",
+          "ROLE_UNEXPECTED_ERROR": "An unexpected error has occurred",
+          "ROLE_NOT_FOUND": "This role not found",
+          "ROLE_ALREADY_EXISTS": "This role already exists",
+          "ROLE_CODE_IS_EMPTY": "The role code must be provided",
+          "ROLE_LABEL_IS_EMPTY": "The role label must be provided",
+          "ROLE_MODULE_UUID_IS_EMPTY": "The role module UUID must be provided",
+          "ROLE_WITH_INVALID_CODE": "The code is invalid for this role",
+          "ROLE_WITH_PERMISSION_ATTACH": "This role have permissions attached"
+        }
     },
     "actions": {
       "save": "Save",
@@ -373,7 +414,8 @@
           "order": "Order",
           "title": "Title",
           "description": "Description",
-          "pattern": "Pattern"
+          "pattern": "Pattern",
+          "type": "Type"
         },
         "actions": {
           "include_a_new_column": "Include a new column"
@@ -385,7 +427,10 @@
       },
       "rules": {
         "label": {
-          "register_rule": "Create rule"
+          "register_rule": "Create rule",
+          "rule": "Rule",
+          "rules": "Rules",
+          "board": "Board"
         },
          "fields": {
           "title": "Title",
@@ -396,7 +441,10 @@
         "actions": {
           "register_tags": "Register tags",
           "register_columns": "Register column",
-          "edit_card": "Edit card"
+          "edit_card": "Edit card",
+          "edit_board": "Edit board",
+          "add_rule": "Add rule",
+          "allow_column": "Allow column" 
         }
       },
       "title": {
@@ -439,13 +487,18 @@
         "column_type_is_required": "The column type is required",
         "ALLOWED_COLUMNS_SAVED_WITH_SUCCESS": "Allowed columns saved with success",
         "ALLOWED_COLUMN_DELETED_WITH_SUCCESS": "Allowed column deleted with success",
+        "allowed_column_delete_question": "Delete allowed column?",
+        "allowed_column_delete_confirmation": "Are you sure you want to delete this allowed column?",
         "allowed_columns_created": "The allowed columns have been created with success.",
         "COLUMN_RULE_DELETED_WITH_SUCCESS": "Column rule deleted with success",
         "column_rule_created": "The column rule has been created successfully",
         "column_rule_title_required": "The column rule title is required",
         "column_rule_type_required": "The column rule type is required",
         "column_rule_tag_required": "The column rule tag is required",
-        "CARDS_RECREATED_WITH_SUCCESS": "Cards recreated with success"
+        "CARDS_RECREATED_WITH_SUCCESS": "Cards recreated with success",
+        "rules_board_not_found": "Board not found",
+        "rules_delete_rule_question": "Delete rule?",
+        "rules_delete_rule_confirmation": "Are sure that want delete this rule?"
       },
       "errors" : {
         "KANBAN_UNEXPECTED": "An unexpected error has occurred",
@@ -477,7 +530,18 @@
         "KANBAN_COLUMN_MOVE_IN_SAME_COLUMN": "You can't move to the same column",
         "KANBAN_RULE_NOT_MOVE": "You cannot move this card",
         "KANBAN_RULE_CUSTOMER_NOT_FIT": "Customer not fit",
-        "KANBAN_RULE_CUSTOMER_WITHOUT_WALLET": "Customer without wallet"
+        "KANBAN_RULE_CUSTOMER_WITHOUT_WALLET": "Customer without wallet",
+        "INVALID_KEY": "Invalid key",
+        "CODE_IS_EMPTY": "Code is empty",
+        "TITLE_IS_EMPTY": "Title is empty",
+        "DESCRIPTION_IS_EMPTY": "Description is empty",
+        "COLOR_IS_EMPTY": "Color is empty",
+        "COLUMNS_IS_EMPTY": "Columns is empty",
+        "TYPE_IS_EMPTY": "Type is empty",
+        "COLUMN_UUID_IS_EMPTY": "Column is not attached",
+        "TAG_IS_EMPTY": "Tag is empty",
+        "EMAIL_IS_EMPTY": "Email is empty",
+        "USER_IS_EMPTY": "User is empty"
       },
       "status": {
         "board": {
