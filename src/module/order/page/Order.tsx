@@ -1,12 +1,26 @@
 import {Box, Button, Typography} from "@mui/joy";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {useSetAtom} from "jotai";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmDefaultRoles, CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
 import {OrderList} from "../components/OrderList.tsx";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
+import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
 
 export const Order = () => {
     const setFormType = useSetAtom(CrmState.FormType);
+
+    const {getRolesByModule} = useAuth()
+    const {getModuleByCode} = useApp()
+
+    const roles = getRolesByModule(CrmModules.Order)
+    const module = getModuleByCode(CrmModules.Order)
+
+    const canCreate = roles.filter(
+        x => x.code === CrmDefaultRoles.CREATE_ORDER || x.code === CrmDefaultRoles.ALL_ORDER
+    ).length > 0
+
+    const ModuleIcon = module.icon!
 
     return (
         <Box
@@ -33,17 +47,21 @@ export const Order = () => {
                 >
                     Pedidos
                 </Typography>
-                <Button
-                    onClick={() => {
-                        setFormType(CrmFormType.REGISTER_ORDER)
-                    }}
-                >
-                    Cadastrar pedido
-                </Button>
+                {
+                    canCreate && (
+                        <Button
+                            size="sm"
+                            onClick={() => {
+                                setFormType(CrmFormType.REGISTER_ORDER)
+                            }}
+                            startDecorator={<ModuleIcon/>}
+                        >
+                            Cadastrar pedido
+                        </Button>
+                    )
+                }
             </CrmTitleContainer>
-            <Box display={"flex"} gap={2}>
-                <OrderList/>
-            </Box>
+            <OrderList/>
         </Box>
     )
 }

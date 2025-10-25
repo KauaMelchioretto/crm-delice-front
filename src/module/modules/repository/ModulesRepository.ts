@@ -52,7 +52,7 @@ class ModulesRepository {
       }
 
       if (orderBy?.field) {
-        query += `&orderBy=${orderBy?.field}:${orderBy?.ordenation}`;
+        query += `&orderBy=${orderBy?.field}:${orderBy?.sortable}`;
       } else {
         query += `&orderBy=title`;
       }

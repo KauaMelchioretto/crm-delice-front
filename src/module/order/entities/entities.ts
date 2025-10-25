@@ -1,6 +1,11 @@
 import {User} from "../../user/entities/entities.ts";
 import {Customer} from "../../customer/entities/entities.ts";
 import {Product} from "../../product/entities/entities.ts";
+import {CrmCardStatusProps} from "../../../utils/entities/entities.ts";
+import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import TurnedInRoundedIcon from "@mui/icons-material/TurnedInRounded";
+import {valueToEnum} from "../../../utils/functions/ValueToEnum.ts";
 
 export interface Order {
     uuid?: string
@@ -58,4 +63,28 @@ export interface OrderListResponse {
     page?: number,
     total?: number,
     error?: string
+}
+
+export function getOrderStatusProps(status: string): CrmCardStatusProps {
+    const value = valueToEnum(status, OrderStatus)
+
+    const orderStatus = {
+        [OrderStatus.OPEN]: {
+            color: "#2685E2",
+            label: "Aberto",
+            icon: VerifiedRounded,
+        },
+        [OrderStatus.CANCELED]: {
+            color: "#ff543f",
+            label: "Cancelado",
+            icon: CancelRoundedIcon,
+        },
+        [OrderStatus.CLOSED]: {
+            color: "#1f7a1f",
+            label: "Fechado",
+            icon: TurnedInRoundedIcon,
+        },
+    };
+
+    return orderStatus[value]
 }

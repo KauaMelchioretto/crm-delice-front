@@ -95,10 +95,11 @@ export const CrmSelect = (
 
 interface NewCrmSelect extends ComponentProps<typeof Input> {
     options: OptionType[];
+    onBeforeChange?: () => void;
 }
 
 export const NewCrmSelect = (props: NewCrmSelect) => {
-    const { watch, setValue } = useFormContext();
+    const {watch, setValue} = useFormContext();
     const type = watch(props.name!) as string;
 
     return (
@@ -107,7 +108,12 @@ export const NewCrmSelect = (props: NewCrmSelect) => {
         <SelectInput
             {...props}
             value={type || "" || props.value!}
-            onChange={(_, newValue) => setValue(props.name!, newValue)}
+            onChange={(_, newValue) => {
+                if (props.onBeforeChange) {
+                    props.onBeforeChange();
+                }
+                setValue(props.name!, newValue)
+            }}
         >
             {props.options.map(opt => (
                 <Option key={`select_key_${opt.value}`} value={opt.value}>

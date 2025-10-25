@@ -6,7 +6,7 @@ import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 const UpdateAtom = atom(false)
 const PageAtom = atom(0);
 const FilterAtom = atom<CrmFilter | null>(null);
-const OrderByAtom = atom<CrmOrderBy | null>({field: "label", ordenation: "asc"});
+const OrderByAtom = atom<CrmOrderBy | null>({field: "label", sortable: "asc"});
 
 const ListAtom = loadable(atom(async (get) => {
     get(UpdateAtom)

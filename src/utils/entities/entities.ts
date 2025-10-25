@@ -1,5 +1,6 @@
 import {ReactElement} from "react";
 import {SvgIconComponent} from "@mui/icons-material";
+import {OptionType} from "../components/core/SelectInput.tsx";
 
 export interface CrmFilter {
     field?: string,
@@ -8,20 +9,22 @@ export interface CrmFilter {
 
 export interface CrmOrderBy {
     field?: string,
-    ordenation?: "asc" | "desc";
+    sortable?: "asc" | "desc";
 }
 
-export interface CrmFieldOption {
-  value: string;
-  label: string;
-};
+export enum CrmFieldType {
+    Text,
+    Date,
+}
 
 export interface CrmField {
-  label: string;
-  value: string;
-  filterableByOptions?: boolean;
-  filterOptions?: CrmFieldOption[];
-};
+    label: string
+    key: string
+    sortable?: boolean
+    filterable?: boolean
+    filterType?: CrmFieldType
+    filterOptions?: OptionType[]
+}
 
 export interface CrmModule {
     element?: ReactElement,
@@ -37,7 +40,7 @@ export interface CrmModule {
     createFormType?: CrmFormType,
 }
 
-export interface CrmCardStatusProps{
+export interface CrmCardStatusProps {
     color: string,
     label: string,
     icon: SvgIconComponent
@@ -47,6 +50,7 @@ export enum CrmModules {
     Home = "HOME",
     Wallet = 'WALLET',
     Customer = 'CUSTOMER',
+    CustomerBoard = "CUSTOMER_BOARD",
     User = 'USER_MODULE',
     Product = 'PRODUCT',
     System = 'SYSTEM_ROLES',
@@ -56,7 +60,8 @@ export enum CrmModules {
     KanbanRule = 'KANBAN_RULE',
     Order = 'ORDER',
     OrderItems = 'ORDER_ITEMS',
-    Task = "TASK"
+    Task = "TASK",
+    Calendar = "CALENDAR",
 }
 
 export enum CrmFormType {
@@ -87,4 +92,21 @@ export enum CrmFormType {
     REGISTER_TASK,
     EDIT_TASK,
     DETAIL_TASK
+}
+
+export enum CrmDefaultRoles {
+    CREATE_USER = "CREATE_USER",
+    ALL_USER = "ALL_USER",
+    ATTACH_ROLES = "ATTACH_ROLES",
+    CREATE_CUSTOMER = "CREATE_CUSTOMER",
+    ALL_CUSTOMER = "ALL_CUSTOMER",
+    APPROVAL_CUSTOMER = "APPROVAL_CUSTOMER",
+    CREATE_WALLET = "CREATE_WALLET",
+    ALL_WALLET = "ALL_WALLET",
+    CREATE_ORDER = "CREATE_ORDER",
+    ALL_ORDER = "ALL_ORDER",
+    CREATE_PRODUCT = "CREATE_PRODUCT",
+    ALL_PRODUCT = "ALL_PRODUCT",
+    CREATE_KANBAN = "CREATE_KANBAN",
+    ALL_KANBAN = "ALL_KANBAN"
 }

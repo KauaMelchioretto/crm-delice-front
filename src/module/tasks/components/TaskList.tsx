@@ -10,7 +10,7 @@ import {CrmTableHead} from "../../../utils/components/core/CrmTableHead.tsx";
 import {CrmPaginationAtom} from "../../../utils/components/pagination/CrmPagination.tsx";
 import dayjs from "dayjs";
 import {User} from "../../user/entities/entities.ts";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmField, CrmFieldType, CrmFormType} from "../../../utils/entities/entities.ts";
 import {EditRounded} from "@mui/icons-material";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmCardStatus} from "../../../utils/components/core/CrmCardStatus.tsx";
@@ -18,61 +18,105 @@ import {CrmError} from "../../../utils/components/core/CrmError.tsx";
 import PublishedWithChangesRoundedIcon from '@mui/icons-material/PublishedWithChangesRounded';
 
 export const TaskList = () => {
-    const taskAtom = useAtomValue(TaskState.ListAtom);
+    const taskAtom = useAtomValue(TaskState.ListAtom)
 
     const setEntity = useSetAtom(CrmState.EntityFormUUID)
     const setFormType = useSetAtom(CrmState.FormType)
 
-    const taskFields = [
-        {value: "title", label: "Titulo"},
-        {value: "responsible", label: "Responsável"},
-        {value: "createdBy", label: "Criado por"},
-        {value: "status", label: "Situação"},
-        {value: "priority", label: "Prioridade"},
-        {value: "dueDate", label: "Data limite"},
-        {value: "edit", label: "Editar"},
-        {value: "view", label: "Detalhar"},
+    const taskFields: CrmField[] = [
+        {
+            key: "title",
+            label: "Titulo",
+            filterable: true,
+            sortable: true,
+        },
+        {
+            key: "responsible",
+            label: "Responsável",
+            filterable: true,
+            sortable: true,
+        },
+        {
+            key: "createdBy",
+            label: "Criado por",
+            filterable: true,
+            sortable: true,
+        },
+        {
+            key: "status",
+            label: "Situação",
+            filterable: true,
+            sortable: true,
+        },
+        {
+            key: "priority",
+            label: "Prioridade",
+            filterable: true,
+            sortable: true,
+        },
+        {
+            key: "dueDate",
+            label: "Data limite",
+            filterable: true,
+            sortable: true,
+            filterType: CrmFieldType.Date
+        },
+        {
+            key: "edit",
+            label: "Editar",
+        },
+        {
+            key: "view",
+            label: "Detalhar",
+        },
     ];
 
     switch (taskAtom.state) {
         case "hasError":
             return (
-                <CrmContainer sx={{width: "100%"}}>
-                    <CrmTableContainer
-                        sx={{
-                            height: 500,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <CrmError/>
-                    </CrmTableContainer>
+                <CrmContainer
+                    sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%"
+                    }}
+                >
+                    <CrmError/>
                 </CrmContainer>
             );
         case "loading":
             return (
-                <CrmContainer sx={{width: "100%"}}>
-                    <CrmTableContainer
-                        sx={{
-                            height: 500,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <CircularProgress/>
-                    </CrmTableContainer>
+                <CrmContainer
+                    sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%"
+                    }}
+                >
+                    <CircularProgress/>
                 </CrmContainer>
             );
         case "hasData":
             return (
-                <CrmContainer>
+                <CrmContainer
+                    sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1
+                    }}
+                >
                     <FilterComponent
                         fields={taskFields}
                         filterAtom={TaskState.FilterAtom}
                     />
-                    <CrmTableContainer sx={{height: 450, pt: 2}}>
+                    <CrmTableContainer>
                         <CrmTable
                             sx={{
                                 "& thead th:nth-child(1)": {
@@ -106,19 +150,10 @@ export const TaskList = () => {
                                 },
                             }}
                         >
-                            <thead>
-                            <tr>
-                                {
-                                    taskFields.map((t, i) => (
-                                        <CrmTableHead
-                                            key={`task_field_${i}`}
-                                            field={taskFields.find((x) => x.value === t.value)!}
-                                            orderByAtom={TaskState.OrderByAtom}
-                                        />
-                                    ))
-                                }
-                            </tr>
-                            </thead>
+                            <CrmTableHead
+                                fields={taskFields}
+                                orderByAtom={TaskState.OrderByAtom}
+                            />
                             <tbody>
                             {taskAtom.data.items?.map((task: Task) => (
                                 <tr key={`wallet_list_key_${task.uuid}`}>

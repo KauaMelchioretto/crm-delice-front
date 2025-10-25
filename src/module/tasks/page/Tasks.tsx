@@ -39,9 +39,7 @@ export const Tasks = () => {
                     Cadastrar tarefa
                 </Button>
             </CrmTitleContainer>
-            <Box display={"flex"} gap={2}>
-                <TaskList/>
-            </Box>
+            <TaskList/>
         </Box>
     )
 }

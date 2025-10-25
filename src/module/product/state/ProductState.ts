@@ -6,7 +6,7 @@ import {productUseCase} from "../usecase/ProductUseCase.ts";
 const PageAtom = atom(0);
 const FilterAtom = atom<CrmFilter | null>(null)
 const UpdateAtom = atom(false)
-const OrderByAtom = atom<CrmOrderBy | null>({ field: "code", ordenation: "asc" })
+const OrderByAtom = atom<CrmOrderBy | null>({ field: "code", sortable: "asc" })
 
 const ListAtom = loadable(atom(async (get) => {
     get(UpdateAtom)

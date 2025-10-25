@@ -6,7 +6,7 @@ import { loadable } from "jotai/utils";
 const UpdateAtom = atom(false);
 const PageAtom = atom(0);
 const FilterAtom = atom<CrmFilter | null>(null);
-const OrderByAtom = atom<CrmOrderBy | null>({field: "company_name", ordenation: "asc"});
+const OrderByAtom = atom<CrmOrderBy | null>({field: "company_name", sortable: "asc"});
 
 const ListAtom = loadable(atom(async (get) => {
   get(UpdateAtom);

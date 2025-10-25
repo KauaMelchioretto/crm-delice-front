@@ -8,7 +8,7 @@ import {Board} from "../entities/entities.ts";
 
 const PageAtom = atom(0)
 const FilterAtom = atom<CrmFilter | null>(null)
-const OrderByAtom = atom<CrmOrderBy | null>({field: "title", ordenation: "asc"})
+const OrderByAtom = atom<CrmOrderBy | null>({field: "title", sortable: "asc"})
 const UpdateAtom = atom(false)
 
 const ListAtom = loadable(atom(async (get) => {

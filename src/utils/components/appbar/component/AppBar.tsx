@@ -1,4 +1,4 @@
-import {Avatar, Box, Dropdown, MenuButton, Menu as MenuJoy, MenuItem, Stack, Typography} from "@mui/joy";
+import {Avatar, Box, Dropdown, MenuButton, Menu as MenuJoy, MenuItem, Stack, Typography, Tooltip} from "@mui/joy";
 import {StoreRounded, SvgIconComponent} from "@mui/icons-material";
 import {ToggleThemeButton} from "../../theme/ToggleThemeMode.tsx";
 import {ToggleLanguageButton} from "../../../../i18n/components/ToggleLanguageButton.tsx";
@@ -16,6 +16,9 @@ import CrmState from "../../../state/CrmState.ts";
 import {useTranslation} from "react-i18next";
 import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 import {Notifications} from "./Notifications.tsx";
+import {User} from "../../../../module/user/entities/entities.ts";
+import {getPriorityProps, getTaskStatusProps} from "../../../../module/tasks/entities/entities.ts";
+import dayjs from "dayjs";
 
 export const CrmAppBar = () => {
     const {user} = useAuth()
@@ -41,6 +44,7 @@ export const CrmAppBar = () => {
             </Stack>
             <MenuAppBar/>
             <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <NextTask/>
                 <Notifications/>
                 <ToggleThemeButton/>
                 <ToggleLanguageButton/>
@@ -59,6 +63,91 @@ export const CrmAppBar = () => {
             </Stack>
         </Box>
     )
+}
+
+const NextTask = () => {
+    const task = useAtomValue(AppBarState.NextTask)
+
+    switch (task.state) {
+        case "hasError":
+            return <></>
+        case "loading":
+            return <></>
+        case "hasData":
+            const data = task.data
+
+            if (data) {
+                const priorityProps = getPriorityProps(data.priority)
+
+                const statusProps = getTaskStatusProps(data.status)
+
+                const StatusIcon = statusProps.icon
+
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "200px"
+                        }}
+                    >
+                        <Tooltip title={priorityProps.label}>
+                            <Box
+                                sx={{
+                                    height: "2.2rem",
+                                    width: "5px",
+                                    backgroundColor: priorityProps.color,
+                                    borderRadius: "8px"
+                                }}
+                            />
+                        </Tooltip>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                ml: "2px",
+                                alignItems: "start"
+                            }}
+                        >
+                            <Typography level={"body-xs"} fontWeight={"bold"}>
+                                {data.title}
+                            </Typography>
+                            <Typography level={"body-xs"}>
+                                {(data.responsible as User)?.name} {(data.responsible as User)?.surname}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                ml: "auto",
+                                alignItems: "end"
+                            }}
+                        >
+                            <Typography
+                                level={"body-xs"}
+                                color={"neutral"}
+                                sx={{
+                                    opacity: 0.8
+                                }}
+                            >
+                                {dayjs(data.dueDate).format("DD/MM/YYYY HH:mm")}
+                            </Typography>
+                            <Tooltip title={statusProps.label}>
+                                <StatusIcon
+                                    sx={{
+                                        color: statusProps.color,
+                                        fontSize: "12pt"
+                                    }}
+                                />
+                            </Tooltip>
+                        </Box>
+                    </Box>
+                )
+            } else {
+                return <></>
+            }
+    }
 }
 
 const MenuAppBar = () => {
@@ -204,7 +293,7 @@ const SearchBarInput = memo(({setOnInput}: { setOnInput: Dispatch<SetStateAction
             endDecorator={<SearchRoundedIcon/>}
             sx={{
                 width: {
-                    xl: "700px",
+                    xl: "500px",
                     lg: "500px",
                     md: "300px",
                     sm: "300px",

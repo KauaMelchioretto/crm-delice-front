@@ -2,20 +2,28 @@ import {Box, Button, Typography} from "@mui/joy";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer";
 import {useTranslation} from "react-i18next";
 import {useSetAtom} from "jotai";
-import {CustomersList} from "../components/CustomersList";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {CrmDefaultRoles, CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
+import {CustomersList} from "../components/CustomersList.tsx";
 
 export const Customers = () => {
     const {t} = useTranslation();
-    const modifiedCustomerForm = useSetAtom(CrmState.FormType);
+
+    const setFormType = useSetAtom(CrmState.FormType);
 
     const {getRolesByModule} = useAuth()
+    const {getModuleByCode} = useApp()
 
     const roles = getRolesByModule(CrmModules.Customer)
+    const module = getModuleByCode(CrmModules.Customer)
 
-    const canCreate = roles.filter(x => x.code === "CREATE_CUSTOMER" || x.code === "ALL_CUSTOMER").length > 0
+    const canCreate = roles.filter(
+        x => x.code === CrmDefaultRoles.CREATE_CUSTOMER || x.code === CrmDefaultRoles.ALL_CUSTOMER
+    ).length > 0
+
+    const ModuleIcon = module.icon!
 
     return (
         <Box
@@ -45,16 +53,15 @@ export const Customers = () => {
                     canCreate && (
                         <Button
                             size="sm"
-                            onClick={() => modifiedCustomerForm(CrmFormType.REGISTER_CUSTOMER)}
+                            onClick={() => setFormType(CrmFormType.REGISTER_CUSTOMER)}
+                            startDecorator={<ModuleIcon/>}
                         >
                             {t('customers.page.buttons.register')}
                         </Button>
                     )
                 }
             </CrmTitleContainer>
-            <Box display={"flex"} gap={2}>
-                <CustomersList/>
-            </Box>
+            <CustomersList/>
         </Box>
     );
 };

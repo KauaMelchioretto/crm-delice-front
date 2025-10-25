@@ -8,7 +8,7 @@ import {OptionType} from "../../../utils/components/core/SelectInput.tsx";
 const PageAtom = atom(0);
 const UpdateAtom = atom(false);
 const FilterAtom = atom<CrmFilter | null>(null);
-const OrderByAtom = atom<CrmOrderBy | null>({field: "login", ordenation: "asc"});
+const OrderByAtom = atom<CrmOrderBy | null>({field: "login", sortable: "asc"});
 
 const ListAtom = loadable(atom(async (get) => {
         get(UpdateAtom);

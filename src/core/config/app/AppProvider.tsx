@@ -34,6 +34,11 @@ import {OrderDetails} from "../../../module/order/page/OrderDetails.tsx";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import {Tasks} from "../../../module/tasks/page/Tasks.tsx";
 import {TaskForm} from "../../../module/tasks/components/TaskForm.tsx";
+import TodayRoundedIcon from '@mui/icons-material/TodayRounded';
+
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import {CustomersBoard} from "../../../module/customer/page/CustomersBoard.tsx";
+import {CrmCalendar} from "../../../module/tasks/page/Calendar.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[],
@@ -98,6 +103,15 @@ export const AppProvider = (props: AppProviderProps) => {
             createLabel: t("customers.page.buttons.register"),
             editFormType: CrmFormType.EDIT_CUSTOMER,
             createFormType: CrmFormType.REGISTER_CUSTOMER
+        },
+        {
+            path: "/customersBoard",
+            sideBar: true,
+            element: <CustomersBoard/>,
+            permissionRequired: true,
+            icon: LeaderboardRoundedIcon,
+            label: t("modules.customers_board"),
+            code: CrmModules.CustomerBoard,
         },
         {
             path: "/wallets",
@@ -171,6 +185,15 @@ export const AppProvider = (props: AppProviderProps) => {
             code: CrmModules.Task,
             element: <Tasks/>,
             form: <TaskForm/>
+        },
+        {
+            path: "/calendar",
+            sideBar: true,
+            permissionRequired: true,
+            icon: TodayRoundedIcon,
+            label: t("modules.calendar"),
+            code: CrmModules.Calendar,
+            element: <CrmCalendar/>
         },
         {
             path: "/kanban/:uuid",

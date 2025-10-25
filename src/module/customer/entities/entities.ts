@@ -1,3 +1,10 @@
+import {CrmCardStatusProps} from "../../../utils/entities/entities.ts";
+import QueryBuilderRounded from "@mui/icons-material/QueryBuilderRounded";
+import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
+import NewReleasesRounded from "@mui/icons-material/NewReleasesRounded";
+import CancelRounded from "@mui/icons-material/CancelRounded";
+import {valueToEnum} from "../../../utils/functions/ValueToEnum.ts";
+
 export interface Customer extends PreCustomer {
     uuid?: string,
     economicActivities?: EconomicActivity[],
@@ -104,4 +111,33 @@ export interface SimpleCustomer {
 export interface SimpleCustomerListResponse {
     customers?: SimpleCustomer[],
     error?: string
+}
+
+export function getCustomerStatusProps(status: string): CrmCardStatusProps {
+    const value = valueToEnum(status, CustomerStatus)
+
+    const customerStatus = {
+        [CustomerStatus.PENDING]: {
+            color: "#2685E2",
+            label: "customers.page.customer_status.pending",
+            icon: QueryBuilderRounded,
+        },
+        [CustomerStatus.FIT]: {
+            color: "#118D57",
+            label: "customers.page.customer_status.fit",
+            icon: VerifiedRounded,
+        },
+        [CustomerStatus.NOT_FIT]: {
+            color: "#e28a26",
+            label: "customers.page.customer_status.not_fit",
+            icon: NewReleasesRounded,
+        },
+        [CustomerStatus.INACTIVE]: {
+            color: "#ff543f",
+            label: "customers.page.customer_status.inactive",
+            icon: CancelRounded,
+        },
+    };
+
+    return customerStatus[value]
 }

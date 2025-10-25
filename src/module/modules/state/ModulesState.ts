@@ -7,7 +7,7 @@ import { CrmFilter, CrmOrderBy } from "../../../utils/entities/entities.ts";
 const ModulesFormTypeAtom = atom<ModulesFormType>(ModulesFormType.EMPTY);
 const PageAtom = atom(0)
 const FilterAtom = atom<CrmFilter | null>(null);
-const OrderByAtom = atom<CrmOrderBy | null>({field: "code", ordenation: "asc"})
+const OrderByAtom = atom<CrmOrderBy | null>({field: "code", sortable: "asc"})
 const ModuleFormUUIDAtom = atom("");
 
 const ModuleUpdateAtom = atom(false);

@@ -541,6 +541,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                             flexDirection: "column",
                                             gap: 1,
                                             maxHeight: "300px",
+                                            minHeight: "300px",
                                             overflowY: "auto"
                                         }}
                                     >

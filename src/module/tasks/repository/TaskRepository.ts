@@ -1,7 +1,14 @@
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {AxiosError} from "axios";
-import {Task, TaskHistory, TaskListResponse, TaskResponse, TaskStatus} from "../entities/entities.ts";
+import {
+    Task,
+    TaskByDateResponse,
+    TaskHistory,
+    TaskListResponse,
+    TaskResponse,
+    TaskStatus
+} from "../entities/entities.ts";
 import {handleRequest} from "../../../utils/functions/HandleAxios.ts";
 
 class TaskRepository {
@@ -22,7 +29,7 @@ class TaskRepository {
             }
 
             if (orderBy?.field) {
-                query += `&orderBy=${orderBy?.field}:${orderBy?.ordenation}`
+                query += `&orderBy=${orderBy?.field}:${orderBy?.sortable}`
             } else {
                 query += `&orderBy=code`
             }
@@ -72,6 +79,18 @@ class TaskRepository {
     async addHistory(history: TaskHistory): Promise<TaskResponse> {
         return handleRequest(
             http.post("/task/addHistory", history)
+        )
+    }
+
+    async getTaskByMonth(year: number, month: number): Promise<TaskByDateResponse> {
+        return handleRequest(
+            http.get(`/task/taskByMonth/${year}/${month}`)
+        )
+    }
+
+    async getMyNextTask(): Promise<TaskResponse> {
+        return handleRequest(
+            http.get("/task/nextTask")
         )
     }
 }

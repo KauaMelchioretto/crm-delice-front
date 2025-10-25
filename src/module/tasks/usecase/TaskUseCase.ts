@@ -1,5 +1,12 @@
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
-import {Task, TaskHistory, TaskListResponse, TaskResponse, TaskStatus} from "../entities/entities.ts";
+import {
+    Task,
+    TaskByDateResponse,
+    TaskHistory,
+    TaskListResponse,
+    TaskResponse,
+    TaskStatus
+} from "../entities/entities.ts";
 import {taskRepository} from "../repository/TaskRepository.ts";
 
 class TaskUseCase {
@@ -45,6 +52,14 @@ class TaskUseCase {
 
     async addHistory(history: TaskHistory): Promise<TaskResponse> {
         return taskRepository.addHistory(history)
+    }
+
+    async getTaskByMonth(year: number, month: number): Promise<TaskByDateResponse> {
+        return taskRepository.getTaskByMonth(year, month)
+    }
+
+    async getMyNextTask(): Promise<TaskResponse> {
+        return taskRepository.getMyNextTask()
     }
 
     private validateTask(task: Task): TaskResponse | undefined {

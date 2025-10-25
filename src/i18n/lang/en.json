@@ -105,7 +105,9 @@
       "order": "Orders",
       "products": "Products",
       "kanbans": "Manage Kanban",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "customers_board": "Customers board",
+      "calendar": "Calendar"
     },
     "actions": {
       "save": "Save",

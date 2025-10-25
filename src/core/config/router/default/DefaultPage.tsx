@@ -25,6 +25,13 @@ import {CrmAppBar} from "../../../../utils/components/appbar/component/AppBar.ts
 import {useApp} from "../../app/AppProvider.tsx";
 import {useTranslation} from "react-i18next";
 import {InitAtoms} from "../../app/InitAtoms.tsx";
+import {ConfigProvider, ConfigProviderProps, theme} from "antd";
+
+import enUS from 'antd/locale/en_US';
+import ptBR from 'antd/locale/pt_BR';
+import {useTheme} from "@mui/material";
+
+type Locale = ConfigProviderProps['locale'];
 
 export const DefaultPage = () => (
     <Layout.Root>
@@ -34,6 +41,10 @@ export const DefaultPage = () => (
 );
 
 const Content = () => {
+    const {i18n} = useTranslation()
+
+    const crmTheme = useTheme()
+
     const {show} = useContext(Layout.RootContext);
 
     const {user} = useAuth()
@@ -41,9 +52,11 @@ const Content = () => {
 
     const forms = crmModules.map(x => x.form)
 
-    if(user?.status === "FIRST_ACCESS"){
+    if (user?.status === "FIRST_ACCESS") {
         return
     }
+
+    const locale: Locale = i18n.language === "pt" ? ptBR : enUS
 
     return (
         <Fragment>
@@ -61,7 +74,16 @@ const Content = () => {
                 )
             }
             <Layout.Main>
-                <Outlet/>
+                <ConfigProvider
+                    locale={locale}
+                    theme={{
+                        algorithm: crmTheme.palette.mode === "dark"
+                            ? theme.darkAlgorithm
+                            : undefined
+                    }}
+                >
+                    <Outlet/>
+                </ConfigProvider>
             </Layout.Main>
             {forms}
         </Fragment>

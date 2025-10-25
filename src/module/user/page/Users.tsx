@@ -4,19 +4,26 @@ import {UsersList} from "../components/UsersList";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {useTranslation} from "react-i18next";
 import CrmState from "../../../utils/state/CrmState.ts";
-import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
+import {CrmDefaultRoles, CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
 
 export const User = () => {
     const {t} = useTranslation()
 
-    const modifiedUserForm = useSetAtom(CrmState.FormType);
+    const setFormType = useSetAtom(CrmState.FormType);
 
     const {getRolesByModule} = useAuth()
+    const {getModuleByCode} = useApp()
 
     const roles = getRolesByModule(CrmModules.User)
+    const module = getModuleByCode(CrmModules.User)
 
-    const canCreate = roles.filter(x => x.code === "CREATE_USER" || x.code === "ALL_USER").length > 0
+    const canCreate = roles.filter(
+        x => x.code === CrmDefaultRoles.CREATE_USER || x.code === CrmDefaultRoles.ALL_USER
+    ).length > 0
+
+    const ModuleIcon = module.icon!
 
     return (
         <Box
@@ -36,18 +43,25 @@ export const User = () => {
                     alignItems: "center",
                 }}
             >
-                <Typography level={"body-lg"} fontWeight={"bold"}>{t('users.page.title')}</Typography>
+                <Typography
+                    level={"body-lg"}
+                    fontWeight={"bold"}
+                >
+                    {t('users.page.title')}
+                </Typography>
                 {
                     canCreate && (
-                        <Button size="sm" onClick={() => modifiedUserForm(CrmFormType.REGISTER_USER)}>
+                        <Button
+                            size="sm"
+                            onClick={() => setFormType(CrmFormType.REGISTER_USER)}
+                            startDecorator={<ModuleIcon/>}
+                        >
                             {t('users.page.buttons.register')}
                         </Button>
                     )
                 }
             </CrmTitleContainer>
-            <Box display={"flex"}>
-                <UsersList/>
-            </Box>
+            <UsersList/>
         </Box>
     );
 }

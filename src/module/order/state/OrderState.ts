@@ -14,7 +14,7 @@ const OrderItems = atom<OrderItem[]>([])
 const UpdateAtom = atom(false);
 const PageAtom = atom(0);
 const FilterAtom = atom<CrmFilter | null>(null);
-const OrderByAtom = atom<CrmOrderBy | null>({field: "customer", ordenation: "asc"});
+const OrderByAtom = atom<CrmOrderBy | null>({field: "customer", sortable: "asc"});
 
 const ListAtom = loadable(atom(async (get) => {
     get(UpdateAtom);

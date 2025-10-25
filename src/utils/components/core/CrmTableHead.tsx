@@ -1,68 +1,122 @@
-import { Atom, useAtom, WritableAtom } from "jotai";
-import { CrmField, CrmOrderBy } from "../../entities/entities";
-import { ArrowDownwardRounded, ArrowUpwardRounded } from "@mui/icons-material";
-import { Tooltip, Typography } from "@mui/joy";
+import {useAtom, WritableAtom} from "jotai";
+import {CrmField, CrmOrderBy} from "../../entities/entities";
+import {Tooltip, Typography} from "@mui/joy";
+import {Fragment} from "react";
+
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 interface CrmTableHeadProps {
-  field: CrmField;
-  orderByAtom: Atom<CrmOrderBy | null> | null;
+    fields: CrmField[]
+    orderByAtom?: WritableAtom<CrmOrderBy | null, [CrmOrderBy], void>
 }
 
-const CrmTableHeadField = ({ field, orderByAtom }: CrmTableHeadProps) => {
-  const [orderBy, setOrderBy] = useAtom(
-    orderByAtom as WritableAtom<CrmOrderBy | null, [CrmOrderBy], void>
-  );
+const CrmTableHeadSortable = (props: CrmTableHeadProps) => {
+    const [orderBy, setOrderBy] = useAtom(props.orderByAtom!)
 
-  const handleClickColumn = (field: string) => {
-    if (orderBy?.ordenation === "asc") {
-      setOrderBy({ field, ordenation: "desc" });
-    } else {
-      setOrderBy({ field, ordenation: "asc" });
+    const handleOrderBy = (field: string) => {
+        if (orderBy) {
+            setOrderBy({
+                sortable: orderBy.sortable === "asc" ? "desc" : "asc",
+                field: field
+            })
+        }
     }
-  };
 
-  return (
-    <th
-      style={{ cursor: "pointer" }}
-      onClick={() => handleClickColumn(field.value)}
-    >
-      <Tooltip title={field.value.toUpperCase()} placement="top" size="sm">
-        <Typography
-          level="body-sm"
-          component="span"
-          sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}
-        >
-          {field.label}
-          {orderBy?.field === field.value &&
-            (orderBy.ordenation === "asc" ? (
-              <ArrowDownwardRounded fontSize="small" />
-            ) : (
-              <ArrowUpwardRounded fontSize="small" />
-            ))}
-        </Typography>
-      </Tooltip>
-    </th>
-  );
-};
+    return (
+        <Fragment>
+            {
+                props.fields.map((op, i) => (
+                    <th
+                        key={`column_field_${i}`}
+                        style={{
+                            cursor: op.sortable ? "pointer" : undefined
+                        }}
+                        onClick={() => {
+                            if (op.sortable) {
+                                handleOrderBy(op.key)
+                            }
+                        }}
+                    >
+                        <Tooltip
+                            title={op.label}
+                            placement="top"
+                            size="sm"
+                        >
+                            <Typography
+                                level="body-sm"
+                                component="span"
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 0.5
+                                }}
+                            >
+                                {op.label}
+                                {
+                                    orderBy?.field === op.key && (
+                                        orderBy.sortable === "asc" ? (
+                                            <KeyboardArrowDownRoundedIcon
+                                                fontSize="small"
+                                            />
+                                        ) : (
+                                            <KeyboardArrowUpRoundedIcon
+                                                fontSize="small"
+                                            />
+                                        )
+                                    )
+                                }
+                            </Typography>
+                        </Tooltip>
+                    </th>
+                ))
+            }
+        </Fragment>
+    )
+}
 
-const CrmTableHeadAction = ({ field }: { field: CrmField }) => {
-  return (
-    <th>
-      <Typography
-        level="body-sm"
-        component="span"
-        sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}
-      >
-        {field.label}
-      </Typography>
-    </th>
-  );
-};
+const CrmTableHeadNotSortable = (props: CrmTableHeadProps) => {
+    return (
+        <Fragment>
+            {
+                props.fields.map((op, i) => (
+                    <th key={`column_field_${i}`}>
+                        <Tooltip
+                            title={op.label}
+                            placement="top"
+                            size="sm"
+                        >
+                            <Typography
+                                level="body-sm"
+                                component="span"
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 0.5
+                                }}
+                            >
+                                {op.label}
+                            </Typography>
+                        </Tooltip>
+                    </th>
+                ))
+            }
+        </Fragment>
+    )
+}
 
-export const CrmTableHead = ({ field, orderByAtom }: CrmTableHeadProps) => {
-  return orderByAtom ? (
-    <CrmTableHeadField field={field} orderByAtom={orderByAtom} />
-  ) : (
-    <CrmTableHeadAction field={field} />
-  );
+export const CrmTableHead = (props: CrmTableHeadProps) => {
+    return props.orderByAtom ? (
+        <thead>
+        <tr>
+            <CrmTableHeadSortable {...props}/>
+        </tr>
+        </thead>
+    ) : (
+        <thead>
+        <tr>
+            <CrmTableHeadNotSortable {...props}/>
+        </tr>
+        </thead>
+    );
 };

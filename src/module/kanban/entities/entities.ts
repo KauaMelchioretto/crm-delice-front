@@ -1,5 +1,9 @@
 import {Wallet} from "../../wallet/entities/entities.ts";
 import {Customer} from "../../customer/entities/entities.ts";
+import {CrmCardStatusProps} from "../../../utils/entities/entities.ts";
+import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
+import CancelRounded from "@mui/icons-material/CancelRounded";
+import {valueToEnum} from "../../../utils/functions/ValueToEnum.ts";
 
 export interface Board {
     title: string,
@@ -156,7 +160,7 @@ export interface CardListResponse {
     error?: string
 }
 
-export interface CardResponse{
+export interface CardResponse {
     card?: Card,
     error?: string
 }
@@ -174,7 +178,26 @@ export enum ColumnRuleType {
     APPROVE_CUSTOMER = "APPROVE_CUSTOMER",
 }
 
-export interface ColumnRuleTypeListResponse{
+export interface ColumnRuleTypeListResponse {
     rules?: ColumnRuleType,
     error?: string
+}
+
+export function getBoardStatusProps(status: string): CrmCardStatusProps {
+    const value = valueToEnum(status, BoardStatus)
+
+    const boardStatus = {
+        [BoardStatus.ACTIVE]: {
+            color: "#118D57",
+            label: "kanbans.status.board.active",
+            icon: VerifiedRounded,
+        },
+        [BoardStatus.INACTIVE]: {
+            color: "#ff543f",
+            label: "kanbans.status.board.inactive",
+            icon: CancelRounded,
+        },
+    };
+
+    return boardStatus[value]
 }

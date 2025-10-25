@@ -1,7 +1,7 @@
 import {styled} from "@mui/material/styles";
 import {ChangeEvent, memo} from "react";
 import usePagination from "@mui/material/usePagination";
-import {Button} from "@mui/joy";
+import {Box, Button} from "@mui/joy";
 
 import NavigateNextRounded from '@mui/icons-material/NavigateNextRounded';
 import NavigateBeforeRounded from '@mui/icons-material/NavigateBeforeRounded';
@@ -130,6 +130,16 @@ export const CrmPaginationAtom = (props: CrmPaginationAtomProps) => {
     };
 
     return (
-        <CrmPagination page={page + 1} count={count} onChange={handleChange}/>
+        <Box
+            sx={{
+                flex: 1,
+                width: "100%",
+                mt: "auto",
+                display: "flex",
+                alignItems: "end"
+            }}
+        >
+            <CrmPagination page={page + 1} count={count} onChange={handleChange}/>
+        </Box>
     );
 }

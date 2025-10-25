@@ -39,6 +39,16 @@ export interface TaskHistory {
     actionAt?: string
 }
 
+export interface TaskByDate{
+    day: string
+    tasks: Task[]
+}
+
+export interface TaskByDateResponse{
+    tasks?: TaskByDate[]
+    error?: string
+}
+
 export interface TaskResponse {
     task?: Task,
     error?: string
