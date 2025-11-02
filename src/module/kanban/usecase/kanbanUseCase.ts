@@ -19,18 +19,18 @@ import {kanbanRepository} from "../repository/kanbanRepository.ts";
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 
 class KanbanUseCase {
-    INVALID_KEY = "Invalid key"
-    CODE_IS_EMPTY = "Code is empty"
-    TITLE_IS_EMPTY = "Title is empty"
-    DESCRIPTION_IS_EMPTY = "Description is empty"
-    COLOR_IS_EMPTY = "Color is empty"
-    COLUMNS_IS_EMPTY = "Columns is empty"
-    TYPE_IS_EMPTY = "Type is empty"
-    COLUMN_UUID_IS_EMPTY = "Column is not attached"
+    INVALID_KEY = "INVALID_KEY"
+    CODE_IS_EMPTY = "CODE_IS_EMPTY"
+    TITLE_IS_EMPTY = "TITLE_IS_EMPTY"
+    DESCRIPTION_IS_EMPTY = "DESCRIPTION_IS_EMPTY"
+    COLOR_IS_EMPTY = "COLOR_IS_EMPTY"
+    COLUMNS_IS_EMPTY = "COLUMNS_IS_EMPTY"
+    TYPE_IS_EMPTY = "TYPE_IS_EMPTY"
+    COLUMN_UUID_IS_EMPTY = "COLUMN_UUID_IS_EMPTY"
 
-    TAG_IS_EMPTY = "Tag is empty"
-    EMAIL_IS_EMPTY = "Email is empty"
-    USER_IS_EMPTY = "User is empty"
+    TAG_IS_EMPTY = "TAG_IS_EMPTY"
+    EMAIL_IS_EMPTY = "EMAIL_IS_EMPTY"
+    USER_IS_EMPTY = "USER_IS_EMPTY"
 
     async getBoardByKey(key: string): Promise<BoardResponse> {
         if (!key) {

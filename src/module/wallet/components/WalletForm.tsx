@@ -86,7 +86,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
                 status: data.status,
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`wallets.errors.${response.error}`), 2000);
                 } else {
                     popup.toast("success", t("wallets.messages.update_success"), 2000);
                     updateList(prev => !prev);
@@ -102,7 +102,7 @@ const WalletFormRegister = ({walletUUID}: { walletUUID?: string }) => {
             customers: data.customers
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`wallets.errors.${response.error}`), 2000);
             } else {
                 popup.toast("success", t("wallets.messages.create_success"), 2000);
                 updateList(prev => !prev);

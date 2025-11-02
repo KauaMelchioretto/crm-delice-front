@@ -32,7 +32,8 @@
       "page": {
         "title": "Users",
         "buttons": {
-          "register": "Register user"
+          "register": "Register user",
+          "attach_roles": "Attach roles"
         },
         "tabs": {
           "user_data": "User data"
@@ -64,6 +65,38 @@
           "inactive": "Inactive",
           "first_access": "First access"
         }
+      },
+      "messages": {
+        "create_success": "The user has been created with success",
+        "save_success": "The user has been saved with success",
+        "attach_role_success": "The role has been attached with success",
+        "login_required": "The login is required",
+        "password_required": "The password is required",
+        "role_type_required": "The role type is required",
+        "name_required": "The name is required",
+        "surname_required": "The surname is required",
+        "document_required": "The document is required",
+        "email_required": "The email is required",
+        "date_of_birth_required": "The date of birth is required",
+        "state_required": "The state is required",
+        "zip_code_required": "The zip code is required",
+        "city_required": "The city is required",
+        "address_required": "The address is required",
+        "status_required": "The status is required"
+      },
+      "errors" : {
+        "USER_UNEXPECTED": "An unexpected error has occurred",
+        "USER_NOT_FOUND": "User not found",
+        "NAME_MUST_BE_PROVIDED": "Name or surname must provided",
+        "EMAIL_MUST_BE_PROVIDED": "Email must be provided",
+        "CITY_MUST_BE_PROVIDED": "The city of user must be provided",
+        "STATE_MUST_BE_PROVIDED": "The state of user must be provided",
+        "ZIP_CODE_MUST_BE_PROVIDED": "The zip code of user must be provided",
+        "ADDRESS_MUST_BE_PROVIDED": "The address of user must be provided",
+        "DATE_OF_BIRTH_MUST_BE_PROVIDED": "The date of birth of user must be provided",
+        "DOCUMENT_MUST_BE_PROVIDED": "The document of user must be provided",
+        "PASSWORD_MUST_BE_PROVIDED": "The password of user must be provided",
+        "LOGIN_MUST_BE_PROVIDED": "The login of user must be provided"
       }
     },
     "filter_keys": {
@@ -107,7 +140,48 @@
       "kanbans": "Manage Kanban",
       "tasks": "Tasks",
       "customers_board": "Customers board",
-      "calendar": "Calendar"
+      "calendar": "Calendar",
+      "messages": {
+        "module_saved_with_success": "The module has been saved with success",
+        "question_delete_module": "Delete module?",
+        "question_confirmation_delete_module": "Are you sure that you want to delete this module?",
+        "MODULE_DELETED_WITH_SUCCESS": "The module has been deleted with success",
+        "the_code_is_required": "The code is required",
+        "the_label_is_required": "The label is required",
+        "the_path_is_required": "The path is required"
+      },
+      "errors": {
+        "CODE_MUST_BE_PROVIDED": "The code must be provided",
+        "LABEL_MUST_BE_PROVIDED": "The label must be provided",
+        "PATH_MUST_BE_PROVIDED": "The path must be provided",
+        "MODULE_NOT_FOUND": "This module not found",
+        "MODULES_IS_EMPTY": "There no modules available",
+        "MODULE_ALREADY_EXISTS": "This module already exists",
+        "MODULE_CODE_IS_EMPTY": "The module code must be provided",
+        "MODULE_LABEL_IS_EMPTY": "The module label must be provided",
+        "MODULE_WITH_ROLE_ATTACH": "This module have roles attached"
+      }
+    },
+    "roles":{
+      "messages": {
+          "role_included_with_success": "The role has been included with success",
+          "no_role_for_this_module": "No role for this module",
+          "question_delete_role": "Delete role?",
+          "question_confirmation_delete_role": "Are you sure that you want to delete this role?",
+          "DELETED_WITH_SUCCESS": "The role has been deleted with success"
+        },
+        "errors": {
+          "CODE_MUST_BE_PROVIDED": "The code must be provided",
+          "LABEL_MUST_BE_PROVIDED": "The label must be provided",
+          "ROLE_UNEXPECTED_ERROR": "An unexpected error has occurred",
+          "ROLE_NOT_FOUND": "This role not found",
+          "ROLE_ALREADY_EXISTS": "This role already exists",
+          "ROLE_CODE_IS_EMPTY": "The role code must be provided",
+          "ROLE_LABEL_IS_EMPTY": "The role label must be provided",
+          "ROLE_MODULE_UUID_IS_EMPTY": "The role module UUID must be provided",
+          "ROLE_WITH_INVALID_CODE": "The code is invalid for this role",
+          "ROLE_WITH_PERMISSION_ATTACH": "This role have permissions attached"
+        }
     },
     "actions": {
       "save": "Save",
@@ -116,7 +190,10 @@
       "delete": "Delete",
       "register": "Create",
       "approve": "Approve",
-      "log_out": "Log out"
+      "log_out": "Log out",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel"
     },
     "role_types": {
       "user": "User",
@@ -192,6 +269,27 @@
         "address_required": "The address is required",
         "number_required": "The number is required",
         "customer_included_success": "The customer is included with success"
+      },
+      "errors": {
+        "CUSTOMER_UNEXPECTED": "An unexpected error has occurred",
+        "COMPANY_NAME_IS_EMPTY": "The company name must be provided",
+        "TRADING_NAME_IS_EMPTY": "The trading name must be provided",
+        "PERSON_NAME_IS_EMPTY": "The person name must be provided",
+        "DOCUMENT_MUST_BE_PROVIDED": "The document must be provided",
+        "CUSTOMER_ALREADY_EXISTS": "Company whit this document already exists",
+        "CUSTOMER_NOT_FOUND": "Customer not found",
+        "CUSTOMER_CONTACTS_IS_EMPTY": "At least one contact must be provided",
+        "CUSTOMER_STATE_IS_EMPTY": "The state must be provided",
+        "CUSTOMER_CITY_IS_EMPTY": "The city must be provided",
+        "CUSTOMER_ZIP_CODE_IS_EMPTY": "The zip code must be provided",
+        "CUSTOMER_ADDRESS_IS_EMPTY": "The address must be provided",
+        "CUSTOMER_COMPLEMENT_IS_EMPTY": "The complement must be provided",
+        "CUSTOMER_ADDRESS_NUMBER_IS_EMPTY": "The address number must be provided",
+        "CUSTOMER_ECONOMIC_ACTIVITIES_IS_EMPTY": "The economic activities must be provided",
+        "CUSTOMER_IN_WALLET": "The customer can't be change because it's attached in a wallet",
+        "CUSTOMER_INVALID_DOCUMENT": "Invalid document",
+        "CUSTOMER_INVALID_UUID": "Invalid customer ID",
+        "CUSTOMER_INVALID_APPROVAL_STATUS": "Customer status invalid"
       }
     },
     "wallets": {
@@ -208,6 +306,7 @@
       "fields": {
         "title": "Title",
         "accountable": "Accountable",
+        "customers": "Customers",
         "status": "Status",
         "customers_quantity": "Customers quantity",
         "created_at": "Created at",
@@ -218,7 +317,21 @@
         "create_success": "The wallet has been created with success",
         "update_success": "The wallet has been changed with success",
         "title_required": "The title is required",
-        "user_required": "The user is required"
+        "user_required": "The user is required",
+        "status_required":"The status is required"
+      },
+      "errors" : {
+        "WALLET_UNEXPECTED_ERROR": "An unexpected error has occurred",
+        "WALLET_CUSTOMER_DUPLICATE": "The customer was selected more than once",
+        "WALLET_CUSTOMER_ALREADY_ATTACHED": "This customer already attached in another wallet",
+        "WALLET_LABEL_IS_EMPTY": "The wallet label must be provided",
+        "WALLET_CUSTOMER_NOT_FOUND": "Customer not found",
+        "WALLET_USER_NOT_FOUND": "This user does not exist",
+        "WALLET_NOT_FOUND": "The wallet does not exist",
+        "UUID_INVALID": "Invalid wallet ID",
+        "TITLE_IS_EMPTY": "The title is empty",
+        "ACCOUNTABLE_IS_EMPTY": "The accountable user is empty",
+        "CUSTOMERS_IS_EMPTY": "The customers are empty"
       }
     },
     "me": {
@@ -265,7 +378,21 @@
         "status_required": "The status is required",
         "name_required": "The name is required",
         "price_required": "The price is required",
-        "weight_required": "The weight is required"
+        "weight_required": "The weight is required",
+        "save_success": "The product images have been saved successfully"
+      },
+      "errors": {
+        "PRODUCT_UNEXPECTED_ERROR": "An unexpected error has occurred",
+        "PRODUCT_NOT_FOUND": "Product not found",
+        "PRODUCT_ID_INVALID": "Product id is invalid",
+        "PRODUCT_NAME_IS_EMPTY": "Product name is empty",
+        "PRODUCT_CODE_IS_EMPTY": "Product code is empty",
+        "PRODUCT_ALREADY_EXISTS": "Product already exists",
+        "PRODUCT_PRICE_IS_EMPTY": "Product price is empty",
+        "PRODUCT_MEDIA_IS_EMPTY": "Product images is empty",
+        "PRODUCT_WEIGHT_IS_EMPTY": "Product weight is empty",
+        "PRODUCT_MEDIA_MUST_BE_PRINCIPAL": "Only one product media can be principal",
+        "PRODUCT_MEDIA_AT_LEAST_MUST_BE_PRINCIPAL": "At least one product media must be principal"
       },
       "status": {
         "active": "Active",
@@ -273,6 +400,56 @@
       }
     },
     "kanbans": {
+      "tags" : {
+        "fields": {
+          "title": "Title",
+          "description": "Description",
+          "color": "Color"
+        }
+      },
+      "columns": {
+        "labels": {
+          "allow_columns": "Allow columns",
+          "columns": "Columns"
+        },
+        "fields": {
+          "code": "Code",
+          "order": "Order",
+          "title": "Title",
+          "description": "Description",
+          "pattern": "Pattern",
+          "type": "Type"
+        },
+        "actions": {
+          "include_a_new_column": "Include a new column"
+        },
+        "type": {
+          "counter": "Counter",
+          "adder": "Adder"
+        }
+      },
+      "rules": {
+        "label": {
+          "register_rule": "Create rule",
+          "rule": "Rule",
+          "rules": "Rules",
+          "board": "Board"
+        },
+         "fields": {
+          "title": "Title",
+          "type": "Type",
+          "email": "Email",
+          "users": "Users"
+        },
+        "actions": {
+          "register_tags": "Register tags",
+          "register_columns": "Register column",
+          "edit_card": "Edit card",
+          "edit_board": "Edit board",
+          "add_rule": "Add rule",
+          "allow_column": "Allow column"
+        }
+      },
       "title": {
         "boards": "Boards",
         "columns": "Board columns",
@@ -292,6 +469,82 @@
         "edit_columns": "Columns",
         "edit_tags": "Tags",
         "edit_rules": "Rules"
+      },
+      "messages": {
+        "question_delete_tag": "Delete tag?",
+        "question_delete_tag_confirmation": "Are sure that want delete this tag?",
+        "question_delete_column": "Delete column?",
+        "question_delete_column_confirmation": "Are sure that want delete this column?",
+        "title_required": "The title is required",
+        "code_required": "The code is required",
+        "board_created": "The board has been created successfully",
+        "tag_created": "The tag has been created successfully",
+        "tag_saved": "The tag has been saved successfully",
+        "TAG_DELETED_WITH_SUCCESS": "The tag has been deleted successfully",
+        "no_tags_for_this_board": "No tags for this board",
+        "include_a_new_tag": "Include a new tag",
+        "column_created": "The column has been created successfully",
+        "column_updated": "The column has been updated successfully",
+        "COLUMN_DELETED_WITH_SUCCESS": "The column has been deleted successfully",
+        "column_no_columns_for_this_board": "No columns for this board",
+        "column_type_is_required": "The column type is required",
+        "ALLOWED_COLUMNS_SAVED_WITH_SUCCESS": "Allowed columns saved with success",
+        "ALLOWED_COLUMN_DELETED_WITH_SUCCESS": "Allowed column deleted with success",
+        "allowed_column_delete_question": "Delete allowed column?",
+        "allowed_column_delete_confirmation": "Are you sure you want to delete this allowed column?",
+        "allowed_columns_created": "The allowed columns have been created with success.",
+        "COLUMN_RULE_DELETED_WITH_SUCCESS": "Column rule deleted with success",
+        "column_rule_created": "The column rule has been created successfully",
+        "column_rule_title_required": "The column rule title is required",
+        "column_rule_type_required": "The column rule type is required",
+        "column_rule_tag_required": "The column rule tag is required",
+        "CARDS_RECREATED_WITH_SUCCESS": "Cards recreated with success",
+        "rules_board_not_found": "Board not found",
+        "rules_delete_rule_question": "Delete rule?",
+        "rules_delete_rule_confirmation": "Are sure that want delete this rule?"
+      },
+      "errors" : {
+        "KANBAN_UNEXPECTED": "An unexpected error has occurred",
+        "KANBAN_CANNOT_DO_ACTION": "You cannot do this action",
+        "KANBAN_CODE_IS_EMPTY": "The code is empty",
+        "KANBAN_TITLE_IS_EMPTY": "The title is empty",
+        "KANBAN_TAG_DESCRIPTION_IS_EMPTY": "The tag description is empty",
+        "KANBAN_TAG_COLOR_IS_EMPTY": "The tag color is empty",
+        "KANBAN_TAG_BOARD_UUID_IS_EMPTY": "The tag is not attached in a board",
+        "KANBAN_CARD_BOARD_UUID_IS_EMPTY": "The card is not attached in a board",
+        "KANBAN_CARD_COLUMN_UUID_IS_EMPTY": "The card is not attached in a column",
+        "KANBAN_COLUMN_BOARD_UUID_IS_EMPTY": "The column is not attached in a board",
+        "KANBAN_BOARD_ALREADY_EXISTS": "The board with this code already exists",
+        "KANBAN_CARD_ALREADY_EXISTS": "The card with this code already exists",
+        "KANBAN_COLUMN_ALREADY_EXISTS": "The column with this code already exists",
+        "KANBAN_BOARD_NOT_FOUND": "The board not found",
+        "KANBAN_CARD_NOT_FOUND": "The card not found",
+        "KANBAN_COLUMN_NOT_FOUND": "The column not found",
+        "KANBAN_TAG_NOT_FOUND": "The tag not found",
+        "KANBAN_USER_NOT_FOUND": "The user not found",
+        "KANBAN_COLUMN_RULE_NOT_FOUND": "The column rule not found",
+        "KANBAN_COLUMN_INDEX_REPEATED": "The index cannot be repeated in order",
+        "KANBAN_COLUMN_RULE_TYPE_IS_EMPTY": "The type is empty",
+        "KANBAN_COLUMN_RULE_TAG_IS_EMPTY": "The tag is empty",
+        "KANBAN_COLUMN_RULE_EMAIL_IS_EMPTY": "The email is empty",
+        "KANBAN_COLUMN_RULE_USER_IS_EMPTY": "The user is empty",
+        "KANBAN_COLUMN_RULE_DATA_INVALID": "The data rule is invalid",
+        "KANBAN_ALLOWED_COLUMNS_IS_EMPTY": "Allowed columns is empty",
+        "KANBAN_COLUMN_MOVE_IN_SAME_COLUMN": "You can't move to the same column",
+        "KANBAN_RULE_NOT_MOVE": "You cannot move this card",
+        "KANBAN_RULE_CUSTOMER_NOT_FIT": "Customer not fit",
+        "KANBAN_RULE_CUSTOMER_WITHOUT_WALLET": "Customer without wallet",
+        "INVALID_KEY": "Invalid key",
+        "CODE_IS_EMPTY": "Code is empty",
+        "TITLE_IS_EMPTY": "Title is empty",
+        "DESCRIPTION_IS_EMPTY": "Description is empty",
+        "COLOR_IS_EMPTY": "Color is empty",
+        "COLUMNS_IS_EMPTY": "Columns is empty",
+        "TYPE_IS_EMPTY": "Type is empty",
+        "COLUMN_UUID_IS_EMPTY": "Column is not attached",
+        "TAG_IS_EMPTY": "Tag is empty",
+        "EMAIL_IS_EMPTY": "Email is empty",
+        "USER_IS_EMPTY": "User is empty"
       },
       "status": {
         "board": {

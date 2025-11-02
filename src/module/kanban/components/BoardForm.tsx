@@ -89,9 +89,9 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
             description: data.description
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "Quadro cadastrado com sucesso", 2000);
+                popup.toast("success", t("kanbans.messages.board_created"), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -149,9 +149,9 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
                         }}
                     >
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Código</FormLabel>
+                            <FormLabel>{t("kanbans.fields.code")}</FormLabel>
                             <TextInput
-                                {...register("code", {required: "Código é obrigatório"})}
+                                {...register("code", {required: t("kanbans.messages.code_required")})}
                                 size={"sm"}
                                 variant={"soft"}
                                 disabled={!!boardUUID}
@@ -187,9 +187,9 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
                         }
                     </Box>
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Titulo</FormLabel>
+                        <FormLabel>{t("kanbans.fields.title")}</FormLabel>
                         <TextInput
-                            {...register("title", {required: "Titulo é obrigatorio"})}
+                            {...register("title", {required: t("kanbans.messages.title_required")})}
                             size={"sm"}
                             variant={"soft"}
                         />
@@ -239,13 +239,13 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
     const colorRef = useRef<string>(defaultColor)
 
     const handleDeleteTag = (tagUUID: string) => {
-        popup.confirm("question", "Delete tag?", "Are sure that want delete this tag?", "Yes").then((r) => {
+        popup.confirm("question", t('kanbans.messages.question_delete_tag'), t('kanbans.messages.question_delete_tag_confirmation'), t('actions.yes'), t('actions.no')).then((r) => {
             if (r.isConfirmed) {
                 kanbanUseCase.deleteTagByUUID(tagUUID).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t(`kanbans.messages.${response.message}`) as string, 2000);
                     }
                     setUpdate(prev => !prev);
 
@@ -263,9 +263,9 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
             title: data.title
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t("kanbans.messages.tag_created"), 2000);
                 setUpdate(prev => !prev);
 
                 updateList(prev => !prev)
@@ -315,7 +315,7 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
                         <CrmTable
                             sx={{
                                 "& thead th:nth-child(1)": {
-                                    width: 20
+                                    width: 50
                                 },
                                 "& thead th:nth-child(2)": {
                                     width: 100
@@ -335,10 +335,10 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
                         >
                             <thead>
                             <tr>
-                                <th>Cor</th>
-                                <th>Titulo</th>
-                                <th>Descrição</th>
-                                <th>Deletar</th>
+                                <th>{t('kanbans.tags.fields.color')}</th>
+                                <th>{t('kanbans.tags.fields.title')}</th>
+                                <th>{t('kanbans.tags.fields.description')}</th>
+                                <th>{t('actions.delete')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -373,7 +373,7 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                             textAlign: "center"
                                         }}
                                     >
-                                        No tags for this board
+                                        {t('kanbans.messages.no_tags_for_this_board')}
                                     </td>
                                 </tr>
                             )}
@@ -390,13 +390,13 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
                             level={"body-md"}
                             fontWeight={"bold"}
                         >
-                            Incluir uma nova tag
+                            {t('kanbans.messages.include_a_new_tag')}
                         </Typography>
                     </Box>
                     <FormControl>
-                        <FormLabel>Titulo</FormLabel>
+                        <FormLabel>{t("kanbans.fields.title")}</FormLabel>
                         <TextInput
-                            {...register("title", {required: "The title is required"})}
+                            {...register("title", {required: t('kanbans.messages.title_required')})}
                             size={"md"}
                             variant={"soft"}
                         />
@@ -429,7 +429,7 @@ const TagBoardForm = ({boardUUID}: { boardUUID: string }) => {
 const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const formMethods = useForm();
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const updateList = useSetAtom(KanbanState.UpdateAtom)
 
@@ -480,9 +480,9 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
             type: data.type,
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('kanbans.messages.column_created'), 2000);
                 setUpdate(prev => !prev);
 
                 updateList(prev => !prev)
@@ -513,7 +513,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
         if (reorderRef.current.length > 0) {
             kanbanUseCase.reorderColumns(reorderRef.current).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000)
+                    popup.toast("error", t(`kanbans.errors.${response.error}`), 2000)
                 }
 
                 updateList(prev => !prev)
@@ -588,11 +588,11 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                         >
                                             <thead>
                                             <tr>
-                                                <th>Ordem</th>
-                                                <th>Titulo</th>
-                                                <th>Descrição</th>
-                                                <th>Padrão</th>
-                                                <th>Deletar</th>
+                                                <th>{t('kanbans.columns.fields.order')}</th>
+                                                <th>{t('kanbans.columns.fields.title')}</th>
+                                                <th>{t('kanbans.columns.fields.description')}</th>
+                                                <th>{t('kanbans.columns.fields.pattern')}</th>
+                                                <th>{t('actions.delete')}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -614,7 +614,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                                             textAlign: "center"
                                                         }}
                                                     >
-                                                        No tags for this board
+                                                        {t('kanbans.messages.column_no_columns_for_this_board')}
                                                     </td>
                                                 </tr>
                                             )}
@@ -628,7 +628,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                     setRegisterForm(true)
                                 }}
                             >
-                                Incluir uma nova coluna
+                                {t('kanbans.columns.actions.include_a_new_column')}
                             </Button>
                         </Fragment>
                     ) : (
@@ -639,9 +639,9 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                 gap={1}
                             >
                                 <FormControl>
-                                    <FormLabel>Código</FormLabel>
+                                    <FormLabel>{t('kanbans.columns.fields.code')}</FormLabel>
                                     <TextInput
-                                        {...register("code", {required: "The code is required"})}
+                                        {...register("code", {required: t('kanbans.messages.code_required')})}
                                         size={"sm"}
                                         variant={"soft"}
                                     />
@@ -678,9 +678,9 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                 </FormControl>
                             </Box>
                             <FormControl>
-                                <FormLabel>Titulo</FormLabel>
+                                <FormLabel>{t('kanbans.columns.fields.title')}</FormLabel>
                                 <TextInput
-                                    {...register("title", {required: "The title is required"})}
+                                    {...register("title", {required: t('kanbans.messages.title_required')})}
                                     size={"md"}
                                     variant={"soft"}
                                 />
@@ -708,7 +708,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                         setRegisterForm(false)
                                     }}
                                 >
-                                    Cancelar
+                                    {t('actions.cancel')}
                                 </Button>
                                 <Button
                                     sx={{
@@ -716,7 +716,7 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                     }}
                                     type={"submit"}
                                 >
-                                    Salvar
+                                    {t('actions.save')}
                                 </Button>
                             </Box>
                         </Fragment>
@@ -737,8 +737,8 @@ const ColumnSortableRow = (
     const {attributes, listeners, setNodeRef, transform, transition} = useSortable(
         {id: column.uuid ?? ""}
     );
-
-    const theme = useTheme()
+    const theme = useTheme();
+    const {t} = useTranslation();
 
     const tempBackground = theme.palette.background as unknown as { body: string }
 
@@ -749,13 +749,19 @@ const ColumnSortableRow = (
     };
 
     const handleDeleteTag = (columnUUID: string) => {
-        popup.confirm("question", "Delete Column?", "Are sure that want delete this column?", "Yes").then((r) => {
+        popup.confirm(
+            "question",
+            t('kanbans.messages.question_delete_column'),
+            t('kanbans.messages.question_delete_column_confirmation'),
+            t('actions.yes'),
+            t('actions.no')
+        ).then((r) => {
             if (r.isConfirmed) {
                 kanbanUseCase.deleteColumnByUUID(columnUUID).then((response) => {
                     if (response.error) {
-                        popup.toast("error", response.error, 2000);
+                        popup.toast("error", t(`kanbans.errors.${response.error}`), 2000);
                     } else {
-                        popup.toast("success", response.message as string, 2000);
+                        popup.toast("success", t(`kanbans.messages.${response.message}`), 2000);
                     }
                     callback()
                 });

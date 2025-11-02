@@ -105,9 +105,9 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                 status: data.status
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`users.errors.${response.error}`), 2000);
                 } else {
-                    popup.toast("success", "The module is included with success", 2000);
+                    popup.toast("success", t('users.messages.save_success'), 2000);
                     updateList(prev => !prev);
                     setFormType(CrmFormType.EMPTY);
                 }
@@ -130,9 +130,9 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
             address: data.address
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`users.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('users.messages.save_success'), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -183,7 +183,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        {userUUID ? "Edit" : "Register"} User
+                        {userUUID ? t('actions.edit') : t('actions.register')} {t("users.fields.user")}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -206,7 +206,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>{t("users.fields.login")}</FormLabel>
                             <TextInput
-                                {...register("login", {required: "The login is required"})}
+                                {...register("login", {required: t('users.messages.login_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                                 disabled={!!userUUID}
@@ -220,7 +220,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 <FormControl>
                                     <FormLabel>{t("users.fields.password")}</FormLabel>
                                     <TextInput
-                                        {...register("password", {required: "The password is required"})}
+                                        {...register("password", {required: t('users.messages.password_required')})}
                                         size={"sm"}
                                         variant={"soft"}
                                     />
@@ -260,7 +260,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>{t("users.fields.name")}</FormLabel>
                             <TextInput
-                                {...register("name", {required: "The name is required"})}
+                                {...register("name", {required: t('users.messages.name_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -271,7 +271,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>{t('users.fields.surname')}</FormLabel>
                             <TextInput
-                                {...register("surname", {required: "The surname is required"})}
+                                {...register("surname", {required: t('users.messages.surname_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -282,7 +282,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl sx={{flex: 1}}>
                             <FormLabel>{t("users.fields.document")}</FormLabel>
                             <CpfInput
-                                {...register("document", {required: "The document is required"})}
+                                {...register("document", {required: t('users.messages.document_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -294,7 +294,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                     <FormControl>
                         <FormLabel>{t("users.fields.email")}</FormLabel>
                         <TextInput
-                            {...register("email", {required: "The email is required"})}
+                            {...register("email", {required: t('users.messages.email_required')})}
                             size={"sm"}
                             variant={"soft"}
                         />
@@ -321,7 +321,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                             <FormControl>
                                 <FormLabel>{t("users.fields.date_of_birth")}</FormLabel>
                                 <DateInput
-                                    {...register("dateOfBirth", {required: "The date of birth is required"})}
+                                    {...register("dateOfBirth", {required: t('users.messages.date_of_birth_required')})}
                                     size={"sm"}
                                     variant={"soft"}
                                 />
@@ -335,7 +335,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>CEP</FormLabel>
                             <ZipCodeInput
-                                {...register("zipCode", {required: "The zip code is required"})}
+                                {...register("zipCode", {required: t('users.messages.zip_code_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                                 inputRef={inputZipCode}
@@ -366,7 +366,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>{t("users.fields.city")}</FormLabel>
                             <TextInput
-                                {...register("city", {required: "The city is required"})}
+                                {...register("city", {required: t('users.messages.city_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -377,7 +377,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl>
                             <FormLabel>{t("users.fields.state")}</FormLabel>
                             <TextInput
-                                {...register("state", {required: "The state is required"})}
+                                {...register("state", {required: t('users.messages.state_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -390,7 +390,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                         <FormControl sx={{flex: 1}}>
                             <FormLabel>{t("users.fields.address")}</FormLabel>
                             <TextInput
-                                {...register("address", {required: "The address is required"})}
+                                {...register("address", {required: t('users.messages.address_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -454,9 +454,9 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
             roles
         ).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`users.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "The module is included with success", 2000);
+                popup.toast("success", t('users.messages.attach_role_success'), 2000);
                 setFormType(CrmFormType.EMPTY);
             }
         })
@@ -498,7 +498,7 @@ const UserAttachRole = ({userUUID}: { userUUID: string }) => {
                 >
                     <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
                         <Typography level={"body-md"} fontWeight={"bold"}>
-                            Attach roles
+                            {t('users.page.buttons.attach_roles')}
                         </Typography>
                         <IconButton
                             size={"sm"}

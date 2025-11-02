@@ -9,16 +9,16 @@ import {
 import {usersRepository} from "../repository/UsersRepository.ts";
 
 class UsersUseCase {
-    LOGIN_MUST_BE_PROVIDED = "The login must be provided"
-    PASSWORD_MUST_BE_PROVIDED = "The password must be provided"
-    NAME_MUST_BE_PROVIDED = "The name or surname must be provided"
-    EMAIL_MUST_BE_PROVIDED = "The email must be provided"
-    DOCUMENT_MUST_BE_PROVIDED = "The document must be provided"
-    DATE_OF_BIRTH_MUST_BE_PROVIDED = "The date of birth must be provided"
-    CITY_MUST_BE_PROVIDED = "The city of user must be provided"
-    STATE_MUST_BE_PROVIDED = "The state of user must be provided"
-    ADDRESS_MUST_BE_PROVIDED = "The address of user must be provided"
-    ZIP_CODE_MUST_BE_PROVIDED = "The zip code of user must be provided"
+    LOGIN_MUST_BE_PROVIDED = "LOGIN_MUST_BE_PROVIDED"
+    PASSWORD_MUST_BE_PROVIDED = "PASSWORD_MUST_BE_PROVIDED"
+    NAME_MUST_BE_PROVIDED = "NAME_MUST_BE_PROVIDED"
+    EMAIL_MUST_BE_PROVIDED = "EMAIL_MUST_BE_PROVIDED"
+    DOCUMENT_MUST_BE_PROVIDED = "DOCUMENT_MUST_BE_PROVIDED"
+    DATE_OF_BIRTH_MUST_BE_PROVIDED = "DATE_OF_BIRTH_MUST_BE_PROVIDED"
+    CITY_MUST_BE_PROVIDED = "CITY_MUST_BE_PROVIDED"
+    STATE_MUST_BE_PROVIDED = "STATE_MUST_BE_PROVIDED"
+    ADDRESS_MUST_BE_PROVIDED = "ADDRESS_MUST_BE_PROVIDED"
+    ZIP_CODE_MUST_BE_PROVIDED = "ZIP_CODE_MUST_BE_PROVIDED"
 
     async createUser(user: User): Promise<UserResponse> {
         if (!user.login) {

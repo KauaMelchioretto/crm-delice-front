@@ -141,7 +141,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
                 observation: data.observation,
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`customers.errors.${response.error}`), 2000);
                 } else {
                     popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                     updateList(prev => !prev);
@@ -168,7 +168,7 @@ const CustomerRegister = ({customerUUID}: { customerUUID?: string }) => {
             observation: data.observation,
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`customers.errors.${response.error}`), 2000);
             } else {
                 popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                 updateList(prev => !prev);
@@ -718,7 +718,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
     const handleFormApproval = handleSubmit((data: FieldValues) => {
         customersUseCase.approvalCustomer(customerUUID, CustomerStatus[data.status as keyof typeof CustomerStatus]).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`customers.errors.${response.error}`), 2000);
             } else {
                 popup.toast("success", t("customers.messages.customer_included_success"), 2000);
                 updateList(prev => !prev);

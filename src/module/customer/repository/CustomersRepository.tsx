@@ -14,7 +14,7 @@ import { AxiosError } from "axios";
 
 class CustomersRepository {
   CUSTOMERS_UNEXPECTED_ERROR = {
-    code: "UNEXPECTED_ERROR",
+    code: "CUSTOMER_UNEXPECTED",
   };
 
   async getPreCustomer(document: string): Promise<PreCustomerResponse> {
@@ -28,7 +28,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -60,7 +60,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -94,7 +94,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -114,7 +114,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -152,7 +152,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -174,7 +174,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -197,7 +197,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
@@ -215,7 +215,7 @@ class CustomersRepository {
       if (e instanceof AxiosError) {
         return {
           error:
-            e?.response?.data?.error?.message ??
+            e?.response?.data?.error?.code ??
             this.CUSTOMERS_UNEXPECTED_ERROR,
         };
       }
