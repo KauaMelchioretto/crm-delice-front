@@ -162,9 +162,12 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
                         </FormControl>
                         {
                             boardUUID && (
-                                <Box sx={{width: "100%", flex: 1}}>
+                                <FormControl sx={{flex: 1}}>
+                                    <FormLabel>Status</FormLabel>
                                     <CrmSelect
-                                        name={"status"}
+                                        {...register("status", {required: "Situação é obrigatorio"})}
+                                        size={"sm"}
+                                        variant={"soft"}
                                         options={[
                                             {
                                                 label: t("kanbans.status.board.active"),
@@ -175,11 +178,11 @@ const BoardFormRegister = ({boardUUID}: { boardUUID?: string }) => {
                                                 value: BoardStatus.INACTIVE
                                             }
                                         ]}
-                                        label={"Status"}
-                                        // @ts-ignore
-                                        rules={{rules: {required: "Situação é obrigatório"}}}
                                     />
-                                </Box>
+                                    <FormHelperText sx={{minHeight: "1rem"}}>
+                                        {errors?.status?.message as string}
+                                    </FormHelperText>
+                                </FormControl>
                             )
                         }
                     </Box>
@@ -646,28 +649,33 @@ const ColumnBoardForm = ({boardUUID}: { boardUUID: string }) => {
                                         {errors?.code?.message as string}
                                     </FormHelperText>
                                 </FormControl>
-                                <Box sx={{width: "100%"}}>
+                                <FormControl sx={{flex: 1}}>
+                                    <FormLabel>Tipo</FormLabel>
                                     <CrmSelect
-                                        name={"type"}
-                                        options={[
-                                            {
-                                                value: ColumnType.NONE,
-                                                label: "Nenhum"
-                                            },
-                                            {
-                                                value: ColumnType.COUNTER,
-                                                label: "Contador"
-                                            },
-                                            {
-                                                value: ColumnType.VALUE,
-                                                label: "Somador"
-                                            }
-                                        ]}
-                                        label={"Tipo"}
-                                        // @ts-ignore
-                                        rules={{rules: {required: "The column type is required"}}}
+                                        {...register("type", {required: "The column type is required"})}
+                                        size={"sm"}
+                                        variant={"soft"}
+                                        options={
+                                            [
+                                                {
+                                                    value: ColumnType.NONE,
+                                                    label: "Nenhum"
+                                                },
+                                                {
+                                                    value: ColumnType.COUNTER,
+                                                    label: "Contador"
+                                                },
+                                                {
+                                                    value: ColumnType.VALUE,
+                                                    label: "Somador"
+                                                }
+                                            ]
+                                        }
                                     />
-                                </Box>
+                                    <FormHelperText sx={{minHeight: "1rem"}}>
+                                        {errors?.type?.message as string}
+                                    </FormHelperText>
+                                </FormControl>
                             </Box>
                             <FormControl>
                                 <FormLabel>Titulo</FormLabel>
@@ -732,11 +740,12 @@ const ColumnSortableRow = (
 
     const theme = useTheme()
 
+    const tempBackground = theme.palette.background as unknown as { body: string }
+
     const style = {
         transform: transform ? `translate(0px, ${transform.y}px)` : undefined,
         transition,
-        // @ts-ignore
-        background: theme.palette.background.body as string
+        background: tempBackground.body
     };
 
     const handleDeleteTag = (columnUUID: string) => {

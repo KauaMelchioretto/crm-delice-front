@@ -128,7 +128,8 @@ const NextTask = () => {
                                 level={"body-xs"}
                                 color={"neutral"}
                                 sx={{
-                                    opacity: 0.8
+                                    opacity: 0.8,
+                                    color: dayjs(data.dueDate).isBefore(dayjs()) ? "red" : undefined
                                 }}
                             >
                                 {dayjs(data.dueDate).format("DD/MM/YYYY HH:mm")}

@@ -22,11 +22,11 @@ import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 export const ModulesForm = () => {
     const [formType, setFormType] = useAtom(ModulesState.ModulesFormTypeAtom)
-    
+
     const moduleUUID = useAtomValue(ModulesState.ModuleFormUUIDAtom);
 
     switch (formType) {
@@ -65,10 +65,10 @@ export const ModulesForm = () => {
 const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
     const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
     const updateList = useSetAtom(ModulesState.ModuleUpdateAtom);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm();
-    
+
     const handleFormModules = handleSubmit((data: FieldValues) => {
         modulesUseCase.createModule({
             label: data.label,
@@ -162,7 +162,7 @@ const RegisterModule = ({moduleUUID}: { moduleUUID?: string }) => {
 const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
     const setFormType = useSetAtom(ModulesState.ModulesFormTypeAtom);
     const formMethods = useForm();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const {register, handleSubmit, formState: {errors}} = formMethods;
 
@@ -336,21 +336,27 @@ const RegisterRole = ({moduleUUID}: { moduleUUID: string }) => {
                             {errors?.label?.message as string}
                         </FormHelperText>
                     </FormControl>
-                    <CrmSelect
-                        name={"roleType"}
-                        label={t("modules.fields.role_type")}
-                        options={[
-                            {
-                                value: "USER",
-                                label: t("role_types.user"),
-                            },
-                            {
-                                value: "DEV",
-                                label: t("role_types.developer"),
-                            },
-                        ]}
-                    />
-                    <Button type={"submit"}>{t("actions.save")}</Button>
+                    <FormControl>
+                        <FormLabel>{t("modules.fields.role_type")}</FormLabel>
+                        <CrmSelect
+                            {...register("roleType")}
+                            size={"md"}
+                            variant={"soft"}
+                            options={[
+                                {
+                                    value: "USER",
+                                    label: t("role_types.user"),
+                                },
+                                {
+                                    value: "DEV",
+                                    label: t("role_types.developer"),
+                                },
+                            ]}
+                        />
+                    </FormControl>
+                    <Button type={"submit"}>
+                        {t("actions.save")}
+                    </Button>
                 </Box>
             </FormProvider>
         </CrmContainer>

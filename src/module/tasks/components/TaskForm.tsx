@@ -29,7 +29,7 @@ import {
     TaskPriority,
     TaskStatus
 } from "../entities/entities.ts";
-import {NewCrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
+import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
 import UserState from "../../user/state/UserState.ts";
 import {taskUseCase} from "../usecase/TaskUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
@@ -244,7 +244,7 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                         >
                             <FormControl>
                                 <FormLabel>Prioridade</FormLabel>
-                                <NewCrmSelect
+                                <CrmSelect
                                     {...register("priority", {required: "The priority is required"})}
                                     size={"sm"}
                                     variant={"soft"}
@@ -264,7 +264,7 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                         >
                             <FormControl>
                                 <FormLabel>Reponsável</FormLabel>
-                                <NewCrmSelect
+                                <CrmSelect
                                     {...register("responsible", {required: "The responsible is required"})}
                                     size={"sm"}
                                     variant={"soft"}

@@ -2,7 +2,7 @@ import {Box, Button, Tooltip, Typography} from "@mui/joy";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {Calendar, CalendarProps} from "antd";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
-import {CrmFormType} from "../../../utils/entities/entities.ts";
+import {CrmFormType, CrmModules} from "../../../utils/entities/entities.ts";
 import {useSetAtom} from "jotai/index";
 import CrmState from "../../../utils/state/CrmState.ts";
 import dayjs, {Dayjs} from "dayjs";
@@ -12,6 +12,7 @@ import {taskUseCase} from "../usecase/TaskUseCase.ts";
 import {User} from "../../user/entities/entities.ts";
 import TaskState from "../state/TaskState.ts";
 import {useAtomValue} from "jotai";
+import {useApp} from "../../../core/config/app/AppProvider.tsx";
 
 export const CrmCalendar = () => {
     const modifiedTaskFormType = useSetAtom(CrmState.FormType)
@@ -20,6 +21,12 @@ export const CrmCalendar = () => {
     const [tasks, setTasks] = useState<TaskByDate[]>([])
 
     const update = useAtomValue(TaskState.UpdateAtom)
+
+    const {getModuleByCode} = useApp()
+
+    const module = getModuleByCode(CrmModules.Task)
+
+    const ModuleIcon = module.icon!
 
     const getListData = (value: Dayjs) => {
         return tasks.find(
@@ -174,11 +181,12 @@ export const CrmCalendar = () => {
                 <Button
                     size="sm"
                     onClick={() => modifiedTaskFormType(CrmFormType.REGISTER_TASK)}
+                    startDecorator={<ModuleIcon/>}
                 >
                     Cadastrar tarefa
                 </Button>
             </CrmTitleContainer>
-            <CrmContainer sx={{height: 550}}>
+            <CrmContainer sx={{flex: 1}}>
                 <Calendar
                     onPanelChange={onCalendarChange}
                     cellRender={cellRender}

@@ -2,8 +2,7 @@ import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
-import WalletState from "../../wallet/state/WalletState.ts";
-import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
+import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {useEffect, useState} from "react";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
@@ -19,6 +18,7 @@ import {AutoCompleteOptions, MultiAutocomplete} from "../../../utils/components/
 import ProductState from "../../product/state/ProductState.ts";
 import {NumericInput} from "../../../utils/components/inputs/NumericInput.tsx";
 import OrderState from "../state/OrderState.ts";
+import CustomersState from "../../customer/state/CustomersState.ts";
 
 export const OrderForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
@@ -62,10 +62,9 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
 
     const setFormType = useSetAtom(CrmState.FormType);
 
-    const simpleCustomersAtom = useAtomValue(WalletState.FreeCustomersAtom)
-
-    const [customers, setCustomers] = useState<OptionType[]>([])
     const navigate = useNavigate()
+
+    const customers = useAtomValue(CustomersState.SimpleCustomersAtom)
 
     const formMethods = useForm({
         defaultValues: {
@@ -75,7 +74,7 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
         } as Order
     })
 
-    const {handleSubmit, register, formState: {errors}, setValue} = formMethods
+    const {handleSubmit, register, formState: {errors}} = formMethods
 
     const handleSubmitOrder = handleSubmit((data: FieldValues) => {
         orderUseCase.registerOrder({
@@ -95,22 +94,6 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
             }
         })
     })
-
-    useEffect(() => {
-        let tempCustomers: OptionType[] = []
-
-        if (simpleCustomersAtom.state === "hasData") {
-            tempCustomers = (simpleCustomersAtom.data ?? []).map((x) => (
-                {value: x?.uuid ?? "", label: x?.companyName ?? ""})
-            )
-        }
-
-        if (tempCustomers.length > 0) {
-            setValue("customer.uuid", tempCustomers[0]?.value ?? "")
-        }
-
-        setCustomers(tempCustomers)
-    }, [orderUUID, simpleCustomersAtom]);
 
     return (
         <CrmContainer sx={{minWidth: "500px"}}>
@@ -139,15 +122,18 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
                     component={"form"}
                     onSubmit={handleSubmitOrder}
                 >
-                    <Box sx={{width: "100%", flex: 1}}>
+                    <FormControl sx={{flex: 1}}>
+                        <FormLabel>Cliente</FormLabel>
                         <CrmSelect
-                            name={"customer.uuid"}
+                            {...register("customer.uuid", {required: "Customer must be informed"})}
+                            size={"sm"}
+                            variant={"soft"}
                             options={customers}
-                            label={"Cliente"}
-                            // @ts-ignore
-                            rules={{rules: {required: "Operator must be informed"}}}
                         />
-                    </Box>
+                        <FormHelperText sx={{minHeight: "1rem"}}>
+                            {errors?.customer?.message as string}
+                        </FormHelperText>
+                    </FormControl>
                     <FormControl sx={{flex: 1}}>
                         <FormLabel>Desconto padrão (%)</FormLabel>
                         <ValueInput

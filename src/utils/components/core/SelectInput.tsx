@@ -1,9 +1,6 @@
-import {Select, Input, styled} from "@mui/joy";
-import {FormControl, FormHelperText, FormLabel, Option} from "@mui/joy";
-import {Controller, FieldError, useFormContext} from "react-hook-form";
-// @ts-ignore
-import {UseControllerProps} from "react-hook-form/dist/types/controller";
-import {ComponentProps, useEffect} from "react";
+import {Select, Input, Option, styled} from "@mui/joy";
+import {useFormContext} from "react-hook-form";
+import {ComponentProps} from "react";
 
 const SelectInput = styled(Select)(() => ({
     '--Select-radius': '5px',
@@ -34,71 +31,12 @@ const SelectInput = styled(Select)(() => ({
 
 export type OptionType = { value: string | null; label: string };
 
-interface CrmSelectProps extends UseControllerProps {
-    name: string;
-    label: string;
-    options: OptionType[];
-    error?: FieldError;
-}
-
-export const CrmSelect = (
-    {
-        name,
-        label,
-        // @ts-ignore
-        rules,
-        options,
-        error
-    }: CrmSelectProps
-) => {
-    const {control, setValue} = useFormContext()
-
-    useEffect(() => {
-        setValue(name, options[0]?.value)
-    }, [setValue, options]);
-
-    return (
-        <FormControl error={!!error}>
-            {label && (
-                <FormLabel>{label}</FormLabel>
-            )}
-            <Controller
-                name={name}
-                control={control}
-                rules={rules}
-                render={({field}) => (
-                    <SelectInput
-                        {...field}
-                        size="sm"
-                        variant="soft"
-                        value={field.value ?? options[0]?.value}
-                        onChange={(_, newValue) => field.onChange(newValue)}
-                    >
-                        {options.map(opt => (
-                            <Option key={opt.value} value={opt.value}>
-                                {opt.label}
-                            </Option>
-                        ))}
-                    </SelectInput>
-                )}
-            />
-            {
-                rules && (
-                    <FormHelperText sx={{minHeight: "1rem"}}>
-                        {error?.message}
-                    </FormHelperText>
-                )
-            }
-        </FormControl>
-    );
-};
-
-interface NewCrmSelect extends ComponentProps<typeof Input> {
+interface CrmSelectProps extends ComponentProps<typeof Input> {
     options: OptionType[];
     onBeforeChange?: () => void;
 }
 
-export const NewCrmSelect = (props: NewCrmSelect) => {
+export const CrmSelect = (props: CrmSelectProps) => {
     const {watch, setValue} = useFormContext();
     const type = watch(props.name!) as string;
 

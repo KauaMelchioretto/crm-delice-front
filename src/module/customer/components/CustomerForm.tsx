@@ -668,9 +668,10 @@ const CustomerContact = ({index}: { index: number }) => {
         <Fragment>
             <Box sx={{width: "100%", flex: 1}}>
                 <CrmSelect
-                    name={`contacts.${index}.contactType`}
+                    {...register(`contacts.${index}.contactType`)}
+                    size={"sm"}
+                    variant={"soft"}
                     options={contactTypes}
-                    label={""}
                 />
             </Box>
             <FormControl sx={{flex: 1}}>
@@ -712,7 +713,7 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
     const [customer, setCustomer] = useState<Customer>()
     const [activities, setActivities] = useState<EconomicActivity[]>([])
 
-    const {handleSubmit, setValue} = formMethods
+    const {handleSubmit, setValue, register} = formMethods
 
     const handleFormApproval = handleSubmit((data: FieldValues) => {
         customersUseCase.approvalCustomer(customerUUID, CustomerStatus[data.status as keyof typeof CustomerStatus]).then((response) => {
@@ -904,11 +905,15 @@ const ApprovalCustomer = ({customerUUID}: { customerUUID: string }) => {
                         }}
                     >
                         <Box sx={{width: "100%", flex: 1}}>
-                            <CrmSelect
-                                name={"status"}
-                                options={customerStatus}
-                                label={t("customers.fields.customer_approval")}
-                            />
+                            <FormControl>
+                                <FormLabel>{t("customers.fields.customer_approval")}</FormLabel>
+                                <CrmSelect
+                                    {...register("status")}
+                                    size={"sm"}
+                                    variant={"soft"}
+                                    options={customerStatus}
+                                />
+                            </FormControl>
                         </Box>
                         <Button
                             type={"submit"}

@@ -7,7 +7,7 @@ import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
 import {ColumnRuleForm, ColumnRuleMetadata, ColumnRuleType} from "../entities/entities.ts";
-import {CrmSelect, NewCrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
+import {CrmSelect, OptionType} from "../../../utils/components/core/SelectInput.tsx";
 import {TextInput} from "../../../utils/components/core/TextInput.tsx";
 import {Fragment, useEffect} from "react";
 import KanbanState from "../state/KanbanState.ts";
@@ -262,7 +262,7 @@ const RuleTypeWatcher = () => {
             <Box sx={{width: "100%"}}>
                 <FormControl>
                     <FormLabel>Tipo</FormLabel>
-                    <NewCrmSelect
+                    <CrmSelect
                         {...register("type")}
                         size={"md"}
                         variant={"soft"}
@@ -278,7 +278,7 @@ const RuleTypeWatcher = () => {
                 <Box sx={{width: "100%"}}>
                     <FormControl>
                         <FormLabel>Tag</FormLabel>
-                        <NewCrmSelect
+                        <CrmSelect
                             {...register("tag")}
                             size={"md"}
                             variant={"soft"}
@@ -374,7 +374,7 @@ const RuleTypeWatcher = () => {
                                         sx={{mt: 1, width: "100%",}}
                                     >
                                         <Box sx={{width: "100%"}}>
-                                            <NewCrmSelect
+                                            <CrmSelect
                                                 {...register(`notifyUsers.${i}.uuid`)}
                                                 size={"md"}
                                                 variant={"soft"}
@@ -444,7 +444,7 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
         }
     });
 
-    const {handleSubmit, control, setValue} = formMethods;
+    const {handleSubmit, control, setValue, register} = formMethods;
 
     const handleColumnAllowed = handleSubmit((data: FieldValues) => {
         const allowed: string[] = data.allowed?.map((x: { uuid: string }) => x.uuid)
@@ -535,9 +535,10 @@ const BoardAllowedColumnFormRegister = ({columnUUID}: { columnUUID: string }) =>
                                         >
                                             <Box sx={{width: "100%"}}>
                                                 <CrmSelect
-                                                    name={`allowed.${i}.uuid`}
+                                                    {...register(`allowed.${i}.uuid`)}
+                                                    size={"sm"}
+                                                    variant={"soft"}
                                                     options={columnOptions}
-                                                    label={""}
                                                 />
                                             </Box>
                                             {

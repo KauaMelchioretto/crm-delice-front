@@ -32,7 +32,7 @@ import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
 import SearchRounded from '@mui/icons-material/SearchRounded';
 import {handleGetAddress} from "../../../utils/functions/Address.ts";
-import { UserType } from "../entities/entities.ts";
+import {UserType} from "../entities/entities.ts";
 
 export const UserForm = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType)
@@ -230,10 +230,12 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 </FormControl>
                             )
                         }
-                        <Box sx={{width: "100%"}}>
+                        <FormControl sx={{flex: 1}}>
+                            <FormLabel>{t("users.fields.user_type")}</FormLabel>
                             <CrmSelect
-                                name={"userType"}
-                                label={t("users.fields.user_type")}
+                                {...register("userType", {required: "The user type is required"})}
+                                size={"sm"}
+                                variant={"soft"}
                                 options={[
                                     {
                                         value: UserType.EMPLOYEE,
@@ -248,10 +250,11 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         label: t("role_types.developer"),
                                     },
                                 ]}
-                                // @ts-ignore
-                                rules={{rules: {required: "The user type is required"}}}
                             />
-                        </Box>
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.userType?.message as string}
+                            </FormHelperText>
+                        </FormControl>
                     </Box>
                     <Box display={"flex"} alignItems={"center"} gap={1}>
                         <FormControl>
@@ -276,7 +279,7 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 {errors?.surname?.message as string}
                             </FormHelperText>
                         </FormControl>
-                        <FormControl>
+                        <FormControl sx={{flex: 1}}>
                             <FormLabel>{t("users.fields.document")}</FormLabel>
                             <CpfInput
                                 {...register("document", {required: "The document is required"})}
@@ -395,10 +398,12 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                 {errors?.address?.message as string}
                             </FormHelperText>
                         </FormControl>
-                        <Box sx={{flex: 0.5}}>
+                        <FormControl sx={{flex: 0.5}}>
+                            <FormLabel>{t("users.fields.status.label")}</FormLabel>
                             <CrmSelect
-                                name={"status"}
-                                label={t("users.fields.status.label")}
+                                {...register("status", {required: "The status is required"})}
+                                size={"sm"}
+                                variant={"soft"}
                                 options={[
                                     {
                                         value: "ACTIVE",
@@ -413,10 +418,11 @@ const UserRegister = ({userUUID}: { userUUID?: string }) => {
                                         label: t("users.fields.status.first_access"),
                                     }
                                 ]}
-                                // @ts-ignore
-                                rules={{rules: {required: "The status is required"}}}
                             />
-                        </Box>
+                            <FormHelperText sx={{minHeight: "1rem"}}>
+                                {errors?.status?.message as string}
+                            </FormHelperText>
+                        </FormControl>
                     </Box>
                     <Box sx={{p: "var(--Tabs-spacing)", pt: 0}} display={"flex"}>
                         <Button

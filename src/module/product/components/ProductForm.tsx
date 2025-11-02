@@ -16,7 +16,7 @@ import {productUseCase} from "../usecase/ProductUseCase.ts";
 import {ChangeEvent, Fragment, useEffect, useRef, useState} from "react";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {CrmFormType} from "../../../utils/entities/entities.ts";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import {Image, Carousel, Empty} from "antd";
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {CrmAntImage} from "../../../utils/components/image/CrmAntImage.tsx";
@@ -64,7 +64,7 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(ProductState.UpdateAtom)
     const formMethods = useForm();
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const {handleSubmit, register, formState: {errors}, setValue} = formMethods
 
@@ -172,9 +172,12 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                         </FormControl>
                         {
                             productUUID && (
-                                <Box sx={{width: "100%", flex: 1}}>
+                                <FormControl sx={{flex: 1}}>
+                                    <FormLabel>{t("products.fields.code")}</FormLabel>
                                     <CrmSelect
-                                        name={"status"}
+                                        {...register("status", {required: t("products.messages.status_required")})}
+                                        size={"sm"}
+                                        variant={"soft"}
                                         options={[
                                             {
                                                 label: t("products.status.active"),
@@ -185,11 +188,11 @@ const ProductFormRegister = ({productUUID}: { productUUID?: string }) => {
                                                 value: ProductStatus.INACTIVE
                                             }
                                         ]}
-                                        label={"Status"}
-                                        // @ts-ignore
-                                        rules={{rules: {required: t("products.messages.status_required")}}}
                                     />
-                                </Box>
+                                    <FormHelperText sx={{minHeight: "1rem"}}>
+                                        {errors?.status?.message as string}
+                                    </FormHelperText>
+                                </FormControl>
                             )
                         }
                     </Box>
@@ -328,9 +331,9 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
     }
 
     const saveProductMedia = () => {
-        if(!images) return
+        if (!images) return
 
-        if(!principal) return
+        if (!principal) return
 
         const temp: ProductMedia[] = [...images.map(x => ({...x, isPrincipal: false})), principal]
 

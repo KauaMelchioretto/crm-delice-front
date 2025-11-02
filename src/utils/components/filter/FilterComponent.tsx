@@ -1,4 +1,4 @@
-import {NewCrmSelect, OptionType} from "../core/SelectInput.tsx";
+import {CrmSelect, OptionType} from "../core/SelectInput.tsx";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {useAtom} from "jotai";
 import {Box, Button, FormControl, FormLabel} from "@mui/joy";
@@ -65,7 +65,7 @@ export const FilterComponent = memo((props: FilterProps) => {
                 <Box display={"flex"} alignItems={"end"} gap={2}>
                     <FormControl>
                         <FormLabel>{t("filter_keys.title")}</FormLabel>
-                        <NewCrmSelect
+                        <CrmSelect
                             {...register("filterType")}
                             onBeforeChange={() => {
                                 setValue("value", "")
@@ -86,7 +86,7 @@ export const FilterComponent = memo((props: FilterProps) => {
                     </FormControl>
                     {
                         selectedField?.filterOptions ? (
-                            <NewCrmSelect
+                            <CrmSelect
                                 {...register("value")}
                                 size={"sm"}
                                 variant={"soft"}
