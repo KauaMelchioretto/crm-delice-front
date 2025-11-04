@@ -136,6 +136,7 @@
       "tasks": "Tarefas",
       "customers_board": "Quadro de clientes",
       "calendar": "Calendário",
+      "campaign": "Campanha",
       "messages": {
         "module_saved_with_success": "O módulo foi salvo com sucesso",
         "question_delete_module": "Deletar módulo?",
@@ -199,6 +200,14 @@
     "errors": {
       "UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
       "error": "Erro"
+    },
+    "campaign": {
+      "page": {
+        "title": "Campanha",
+        "buttons": {
+          "register": "Cadastrar campanha"
+        }
+      }
     },
     "customers": {
       "page": {

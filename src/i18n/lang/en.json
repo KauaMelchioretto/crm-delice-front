@@ -141,6 +141,7 @@
       "tasks": "Tasks",
       "customers_board": "Customers board",
       "calendar": "Calendar",
+      "campaign": "Campaign",
       "messages": {
         "module_saved_with_success": "The module has been saved with success",
         "question_delete_module": "Delete module?",
@@ -204,6 +205,14 @@
     "errors": {
       "UNEXPECTED_ERROR": "An unexpected error has occurred",
       "error": "Error"
+    },
+    "campaign": {
+      "page": {
+        "title": "Campaign",
+        "buttons": {
+          "register": "Register campaign"
+        }
+      }
     },
     "customers": {
       "page": {

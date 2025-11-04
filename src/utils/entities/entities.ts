@@ -62,6 +62,8 @@ export enum CrmModules {
     OrderItems = 'ORDER_ITEMS',
     Task = "TASK",
     Calendar = "CALENDAR",
+    Campaign = "CAMPAIGN",
+    CampaignData = "CAMPAIGN_DATA"
 }
 
 export enum CrmFormType {
@@ -91,7 +93,9 @@ export enum CrmFormType {
     REGISTER_ORDER_ITEM,
     REGISTER_TASK,
     EDIT_TASK,
-    DETAIL_TASK
+    DETAIL_TASK,
+    REGISTER_CAMPAIGN,
+    EDIT_CAMPAIGN
 }
 
 export enum CrmDefaultRoles {
@@ -108,5 +112,13 @@ export enum CrmDefaultRoles {
     CREATE_PRODUCT = "CREATE_PRODUCT",
     ALL_PRODUCT = "ALL_PRODUCT",
     CREATE_KANBAN = "CREATE_KANBAN",
-    ALL_KANBAN = "ALL_KANBAN"
+    ALL_KANBAN = "ALL_KANBAN",
+    CREATE_CAMPAIGN = "CREATE_CAMPAIGN",
+    ALL_CAMPAIGN = "ALL_CAMPAIGN"
+}
+
+export interface PaginatedResponse<T> {
+    items: T[],
+    page: number,
+    total: number,
 }
