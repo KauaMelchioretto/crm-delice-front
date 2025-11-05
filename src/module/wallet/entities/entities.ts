@@ -30,6 +30,12 @@ export interface WalletListResponse {
     error?: string
 }
 
+export interface SimpleWallet{
+    uuid: String,
+    label: String,
+    sold: number
+}
+
 export interface WalletResponse {
     wallet?: Wallet,
     error?: string

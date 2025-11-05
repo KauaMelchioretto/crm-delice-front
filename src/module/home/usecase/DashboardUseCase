@@ -1,0 +1,39 @@
+import {
+  DashboardCustomerValues,
+  DashboardOrderValues,
+  DashboardRankValues,
+  DashboardResponse,
+} from "../entities/entities.ts";
+import { dashboardRepository } from "../repository/DashboardRepository.ts";
+import { SimpleWallet } from "../../wallet/entities/entities.ts";
+import { SimplesSalesUser } from "../../user/entities/entities.ts";
+
+class DashboardUseCase {
+  DASHBOARD_UNEXPECTED_ERROR = "DASHBOARD_UNEXPECTED_ERROR";
+
+  async getDashboardCustomer(): Promise<DashboardResponse<DashboardCustomerValues>> {
+    return dashboardRepository.getDashboardCustomer();
+  }
+
+  async getDashboardOrder(): Promise<DashboardResponse<DashboardOrderValues>> {
+    return dashboardRepository.getDashboardOrder();
+  }
+
+  async getDashboardRank(): Promise<DashboardResponse<DashboardRankValues>> {
+    return dashboardRepository.getDashboardRank();
+  }
+
+  async getDashboardTotalSold(): Promise<DashboardResponse<number>> {
+    return dashboardRepository.getDashboardTotalSold();
+  }
+
+  async getDashboardMostWalletSold(): Promise<DashboardResponse<SimpleWallet>> {
+    return  dashboardRepository.getDashboardMostWalletSold();
+  }
+
+  async getDashboardMostOperatorSold(): Promise<DashboardResponse<SimplesSalesUser>> {
+    return dashboardRepository.getDashboardMostOperatorSold();
+  }
+}
+
+export const dashboardUseCase = new DashboardUseCase();

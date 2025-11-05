@@ -50,6 +50,12 @@ export interface SimpleUser {
     userName?: string
 }
 
+export interface SimplesSalesUser{
+    uuid: String,
+    label: String,
+    sold: number
+}
+
 export interface SimpleUserListResponse {
     users?: SimpleUser[],
     error?: string
