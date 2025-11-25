@@ -54,7 +54,8 @@ export interface SimpleProduct{
 export interface SimpleProductWithSales{
     uuid: string,
     name: string,
-    quantity: number
+    quantity: number,
+    sold: number
 }
 
 

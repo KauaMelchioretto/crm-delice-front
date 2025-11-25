@@ -562,6 +562,22 @@
     },
     "app_bar": {
       "placeholder": "Procurar..."
+    },
+    "home": {
+      "page": {
+        "title": "Home",
+        "entity": "Home"
+      },
+      "fields": {
+        "customer_pending": "Pending",
+        "customer_inactive": "Inactive",
+        "customer_fit": "Fit",
+        "customer_notFit": "Not Fit"
+      },
+      "messages": {
+      },
+      "errors": {
+      }
     }
   }
 }

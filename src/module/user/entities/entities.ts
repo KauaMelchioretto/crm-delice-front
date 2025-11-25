@@ -51,9 +51,10 @@ export interface SimpleUser {
 }
 
 export interface SimplesSalesUser{
-    uuid: String,
-    label: String,
-    sold: number
+    uuid?: String,
+    label?: String,
+    sold?: number,
+    error?: string
 }
 
 export interface SimpleUserListResponse {

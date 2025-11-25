@@ -1,37 +1,38 @@
 import { atom } from "jotai";
 import { loadable } from "jotai/utils";
 import { dashboardRepository } from "../repository/DashboardRepository.ts";
-import {
-  DashboardCustomerValues,
-  DashboardOrderValues,
-  DashboardRankValues,
-} from "../entities/entities.ts";
-
 const UpdateAtom = atom(false);
 
 const DashboardCustomerAtom = loadable(
-  atom(async (get): Promise<DashboardCustomerValues> => {
+  atom(async (get) => {
     get(UpdateAtom); 
     return await dashboardRepository.getDashboardCustomer();
   })
 );
 
 const DashboardOrderAtom = loadable(
-  atom(async (get): Promise<DashboardOrderValues> => {
+  atom(async (get) => {
     get(UpdateAtom);
     return await dashboardRepository.getDashboardOrder();
   })
 );
 
-const DashboardRankAtom = loadable(
-  atom(async (get): Promise<DashboardRankValues> => {
+const DashboardRankBestAtom = loadable(
+  atom(async (get) => {
     get(UpdateAtom);
-    return await dashboardRepository.getDashboardRank();
+    return await dashboardRepository.getDashboardRankBest();
+  })
+);
+
+const DashboardRankLessAtom = loadable(
+  atom(async (get) => {
+    get(UpdateAtom);
+    return await dashboardRepository.getDashboardRankLess();
   })
 );
 
 const DashboardTotalSoldAtom = loadable(
-  atom(async (get): Promise<number> => {
+  atom(async (get) => {
     get(UpdateAtom);
     return await dashboardRepository.getDashboardTotalSold();
   })
@@ -51,12 +52,21 @@ const DashboardMostOperatorAtom = loadable(
   })
 );
 
+const DashboardMonthSoldAtom = loadable(
+  atom(async (get) => {
+    get(UpdateAtom);
+    return await dashboardRepository.getDashboardMonthSold();
+  })
+);
+
 export default {
   UpdateAtom,
   DashboardCustomerAtom,
   DashboardOrderAtom,
-  DashboardRankAtom,
+  DashboardRankBestAtom,
+  DashboardRankLessAtom,
   DashboardTotalSoldAtom,
   DashboardMostWalletAtom,
   DashboardMostOperatorAtom,
+  DashboardMonthSoldAtom,
 };

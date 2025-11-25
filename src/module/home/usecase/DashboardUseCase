@@ -1,7 +1,8 @@
 import {
   DashboardCustomerValues,
+  DashboardMonthSold,
   DashboardOrderValues,
-  DashboardRankValues,
+  DashboardRankValuesProducts,
   DashboardResponse,
 } from "../entities/entities.ts";
 import { dashboardRepository } from "../repository/DashboardRepository.ts";
@@ -19,8 +20,12 @@ class DashboardUseCase {
     return dashboardRepository.getDashboardOrder();
   }
 
-  async getDashboardRank(): Promise<DashboardResponse<DashboardRankValues>> {
-    return dashboardRepository.getDashboardRank();
+  async getDashboardRankBest(): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankBest();
+  }
+
+  async getDashboardRankLess(): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankLess();
   }
 
   async getDashboardTotalSold(): Promise<DashboardResponse<number>> {
@@ -28,12 +33,16 @@ class DashboardUseCase {
   }
 
   async getDashboardMostWalletSold(): Promise<DashboardResponse<SimpleWallet>> {
-    return  dashboardRepository.getDashboardMostWalletSold();
+    return dashboardRepository.getDashboardMostWalletSold();
   }
 
   async getDashboardMostOperatorSold(): Promise<DashboardResponse<SimplesSalesUser>> {
     return dashboardRepository.getDashboardMostOperatorSold();
   }
+
+  async getDashboardMonthSold(): Promise<DashboardResponse<DashboardMonthSold[]>> {
+    return dashboardRepository.getDashboardMonthSold();
+}
 }
 
 export const dashboardUseCase = new DashboardUseCase();

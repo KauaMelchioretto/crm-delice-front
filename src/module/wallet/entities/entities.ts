@@ -31,9 +31,10 @@ export interface WalletListResponse {
 }
 
 export interface SimpleWallet{
-    uuid: String,
-    label: String,
-    sold: number
+    uuid?: string, 
+    label?: string,
+    sold?: number,
+    error?: string
 }
 
 export interface WalletResponse {
