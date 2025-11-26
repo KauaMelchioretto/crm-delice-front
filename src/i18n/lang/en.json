@@ -84,7 +84,7 @@
         "address_required": "The address is required",
         "status_required": "The status is required"
       },
-      "errors" : {
+      "errors": {
         "USER_UNEXPECTED": "An unexpected error has occurred",
         "USER_NOT_FOUND": "User not found",
         "NAME_MUST_BE_PROVIDED": "Name or surname must provided",
@@ -162,26 +162,26 @@
         "MODULE_WITH_ROLE_ATTACH": "This module have roles attached"
       }
     },
-    "roles":{
+    "roles": {
       "messages": {
-          "role_included_with_success": "The role has been included with success",
-          "no_role_for_this_module": "No role for this module",
-          "question_delete_role": "Delete role?",
-          "question_confirmation_delete_role": "Are you sure that you want to delete this role?",
-          "DELETED_WITH_SUCCESS": "The role has been deleted with success"
-        },
-        "errors": {
-          "CODE_MUST_BE_PROVIDED": "The code must be provided",
-          "LABEL_MUST_BE_PROVIDED": "The label must be provided",
-          "ROLE_UNEXPECTED_ERROR": "An unexpected error has occurred",
-          "ROLE_NOT_FOUND": "This role not found",
-          "ROLE_ALREADY_EXISTS": "This role already exists",
-          "ROLE_CODE_IS_EMPTY": "The role code must be provided",
-          "ROLE_LABEL_IS_EMPTY": "The role label must be provided",
-          "ROLE_MODULE_UUID_IS_EMPTY": "The role module UUID must be provided",
-          "ROLE_WITH_INVALID_CODE": "The code is invalid for this role",
-          "ROLE_WITH_PERMISSION_ATTACH": "This role have permissions attached"
-        }
+        "role_included_with_success": "The role has been included with success",
+        "no_role_for_this_module": "No role for this module",
+        "question_delete_role": "Delete role?",
+        "question_confirmation_delete_role": "Are you sure that you want to delete this role?",
+        "DELETED_WITH_SUCCESS": "The role has been deleted with success"
+      },
+      "errors": {
+        "CODE_MUST_BE_PROVIDED": "The code must be provided",
+        "LABEL_MUST_BE_PROVIDED": "The label must be provided",
+        "ROLE_UNEXPECTED_ERROR": "An unexpected error has occurred",
+        "ROLE_NOT_FOUND": "This role not found",
+        "ROLE_ALREADY_EXISTS": "This role already exists",
+        "ROLE_CODE_IS_EMPTY": "The role code must be provided",
+        "ROLE_LABEL_IS_EMPTY": "The role label must be provided",
+        "ROLE_MODULE_UUID_IS_EMPTY": "The role module UUID must be provided",
+        "ROLE_WITH_INVALID_CODE": "The code is invalid for this role",
+        "ROLE_WITH_PERMISSION_ATTACH": "This role have permissions attached"
+      }
     },
     "actions": {
       "save": "Save",
@@ -318,9 +318,9 @@
         "update_success": "The wallet has been changed with success",
         "title_required": "The title is required",
         "user_required": "The user is required",
-        "status_required":"The status is required"
+        "status_required": "The status is required"
       },
-      "errors" : {
+      "errors": {
         "WALLET_UNEXPECTED_ERROR": "An unexpected error has occurred",
         "WALLET_CUSTOMER_DUPLICATE": "The customer was selected more than once",
         "WALLET_CUSTOMER_ALREADY_ATTACHED": "This customer already attached in another wallet",
@@ -400,7 +400,7 @@
       }
     },
     "kanbans": {
-      "tags" : {
+      "tags": {
         "fields": {
           "title": "Title",
           "description": "Description",
@@ -435,7 +435,7 @@
           "rules": "Rules",
           "board": "Board"
         },
-         "fields": {
+        "fields": {
           "title": "Title",
           "type": "Type",
           "email": "Email",
@@ -503,7 +503,7 @@
         "rules_delete_rule_question": "Delete rule?",
         "rules_delete_rule_confirmation": "Are sure that want delete this rule?"
       },
-      "errors" : {
+      "errors": {
         "KANBAN_UNEXPECTED": "An unexpected error has occurred",
         "KANBAN_CANNOT_DO_ACTION": "You cannot do this action",
         "KANBAN_CODE_IS_EMPTY": "The code is empty",
@@ -556,15 +556,48 @@
         "type": {
           "SEND_EMAIL": "Send email",
           "NOTIFY_USER": "Notify users",
-          "ADD_TAG":  "Add tag",
+          "ADD_TAG": "Add tag",
           "REMOVE_TAG": "Remove tag",
-          "VALIDATE_CUSTOMER":  "Validate customer",
+          "VALIDATE_CUSTOMER": "Validate customer",
           "VALIDATE_CUSTOMER_WALLET": "Validate wallet",
           "REVIEW_CUSTOMER": "Review customer",
           "REPROVE_CUSTOMER": "Reprove customer",
-          "NOT_MOVABLE":  "Not move card",
-          "APPROVE_CUSTOMER":  "Approve customer"
+          "NOT_MOVABLE": "Not move card",
+          "APPROVE_CUSTOMER": "Approve customer"
         }
+      }
+    },
+    "home": {
+      "page": {
+        "title": "Dashboard"
+        
+      },
+      "fields": {
+          "customer_name": "Customer name", 
+          "wallet_name": "Wallet name",
+          "operator_name": "Operator name"
+      },
+      "cards": {
+        "customer_pending": "Pending Customers",
+        "customer_inactive": "Inactive Customers", 
+        "customer_fit": "Fit Customers",
+        "customer_not_fit": "Not Fit Customers",
+        "order_open": "Open Orders",
+        "order_closed": "Closed Orders",
+        "order_canceled": "Canceled Orders",
+        "total_sold": "Total Sold",
+        "wallet_most_sold": "Top Wallet",
+        "operator_most_sold": "Top Operator"
+      },
+      "tables": {
+        "best_selling_products": "Best Selling Products",
+        "least_selling_products": "Least Selling Products",
+        "product": "Product",
+        "quantity": "Quantity",
+        "sold": "Sold"
+      },
+      "charts": {
+        "monthly_sales": "Monthly Sales"
       }
     },
     "app_bar": {

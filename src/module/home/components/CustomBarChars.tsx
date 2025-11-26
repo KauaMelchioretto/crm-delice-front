@@ -61,5 +61,5 @@ export default function CustomBarChars({ data }: CustomBarCharsData) {
   }, [data]);
 
 
-  return <Box ref={chartRef} id={`chart-${uniqueId}`} sx={{ width: "100%", height: "400px" }} />;
+  return <Box ref={chartRef} id={`chart-${uniqueId}`} sx={{ width: "100%", height: "300px" }} />;
 }

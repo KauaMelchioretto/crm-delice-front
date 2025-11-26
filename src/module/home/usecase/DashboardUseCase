@@ -12,36 +12,36 @@ import { SimplesSalesUser } from "../../user/entities/entities.ts";
 class DashboardUseCase {
   DASHBOARD_UNEXPECTED_ERROR = "DASHBOARD_UNEXPECTED_ERROR";
 
-  async getDashboardCustomer(): Promise<DashboardResponse<DashboardCustomerValues>> {
-    return dashboardRepository.getDashboardCustomer();
+  async getDashboardCustomer(params?: Record<string, string>): Promise<DashboardResponse<DashboardCustomerValues>> {
+    return dashboardRepository.getDashboardCustomer(params);
   }
 
-  async getDashboardOrder(): Promise<DashboardResponse<DashboardOrderValues>> {
-    return dashboardRepository.getDashboardOrder();
+  async getDashboardOrder(params?: Record<string, string>): Promise<DashboardResponse<DashboardOrderValues>> {
+    return dashboardRepository.getDashboardOrder(params);
   }
 
-  async getDashboardRankBest(): Promise<DashboardResponse<DashboardRankValuesProducts>> {
-    return dashboardRepository.getDashboardRankBest();
+  async getDashboardRankBest(params?: Record<string, string>): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankBest(params);
   }
 
-  async getDashboardRankLess(): Promise<DashboardResponse<DashboardRankValuesProducts>> {
-    return dashboardRepository.getDashboardRankLess();
+  async getDashboardRankLess(params?: Record<string, string>): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankLess(params);
   }
 
-  async getDashboardTotalSold(): Promise<DashboardResponse<number>> {
-    return dashboardRepository.getDashboardTotalSold();
+  async getDashboardTotalSold(params?: Record<string, string>): Promise<DashboardResponse<number>> {
+    return dashboardRepository.getDashboardTotalSold(params);
   }
 
-  async getDashboardMostWalletSold(): Promise<DashboardResponse<SimpleWallet>> {
-    return dashboardRepository.getDashboardMostWalletSold();
+  async getDashboardMostWalletSold(params?: Record<string, string>): Promise<DashboardResponse<SimpleWallet>> {
+    return dashboardRepository.getDashboardMostWalletSold(params);
   }
 
-  async getDashboardMostOperatorSold(): Promise<DashboardResponse<SimplesSalesUser>> {
-    return dashboardRepository.getDashboardMostOperatorSold();
+  async getDashboardMostOperatorSold(params?: Record<string, string>): Promise<DashboardResponse<SimplesSalesUser>> {
+    return dashboardRepository.getDashboardMostOperatorSold(params);
   }
 
-  async getDashboardMonthSold(): Promise<DashboardResponse<DashboardMonthSold[]>> {
-    return dashboardRepository.getDashboardMonthSold();
+  async getDashboardMonthSold(params?: Record<string, string>): Promise<DashboardResponse<DashboardMonthSold[]>> {
+    return dashboardRepository.getDashboardMonthSold(params);
 }
 }
 

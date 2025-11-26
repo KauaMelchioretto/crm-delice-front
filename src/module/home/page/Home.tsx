@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import CrmState from "../../../utils/state/CrmState";
 import { useAuth } from "../../../core/auth/provider/AuthProvider";
 import { useApp } from "../../../core/config/app/AppProvider";
-import { CrmModules } from "../../../utils/entities/entities";
+import { CrmField, CrmModules } from "../../../utils/entities/entities";
 import { Box, Grid, Typography } from "@mui/joy";
 import { CrmTitleContainer } from "../../../utils/components/core/CrmTitleContainer";
 import { CrmTableContainer } from "../../../utils/components/core/CrmTableContainer";
@@ -16,7 +16,7 @@ import { CrmError } from "../../../utils/components/core/CrmError";
 import { SimpleProductWithSales } from "../../product/entities/entities";
 import CustomBarChars from '../components/CustomBarChars';
 import { DashboardMonthSold } from '../entities/entities';
-
+import { FilterComponent } from '../../../utils/components/filter/FilterComponent';
 
 export const Home = () => {
     const { t } = useTranslation();
@@ -40,7 +40,27 @@ export const Home = () => {
 
     const ModuleIcon = module.icon!
 
-    // Função para renderizar conteúdo baseado no estado do atom
+    const dashboardFilterFields: CrmField[] = [
+        {
+            key: "customerName", 
+            label: t("home.fields.customer_name"),
+            filterable: true,
+            sortable: false
+        },
+        {
+            key: "walletName",
+            label: t("home.fields.wallet_name"), 
+            filterable: true,
+            sortable: false
+        },
+        {
+            key: "operatorName",
+            label: t("home.fields.operator_name"),
+            filterable: true,
+            sortable: false
+        },
+    ];
+
     const renderAtomContent = (atom: any, renderFunction: (data: any) => React.JSX.Element) => {
         switch (atom.state) {
             case "hasError":
@@ -81,6 +101,11 @@ export const Home = () => {
                 </Typography>
             </CrmTitleContainer>
 
+            <FilterComponent
+                fields={dashboardFilterFields}
+                filterAtom={DashboardState.FilterAtom}
+            />
+
             <Grid container spacing={2} sx={{ height: "100%", flex: 1 }}>
                 {/* Coluna principal - Cards e Gráficos */}
                 <Grid xs={12} md={8}>
@@ -101,7 +126,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("customer_pending")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.customer_pending")}</Typography>
                                     {renderAtomContent(customerAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.pending ?? 0}
@@ -117,7 +142,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("customer_inactive")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.customer_inactive")}</Typography>
                                     {renderAtomContent(customerAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.inactive ?? 0}
@@ -133,7 +158,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("customer_fit")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.customer_fit")}</Typography>
                                     {renderAtomContent(customerAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.fit ?? 0}
@@ -149,10 +174,10 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("customer_notFit")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.customer_not_fit")}</Typography>
                                     {renderAtomContent(customerAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
-                                            {data?.notFit ?? 0} {/* CORREÇÃO: notfit em vez de notFit */}
+                                            {data?.notFit ?? 0}
                                         </Typography>
                                     ))}
                                 </Box>
@@ -168,7 +193,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("order_open")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.order_open")}</Typography>
                                     {renderAtomContent(orderAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.open ?? 0}
@@ -184,7 +209,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("order_closed")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.order_closed")}</Typography>
                                     {renderAtomContent(orderAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.closed ?? 0}
@@ -200,7 +225,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("order_canceled")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.order_canceled")}</Typography>
                                     {renderAtomContent(orderAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             {data?.canceled ?? 0}
@@ -216,7 +241,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("total_sold")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.total_sold")}</Typography>
                                     {renderAtomContent(totalSoldAtom, (data) => (
                                         <Typography level="title-lg" fontWeight="bold">
                                             R$ {data?.data?.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) ?? '0,00'}
@@ -225,7 +250,6 @@ export const Home = () => {
                                 </Box>
                             </Grid>
                         </Grid>
-
 
                         {/* Terceira linha de cards */}
                         <Grid container spacing={2}>
@@ -236,11 +260,11 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("wallet_most_sold")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.wallet_most_sold")}</Typography>
                                     {renderAtomContent(mostWalletAtom, (data) => (
                                         <Box>
                                             <Typography level="title-lg" fontWeight="bold">
-                                                {data?.label ?? "N/A"} {/* CORRETO: label */}
+                                                {data?.label ?? "N/A"}
                                             </Typography>
                                             <Typography level="body-sm">
                                                 {data?.sold?.toLocaleString('pt-BR', {
@@ -259,7 +283,7 @@ export const Home = () => {
                                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",
                                     bgcolor: "background.body"
                                 }}>
-                                    <Typography level="body-sm">{t("operator_most_sold")}</Typography>
+                                    <Typography level="body-sm">{t("home.cards.operator_most_sold")}</Typography>
                                     {renderAtomContent(mostOperatorAtom, (data) => (
                                         <Box>
                                             <Typography level="title-lg" fontWeight="bold">
@@ -286,7 +310,7 @@ export const Home = () => {
                                     bgcolor: "background.body"
                                 }}>
                                     <Typography level="title-md" mb={2}>
-                                        {t("monthly_sales_chart") || "Vendas Mensais"}
+                                        {t("home.charts.monthly_sales")}
                                     </Typography>
                                     {renderAtomContent(monthSoldAtom, (data) => {
                                         const parsed = data?.dashboardMonthSold?.map((item: DashboardMonthSold) => ({
@@ -320,7 +344,7 @@ export const Home = () => {
                             bgcolor: "background.body"
                         }}>
                             <Typography level="title-sm" sx={{ mb: 1, px: 2, pt: 2 }}>
-                                Produtos Mais Vendidos
+                                {t("home.tables.best_selling_products")}
                             </Typography>
                             {renderAtomContent(rankBestAtom, (data) => {
                                 return (
@@ -338,9 +362,9 @@ export const Home = () => {
                                     >
                                         <thead>
                                             <tr>
-                                                <th>Produto</th>
-                                                <th>Quantidade</th>
-                                                <th>Sold</th>
+                                                <th>{t("home.tables.product")}</th>
+                                                <th>{t("home.tables.quantity")}</th>
+                                                <th>{t("home.tables.sold")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -364,7 +388,7 @@ export const Home = () => {
                             bgcolor: "background.body"
                         }}>
                             <Typography level="title-sm" sx={{ mb: 1, px: 2, pt: 2 }}>
-                                Produtos Menos Vendidos
+                                {t("home.tables.least_selling_products")}
                             </Typography>
                             {renderAtomContent(rankLessAtom, (data) => {
                                 return (
@@ -382,9 +406,9 @@ export const Home = () => {
                                     >
                                         <thead>
                                             <tr>
-                                                <th>Produto</th>
-                                                <th>Quantidade</th>
-                                                <th>Sold</th>
+                                                <th>{t("home.tables.product")}</th>
+                                                <th>{t("home.tables.quantity")}</th>
+                                                <th>{t("home.tables.sold")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -392,7 +416,7 @@ export const Home = () => {
                                                 <tr key={`product_list_key_${product.uuid}`}>
                                                     <td>{product.name}</td>
                                                     <td>{product.quantity}</td>
-                                                    <td>{product.sold?.toFixed(2).replace(".", ",")}</td>
+                                                    <td>{product.sold.toFixed(2).replace(".", ",")}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

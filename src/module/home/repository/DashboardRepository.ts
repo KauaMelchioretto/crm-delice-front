@@ -13,9 +13,28 @@ import { SimplesSalesUser } from "../../user/entities/entities.ts";
 class DashboardRepository {
     DASHBOARD_UNEXPECTED_ERROR = "DASHBOARD_UNEXPECTED_ERROR";
 
-    async getDashboardCustomer(): Promise<DashboardCustomerValues> {
+    // Função para construir query string que força %20 em vez de +
+    private buildQueryString(params?: Record<string, string>): string {
+        if (!params || Object.keys(params).length === 0) {
+            return '';
+        }
+
+        const searchParams = new URLSearchParams();
+        
+        Object.entries(params).forEach(([key, value]) => {
+            // Usar encodeURIComponent que codifica espaços como %20
+            searchParams.append(key, value);
+        });
+
+        // Converter para string e substituir + por %20
+        return `?${searchParams.toString().replace(/\+/g, '%20')}`;
+    }
+
+    async getDashboardCustomer(params?: Record<string, string>): Promise<DashboardCustomerValues> {
         try {
-            const response = await http.get("/dashboard/customer");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/customer${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardCustomerValues as DashboardCustomerValues;
         } catch (e) {
             if (e instanceof AxiosError) {
@@ -30,9 +49,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardOrder(): Promise<DashboardOrderValues> {
+    async getDashboardOrder(params?: Record<string, string>): Promise<DashboardOrderValues> {
         try {
-            const response = await http.get("/dashboard/order");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/order${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardOrderValues as DashboardOrderValues;
         } catch (e) {
             if (e instanceof AxiosError) {
@@ -47,9 +68,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardRankBest(): Promise<DashboardRankValuesProducts> {
+    async getDashboardRankBest(params?: Record<string, string>): Promise<DashboardRankValuesProducts> {
         try {
-            const response = await http.get("/dashboard/rank/best/products");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/rank/best/products${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardRankValuesBest || [];
         } catch (e) {
             if (e instanceof AxiosError) {
@@ -63,9 +86,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardRankLess(): Promise<DashboardRankValuesProducts> {
+    async getDashboardRankLess(params?: Record<string, string>): Promise<DashboardRankValuesProducts> {
         try {
-            const response = await http.get("/dashboard/rank/less/products");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/rank/less/products${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardRankValuesLess || [];
         } catch (e) {
             if (e instanceof AxiosError) {
@@ -79,9 +104,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardTotalSold(): Promise<DashboardResponse<number>> {
+    async getDashboardTotalSold(params?: Record<string, string>): Promise<DashboardResponse<number>> {
         try {
-            const response = await http.get("/dashboard/totalSold");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/totalSold${queryString}`;
+            const response = await http.get(url);
             const total = response.data.dashboardTotalSold as number;
             return { data: total };
         } catch (e) {
@@ -96,9 +123,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardMostWalletSold(): Promise<SimpleWallet | { error: string }> {
+    async getDashboardMostWalletSold(params?: Record<string, string>): Promise<SimpleWallet | { error: string }> {
         try {
-            const response = await http.get("/dashboard/mostWalletSold");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/mostWalletSold${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardMostWalletSold as SimpleWallet;
         } catch (e) {
             if (e instanceof AxiosError) {
@@ -113,9 +142,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardMostOperatorSold(): Promise<SimplesSalesUser | { error: string }> {
+    async getDashboardMostOperatorSold(params?: Record<string, string>): Promise<SimplesSalesUser | { error: string }> {
         try {
-            const response = await http.get("/dashboard/mostOperatorSold");
+            const queryString = this.buildQueryString(params);
+            const url = `/dashboard/mostOperatorSold${queryString}`;
+            const response = await http.get(url);
             return response.data.dashboardMostOperatorSold as SimplesSalesUser;
 
         } catch (e) {
@@ -130,9 +161,11 @@ class DashboardRepository {
         }
     }
 
-    async getDashboardMonthSold(): Promise<DashboardMonthSoldResponse> {
+    async getDashboardMonthSold(params?: Record<string, string>): Promise<DashboardMonthSoldResponse> {
     try {
-        const response = await http.get("/dashboard/monthSold"); 
+        const queryString = this.buildQueryString(params);
+        const url = `/dashboard/monthSold${queryString}`;
+        const response = await http.get(url); 
         return {
             dashboardMonthSold: response.data.dashboardMonthSold
         } as DashboardMonthSoldResponse;
@@ -148,6 +181,5 @@ class DashboardRepository {
     }
 }
 }
-
 
 export const dashboardRepository = new DashboardRepository();

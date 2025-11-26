@@ -560,24 +560,40 @@
         }
       }
     },
-    "app_bar": {
-      "placeholder": "Procurar..."
-    },
     "home": {
       "page": {
-        "title": "Home",
-        "entity": "Home"
+        "title": "Dashboard"
       },
       "fields": {
-        "customer_pending": "Pending",
-        "customer_inactive": "Inactive",
-        "customer_fit": "Fit",
-        "customer_notFit": "Not Fit"
+        "customer_name": "Nome do Cliente",
+        "wallet_name": "Nome da Carteira", 
+        "operator_name": "Nome do Operador"
       },
-      "messages": {
+      "cards": {
+        "customer_pending": "Clientes Pendentes",
+        "customer_inactive": "Clientes Inativos",
+        "customer_fit": "Clientes Aptos", 
+        "customer_not_fit": "Clientes Não Aptos",
+        "order_open": "Pedidos Abertos",
+        "order_closed": "Pedidos Fechados",
+        "order_canceled": "Pedidos Cancelados",
+        "total_sold": "Total Vendido",
+        "wallet_most_sold": "Carteira com Mais Vendas",
+        "operator_most_sold": "Operador com Mais Vendas"
       },
-      "errors": {
+      "tables": {
+        "best_selling_products": "Produtos Mais Vendidos",
+        "least_selling_products": "Produtos Menos Vendidos", 
+        "product": "Produto",
+        "quantity": "Quantidade",
+        "sold": "Vendido"
+      },
+      "charts": {
+        "monthly_sales": "Vendas Mensais"
       }
+    },
+    "app_bar": {
+      "placeholder": "Procurar..."
     }
   }
 }
