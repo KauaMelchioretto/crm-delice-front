@@ -63,7 +63,8 @@ export enum CrmModules {
     Task = "TASK",
     Calendar = "CALENDAR",
     Campaign = "CAMPAIGN",
-    CampaignData = "CAMPAIGN_DATA"
+    CampaignData = "CAMPAIGN_DATA",
+    Leads = "LEAD"
 }
 
 export enum CrmFormType {
@@ -114,7 +115,9 @@ export enum CrmDefaultRoles {
     CREATE_KANBAN = "CREATE_KANBAN",
     ALL_KANBAN = "ALL_KANBAN",
     CREATE_CAMPAIGN = "CREATE_CAMPAIGN",
-    ALL_CAMPAIGN = "ALL_CAMPAIGN"
+    ALL_CAMPAIGN = "ALL_CAMPAIGN",
+    APPROVAL_LEAD = "APPROVAL_LEAD",
+    ALL_LEAD = "ALL_LEAD"
 }
 
 export interface PaginatedResponse<T> {

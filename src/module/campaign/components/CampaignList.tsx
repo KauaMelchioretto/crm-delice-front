@@ -18,6 +18,7 @@ import {EditRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {valueToEnum} from "../../../utils/functions/ValueToEnum.ts";
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 export const CampaignList = () => {
     const setEntityForm = useSetAtom(CrmState.EntityFormUUID);
@@ -65,6 +66,10 @@ export const CampaignList = () => {
         campaignFields.push({
             key: "edit",
             label: "Editar",
+        })
+        campaignFields.push({
+            key: "config",
+            label: "Configurar",
         })
     }
 
@@ -137,6 +142,9 @@ export const CampaignList = () => {
                                 "& thead th:nth-child(7)": {
                                     width: 50,
                                 },
+                                "& thead th:nth-child(8)": {
+                                    width: 50,
+                                },
                                 "& td": {
                                     textWrap: "nowrap",
                                     textOverflow: "ellipsis",
@@ -172,7 +180,10 @@ export const CampaignList = () => {
                                                 <IconButton
                                                     size={"sm"}
                                                     onClick={() => {
-                                                        navigate(`/visit/${campaign.uuid}`)
+                                                        window.open(
+                                                            `${window.location.origin}/app/visit/${campaign.uuid}`,
+                                                            "_blank"
+                                                        )
                                                     }}
                                                 >
                                                     <OpenInNewRoundedIcon/>
@@ -191,6 +202,20 @@ export const CampaignList = () => {
                                                     }}
                                                 >
                                                     <EditRounded/>
+                                                </IconButton>
+                                            </td>
+                                        )
+                                    }
+                                    {
+                                        canCreate && (
+                                            <td>
+                                                <IconButton
+                                                    size={"sm"}
+                                                    onClick={() => {
+                                                        navigate(`/campaign/${campaign.uuid}`)
+                                                    }}
+                                                >
+                                                    <SettingsRoundedIcon/>
                                                 </IconButton>
                                             </td>
                                         )

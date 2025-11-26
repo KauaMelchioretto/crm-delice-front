@@ -6,15 +6,17 @@ import {LoginPage} from "../../auth/page/LoginPage.tsx";
 import {ForgottenPassword} from "../../auth/page/ForgottenPassword.tsx";
 import {ResetPassword} from "../../auth/page/ResetPassword.tsx";
 import {useApp} from "../app/AppProvider.tsx";
-import {LeadCampaignPage} from "../../../module/campaign/page/LeadCampaignPage.tsx";
 import {loadCampaign} from "../../../module/campaign/entities/entities.ts";
 import {ErrorPage} from "../../../utils/pages/ErrorPage.tsx";
+import {LeadCampaignPage} from "../../../module/lead/page/LeadCampaignPage.tsx";
+import {LeadRegisteredWithSuccess} from "../../../module/lead/page/LeadRegisteredWithSuccess.tsx";
 
 export const Root = () => {
     const {crmModules} = useApp()
 
     const router = createBrowserRouter(
         [
+
             {
                 path: "/login",
                 element: (
@@ -35,6 +37,14 @@ export const Root = () => {
                 path: "/visit/:uuid",
                 loader: loadCampaign,
                 element: <LeadCampaignPage/>,
+                errorElement: <ErrorPage/>,
+                HydrateFallback: () => (
+                    <div>Carregando requisição…</div>
+                ),
+            },
+            {
+                path: "/success",
+                element: <LeadRegisteredWithSuccess/>,
                 errorElement: <ErrorPage/>,
             },
             {
@@ -59,11 +69,13 @@ export const Root = () => {
             },
         ],
         {
-            basename: "/app"
+            basename: "/app",
         }
     );
 
     return (
-        <RouterProvider router={router}/>
+        <RouterProvider
+            router={router}
+        />
     )
 };

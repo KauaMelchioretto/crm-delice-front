@@ -9,6 +9,7 @@ import AddReactionRoundedIcon from '@mui/icons-material/AddReactionRounded';
 import AddchartRoundedIcon from '@mui/icons-material/AddchartRounded';
 import {LoaderFunctionArgs} from "react-router-dom";
 import {campaignUseCase} from "../usecase/CampaignUseCase.ts";
+import {SerializableProduct} from "../../product/entities/entities.ts";
 
 export interface Campaign {
     uuid?: string
@@ -40,16 +41,16 @@ export enum CampaignStatus {
 export interface CampaignMetadata {
     products?: DiscountedProduct[]
     salesTarget?: number
-    campaignLeadFields?: CampaignLeadFields
+    campaignLeadFields?: CampaignLeadFields[]
 }
 
 export interface DiscountedProduct {
-    product: string,
+    product: SerializableProduct
     discount: number
 }
 
 export interface CampaignLeadFields {
-    type: CampaignLeadFieldType,
+    type: CampaignLeadFieldType
     active: boolean
 }
 
@@ -122,8 +123,39 @@ export function getCampaignTypeProps(status: string): CrmCardStatusProps {
     return campaignType[value]
 }
 
+export function campaignLeadFieldLabel(type: CampaignLeadFieldType): string {
+    switch (type) {
+        case CampaignLeadFieldType.DOCUMENT:
+            return "CNPJ"
+        case CampaignLeadFieldType.COMPANY_NAME:
+            return "Nome da empresa"
+        case CampaignLeadFieldType.TRADING_NAME:
+            return "Nome fantasia"
+        case CampaignLeadFieldType.EMAIL:
+            return "Email"
+        case CampaignLeadFieldType.ECONOMIC_ACTIVITY:
+            return "Atividade economica"
+        case CampaignLeadFieldType.PHONE_NUMBER:
+            return "Numero telefone"
+        case CampaignLeadFieldType.CEP:
+            return "CEP"
+        case CampaignLeadFieldType.CITY:
+            return "Cidade"
+        case CampaignLeadFieldType.STATE:
+            return "Estado"
+        case CampaignLeadFieldType.COMPLEMENT:
+            return "Complemento"
+        case CampaignLeadFieldType.ADDRESS:
+            return "Endereço"
+        case CampaignLeadFieldType.ADDRESS_NUMBER:
+            return "Número"
+        case CampaignLeadFieldType.PERSONAL_NAME:
+            return "Nome pessoal"
+    }
+}
+
 export async function loadCampaign(props: LoaderFunctionArgs): Promise<Campaign> {
-    const response = await campaignUseCase.getCampaignByUUID(props.params?.uuid ?? "")
+    const response = await campaignUseCase.getVisitCampaignByUUID(props.params?.uuid ?? "")
 
     if (response.error || !response.campaign) {
         throw new Response("campaign not found", {status: 404});

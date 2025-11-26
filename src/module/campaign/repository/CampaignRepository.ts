@@ -1,4 +1,4 @@
-import {Campaign, CampaignListResponse, CampaignResponse} from "../entities/entities.ts";
+import {Campaign, CampaignListResponse, CampaignMetadata, CampaignResponse} from "../entities/entities.ts";
 import {handleRequest} from "../../../utils/functions/HandleAxios.ts";
 import {http} from "../../../core/config/api/http.ts";
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
@@ -19,6 +19,18 @@ class CampaignRepository {
     async getCampaignByUUID(uuid: string): Promise<CampaignResponse> {
         return handleRequest(
             http.get(`/campaign/${uuid}`)
+        )
+    }
+
+    async getVisitCampaignByUUID(uuid: string): Promise<CampaignResponse> {
+        return handleRequest(
+            http.get(`/campaign/visit/${uuid}`)
+        )
+    }
+
+    async saveCampaignMetadata(campaignUUID: string, metadata: CampaignMetadata): Promise<CampaignResponse> {
+        return handleRequest(
+            http.post(`/campaign/metadata/${campaignUUID}`, metadata)
         )
     }
 

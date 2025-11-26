@@ -45,6 +45,9 @@ import {Campaign} from "../../../module/campaign/page/Campaign.tsx";
 import {CampaignForm} from "../../../module/campaign/components/CampaignForm.tsx";
 import {CampaignData} from "../../../module/campaign/page/CampaignData.tsx";
 
+import FaceRetouchingNaturalRoundedIcon from '@mui/icons-material/FaceRetouchingNaturalRounded';
+import {Leads} from "../../../module/lead/page/Leads.tsx";
+
 interface AppContextProps {
     crmModules: CrmModule[],
     getModuleByCode: (code: CrmModules) => CrmModule
@@ -108,6 +111,16 @@ export const AppProvider = (props: AppProviderProps) => {
             createLabel: t("customers.page.buttons.register"),
             editFormType: CrmFormType.EDIT_CUSTOMER,
             createFormType: CrmFormType.REGISTER_CUSTOMER
+        },
+        {
+            path: "/lead",
+            sideBar: true,
+            element: <Leads/>,
+            permissionRequired: true,
+            form: <CustomerForm/>,
+            icon: FaceRetouchingNaturalRoundedIcon,
+            label: "Leads",
+            code: CrmModules.Leads,
         },
         {
             path: "/customersBoard",

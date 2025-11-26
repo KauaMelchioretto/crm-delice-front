@@ -56,6 +56,16 @@ export interface SimpleProductListResponse{
     error?: string
 }
 
+export interface SerializableProduct {
+    uuid: string
+    code: number
+    name: string
+    image: string
+    description: string
+    price: number
+    weight: number
+}
+
 export function getProductStatusProps(status: string): CrmCardStatusProps {
     const value = valueToEnum(status, ProductStatus)
 

@@ -4,7 +4,6 @@ import {CrmFormType} from "../../../utils/entities/entities.ts";
 import {CrmModal} from "../../../utils/components/core/CrmModal.tsx";
 import {CrmSelect} from "../../../utils/components/core/SelectInput.tsx";
 import {useAtom, useAtomValue, useSetAtom} from "jotai";
-import {useEffect, useState} from "react";
 import {FieldValues, FormProvider, useForm} from "react-hook-form";
 import {Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Typography} from "@mui/joy";
 import CloseRounded from "@mui/icons-material/CloseRounded";
@@ -14,7 +13,7 @@ import {ValueInput} from "../../../utils/components/inputs/ValueInput.tsx";
 import {orderUseCase} from "../usecase/OrderUseCase.ts";
 import {popup} from "../../../utils/alerts/Popup.ts";
 import {useNavigate} from "react-router-dom";
-import {AutoCompleteOptions, MultiAutocomplete} from "../../../utils/components/inputs/MultiAutocomplete.tsx";
+import {MultiAutocomplete} from "../../../utils/components/inputs/MultiAutocomplete.tsx";
 import ProductState from "../../product/state/ProductState.ts";
 import {NumericInput} from "../../../utils/components/inputs/NumericInput.tsx";
 import OrderState from "../state/OrderState.ts";
@@ -163,9 +162,7 @@ const OrderItemRegister = () => {
     const order = useAtomValue(OrderState.Order)
     const updateList = useSetAtom(OrderState.UpdateAtom)
 
-    const simpleProductsAtom = useAtomValue(ProductState.SimpleProducts)
-
-    const [products, setProducts] = useState<AutoCompleteOptions[]>([])
+    const products = useAtomValue(ProductState.SimpleProducts)
 
     const formMethods = useForm();
 
@@ -193,18 +190,6 @@ const OrderItemRegister = () => {
             }
         })
     })
-
-    useEffect(() => {
-        let tempProducts: AutoCompleteOptions[] = []
-
-        if (simpleProductsAtom.state === "hasData") {
-            tempProducts = (simpleProductsAtom.data?.products ?? []).map((x) => (
-                {uuid: x?.uuid ?? "", label: x?.name ?? ""})
-            )
-        }
-
-        setProducts(tempProducts)
-    }, [simpleProductsAtom.state]);
 
     return (
         <CrmContainer sx={{minWidth: "500px"}}>
@@ -236,7 +221,12 @@ const OrderItemRegister = () => {
                     <FormControl sx={{flex: 1}}>
                         <FormLabel>Produtos</FormLabel>
                         <MultiAutocomplete
-                            options={products}
+                            options={
+                                products.map(x => ({
+                                    label: x.label,
+                                    uuid: x.value as string
+                                }))
+                            }
                             name={"products"}
                         />
                     </FormControl>
