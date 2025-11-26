@@ -51,6 +51,14 @@ export interface SimpleProduct{
     name: string
 }
 
+export interface SimpleProductWithSales{
+    uuid: string,
+    name: string,
+    quantity: number,
+    sold: number
+}
+
+
 export interface SimpleProductListResponse{
     products?: SimpleProduct[],
     error?: string
