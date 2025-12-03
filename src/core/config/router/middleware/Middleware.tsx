@@ -11,9 +11,9 @@ export const Middleware = (
         return <Navigate to={"/login"}/>
     }
 
-    if(permissionRequired && !modules?.find(x => x.path === path)){
-        return <Navigate to={"/noPermission"}/>
-    }
+    // if(permissionRequired && !modules?.find(x => x.path === path)){
+    //     return <Navigate to={"/noPermission"}/>
+    // }
 
     return children;
 }

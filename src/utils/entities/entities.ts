@@ -62,6 +62,7 @@ export enum CrmModules {
     OrderItems = 'ORDER_ITEMS',
     Task = "TASK",
     Calendar = "CALENDAR",
+    Map = "MAP"
 }
 
 export enum CrmFormType {

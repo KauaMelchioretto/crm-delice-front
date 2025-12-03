@@ -141,6 +141,7 @@
       "tasks": "Tasks",
       "customers_board": "Customers board",
       "calendar": "Calendar",
+      "map": "Map",
       "messages": {
         "module_saved_with_success": "The module has been saved with success",
         "question_delete_module": "Delete module?",
@@ -570,16 +571,15 @@
     "home": {
       "page": {
         "title": "Dashboard"
-        
       },
       "fields": {
-          "customer_name": "Customer name", 
-          "wallet_name": "Wallet name",
-          "operator_name": "Operator name"
+        "customer_name": "Customer name",
+        "wallet_name": "Wallet name",
+        "operator_name": "Operator name"
       },
       "cards": {
         "customer_pending": "Pending Customers",
-        "customer_inactive": "Inactive Customers", 
+        "customer_inactive": "Inactive Customers",
         "customer_fit": "Fit Customers",
         "customer_not_fit": "Not Fit Customers",
         "order_open": "Open Orders",
@@ -598,6 +598,26 @@
       },
       "charts": {
         "monthly_sales": "Monthly Sales"
+      }
+    },
+    "map": {
+      "page": {
+        "title": "Customers Map"
+      },
+      "fields": {
+        "customer_name": "Customer Name",
+        "wallet_name": "Wallet Name",
+        "operator_name": "Operator Name",
+        "state": "State"
+      },
+      "charts": {
+        "customers_by_state": "Customers by State"
+      },
+      "tables": {
+        "state_summary": "State Summary"
+      },
+      "cards": {
+        "total_customers": "Total Customers"
       }
     },
     "app_bar": {

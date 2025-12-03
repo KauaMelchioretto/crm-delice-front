@@ -134,6 +134,7 @@
       "products": "Produtos",
       "kanbans": "Kanban",
       "tasks": "Tarefas",
+      "map": "Mapa",
       "customers_board": "Quadro de clientes",
       "calendar": "Calendário",
       "messages": {
@@ -591,6 +592,26 @@
       "charts": {
         "monthly_sales": "Vendas Mensais"
       }
+    },
+    "map": {
+        "page": {
+            "title": "Mapa de Clientes"
+        },
+        "fields": {
+            "customer_name": "Nome do Cliente",
+            "wallet_name": "Nome da Carteira",
+            "operator_name": "Nome do Operador",
+            "state": "Estado"
+        },
+        "charts": {
+            "customers_by_state": "Clientes por Estado"
+        },
+        "tables": {
+            "state_summary": "Resumo por Estado"
+        },
+        "cards": {
+            "total_customers": "Total de Clientes"
+        }
     },
     "app_bar": {
       "placeholder": "Procurar..."

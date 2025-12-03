@@ -35,10 +35,11 @@ import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import {Tasks} from "../../../module/tasks/page/Tasks.tsx";
 import {TaskForm} from "../../../module/tasks/components/TaskForm.tsx";
 import TodayRoundedIcon from '@mui/icons-material/TodayRounded';
-
+import MapRoundedIcon from '@mui/icons-material/MapRounded';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import {CustomersBoard} from "../../../module/customer/page/CustomersBoard.tsx";
 import {CrmCalendar} from "../../../module/tasks/page/Calendar.tsx";
+import { MapPage } from "../../../module/map/page/MapPage.tsx";
 
 interface AppContextProps {
     crmModules: CrmModule[],
@@ -215,6 +216,16 @@ export const AppProvider = (props: AppProviderProps) => {
             label: t("modules.modules_config"),
             code: CrmModules.System,
         },
+        {
+            path: "/map",
+            sideBar: true,
+            element: <MapPage/>,
+            permissionRequired: true,
+            icon: MapRoundedIcon,
+            label: t("modules.map"),
+            code: CrmModules.Map,
+        }
+        
     ]
 
     const getModuleByCode = (code: CrmModules) => {
