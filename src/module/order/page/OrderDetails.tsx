@@ -32,9 +32,11 @@ import {maskDecimal, maskMoney} from "../../../utils/functions/MarkFormat.ts";
 import TurnedInRoundedIcon from '@mui/icons-material/TurnedInRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import {popup} from "../../../utils/alerts/Popup.ts";
+import { useTranslation } from "react-i18next";
 
 export const OrderDetails = () => {
     const theme = useTheme()
+    const {t} = useTranslation();
 
     const {order, isPending} = OrderState.useOrderDetails()
     const navigate = useNavigate()
@@ -60,7 +62,7 @@ export const OrderDetails = () => {
 
     const crumbs = [
         {
-            label: "Pedidos",
+            label: t('modules.order'),
             nav: () => navigate(-1)
         },
         {
@@ -68,7 +70,7 @@ export const OrderDetails = () => {
             nav: () => navigate(0)
         },
         {
-            label: "Detalhes"
+            label: t('orders.labels.details')
         }
     ]
 
@@ -100,7 +102,7 @@ export const OrderDetails = () => {
                         level={"body-lg"}
                         fontWeight={"bold"}
                     >
-                        Pedido {order?.code}
+                        {t('modules.order')} {order?.code}
                     </Typography>
                     <Breadcrumbs sx={{p: 0}}>
                         {
@@ -128,7 +130,7 @@ export const OrderDetails = () => {
                         setFormType(CrmFormType.REGISTER_ORDER_ITEM)
                     }}
                 >
-                    Adicionar produto
+                    {t('orders.actions.add_product')}
                 </Button>
             </CrmTitleContainer>
             <CrmContainer
@@ -180,6 +182,8 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
         } ${customer?.state ?? ""}`
     }
 
+    const {t} = useTranslation();
+
     return (
         <CrmContainer
             sx={{
@@ -196,7 +200,7 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
                 level={"body-md"}
                 fontWeight={"bold"}
             >
-                Cliente
+                {t('customers.page.entity')}
             </Typography>
             <Box
                 sx={{
@@ -211,7 +215,7 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    CNPJ
+                    {t('customers.fields.document')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -231,7 +235,7 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Nome fantasia
+                    {t('customers.fields.trading_name')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -251,7 +255,7 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Razão social
+                    {t('customers.fields.company_name')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -271,7 +275,7 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Endereço
+                    {t('customers.fields.address')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -284,20 +288,22 @@ const CustomerInfo = ({customer}: { customer: Customer }) => {
 }
 
 const OrderInfo = ({order}: { order: Order }) => {
+    const {t} = useTranslation();
+
     const orderStatus = {
         [OrderStatus.OPEN]: {
             color: "#2685E2",
-            label: "Aberto",
+            label: t('orders.status.open'),
             icon: VerifiedRounded,
         },
         [OrderStatus.CANCELED]: {
             color: "#ff543f",
-            label: "Cancelado",
+            label: t('orders.status.canceled'),
             icon: CancelRoundedIcon,
         },
         [OrderStatus.CLOSED]: {
             color: "#1f7a1f",
-            label: "Fechado",
+            label: t('orders.status.closed'),
             icon: TurnedInRoundedIcon,
         },
     };
@@ -362,7 +368,7 @@ const OrderInfo = ({order}: { order: Order }) => {
                 level={"body-md"}
                 fontWeight={"bold"}
             >
-                Pedido
+                {t('orders.labels.order')}
             </Typography>
             <Box
                 sx={{
@@ -377,7 +383,7 @@ const OrderInfo = ({order}: { order: Order }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Criação
+                    {t('orders.fields.created_at')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -397,7 +403,7 @@ const OrderInfo = ({order}: { order: Order }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Modificação
+                    {t('orders.fields.modified_at')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -417,7 +423,7 @@ const OrderInfo = ({order}: { order: Order }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Operador
+                    {t('orders.labels.created_by')}
                 </Typography>
                 <Box
                     sx={{
@@ -455,7 +461,7 @@ const OrderInfo = ({order}: { order: Order }) => {
                     level={"body-sm"}
                     fontWeight={"bold"}
                 >
-                    Situação do pedido
+                    {t('orders.fields.status')}
                 </Typography>
                 <Typography
                     level={"body-sm"}
@@ -469,6 +475,7 @@ const OrderInfo = ({order}: { order: Order }) => {
 
 const OrderItems = () => {
     const items = useAtomValue(OrderState.OrderItems)
+    const {t} = useTranslation();
 
     return (
         <CrmContainer
@@ -488,7 +495,7 @@ const OrderItems = () => {
                 level={"body-md"}
                 fontWeight={"bold"}
             >
-                Itens
+                {t('orders.labels.items')}
             </Typography>
             {items.map((item, i) => (
                 <OrderItemTile
@@ -504,6 +511,7 @@ const OrderItemTile = (
     {item}: { item: OrderItem }
 ) => {
     const image = item.product.images ? item.product.images[0]?.image ?? noImage : noImage
+    const {t} = useTranslation();
 
     return (
         <Box
@@ -538,22 +546,22 @@ const OrderItemTile = (
                 width={10}
             />
             <OrderInfoLabel
-                label={"Preço unitário"}
+                label={t('orders.labels.unit_price')}
                 child={maskMoney(item.product.price ?? 0)}
                 width={10}
             />
             <OrderInfoLabel
-                label={"Peso (g)"}
+                label={t('products.fields.weight') + " (g)"}
                 child={maskDecimal(item.product.weight ?? 0)}
                 width={6}
             />
             <OrderInfoLabel
-                label={"Valor bruto"}
+                label={t('orders.labels.gross_price')}
                 child={maskMoney(item.grossPrice ?? 0)}
                 width={10}
             />
             <OrderInfoLabel
-                label={"Valor líquido"}
+                label={t('orders.labels.net_price')}
                 child={maskMoney(item.netPrice ?? 0)}
                 width={10}
             />
@@ -576,7 +584,7 @@ const OrderItemDiscount = (
     })
 
     const setOrderItems = useSetAtom(OrderState.OrderItems)
-
+    const {t} = useTranslation();
     const handleSubmitDiscount = handleSubmit((data: FieldValues) => {
         const value = parseFloat(data.discount.replace(",", "."))
 
@@ -588,6 +596,10 @@ const OrderItemDiscount = (
                 discount: value
             }
         ).then((response) => {
+            if (response.error) {
+                popup.toast("error", t(`orders.errors.${response.error}`), 2000);
+            }
+
             if (response.order) {
                 setOrder(response.order)
                 setOrderItems(response.order.items ?? [])
@@ -601,7 +613,7 @@ const OrderItemDiscount = (
 
     return (
         <OrderInfoLabel
-            label={"Desconto (%)"}
+            label={t('orders.labels.discount') + " (%)"}
             width={8}
             child={
                 <form onSubmit={handleSubmitDiscount}>
@@ -623,7 +635,7 @@ const OrderItemQuantity = (
     {item}: { item: OrderItem }
 ) => {
     const [order, setOrder] = useAtom(OrderState.Order)
-
+    const {t} = useTranslation();
     const setOrderItems = useSetAtom(OrderState.OrderItems)
 
     const changeQuantity = (symbol: '-' | '+') => {
@@ -650,7 +662,7 @@ const OrderItemQuantity = (
 
     return (
         <OrderInfoLabel
-            label={"Quantidade"}
+            label={t('orders.labels.quantity')}
             width={7}
             child={
                 <Box
@@ -738,14 +750,15 @@ const OrderItemRemove = (
 ) => {
     const [order, setOrder] = useAtom(OrderState.Order)
     const setOrderItems = useSetAtom(OrderState.OrderItems)
+    const {t} = useTranslation();
 
     const handleRemoveItem = () => {
         popup.confirm(
             "question",
-            "Remover?",
-            "Você deseja remover este item do pedido?",
-            "Sim",
-            "Não"
+            t('orders.messages.question_remove'),
+            t('orders.messages.question_confirm_remove_item'),
+            t('actions.yes'),
+            t('actions.no')
         ).then((result) => {
             if (result.isConfirmed) {
                 removeItem()
@@ -784,7 +797,7 @@ const OrderItemRemove = (
                     startDecorator={<DeleteOutlineOutlinedIcon/>}
                     onClick={() => handleRemoveItem()}
                 >
-                    Remover item
+                    {t('orders.actions.remove_item')}
                 </Button>
             }
         />
@@ -793,7 +806,7 @@ const OrderItemRemove = (
 
 const OrderTotals = ({order}: { order: Order }) => {
     const navigate = useNavigate()
-
+    const {t} = useTranslation();
     const handleChangeOrderStatus = (status: OrderStatus) => {
         orderUseCase.saveOrder(
             order?.uuid ?? "",
@@ -806,7 +819,7 @@ const OrderTotals = ({order}: { order: Order }) => {
                 navigate("/orders")
             }
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`orders.errors.${response.error}`), 2000);
             }
         })
     }
@@ -829,7 +842,7 @@ const OrderTotals = ({order}: { order: Order }) => {
                 level={"body-md"}
                 fontWeight={"bold"}
             >
-                Totais
+                {t('orders.labels.totals')}
             </Typography>
             <Box
                 sx={{
@@ -842,38 +855,38 @@ const OrderTotals = ({order}: { order: Order }) => {
                     <OrderDiscount/>
                 ) : (
                     <OrderInfoLabel
-                        label={"Desconto (%)"}
+                        label={t('orders.labels.discount') + " (%)"}
                         child={maskDecimal(order.defaultDiscount ?? 0)}
                         width={8}
                     />
                 )}
                 <OrderInfoLabel
-                    label={"Quantidade de produtos"}
+                    label={t('orders.labels.quantity_products')}
                     child={order.totalProducts}
                     width={12}
                 />
                 <OrderInfoLabel
-                    label={"Quantidade de itens"}
+                    label={t('orders.labels.quantity_items')}
                     child={order.totalItems}
                     width={10}
                 />
                 <OrderInfoLabel
-                    label={"Desconto total (%)"}
+                    label={t('orders.labels.total_discount') + " (%)"}
                     child={maskDecimal(order.discount ?? 0)}
                     width={8}
                 />
                 <OrderInfoLabel
-                    label={"Peso total (g)"}
+                    label={t('orders.labels.total_weight') + " (g)"}
                     child={maskDecimal(order.weight ?? 0)}
                     width={8}
                 />
                 <OrderInfoLabel
-                    label={"Valor bruto"}
+                    label={t('orders.labels.gross_price')}
                     child={maskMoney(order.grossPrice ?? 0)}
                     width={8}
                 />
                 <OrderInfoLabel
-                    label={"Valor líquido"}
+                    label={t('orders.labels.net_price')}
                     child={maskMoney(order.netPrice ?? 0)}
                     width={8}
                 />
@@ -895,7 +908,7 @@ const OrderTotals = ({order}: { order: Order }) => {
                             handleChangeOrderStatus(OrderStatus.CANCELED)
                         }}
                     >
-                        Cancelar pedido
+                        {t('orders.actions.cancel_order')}
                     </Button>
                     <Button
                         sx={{flex: 1}}
@@ -905,7 +918,7 @@ const OrderTotals = ({order}: { order: Order }) => {
                             handleChangeOrderStatus(OrderStatus.CLOSED)
                         }}
                     >
-                        Finalizar pedido
+                        {t('orders.actions.finish_order')}
                     </Button>
                 </Box>
             )}
@@ -915,7 +928,7 @@ const OrderTotals = ({order}: { order: Order }) => {
 
 const OrderDiscount = () => {
     const [order, setOrder] = useAtom(OrderState.Order)
-
+    const {t} = useTranslation();
     const {register, handleSubmit} = useForm({
         defaultValues: {
             discount: order!.defaultDiscount
@@ -934,6 +947,10 @@ const OrderDiscount = () => {
                 discount: value
             }
         ).then((response) => {
+            if (response.error) {
+                popup.toast("error", t(`orders.errors.${response.error}`), 2000);
+            }
+
             if (response.order) {
                 setOrder(response.order)
                 setOrderItems(response.order.items ?? [])
@@ -943,7 +960,7 @@ const OrderDiscount = () => {
 
     return (
         <OrderInfoLabel
-            label={"Desconto (%)"}
+            label={t('orders.labels.discount') + " (%)"}
             width={8}
             child={
                 <form onSubmit={handleSubmitDiscount}>

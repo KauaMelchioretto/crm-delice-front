@@ -8,7 +8,7 @@ import {
     PreCustomerResponse, SimpleCustomerListResponse
 } from "../entities/entities.ts";
 import {customersRepository} from "../repository/CustomersRepository";
-
+import { cnpjValidation } from "../../../utils/functions/DocumentValidation.ts";
 
 class CustomersUseCase {
     INVALID_DOCUMENT = "CUSTOMER_INVALID_DOCUMENT"
@@ -30,7 +30,7 @@ class CustomersUseCase {
     async getPreCustomer(document: string): Promise<PreCustomerResponse> {
         const query = document.replace(/\D/g, '')
 
-        if (!query || query.length < 14) {
+        if (!cnpjValidation(query)) {
             return {error: this.INVALID_DOCUMENT}
         }
 

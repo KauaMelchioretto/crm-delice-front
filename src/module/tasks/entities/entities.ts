@@ -15,6 +15,7 @@ import BookmarkAddedRoundedIcon from '@mui/icons-material/BookmarkAddedRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import ManageHistoryRoundedIcon from '@mui/icons-material/ManageHistoryRounded';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
+import {t} from "i18next";
 
 export interface Task {
     uuid?: string
@@ -87,27 +88,27 @@ export function getPriorityProps(priority?: string): CrmCardStatusProps {
     const priorityProps = {
         [TaskPriority.HIGHEST]: {
             color: "#ff543f",
-            label: priority,
+            label: t('tasks.priority.highest'),
             icon: KeyboardDoubleArrowUpRoundedIcon,
         } as CrmCardStatusProps,
         [TaskPriority.HIGH]: {
             color: "#e28a26",
-            label: priority,
+            label: t('tasks.priority.high'),
             icon: ExpandLessRoundedIcon,
         } as CrmCardStatusProps,
         [TaskPriority.MEDIUM]: {
             color: "#118D57",
-            label: priority,
+            label: t('tasks.priority.medium'),
             icon: UnfoldLessRoundedIcon,
         } as CrmCardStatusProps,
         [TaskPriority.LOW]: {
             color: "#2685E2",
-            label: priority,
+            label: t('tasks.priority.low'),
             icon: ExpandMoreRoundedIcon,
         } as CrmCardStatusProps,
         [TaskPriority.LOWEST]: {
             color: "#9823bf",
-            label: priority,
+            label: t('tasks.priority.lowest'),
             icon: KeyboardDoubleArrowDownRoundedIcon,
         } as CrmCardStatusProps,
     };
@@ -118,47 +119,47 @@ export function getPriorityProps(priority?: string): CrmCardStatusProps {
 export function getTaskStatusProps(status?: string): CrmCardStatusProps {
     const value = valueToEnum(status, TaskStatus)
 
-    const priorityProps = {
+    const statusProps = {
         [TaskStatus.PENDING]: {
             color: "#e28a26",
-            label: status,
+            label: t('tasks.status.pending'),
             icon: BookmarkRemoveRoundedIcon,
         } as CrmCardStatusProps,
         [TaskStatus.RUNNING]: {
             color: "#2685E2",
-            label: status,
+            label: t('tasks.status.in_progress'),
             icon: BookmarkBorderRoundedIcon,
         } as CrmCardStatusProps,
         [TaskStatus.COMPLETED]: {
             color: "#118D57",
-            label: status,
+            label: t('tasks.status.completed'),
             icon: BookmarkAddedRoundedIcon,
         } as CrmCardStatusProps,
     };
 
-    return priorityProps[value] as CrmCardStatusProps
+    return statusProps[value] as CrmCardStatusProps
 }
 
 export function getTaskActionProps(action?: string): CrmCardStatusProps {
     const value = valueToEnum(action, TaskAction)
 
-    const priorityProps = {
+    const actionProps = {
         [TaskAction.CREATED]: {
             color: "#e28a26",
-            label: action,
+            label: t('tasks.history_action.created'),
             icon: AddCircleOutlineRoundedIcon,
         } as CrmCardStatusProps,
         [TaskAction.UPDATED]: {
             color: "#2685E2",
-            label: action,
+            label: t('tasks.history_action.updated'),
             icon: ManageHistoryRoundedIcon,
         } as CrmCardStatusProps,
         [TaskAction.FINISHED]: {
             color: "#118D57",
-            label: action,
+            label: t('tasks.history_action.finished'),
             icon: CheckCircleOutlineRoundedIcon,
         } as CrmCardStatusProps,
     };
 
-    return priorityProps[value] as CrmCardStatusProps
+    return actionProps[value] as CrmCardStatusProps
 }

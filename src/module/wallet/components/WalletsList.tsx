@@ -12,6 +12,7 @@ import CrmState from "../../../utils/state/CrmState.ts";
 import {
     CrmDefaultRoles,
     CrmField,
+    CrmFieldType,
     CrmFormType,
     CrmModules,
 } from "../../../utils/entities/entities.ts";
@@ -53,6 +54,7 @@ export const WalletsList = () => {
         {
             key: "customers_quantity",
             label: t("wallets.fields.customers_quantity"),
+            sortable: true
         },
         {
             key: "status",
@@ -61,11 +63,11 @@ export const WalletsList = () => {
             filterable: true,
             filterOptions: [
                 {
-                    label: "Ativo",
+                    label: t('wallets.status.active'),
                     value: WalletStatus.ACTIVE
                 },
                 {
-                    label: "Inativo",
+                    label: t('wallets.status.inactive'),
                     value: WalletStatus.INACTIVE
                 }
             ]
@@ -73,7 +75,9 @@ export const WalletsList = () => {
         {
             key: "created_at",
             label: t("wallets.fields.created_at"),
+            filterType: CrmFieldType.Date,
             sortable: true,
+            filterable: true
         },
         {
             key: "edit",

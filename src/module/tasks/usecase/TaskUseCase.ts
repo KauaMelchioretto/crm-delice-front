@@ -10,9 +10,9 @@ import {
 import {taskRepository} from "../repository/TaskRepository.ts";
 
 class TaskUseCase {
-    TASK_TITLE_IS_EMPTY = "Title must be provided"
-    TASK_DESCRIPTION_IS_EMPTY = "Description must be provided"
-    TASK_RESPONSIBLE_IS_EMPTY = "Responsible is empty"
+    TASK_TITLE_IS_EMPTY = "TASK_TITLE_IS_EMPTY"
+    TASK_DESCRIPTION_IS_EMPTY = "TASK_DESCRIPTION_IS_EMPTY"
+    TASK_RESPONSIBLE_IS_EMPTY = "TASK_RESPONSIBLE_IS_EMPTY"
 
     async getTaskPagination(
         page: number,

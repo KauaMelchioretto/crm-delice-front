@@ -9,12 +9,12 @@ import {orderRepository} from "../repository/OrderRepository.ts";
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 
 class OrderUseCase {
-    CUSTOMER_MUST_BE_INFORMED = "The customer must be informed"
-    PRODUCTS_IS_EMPTY = "Product is empty"
+    ORDER_CUSTOMER_MUST_BE_INFORMED = "ORDER_CUSTOMER_MUST_BE_INFORMED"
+    ORDER_PRODUCTS_IS_EMPTY = "ORDER_PRODUCTS_IS_EMPTY"
 
     async registerOrder(order: Order): Promise<OrderResponse> {
         if (!order.customer?.uuid) {
-            return {error: this.CUSTOMER_MUST_BE_INFORMED}
+            return {error: this.ORDER_CUSTOMER_MUST_BE_INFORMED}
         }
 
         return orderRepository.registerOrder(order)
@@ -34,7 +34,7 @@ class OrderUseCase {
 
     async saveItemInOrder(orderUUID: string, item: ManipulateOrderItem): Promise<OrderResponse> {
         if (item.products.length === 0) {
-            return {error: this.PRODUCTS_IS_EMPTY}
+            return {error: this.ORDER_PRODUCTS_IS_EMPTY}
         }
 
         return orderRepository.saveItemInOrder(orderUUID, item)
@@ -42,7 +42,7 @@ class OrderUseCase {
 
     async removeItemInOrder(orderUUID: string, item: ManipulateOrderItem): Promise<OrderResponse> {
         if (item.products.length === 0) {
-            return {error: this.PRODUCTS_IS_EMPTY}
+            return {error: this.ORDER_PRODUCTS_IS_EMPTY}
         }
 
         return orderRepository.removeItemInOrder(orderUUID, item)

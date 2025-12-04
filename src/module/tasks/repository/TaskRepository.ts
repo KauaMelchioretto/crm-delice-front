@@ -31,7 +31,7 @@ class TaskRepository {
             if (orderBy?.field) {
                 query += `&orderBy=${orderBy?.field}:${orderBy?.sortable}`
             } else {
-                query += `&orderBy=code`
+                query += `&orderBy=title`
             }
 
             const response = await http.get(
@@ -43,7 +43,7 @@ class TaskRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.PRODUCT_UNEXPECTED_ERROR,
                 };
             }
