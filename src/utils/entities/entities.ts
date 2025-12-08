@@ -96,7 +96,8 @@ export enum CrmFormType {
     EDIT_TASK,
     DETAIL_TASK,
     REGISTER_CAMPAIGN,
-    EDIT_CAMPAIGN
+    EDIT_CAMPAIGN,
+    DETAIL_LEAD
 }
 
 export enum CrmDefaultRoles {

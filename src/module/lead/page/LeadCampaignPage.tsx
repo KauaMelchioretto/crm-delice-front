@@ -106,11 +106,23 @@ export const LeadCampaignPage = () => {
                     >
                         <StyledCardButton
                             size={"sm"}
+                            onClick={() => {
+                                const section = document.getElementById("our-products");
+                                if (section) {
+                                    section.scrollIntoView({ behavior: "smooth" });
+                                }
+                            }}
                         >
                             Quero conhecer os produtos
                         </StyledCardButton>
                         <StyledCardButton
                             size={"sm"}
+                            onClick={() => {
+                                const section = document.getElementById("new-lead");
+                                if (section) {
+                                    section.scrollIntoView({ behavior: "smooth" });
+                                }
+                            }}
                         >
                             Quero ser parceiro
                         </StyledCardButton>
@@ -190,6 +202,7 @@ export const LeadCampaignPage = () => {
                 </Grid>
             </Box>
             <Box
+                id={"our-products"}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -299,6 +312,7 @@ export const LeadCampaignPage = () => {
                 </Box>
             </Box>
             <Box
+                id={"new-lead"}
                 sx={{
                     display: "flex",
                     flexDirection: "column",

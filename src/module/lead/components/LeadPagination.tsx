@@ -1,4 +1,4 @@
-import {useAtomValue} from "jotai";
+import {useAtomValue, useSetAtom} from "jotai";
 import LeadState from "../state/LeadState.ts";
 import {CrmDefaultRoles, CrmField, CrmModules} from "../../../utils/entities/entities.ts";
 import {useTranslation} from "react-i18next";
@@ -23,6 +23,7 @@ export const LeadPagination = () => {
     const {t} = useTranslation();
 
     const leadsAtom = useAtomValue(LeadState.ListAtom)
+    const update = useSetAtom(LeadState.UpdateAtom);
 
     const {getRolesByModule} = useAuth();
 
@@ -110,6 +111,7 @@ export const LeadPagination = () => {
                 popup.toast("error", response.error, 2000)
             } else {
                 popup.toast("success", "Aprovado com sucesso", 2000)
+                update(prev => !prev)
             }
         })
     }
@@ -120,6 +122,7 @@ export const LeadPagination = () => {
                 popup.toast("error", response.error, 2000)
             } else {
                 popup.toast("success", "Reprovado com sucesso", 2000)
+                update(prev => !prev)
             }
         })
     }
@@ -229,6 +232,7 @@ export const LeadPagination = () => {
                                                 onClick={() => {
                                                     handleApproval(lead.uuid!)
                                                 }}
+                                                disabled={lead.status !== LeadStatus.PENDING}
                                             >
                                                 <PublishedWithChangesRounded/>
                                             </IconButton>
@@ -241,6 +245,7 @@ export const LeadPagination = () => {
                                                 onClick={() => {
                                                     handleReject(lead.uuid!)
                                                 }}
+                                                disabled={lead.status !== LeadStatus.PENDING}
                                             >
                                                 <HighlightOffRoundedIcon/>
                                             </IconButton>

@@ -22,6 +22,12 @@ class LeadRepository {
         )
     }
 
+    async getLeadByUUID(uuid: string): Promise<LeadResponse> {
+        return handleRequest(
+            http.get(`/lead/${uuid}`)
+        )
+    }
+
     async getLeadPagination(
         page: number,
         filter: CrmFilter | null,

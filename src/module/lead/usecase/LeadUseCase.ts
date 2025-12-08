@@ -10,8 +10,13 @@ class LeadUseCase {
     async approveLead(uuid: string): Promise<LeadResponse> {
         return leadRepository.approveLead(uuid)
     }
+
     async rejectLead(uuid: string): Promise<LeadResponse> {
         return leadRepository.rejectLead(uuid)
+    }
+
+    async getLeadByUUID(uuid: string): Promise<LeadResponse> {
+        return leadRepository.getLeadByUUID(uuid)
     }
 
     async getLeadPagination(
