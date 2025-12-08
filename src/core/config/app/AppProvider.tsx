@@ -40,6 +40,14 @@ import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import {CustomersBoard} from "../../../module/customer/page/CustomersBoard.tsx";
 import {CrmCalendar} from "../../../module/tasks/page/Calendar.tsx";
 
+import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded';
+import {Campaign} from "../../../module/campaign/page/Campaign.tsx";
+import {CampaignForm} from "../../../module/campaign/components/CampaignForm.tsx";
+import {CampaignData} from "../../../module/campaign/page/CampaignData.tsx";
+
+import FaceRetouchingNaturalRoundedIcon from '@mui/icons-material/FaceRetouchingNaturalRounded';
+import {Leads} from "../../../module/lead/page/Leads.tsx";
+
 interface AppContextProps {
     crmModules: CrmModule[],
     getModuleByCode: (code: CrmModules) => CrmModule
@@ -105,6 +113,16 @@ export const AppProvider = (props: AppProviderProps) => {
             createFormType: CrmFormType.REGISTER_CUSTOMER
         },
         {
+            path: "/lead",
+            sideBar: true,
+            element: <Leads/>,
+            permissionRequired: true,
+            form: <CustomerForm/>,
+            icon: FaceRetouchingNaturalRoundedIcon,
+            label: "Leads",
+            code: CrmModules.Leads,
+        },
+        {
             path: "/customersBoard",
             sideBar: true,
             element: <CustomersBoard/>,
@@ -165,6 +183,25 @@ export const AppProvider = (props: AppProviderProps) => {
             createLabel: t("products.page.buttons.register"),
             editFormType: CrmFormType.EDIT_PRODUCT,
             createFormType: CrmFormType.REGISTER_PRODUCT
+        },
+        {
+            path: "/campaign",
+            sideBar: true,
+            element: <Campaign/>,
+            permissionRequired: true,
+            icon: AutoGraphRoundedIcon,
+            label: t("modules.campaign"),
+            code: CrmModules.Campaign,
+            form: <CampaignForm/>
+        },
+        {
+            path: "/campaign/:uuid",
+            sideBar: false,
+            element: <CampaignData/>,
+            permissionRequired: true,
+            icon: AutoGraphRoundedIcon,
+            label: t("modules.campaign"),
+            code: CrmModules.CampaignData,
         },
         {
             path: "/kanban",

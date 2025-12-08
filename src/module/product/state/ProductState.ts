@@ -2,11 +2,13 @@ import {atom} from "jotai";
 import {CrmOrderBy, CrmFilter} from "../../../utils/entities/entities.ts";
 import {loadable} from "jotai/utils";
 import {productUseCase} from "../usecase/ProductUseCase.ts";
+import {atomEffect} from "jotai-effect";
+import {OptionType} from "../../../utils/components/core/SelectInput.tsx";
 
 const PageAtom = atom(0);
 const FilterAtom = atom<CrmFilter | null>(null)
 const UpdateAtom = atom(false)
-const OrderByAtom = atom<CrmOrderBy | null>({ field: "code", sortable: "asc" })
+const OrderByAtom = atom<CrmOrderBy | null>({field: "code", sortable: "asc"})
 
 const ListAtom = loadable(atom(async (get) => {
     get(UpdateAtom)
@@ -28,11 +30,18 @@ const ListTotalCountAtom = loadable(atom(async (get) => {
     return 0;
 }));
 
-const SimpleProducts = loadable(atom(async (get) => {
+const SimpleProducts = atom<OptionType[]>([])
+
+const SimpleProductsAtomEffect = atomEffect((get, set) => {
     get(UpdateAtom)
 
-    return productUseCase.getSimpleProducts()
-}))
+    productUseCase.getSimpleProducts().then((response) => {
+        set(SimpleProducts, response.products?.map(x => ({
+            label: x.name ?? "",
+            value: x.uuid ?? ""
+        })) ?? [])
+    })
+})
 
 export default {
     PageAtom,
@@ -41,5 +50,6 @@ export default {
     UpdateAtom,
     ListAtom,
     ListTotalCountAtom,
-    SimpleProducts
+    SimpleProducts,
+    SimpleProductsAtomEffect
 }

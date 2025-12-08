@@ -1,0 +1,48 @@
+import {
+  DashboardCustomerValues,
+  DashboardMonthSold,
+  DashboardOrderValues,
+  DashboardRankValuesProducts,
+  DashboardResponse,
+} from "../entities/entities.ts";
+import { dashboardRepository } from "../repository/DashboardRepository.ts";
+import { SimpleWallet } from "../../wallet/entities/entities.ts";
+import { SimplesSalesUser } from "../../user/entities/entities.ts";
+
+class DashboardUseCase {
+  DASHBOARD_UNEXPECTED_ERROR = "DASHBOARD_UNEXPECTED_ERROR";
+
+  async getDashboardCustomer(params?: Record<string, string>): Promise<DashboardResponse<DashboardCustomerValues>> {
+    return dashboardRepository.getDashboardCustomer(params);
+  }
+
+  async getDashboardOrder(params?: Record<string, string>): Promise<DashboardResponse<DashboardOrderValues>> {
+    return dashboardRepository.getDashboardOrder(params);
+  }
+
+  async getDashboardRankBest(params?: Record<string, string>): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankBest(params);
+  }
+
+  async getDashboardRankLess(params?: Record<string, string>): Promise<DashboardResponse<DashboardRankValuesProducts>> {
+    return dashboardRepository.getDashboardRankLess(params);
+  }
+
+  async getDashboardTotalSold(params?: Record<string, string>): Promise<DashboardResponse<number>> {
+    return dashboardRepository.getDashboardTotalSold(params);
+  }
+
+  async getDashboardMostWalletSold(params?: Record<string, string>): Promise<DashboardResponse<SimpleWallet>> {
+    return dashboardRepository.getDashboardMostWalletSold(params);
+  }
+
+  async getDashboardMostOperatorSold(params?: Record<string, string>): Promise<DashboardResponse<SimplesSalesUser>> {
+    return dashboardRepository.getDashboardMostOperatorSold(params);
+  }
+
+  async getDashboardMonthSold(params?: Record<string, string>): Promise<DashboardResponse<DashboardMonthSold[]>> {
+    return dashboardRepository.getDashboardMonthSold(params);
+}
+}
+
+export const dashboardUseCase = new DashboardUseCase();

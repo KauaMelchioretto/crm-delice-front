@@ -6,8 +6,8 @@ import {atomEffect} from "jotai-effect";
 import {connectWithWebSocket} from "../../../functions/WebSocketConnection.ts";
 import {Message} from "stompjs";
 import {Notification} from "../entities/entities.ts";
-import {taskRepository} from "../../../../module/tasks/repository/TaskRepository.ts";
 import TaskState from "../../../../module/tasks/state/TaskState.ts";
+import {taskUseCase} from "../../../../module/tasks/usecase/TaskUseCase.ts";
 
 const {
     debouncedValueAtom: SearchValueAtom
@@ -62,7 +62,7 @@ const NotificationAtomEffect = atomEffect((get, set) => {
 const NextTask = loadable(atom(async(get) => {
     get(TaskState.UpdateAtom)
 
-    const task = await taskRepository.getMyNextTask()
+    const task = await taskUseCase.getMyNextTask()
 
     return task.task
 }))

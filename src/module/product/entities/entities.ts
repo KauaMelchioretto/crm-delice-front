@@ -51,9 +51,27 @@ export interface SimpleProduct{
     name: string
 }
 
+export interface SimpleProductWithSales{
+    uuid: string,
+    name: string,
+    quantity: number,
+    sold: number
+}
+
+
 export interface SimpleProductListResponse{
     products?: SimpleProduct[],
     error?: string
+}
+
+export interface SerializableProduct {
+    uuid: string
+    code: number
+    name: string
+    image: string
+    description: string
+    price: number
+    weight: number
 }
 
 export function getProductStatusProps(status: string): CrmCardStatusProps {
