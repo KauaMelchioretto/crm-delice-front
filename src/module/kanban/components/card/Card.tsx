@@ -8,10 +8,12 @@ import {useTheme} from "@mui/material";
 import CrmState from "../../../../utils/state/CrmState.ts";
 import {useSetAtom} from "jotai";
 import dayjs from "dayjs";
+import {useTranslation} from "react-i18next";
 
 export const Card = (props: CardProps) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const setEntityUUID = useSetAtom(CrmState.EntityFormUUID)
+    const {t} = useTranslation();
 
     const {attributes, listeners, setNodeRef, transform, isDragging} = useDraggable({
         id: props.uuid,
@@ -91,7 +93,7 @@ export const Card = (props: CardProps) => {
                 }}
                 level="body-xs"
             >
-                Alterado: {dayjs(props.modifiedAt).format("DD/MM/YYYY HH:mm")}
+                {t('kanbans.cards.fields.modified_at') + ': '} {dayjs(props.modifiedAt).format("DD/MM/YYYY HH:mm")}
             </Typography>
             {
                 props.metadata && (

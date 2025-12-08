@@ -189,7 +189,9 @@
       "log_out": "Sair",
       "yes": "Sim",
       "no": "Não",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "view": "Detalhar",
+      "confirm": "Confirmar"
     },
     "role_types": {
       "user": "Usuário",
@@ -241,6 +243,7 @@
         }
       },
       "fields": {
+        "name_owner": "Nome (proprietário)",
         "company_name": "Razão social",
         "trading_name": "Nome fantasia",
         "person_name": "Nome pessoal",
@@ -297,6 +300,14 @@
         "PERSON_NAME_MUST_BE_PROVIDED": "O nome pessoal deve ser informado"
       }
     },
+    "pre_customer" : {
+      "errors": {
+        "PRE_CUSTOMER_NOT_FOUND": "Cliente não encontrado",
+        "INVALID_DOCUMENT": "Informe um CNPJ válido",
+        "CUSTOMER_INVALID_DOCUMENT": "Informe um CNPJ válido",
+        "PRE_CUSTOMER_UNEXPECTED_ERROR": "Ocorreu um erro inesperado"
+      }
+    },
     "wallets": {
       "page": {
         "title": "Carteiras",
@@ -304,7 +315,12 @@
           "register": "Cadastrar carteira"
         }
       },
+      "status": {
+        "active": "Ativo",
+        "inactive": "Inativo"
+      },
       "fields": {
+        "wallet": "Carteira",
         "title": "Título",
         "accountable": "Responsável",
         "status": "Situação",
@@ -451,6 +467,11 @@
           "allow_column": "Permitir coluna"
         }
       },
+       "cards": {
+        "fields" : {
+          "modified_at": "Alterado em"
+        }
+      },
       "title": {
         "boards": "Quadros",
         "columns": "Colunas",
@@ -569,19 +590,148 @@
         }
       }
     },
+    "orders": {
+      "title": "Pedidos",
+      "labels": {
+        "company_name": "Nome da empresa",
+        "total_items": "Total de itens",
+        "total_discount": "Desconto total",
+        "gross_price": "Valor bruto",
+        "net_price": "Valor líquido",
+        "quantity": "Quantidade",
+        "discount": "Desconto",
+        "details": "Detalhes",
+        "order": "Pedido",
+        "created_by": "Criado por",
+        "items": "Itens",
+        "unit_price": "Preço unitário",
+        "totals": "Totais",
+        "quantity_products": "Quantidade de produtos",
+        "quantity_items": "Quantidade de itens",
+        "total_weight": "Peso total"
+      },
+      "fields": {
+        "code": "Código",
+        "default_discount": "Desconto padrão",
+        "status": "Situação",
+        "created_at":"Criado em",
+        "modified_at": "Alterado em"
+      },
+      "status" :{
+        "open": "Aberto",
+        "closed": "Fechado",
+        "canceled": "Cancelado"
+      },
+      "actions": {
+        "register_order": "Cadastrar pedido",
+        "add_items": "Adicionar itens",
+        "include_in_order": "Incluir no pedido",
+        "add_product": "Adicionar produto",
+        "cancel_order": "Cancelar pedido",
+        "finish_order": "Finalizar pedido",
+        "remove_item": "Remover item"
+      },
+      "messages": {
+        "customer_must_be_informed": "O cliente deve ser informado",
+        "item_added_successfully": "Item adicionado com sucesso",
+        "quantity_is_required": "A quantidade é obrigatória",
+        "discount_is_required": "O desconto é obrigatório",
+        "question_remove": "Remover item?",
+        "question_confirm_remove_item": "Você deseja remover este item do pedido?"
+      },
+      "errors": {
+        "ORDER_UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+        "ORDER_CUSTOMER_NOT_FOUND": "Cliente não encontrado",
+        "ORDER_CUSTOMER_IS_EMPTY": "O cliente não pode estar vazio",
+        "ORDER_CUSTOMER_CANT_OPEN_ORDER": "O cliente não está apto a abrir um pedido",
+        "ORDER_IS_NOT_OPEN": "O pedido não está aberto",
+        "ORDER_PRODUCT_NOT_FOUND": "Produto não encontrado",
+        "ORDER_PRODUCT_INVALID": "Produto inválido",
+        "ORDER_INVALID_QUANTITY": "Quantidade inválida",
+        "ORDER_NOT_FOUND": "Pedido não encontrado",
+        "ORDER_DISCOUNT_LESS_THAN_DEFAULT": "O desconto informado é menor que o desconto padrão do pedido",
+        "ORDER_CUSTOMER_MUST_BE_INFORMED": "O cliente deve ser informado",
+        "ORDER_PRODUCTS_IS_EMPTY": "O produto está vazio"
+      }
+    },
+    "tasks": {
+      "title": "Tarefas",
+      "labels": {
+        "task_details": "Detalhes da tarefa",
+        "informations": "Informações",
+        "history": "Histórico"
+      },
+      "fields": {
+        "title": "Título",
+        "responsible": "Responsável",
+        "description": "Descrição",
+        "created_at": "Criado em",
+        "changed_at": "Alterado em",
+        "created_by": "Criado por",
+        "status": "Situação",
+        "priority": "Prioridade",
+        "due_date": "Data limite"
+      },
+      "status": {
+        "pending": "Pendente",
+        "in_progress": "Em progresso",
+        "completed": "Concluído"
+      },
+      "priority": {
+        "lowest": "Muito baixa",
+        "low": "Baixa",
+        "medium": "Média",
+        "high": "Alta",
+        "highest": "Muito alta"
+      },
+      "messages": {
+        "task_created_successfully": "A tarefa criada com sucesso",
+        "task_saved_successfully": "A tarefa salva com sucesso",
+        "title_required": "O título é obrigatório",
+        "priority_required": "A prioridade é obrigatória",
+        "responsible_required": "O responsável é obrigatório",
+        "due_date_required": "A data limite é obrigatória",
+        "status_changed_successfully": "O status da tarefa foi alterado com sucesso",
+        "history_added_successfully": "O histórico foi adicionado com sucesso"
+      },
+      "errors": {
+        "TASK_UNEXPECTED_ERROR": "Ocorreu um erro inesperado",
+        "TASK_TITLE_IS_EMPTY": "O título está vazio",
+        "TASK_DESCRIPTION_IS_EMPTY": "A descrição está vazia",
+        "TASK_RESPONSIBLE_IS_EMPTY": "O responsável não está definido",
+        "TASK_RESPONSIBLE_NOT_FOUND": "Responsável não encontrado",
+        "TASK_NOT_FOUND": "Tarefa não encontrada",
+        "TASK_ALREADY_COMPLETED": "Tarefa já concluída"
+      },
+      "actions": {
+        "init": "Iniciar",
+        "stop": "Parar",
+        "finish": "Finalizar",
+        "add_history": "Adicionar histórico",
+        "register_task": "Cadastrar tarefa"
+      },
+      "history_action": {
+        "created": "Criado",
+        "updated": "Atualizado",
+        "finished": "Finalizado"
+      },
+      "calendar": {
+        "title": "Calendário"
+      }
+    },
     "home": {
       "page": {
         "title": "Dashboard"
       },
       "fields": {
         "customer_name": "Nome do Cliente",
-        "wallet_name": "Nome da Carteira", 
+        "wallet_name": "Nome da Carteira",
         "operator_name": "Nome do Operador"
       },
       "cards": {
         "customer_pending": "Clientes Pendentes",
         "customer_inactive": "Clientes Inativos",
-        "customer_fit": "Clientes Aptos", 
+        "customer_fit": "Clientes Aptos",
         "customer_not_fit": "Clientes Não Aptos",
         "order_open": "Pedidos Abertos",
         "order_closed": "Pedidos Fechados",
@@ -592,7 +742,7 @@
       },
       "tables": {
         "best_selling_products": "Produtos Mais Vendidos",
-        "least_selling_products": "Produtos Menos Vendidos", 
+        "least_selling_products": "Produtos Menos Vendidos",
         "product": "Produto",
         "quantity": "Quantidade",
         "sold": "Vendido"

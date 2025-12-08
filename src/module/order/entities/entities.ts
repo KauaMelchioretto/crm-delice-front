@@ -6,6 +6,7 @@ import VerifiedRounded from "@mui/icons-material/VerifiedRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import TurnedInRoundedIcon from "@mui/icons-material/TurnedInRounded";
 import {valueToEnum} from "../../../utils/functions/ValueToEnum.ts";
+import {t} from "i18next";
 
 export interface Order {
     uuid?: string
@@ -48,9 +49,9 @@ export interface OrderItem {
 }
 
 export enum OrderStatus {
-    OPEN = 'OPEN',
-    CLOSED = 'CLOSED',
-    CANCELED = 'CANCELED'
+    OPEN = 0,
+    CLOSED = 1,
+    CANCELED = 2
 }
 
 export interface OrderResponse {
@@ -71,17 +72,17 @@ export function getOrderStatusProps(status: string): CrmCardStatusProps {
     const orderStatus = {
         [OrderStatus.OPEN]: {
             color: "#2685E2",
-            label: "Aberto",
+            label: t('orders.status.open'),
             icon: VerifiedRounded,
         },
         [OrderStatus.CANCELED]: {
             color: "#ff543f",
-            label: "Cancelado",
+            label: t('orders.status.canceled'),
             icon: CancelRoundedIcon,
         },
         [OrderStatus.CLOSED]: {
             color: "#1f7a1f",
-            label: "Fechado",
+            label: t('orders.status.closed'),
             icon: TurnedInRoundedIcon,
         },
     };

@@ -3,7 +3,7 @@ import OrderState from "../state/OrderState.ts";
 import {CircularProgress, IconButton} from "@mui/joy";
 import {CrmContainer} from "../../../utils/components/core/CrmContainer.tsx";
 import {CrmTableContainer} from "../../../utils/components/core/CrmTableContainer.tsx";
-import {getOrderStatusProps, Order} from "../entities/entities.ts";
+import {getOrderStatusProps, Order, OrderStatus} from "../entities/entities.ts";
 import {CrmTable} from "../../../utils/components/core/CrmTable.tsx";
 import {CrmTableHead} from "../../../utils/components/core/CrmTableHead.tsx";
 import {EditRounded} from "@mui/icons-material";
@@ -14,60 +14,76 @@ import {maskDecimal, maskMoney} from "../../../utils/functions/MarkFormat.ts";
 import {CrmField} from "../../../utils/entities/entities.ts";
 import {CrmError} from "../../../utils/components/core/CrmError.tsx";
 import {CrmCardStatus} from "../../../utils/components/core/CrmCardStatus.tsx";
+import { useTranslation } from "react-i18next";
 
 export const OrderList = () => {
     const orderAtom = useAtomValue(OrderState.ListAtom)
-
+    const {t} = useTranslation();
+    
     const navigate = useNavigate()
 
     const orderFields: CrmField[] = [
         {
             key: "code",
-            label: "Código",
+            label: t("orders.fields.code"),
             filterable: true,
             sortable: true
         },
         {
-            key: "tradingName",
-            label: "Nome fantasia",
+            key: "trading_name",
+            label: t('customers.fields.trading_name'),
             filterable: true,
             sortable: true
         },
         {
-            key: "companyName",
-            label: "Nome da empresa",
+            key: "company_name",
+            label: t("orders.labels.company_name"),
             filterable: true,
             sortable: true
         },
         {
-            key: "totalItems",
-            label: "Total de itens",
+            key: "total_items",
+            label: t('orders.labels.total_items'),
             sortable: true
         },
         {
             key: "discount",
-            label: "Desconto total (%)",
-            sortable: true
+            label: t('orders.labels.total_discount') + " (%)",
+            sortable: false,
         },
         {
-            key: "grossPrice",
-            label: "Valor bruto",
-            sortable: true
+            key: "gross_price",
+            label: t('orders.labels.gross_price'),
+            sortable: false
         },
         {
-            key: "netPrice",
-            label: "Valor líquido",
-            sortable: true
+            key: "net_price",
+            label: t('orders.labels.net_price'),
+            sortable: false
         },
         {
             key: "status",
-            label: "Situação",
+            label: t('orders.fields.status'),
             filterable: true,
-            sortable: true
+            sortable: true,
+            filterOptions: [
+                {
+                    label: t('orders.status.canceled'),
+                    value: OrderStatus.CANCELED.toString()
+                },
+                {
+                    label: t('orders.status.closed'),
+                    value: OrderStatus.CLOSED.toString()
+                },
+                {
+                    label: t('orders.status.open'),
+                    value: OrderStatus.OPEN.toString()
+                }
+            ]
         },
         {
             key: "edit",
-            label: "Editar"
+            label: t('actions.edit')
         }
     ]
 
@@ -168,7 +184,7 @@ export const OrderList = () => {
                                     <td>{maskMoney(order.grossPrice ?? 0)}</td>
                                     <td>{maskMoney(order.netPrice ?? 0)}</td>
                                     <td>
-                                        <CrmCardStatus {...getOrderStatusProps(order.status!)}/>
+                                        <CrmCardStatus {...getOrderStatusProps(order.status!.toString())}/>
                                     </td>
                                     <td>
                                         <IconButton

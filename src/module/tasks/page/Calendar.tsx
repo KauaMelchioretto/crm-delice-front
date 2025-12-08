@@ -13,13 +13,14 @@ import {User} from "../../user/entities/entities.ts";
 import TaskState from "../state/TaskState.ts";
 import {useAtomValue} from "jotai";
 import {useApp} from "../../../core/config/app/AppProvider.tsx";
+import {useTranslation} from "react-i18next";
 
 export const CrmCalendar = () => {
     const modifiedTaskFormType = useSetAtom(CrmState.FormType)
     const setTaskEntity = useSetAtom(CrmState.EntityFormUUID)
 
     const [tasks, setTasks] = useState<TaskByDate[]>([])
-
+    const {t} = useTranslation()
     const update = useAtomValue(TaskState.UpdateAtom)
 
     const {getModuleByCode} = useApp()
@@ -176,14 +177,14 @@ export const CrmCalendar = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    Calendário
+                    {t('tasks.calendar.title')}
                 </Typography>
                 <Button
                     size="sm"
                     onClick={() => modifiedTaskFormType(CrmFormType.REGISTER_TASK)}
                     startDecorator={<ModuleIcon/>}
                 >
-                    Cadastrar tarefa
+                    {t('tasks.actions.register_task')}
                 </Button>
             </CrmTitleContainer>
             <CrmContainer sx={{flex: 1}}>

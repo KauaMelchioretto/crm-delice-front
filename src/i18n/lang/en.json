@@ -194,7 +194,9 @@
       "log_out": "Log out",
       "yes": "Yes",
       "no": "No",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "view": "View",
+      "confirm": "Confirm"
     },
     "role_types": {
       "user": "User",
@@ -576,19 +578,149 @@
         }
       }
     },
+    "orders": {
+      "title": "Orders",
+      "labels": {
+        "company_name": "Company name",
+        "total_items": "Total items",
+        "total_discount": "Total discount",
+        "gross_price": "Gross price",
+        "net_price": "Net price",
+        "quantity": "Quantity",
+        "discount": "Discount",
+        "details": "Details",
+        "order": "Order",
+        "created_by": "Created by",
+        "items": "Items",
+        "unit_price": "Unit price",
+        "totals": "Totals",
+        "quantity_products": "Quantity of products",
+        "quantity_items": "Quantity of items",
+        "total_weight": "Total weight"
+      },
+      "fields": {
+        "code": "Code",
+        "default_discount": "Default discount",
+        "status": "Status",
+        "created_at":"Created at",
+        "modified_at": "Modified at"
+      },
+      "status" :{
+        "open": "Open",
+        "closed": "Closed",
+        "canceled": "Canceled"
+      },
+      "actions": {
+        "register_order": "Register order",
+        "add_items": "Add items",
+        "include_in_order": "Include in order",
+        "add_product": "Add product",
+        "cancel_order": "Cancel order",
+        "finish_order": "Finish order",
+        "remove_item": "Remove item"
+      },
+      "messages": {
+        "customer_must_be_informed": "The customer must be informed",
+        "item_added_successfully": "Item added successfully",
+        "quantity_is_required": "Quantity is required",
+        "discount_is_required": "Discount is required",
+        "question_remove": "Remove item?",
+        "question_confirm_remove_item": "Do you want to remove this item from the order?"
+      },
+      "errors": {
+        "ORDER_UNEXPECTED_ERROR": "An unexpected error occurred",
+        "ORDER_CUSTOMER_NOT_FOUND": "Customer not found",
+        "ORDER_CUSTOMER_IS_EMPTY": "Customer must not be empty",
+        "ORDER_CUSTOMER_CANT_OPEN_ORDER": "Customer is not fit to open an order",
+        "ORDER_IS_NOT_OPEN": "Order is not open",
+        "ORDER_PRODUCT_NOT_FOUND": "Product not found",
+        "ORDER_PRODUCT_INVALID": "Product is invalid",
+        "ORDER_INVALID_QUANTITY": "Invalid quantity",
+        "ORDER_NOT_FOUND": "Order not found",
+        "ORDER_DISCOUNT_LESS_THAN_DEFAULT": "Informed discount is less than the order default discount",
+        "ORDER_CUSTOMER_MUST_BE_INFORMED": "The customer must be informed",
+        "ORDER_PRODUCTS_IS_EMPTY": "Product is empty"
+      }
+    },
+    "tasks": {
+      "title": "Tasks",
+      "labels": {
+        "task_details": "Task details",
+        "informations": "Information",
+        "history": "History"
+      },
+      "fields": {
+        "title": "Title",
+        "responsible": "Responsible",
+        "description": "Description",
+        "created_at": "Created at",
+        "changed_at": "Changed at",
+        "created_by": "Created by",
+        "status": "Status",
+        "priority": "Priority",
+        "due_date": "Due date"
+      },
+      "status": {
+        "pending": "Pending",
+        "in_progress": "In progress",
+        "completed": "Completed"
+      },
+      "priority": {
+        "lowest": "Very low",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "highest": "Very high"
+      },
+      "messages": {
+        "task_created_successfully": "Task created successfully",
+        "task_saved_successfully": "Task saved successfully",
+        "title_required": "Title is required",
+        "priority_required": "Priority is required",
+        "responsible_required": "Responsible is required",
+        "due_date_required": "Due date is required",
+        "status_changed_successfully": "Task status changed successfully",
+        "history_added_successfully": "History added successfully"
+      },
+      "errors": {
+        "TASK_UNEXPECTED_ERROR": "An unexpected error occurred",
+        "TASK_TITLE_IS_EMPTY": "Title is empty",
+        "TASK_RESPONSIBLE_NOT_FOUND": "Responsible not found",
+        "TASK_NOT_FOUND": "Task not found",
+        "TASK_ALREADY_COMPLETED": "Task already completed",
+        "TASK_TASK_TITLE_IS_EMPTY": "Title must be provided",
+        "TASK_DESCRIPTION_IS_EMPTY": "Description must be provided",
+        "TASK_RESPONSIBLE_IS_EMPTY": "Responsible is empty"
+      },
+      "actions": {
+        "init": "Start",
+        "stop": "Stop",
+        "finish": "Finish",
+        "add_history": "Add history",
+        "register_task": "Register task"
+      },
+      "history_action": {
+        "created": "Created",
+        "updated": "Updated",
+        "finished": "Finished"
+      },
+      "calendar": {
+        "title": "Calendar"
+      }
+    },
     "home": {
       "page": {
         "title": "Dashboard"
-        
+
       },
       "fields": {
-          "customer_name": "Customer name", 
+          "customer_name": "Customer name",
           "wallet_name": "Wallet name",
           "operator_name": "Operator name"
       },
       "cards": {
         "customer_pending": "Pending Customers",
-        "customer_inactive": "Inactive Customers", 
+        "customer_inactive": "Inactive Customers",
         "customer_fit": "Fit Customers",
         "customer_not_fit": "Not Fit Customers",
         "order_open": "Open Orders",

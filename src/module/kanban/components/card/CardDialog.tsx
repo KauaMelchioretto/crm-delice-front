@@ -16,6 +16,7 @@ import {useApp} from "../../../../core/config/app/AppProvider.tsx";
 import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import DescriptionRoundedIcon from '@mui/icons-material/DescriptionRounded';
 import {maskZipCode} from "../../../../utils/functions/MaskZipCode.ts";
+import { useTranslation } from "react-i18next";
 
 export const CardDialog = () => {
     const [formType, setFormType] = useAtom(CrmState.FormType);
@@ -37,7 +38,7 @@ export const CardDialog = () => {
 }
 const CardDialogInfo = ({cardUUID}: { cardUUID: string }) => {
     const setFormType = useSetAtom(CrmState.FormType);
-
+    const { t } = useTranslation();
     const [card, setCard] = useState<Card | null>(null)
 
     useEffect(() => {
@@ -47,8 +48,6 @@ const CardDialogInfo = ({cardUUID}: { cardUUID: string }) => {
             }
         })
     }, [cardUUID]);
-
-    console.log(card)
 
     if (!card) {
         return <></>
@@ -85,7 +84,7 @@ const CardDialogInfo = ({cardUUID}: { cardUUID: string }) => {
                 >
                     <DescriptionRoundedIcon/>
                     <Typography level={"body-sm"} fontWeight={"bold"}>
-                        Descrição
+                        {t('kanbans.fields.description')}
                     </Typography>
                 </Box>
                 <Typography level={"body-sm"}>
@@ -107,6 +106,7 @@ const CardDialogInfo = ({cardUUID}: { cardUUID: string }) => {
 
 const CardCustomerInfo = (prop: Customer) => {
     const {crmModules} = useApp()
+    const { t } = useTranslation();
 
     const CustomerIcon = crmModules.find(
         m => m.code == CrmModules.Customer
@@ -134,7 +134,7 @@ const CardCustomerInfo = (prop: Customer) => {
             >
                 {CustomerIcon && <CustomerIcon/>}
                 <Typography level={"body-sm"} fontWeight={"bold"}>
-                    Cliente
+                    {t('customers.page.entity')}
                 </Typography>
             </Box>
             <Box
@@ -143,7 +143,7 @@ const CardCustomerInfo = (prop: Customer) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Nome fantasia
+                    {t('customers.fields.trading_name')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {prop.tradingName}
@@ -155,7 +155,7 @@ const CardCustomerInfo = (prop: Customer) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Nome (proprietário)
+                    {t('customers.fields.name_owner')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {prop.personName}
@@ -167,7 +167,7 @@ const CardCustomerInfo = (prop: Customer) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Endereço
+                    {t('customers.fields.address')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {address()}
@@ -179,6 +179,7 @@ const CardCustomerInfo = (prop: Customer) => {
 
 const CardWalletInfo = (prop: Wallet) => {
     const {crmModules} = useApp()
+    const { t } = useTranslation();
 
     const WalletIcon = crmModules.find(
         m => m.code == CrmModules.Wallet
@@ -194,7 +195,7 @@ const CardWalletInfo = (prop: Wallet) => {
             >
                 {WalletIcon && <WalletIcon/>}
                 <Typography level={"body-sm"} fontWeight={"bold"}>
-                    Carteira
+                    {t('wallets.fields.wallet')}
                 </Typography>
             </Box>
             <Box
@@ -203,7 +204,7 @@ const CardWalletInfo = (prop: Wallet) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Titulo
+                    {t('wallets.fields.title')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {prop.label}
@@ -215,7 +216,7 @@ const CardWalletInfo = (prop: Wallet) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Reponsável
+                    {t('wallets.fields.accountable')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {prop.accountable?.login}
@@ -227,7 +228,7 @@ const CardWalletInfo = (prop: Wallet) => {
                 justifyContent={"space-between"}
             >
                 <Typography level={"body-sm"}>
-                    Descrição
+                    {t('wallets.fields.observations')}
                 </Typography>
                 <Typography level={"body-sm"}>
                     {prop.observation}

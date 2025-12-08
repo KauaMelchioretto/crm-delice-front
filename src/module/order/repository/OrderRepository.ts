@@ -10,7 +10,7 @@ import {http} from "../../../core/config/api/http.ts";
 import {CrmFilter, CrmOrderBy} from "../../../utils/entities/entities.ts";
 
 class OrderRepository {
-    ORDER_UNEXPECTED_ERROR = "An unexpected error has occurred";
+    ORDER_UNEXPECTED_ERROR = "ORDER_UNEXPECTED_ERROR";
 
     async registerOrder(order: Order): Promise<OrderResponse> {
         try {
@@ -24,7 +24,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }
@@ -42,7 +42,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }
@@ -68,7 +68,7 @@ class OrderRepository {
             if (orderBy?.field) {
                 query += `&orderBy=${orderBy?.field}:${orderBy?.sortable}`;
             } else {
-                query += `&orderBy=customer`;
+                query += `&orderBy=code`;
             }
 
             const response = await http.get(
@@ -80,7 +80,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }
@@ -101,7 +101,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }
@@ -122,7 +122,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }
@@ -143,7 +143,7 @@ class OrderRepository {
             if (e instanceof AxiosError) {
                 return {
                     error:
-                        e?.response?.data?.error?.message ??
+                        e?.response?.data?.error?.code ??
                         this.ORDER_UNEXPECTED_ERROR,
                 };
             }

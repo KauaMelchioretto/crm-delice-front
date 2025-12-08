@@ -55,7 +55,8 @@ export const ModulesList = () => {
         },
         {
             key: "path",
-            label: t("modules.fields.path")
+            label: t("modules.fields.path"),
+            sortable: true
         },
         {
             key: "edit",

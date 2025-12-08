@@ -50,14 +50,17 @@ export const BoardList = () => {
     const boardFields: CrmField[] = [
         {
             key: "title",
+            sortable: true,
             label: t("kanbans.fields.title")
         },
         {
             key: "description",
+            sortable: true,
             label: t("kanbans.fields.description")
         },
         {
             key: "status",
+            sortable: true,
             label: t("kanbans.fields.status")
         },
         {
