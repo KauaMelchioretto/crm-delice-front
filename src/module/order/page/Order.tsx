@@ -6,12 +6,14 @@ import {OrderList} from "../components/OrderList.tsx";
 import {CrmTitleContainer} from "../../../utils/components/core/CrmTitleContainer.tsx";
 import {useAuth} from "../../../core/auth/provider/AuthProvider.tsx";
 import {useApp} from "../../../core/config/app/AppProvider.tsx";
+import { useTranslation } from "react-i18next";
 
 export const Order = () => {
     const setFormType = useSetAtom(CrmState.FormType);
 
     const {getRolesByModule} = useAuth()
     const {getModuleByCode} = useApp()
+    const {t} = useTranslation();
 
     const roles = getRolesByModule(CrmModules.Order)
     const module = getModuleByCode(CrmModules.Order)
@@ -45,7 +47,7 @@ export const Order = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    Pedidos
+                    {t('orders.title')}
                 </Typography>
                 {
                     canCreate && (
@@ -56,7 +58,7 @@ export const Order = () => {
                             }}
                             startDecorator={<ModuleIcon/>}
                         >
-                            Cadastrar pedido
+                            {t('orders.actions.register_order')}
                         </Button>
                     )
                 }

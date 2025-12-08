@@ -104,9 +104,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                 dueDate: data.dueDate
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`tasks.errors.${response.error}`), 2000);
                 } else {
-                    popup.toast("success", "Tarefa incluida com sucesso", 2000);
+                    popup.toast("success", t('tasks.messages.task_created_successfully'), 2000);
                     updateList(prev => !prev);
                     setFormType(CrmFormType.EMPTY);
                 }
@@ -123,9 +123,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                 dueDate: data.dueDate
             }).then((response) => {
                 if (response.error) {
-                    popup.toast("error", response.error, 2000);
+                    popup.toast("error", t(`tasks.errors.${response.error}`), 2000);
                 } else {
-                    popup.toast("success", "Tarefa salva com sucesso", 2000);
+                    popup.toast("success", t('tasks.messages.task_saved_successfully'), 2000);
                     updateList(prev => !prev);
                     setFormType(CrmFormType.EMPTY);
                 }
@@ -136,23 +136,23 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
     const priorityOptions: OptionType[] = [
         {
             value: TaskPriority.LOWEST.toString(),
-            label: "Muito baixo"
+            label: t('tasks.priority.lowest')
         },
         {
             value: TaskPriority.LOW.toString(),
-            label: "Baixo"
+            label: t('tasks.priority.low')
         },
         {
             value: TaskPriority.MEDIUM.toString(),
-            label: "Medio"
+            label: t('tasks.priority.medium')
         },
         {
             value: TaskPriority.HIGH.toString(),
-            label: "Alto"
+            label: t('tasks.priority.high')
         },
         {
             value: TaskPriority.HIGHEST.toString(),
-            label: "Muito alto"
+            label: t('tasks.priority.highest')
         },
     ]
 
@@ -204,9 +204,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                     onSubmit={handleSubmitTask}
                 >
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Titulo</FormLabel>
+                        <FormLabel>{t('tasks.fields.title')}</FormLabel>
                         <TextInput
-                            {...register("title", {required: "Title must be informed"})}
+                            {...register("title", {required: t('tasks.messages.title_required')})}
                             size={"sm"}
                             variant={"soft"}
                             disabled={isPending}
@@ -216,7 +216,7 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                         </FormHelperText>
                     </FormControl>
                     <FormControl>
-                        <FormLabel>Descrição</FormLabel>
+                        <FormLabel>{t('tasks.fields.description')}</FormLabel>
                         <CrmTextarea
                             {...register("description")}
                             size={"sm"}
@@ -243,9 +243,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                             }}
                         >
                             <FormControl>
-                                <FormLabel>Prioridade</FormLabel>
+                                <FormLabel>{t('tasks.fields.priority')}</FormLabel>
                                 <CrmSelect
-                                    {...register("priority", {required: "The priority is required"})}
+                                    {...register("priority", {required: t('tasks.messages.priority_required')})}
                                     size={"sm"}
                                     variant={"soft"}
                                     options={priorityOptions}
@@ -263,9 +263,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                             }}
                         >
                             <FormControl>
-                                <FormLabel>Reponsável</FormLabel>
+                                <FormLabel>{t('tasks.fields.responsible')}</FormLabel>
                                 <CrmSelect
-                                    {...register("responsible", {required: "The responsible is required"})}
+                                    {...register("responsible", {required: t('tasks.messages.responsible_required')})}
                                     size={"sm"}
                                     variant={"soft"}
                                     options={users}
@@ -278,9 +278,9 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                         </Box>
                     </Box>
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Data limite</FormLabel>
+                        <FormLabel>{t('tasks.fields.due_date')}</FormLabel>
                         <DateTimeInput
-                            {...register("dueDate", {required: "Due date must be informed"})}
+                            {...register("dueDate", {required: t('tasks.messages.due_date_required')})}
                             size={"sm"}
                             variant={"soft"}
                             disabled={isPending}
@@ -292,7 +292,7 @@ const RegisterTaskForm = ({uuid}: { uuid?: string }) => {
                     <Button
                         type={"submit"}
                     >
-                        Salvar
+                        {t('actions.save')}
                     </Button>
                 </Box>
             </FormProvider>
@@ -304,7 +304,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
     const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(TaskState.UpdateAtom)
     const [isPending, startTransition] = useTransition()
-
+    const {t} = useTranslation()
     const [task, setTask] = useState<Task>()
 
     useEffect(() => {
@@ -322,9 +322,9 @@ const DetailTask = ({uuid}: { uuid: string }) => {
     const changeStatus = (status: TaskStatus) => {
         taskUseCase.changeTaskStatus(uuid, status).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`tasks.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "Situação da tarefa alterado com sucesso", 2000);
+                popup.toast("success", t('tasks.messages.status_changed_successfully'), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -341,7 +341,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                 alignItems={"center"}
             >
                 <Typography level={"body-md"} fontWeight={"bold"}>
-                    Detalhes tarefa
+                    {t('tasks.labels.task_details')}
                 </Typography>
                 <IconButton
                     size={"sm"}
@@ -368,8 +368,8 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                     <Fragment>
                         <Tabs defaultValue={0} sx={{pt: 0.5}}>
                             <TabList>
-                                <Tab>Informações</Tab>
-                                <Tab>Histórico</Tab>
+                                <Tab>{t('tasks.labels.informations')}</Tab>
+                                <Tab>{t('tasks.labels.history')}</Tab>
                             </TabList>
                             <TabPanel value={0} sx={{pl: 0, pr: 0}}>
                                 <Box
@@ -422,7 +422,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Responsável
+                                            {t('tasks.fields.responsible')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -441,7 +441,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Criado por
+                                            {t('tasks.fields.created_by')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -460,7 +460,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Prioridade
+                                            {t('tasks.fields.priority')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -479,7 +479,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Situação
+                                            {t('tasks.fields.status')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -498,7 +498,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Criação
+                                            {t('tasks.fields.created_at')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -517,7 +517,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                         <Typography
                                             level={"body-sm"}
                                         >
-                                            Última modificação
+                                            {t('tasks.fields.changed_at')}
                                         </Typography>
                                         <Typography
                                             level={"body-sm"}
@@ -600,7 +600,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                                 changeStatus(TaskStatus.PENDING)
                                             }}
                                         >
-                                            Parar
+                                            {t('tasks.actions.stop')}
                                         </Button>
                                         <Button
                                             sx={{
@@ -610,7 +610,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                                 changeStatus(TaskStatus.COMPLETED)
                                             }}
                                         >
-                                            Finalizar
+                                            {t('tasks.actions.finish')}
                                         </Button>
                                     </Fragment>
                                 )
@@ -625,7 +625,7 @@ const DetailTask = ({uuid}: { uuid: string }) => {
                                             changeStatus(TaskStatus.RUNNING)
                                         }}
                                     >
-                                        Iniciar
+                                        {t('tasks.actions.init')}
                                     </Button>
                                 )
                             }
@@ -747,7 +747,7 @@ const AddTaskHistory = ({uuid}: { uuid: string }) => {
 
     const setFormType = useSetAtom(CrmState.FormType)
     const updateList = useSetAtom(TaskState.UpdateAtom)
-
+    const {t} = useTranslation()
     const {register, handleSubmit} = useForm()
 
     const submitHistory = handleSubmit((data: FieldValues) => {
@@ -756,9 +756,9 @@ const AddTaskHistory = ({uuid}: { uuid: string }) => {
             taskUUID: uuid
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`tasks.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "Historico adicionado com sucesso com sucesso", 2000);
+                popup.toast("success", t('tasks.messages.history_added_successfully'), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -802,7 +802,7 @@ const AddTaskHistory = ({uuid}: { uuid: string }) => {
                             setForm(false)
                         }}
                     >
-                        Cancelar
+                        {t('actions.cancel')}
                     </Button>
                     <Button
                         sx={{
@@ -810,7 +810,7 @@ const AddTaskHistory = ({uuid}: { uuid: string }) => {
                         }}
                         type={"submit"}
                     >
-                        Confirmar
+                        {t('actions.confirm')}
                     </Button>
                 </Box>
             </Box>
@@ -826,7 +826,7 @@ const AddTaskHistory = ({uuid}: { uuid: string }) => {
                 setForm(true)
             }}
         >
-            Adicionar histórico
+            {t('tasks.actions.add_history')}
         </Button>
     )
 }

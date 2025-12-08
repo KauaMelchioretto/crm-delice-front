@@ -5,10 +5,11 @@ import {useSetAtom} from "jotai";
 import CrmState from "../../../utils/state/CrmState.ts";
 import {TaskList} from "../components/TaskList.tsx";
 import {useApp} from "../../../core/config/app/AppProvider.tsx";
+import {useTranslation} from "react-i18next";
 
 export const Tasks = () => {
     const modifiedTaskFormType = useSetAtom(CrmState.FormType)
-
+    const {t} = useTranslation()
     const {getModuleByCode} = useApp()
 
     const module = getModuleByCode(CrmModules.Task)
@@ -37,14 +38,14 @@ export const Tasks = () => {
                     level={"body-lg"}
                     fontWeight={"bold"}
                 >
-                    Tarefas
+                    {t('tasks.title')}
                 </Typography>
                 <Button
                     size="sm"
                     onClick={() => modifiedTaskFormType(CrmFormType.REGISTER_TASK)}
                     startDecorator={<ModuleIcon/>}
                 >
-                    Cadastrar tarefa
+                    {t('tasks.actions.register_task')}
                 </Button>
             </CrmTitleContainer>
             <TaskList/>

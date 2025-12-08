@@ -86,7 +86,7 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
             )
         }).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`orders.errors.${response.error}`), 2000);
             }
             if (response.order) {
                 setFormType(CrmFormType.EMPTY)
@@ -123,9 +123,9 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
                     onSubmit={handleSubmitOrder}
                 >
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Cliente</FormLabel>
+                        <FormLabel>{t('customers.page.entity')}</FormLabel>
                         <CrmSelect
-                            {...register("customer.uuid", {required: "Customer must be informed"})}
+                            {...register("customer.uuid", {required: t('orders.messages.customer_must_be_informed')})}
                             size={"sm"}
                             variant={"soft"}
                             options={customers}
@@ -135,7 +135,7 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
                         </FormHelperText>
                     </FormControl>
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Desconto padrão (%)</FormLabel>
+                        <FormLabel>{t('orders.fields.default_discount') + ' (%)'}</FormLabel>
                         <ValueInput
                             {...register("defaultDiscount")}
                             size={"sm"}
@@ -149,7 +149,7 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        Criar
+                        {t('actions.save')}
                     </Button>
                 </Box>
             </FormProvider>
@@ -159,6 +159,7 @@ const OrderRegister = ({orderUUID}: { orderUUID?: string }) => {
 
 const OrderItemRegister = () => {
     const setFormType = useSetAtom(CrmState.FormType);
+    const {t} = useTranslation()
 
     const order = useAtomValue(OrderState.Order)
     const updateList = useSetAtom(OrderState.UpdateAtom)
@@ -185,9 +186,9 @@ const OrderItemRegister = () => {
             }
         ).then((response) => {
             if (response.error) {
-                popup.toast("error", response.error, 2000);
+                popup.toast("error", t(`orders.errors.${response.error}`), 2000);
             } else {
-                popup.toast("success", "Item adicionado com sucesso", 2000);
+                popup.toast("success", t('orders.messages.item_added_successfully'), 2000);
                 updateList(prev => !prev);
                 setFormType(CrmFormType.EMPTY);
             }
@@ -215,7 +216,7 @@ const OrderItemRegister = () => {
                     alignItems={"center"}
                 >
                     <Typography level={"body-md"} fontWeight={"bold"}>
-                        Adicionar itens
+                        {t('orders.actions.add_items')}
                     </Typography>
                     <IconButton
                         size={"sm"}
@@ -234,7 +235,7 @@ const OrderItemRegister = () => {
                     onSubmit={handleSubmitOrder}
                 >
                     <FormControl sx={{flex: 1}}>
-                        <FormLabel>Produtos</FormLabel>
+                        <FormLabel>{t('products.title')}</FormLabel>
                         <MultiAutocomplete
                             options={products}
                             name={"products"}
@@ -247,9 +248,9 @@ const OrderItemRegister = () => {
                         gap={1}
                     >
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Quantidade</FormLabel>
+                            <FormLabel>{t('orders.labels.quantity')}</FormLabel>
                             <NumericInput
-                                {...register("quantity", {required: "Quantity is required"})}
+                                {...register("quantity", {required: t('orders.messages.quantity_is_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -258,9 +259,9 @@ const OrderItemRegister = () => {
                             </FormHelperText>
                         </FormControl>
                         <FormControl sx={{flex: 1}}>
-                            <FormLabel>Desconto</FormLabel>
+                            <FormLabel>{t('orders.labels.discount')}</FormLabel>
                             <ValueInput
-                                {...register("discount", {required: "Discount is required"})}
+                                {...register("discount", {required: t('orders.messages.discount_is_required')})}
                                 size={"sm"}
                                 variant={"soft"}
                             />
@@ -273,7 +274,7 @@ const OrderItemRegister = () => {
                         type={"submit"}
                         sx={{flex: 1}}
                     >
-                        Incluir no pedido
+                        {t('orders.actions.include_in_order')}
                     </Button>
                 </Box>
             </FormProvider>
