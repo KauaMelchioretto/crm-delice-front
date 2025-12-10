@@ -248,6 +248,8 @@ const CampaignInfoLabel = (
                 minWidth: `${width}rem`,
                 maxWidth: `${width}rem`,
             },
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             {...sx}
         ]}
     >

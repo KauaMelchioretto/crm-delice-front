@@ -331,7 +331,7 @@ const ProductMediaRegister = ({productUUID}: { productUUID: string }) => {
     }
 
     const saveProductMedia = () => {
-        if(!images || images.length === 0) {
+        if(!images || images.length === 0 && !principal) {
             popup.toast("error", t(`products.errors.PRODUCT_MEDIA_IS_EMPTY`), 2000);
             return
         }

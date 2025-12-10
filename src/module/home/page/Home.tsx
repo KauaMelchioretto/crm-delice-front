@@ -1,10 +1,7 @@
 import React from 'react';
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
-import CrmState from "../../../utils/state/CrmState";
-import { useAuth } from "../../../core/auth/provider/AuthProvider";
-import { useApp } from "../../../core/config/app/AppProvider";
-import { CrmField, CrmModules } from "../../../utils/entities/entities";
+import { CrmField } from "../../../utils/entities/entities";
 import { Box, Grid, Typography } from "@mui/joy";
 import { CrmTitleContainer } from "../../../utils/components/core/CrmTitleContainer";
 import { CrmTableContainer } from "../../../utils/components/core/CrmTableContainer";
@@ -21,8 +18,6 @@ import { FilterComponent } from '../../../utils/components/filter/FilterComponen
 export const Home = () => {
     const { t } = useTranslation();
 
-    const setFormType = useSetAtom(CrmState.FormType);
-
     const monthSoldAtom = useAtomValue(DashboardState.DashboardMonthSoldAtom);
     const rankBestAtom = useAtomValue(DashboardState.DashboardRankBestAtom);
     const rankLessAtom = useAtomValue(DashboardState.DashboardRankLessAtom);
@@ -31,14 +26,6 @@ export const Home = () => {
     const totalSoldAtom = useAtomValue(DashboardState.DashboardTotalSoldAtom);
     const mostWalletAtom = useAtomValue(DashboardState.DashboardMostWalletAtom);
     const mostOperatorAtom = useAtomValue(DashboardState.DashboardMostOperatorAtom);
-
-    const { getRolesByModule } = useAuth()
-    const { getModuleByCode } = useApp()
-
-    const roles = getRolesByModule(CrmModules.Home)
-    const module = getModuleByCode(CrmModules.Home)
-
-    const ModuleIcon = module.icon!
 
     const dashboardFilterFields: CrmField[] = [
         {

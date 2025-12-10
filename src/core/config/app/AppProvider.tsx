@@ -117,7 +117,7 @@ export const AppProvider = (props: AppProviderProps) => {
             sideBar: true,
             element: <Leads/>,
             permissionRequired: true,
-            form: <CustomerForm/>,
+            // form: <CustomerForm/>,
             icon: FaceRetouchingNaturalRoundedIcon,
             label: "Leads",
             code: CrmModules.Leads,

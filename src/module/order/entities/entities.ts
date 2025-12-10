@@ -49,9 +49,9 @@ export interface OrderItem {
 }
 
 export enum OrderStatus {
-    OPEN = 0,
-    CLOSED = 1,
-    CANCELED = 2
+    OPEN = "OPEN",
+    CLOSED = "CLOSED",
+    CANCELED = "CANCELED"
 }
 
 export interface OrderResponse {
